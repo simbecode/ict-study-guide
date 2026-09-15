@@ -1,0 +1,718 @@
+  <div class="section" id="sec-cpu">
+    <h2 class="section-title">🖥️ 명령어 사이클 · CPU 구조 (5과목)</h2>
+
+    <!-- 명령어 사이클 개념 -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:20px;">
+      <div style="font-size:15.5px;color:var(--text2);line-height:1.9;">
+        <strong style="color:#4DBFA8">명령어 사이클(Instruction Cycle)</strong> = CPU가 <strong>하나의 명령어</strong>를<br>
+        메모리에서 가져와 실행하는 <strong>전 과정</strong>. 이 사이클을 반복하며 프로그램 수행.
+      </div>
+    </div>
+
+    <!-- 기본 4단계 -->
+    <div style="font-size:16.5px;font-weight:700;color:var(--text);margin-bottom:12px;">🔄 명령어 사이클 4대 단계</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;">
+      <div style="background:linear-gradient(135deg,#1a2d45,#0f1117);border:2px solid #5B9BD5;border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:23.5px;margin-bottom:4px;">📥</div>
+        <div style="font-size:14px;font-weight:700;color:#5B9BD5;">인출 Fetch</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px;line-height:1.4;">명령어를 메모리→CPU</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#2d2650,#0f1117);border:2px solid #9B8AE0;border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:23.5px;margin-bottom:4px;">🔗</div>
+        <div style="font-size:14px;font-weight:700;color:#9B8AE0;">간접 Indirect</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px;line-height:1.4;">간접주소 실제주소 인출</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#1a2415,#0f1117);border:2px solid #5BAD6F;border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:23.5px;margin-bottom:4px;">⚙️</div>
+        <div style="font-size:14px;font-weight:700;color:#5BAD6F;">실행 Execute</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px;line-height:1.4;">명령어 실제 수행</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#2a1808,#0f1117);border:2px solid #E89050;border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:23.5px;margin-bottom:4px;">🚨</div>
+        <div style="font-size:14px;font-weight:700;color:#E89050;">인터럽트 Interrupt</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px;line-height:1.4;">인터럽트 발생 시 처리</div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:15.5px;color:var(--text2);margin-bottom:20px;padding:10px;background:var(--bg3);border-radius:8px;">
+      기본 흐름: <b style="color:#5B9BD5">인출(Fetch)</b> → <b style="color:#5BAD6F">해독(Decode)</b> → <b style="color:#E89050">실행(Execute)</b> → (필요시 인터럽트)
+    </div>
+
+    <!-- 주요 레지스터 -->
+    <div style="font-size:16.5px;font-weight:700;color:var(--text);margin-bottom:12px;">📋 CPU 주요 레지스터 (시험 빈출!)</div>
+    <table class="tbl" style="margin-bottom:20px;">
+      <thead><tr><th>레지스터</th><th>이름</th><th>역할</th></tr></thead>
+      <tbody>
+        <tr><td><b style="color:#5B9BD5">PC</b></td><td>Program Counter<br>프로그램 카운터</td><td><b>다음에 실행할</b> 명령어의 주소 저장</td></tr>
+        <tr><td><b style="color:#9B8AE0">IR</b></td><td>Instruction Register<br>명령어 레지스터</td><td><b>현재 실행 중인</b> 명령어 저장</td></tr>
+        <tr><td><b style="color:#E8A838">MAR</b></td><td>Memory Address Register<br>메모리 주소 레지스터</td><td>접근할 <b>메모리 주소</b> 저장</td></tr>
+        <tr><td><b style="color:#E89050">MBR</b><br>(MDR)</td><td>Memory Buffer Register<br>메모리 버퍼 레지스터</td><td>메모리와 주고받는 <b>데이터</b> 임시 저장</td></tr>
+        <tr><td><b style="color:#5BAD6F">AC</b></td><td>Accumulator<br>누산기</td><td><b>연산 결과</b> 저장</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 인출 사이클 마이크로연산 -->
+    <div style="font-size:16.5px;font-weight:700;color:var(--text);margin-bottom:12px;">⚡ 인출(Fetch) 사이클 마이크로연산 (자주 출제)</div>
+    <div class="flow" style="font-size:15.5px;line-height:2;margin-bottom:14px;">
+<b style="color:#5B9BD5">t0:</b> MAR ← PC <span style="color:var(--text3)">(PC의 주소를 MAR로 복사)</span>
+<b style="color:#5B9BD5">t1:</b> MBR ← Memory[MAR], PC ← PC+1 <span style="color:var(--text3)">(명령어 인출 + PC 증가)</span>
+<b style="color:#5B9BD5">t2:</b> IR ← MBR <span style="color:var(--text3)">(명령어를 IR로 이동)</span>
+    </div>
+
+    <!-- 명령어 실행 시간 계산 -->
+    <div style="font-size:16.5px;font-weight:700;color:var(--text);margin-bottom:12px;">⏱ 명령어 실행 시간 계산</div>
+    <div class="note" style="border-color:#5BAD6F">
+      <b>명령어 실행 시간 = 클럭 주기 × 필요 클럭 수</b><br>
+      클럭 주기 = <b>1 / 클럭 주파수</b><br>
+      예) 1[GHz] CPU → 클럭 주기 = 1/10⁹ = <b>1[ns]</b> → 4클럭 명령어 = <b>4[ns]</b>
+    </div>
+
+    <div class="warn" style="margin-top:14px;">
+      <b>⚠ 시험 핵심 포인트</b><br>
+      · <b>PC</b> = 다음 명령어 주소 / <b>IR</b> = 현재 명령어 (구분!)<br>
+      · <b>MAR</b> = 주소 / <b>MBR(MDR)</b> = 데이터<br>
+      · 명령어 사이클: <b>인출 → 간접 → 실행 → 인터럽트</b><br>
+      · 인출 단계 마이크로연산: <b>MAR←PC, MBR←M[MAR], IR←MBR</b><br>
+      · 명령어 시간 = 클럭 주기 × 클럭 수, 클럭 주기 = <span class="fr"><span>1</span><span>주파수</span></span>
+    </div>
+  </div>
+
+  <div class="section" id="sec-os">
+    <h2 class="section-title" style="color:#5B9BD5">💻 운영체제 기초 (5과목)</h2>
+
+    <div class="highlight">
+      <b>운영체제의 목적 4가지</b> — <b>처리능력(Throughput) ↑</b> · <b>반환시간(Turnaround Time) ↓</b> ·
+      <b>신뢰도(Reliability) ↑</b> · <b>사용 가능도(Availability) ↑</b>. 이 네 개를 성능 평가 기준으로 그대로 묻는다.
+    </div>
+
+    <div class="sub-title" style="color:#5BAD6F">🔄 프로세스 상태 전이</div>
+    <div class="flow">
+   생성(New) ──▶ <b>준비(Ready)</b> ──디스패치──▶ <b>실행(Run)</b> ──▶ 종료(Exit)
+                   ▲                    │
+                   │  ┌─── 시간 종료 ────┘
+                   │  ▼                 │ I/O 요청
+                   └──────── <b>대기(Block)</b> ◀─┘
+                       I/O 완료(Wake-up)
+
+  Dispatch  준비 → 실행   |  Timeout  실행 → 준비
+  Block     실행 → 대기   |  Wake-up  대기 → 준비
+    </div>
+    <div class="note" style="border-left-color:#5B9BD5">
+      <b>PCB(Process Control Block)</b> — 프로세스마다 하나씩 만들어지는 정보 블록. 프로세스 ID·상태·프로그램 카운터·레지스터·우선순위·자원 정보를 담는다.
+      <b>문맥 교환(Context Switching)</b> 은 이 PCB를 저장·복원하는 작업이다.
+    </div>
+    <table class="tbl">
+      <thead><tr><th style="width:130px">구분</th><th>프로세스</th><th>스레드</th></tr></thead>
+      <tbody>
+        <tr><td><b>정의</b></td><td>실행 중인 프로그램 (자원 할당 단위)</td><td>프로세스 내 <b>실행 흐름</b> (CPU 할당 단위)</td></tr>
+        <tr><td><b>자원</b></td><td>독립적인 메모리 공간</td><td><b>코드·데이터·힙을 공유</b>, 스택만 별도</td></tr>
+        <tr><td><b>전환 비용</b></td><td>큼</td><td><b>작음</b> (경량 프로세스)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="color:#E8A838">⏱️ CPU 스케줄링</div>
+    <div style="overflow-x:auto;">
+    <table class="tbl" style="min-width:720px;">
+      <thead><tr><th style="width:110px">구분</th><th>기법</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4"><b>비선점</b><br><span class="tag">Non-preemptive</span><br><span style="color:var(--text3);font-size:12px">한번 잡으면 끝까지</span></td>
+            <td><b>FCFS</b></td><td>먼저 온 순서대로. 가장 단순, 긴 작업이 앞에 오면 대기 폭증</td></tr>
+        <tr><td><b>SJF</b></td><td>실행 시간이 <b>짧은 것 먼저</b>. 평균 대기시간 <b>최소</b>이지만 긴 작업 기아(Starvation)</td></tr>
+        <tr><td><b>우선순위</b></td><td>우선순위 높은 것 먼저. 기아 대책 = <b>에이징(Aging)</b></td></tr>
+        <tr><td><b style="color:#E8A838">HRN</b></td><td>SJF의 기아를 보완. <b>우선순위 = (대기시간 + 서비스시간) ÷ 서비스시간</b> — 값이 <b>클수록</b> 우선 <span class="tag">계산 기출</span></td></tr>
+        <tr><td rowspan="3"><b>선점</b><br><span class="tag">Preemptive</span><br><span style="color:var(--text3);font-size:12px">뺏을 수 있음</span></td>
+            <td><b>RR</b><br><span class="tag">라운드로빈</span></td><td><b>시간 할당량(Quantum)</b> 만큼 돌아가며 실행. <b>시분할 시스템</b>의 기본</td></tr>
+        <tr><td><b>SRT</b></td><td>남은 실행 시간이 가장 짧은 것으로 <b>교체</b>. SJF의 선점형</td></tr>
+        <tr><td><b>다단계 큐</b><br><span class="tag">MLQ / MLFQ</span></td><td>여러 개의 큐를 우선순위별로 운영. 피드백 큐는 큐 간 이동 가능</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="highlight">
+      <b>📖 HRN 계산 기출</b> — 대기시간 10, 서비스시간 5인 작업의 우선순위는?<br>
+      <span class="mono">(10 + 5) ÷ 5 = <b style="color:#fff">3</b></span> — 대기시간이 길수록 값이 커져 기아를 막는다.
+    </div>
+
+    <div class="sub-title" style="color:#E06B5A">🔒 교착상태 (Deadlock)</div>
+    <table class="tbl">
+      <thead><tr><th style="width:150px">발생 4조건 (모두 성립해야)</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td><b>상호 배제</b><br><span class="tag">Mutual Exclusion</span></td><td>한 자원을 <b>한 프로세스만</b> 사용</td></tr>
+        <tr><td><b>점유와 대기</b><br><span class="tag">Hold and Wait</span></td><td>자원을 <b>쥔 채</b> 다른 자원을 기다림</td></tr>
+        <tr><td><b>비선점</b><br><span class="tag">No Preemption</span></td><td>남의 자원을 <b>강제로 뺏을 수 없음</b></td></tr>
+        <tr><td><b>환형 대기</b><br><span class="tag">Circular Wait</span></td><td>서로가 서로를 기다리는 <b>원형 고리</b></td></tr>
+      </tbody>
+    </table>
+    <table class="tbl">
+      <thead><tr><th style="width:150px">해결 방법</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td><b>예방</b> (Prevention)</td><td>4조건 중 <b>하나를 원천 차단</b>. 자원 효율이 떨어짐</td></tr>
+        <tr><td><b>회피</b> (Avoidance)</td><td><b>은행원 알고리즘</b> — 안전 상태일 때만 자원 할당</td></tr>
+        <tr><td><b>발견</b> (Detection)</td><td>자원 할당 그래프로 교착 여부 탐지</td></tr>
+        <tr><td><b>회복</b> (Recovery)</td><td>프로세스를 강제 종료하거나 자원을 회수</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="color:#9B8AE0">🧠 메모리 관리 · 가상 메모리</div>
+    <table class="tbl">
+      <thead><tr><th style="width:150px">항목</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td><b>페이징</b></td><td>메모리를 <b>같은 크기</b>로 분할. <b>내부 단편화</b> 발생</td></tr>
+        <tr><td><b>세그멘테이션</b></td><td>논리 단위로 <b>가변 분할</b>. <b>외부 단편화</b> 발생</td></tr>
+        <tr><td><b>페이지 교체</b></td><td><b>FIFO</b>(먼저 들어온 것) · <b>LRU</b>(가장 오래 안 쓴 것) · <b>LFU</b>(사용 빈도 최소) · <b>OPT</b>(최적, 이론상)</td></tr>
+        <tr><td><b style="color:#E06B5A">스래싱</b><br><span class="tag">Thrashing</span></td><td>페이지 교체가 너무 잦아 <b>실제 처리보다 교체에 시간을 다 쓰는</b> 현상. 대책 = <b>워킹셋</b>, 다중프로그래밍 정도 조절</td></tr>
+        <tr><td><b>구역성</b><br><span class="tag">Locality</span></td><td>참조가 특정 영역에 몰리는 성질. <b>시간 구역성</b>(방금 쓴 것 또 씀) / <b>공간 구역성</b>(가까운 주소 씀)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="color:#4DBFA8">💽 디스크 스케줄링</div>
+    <table class="tbl">
+      <thead><tr><th style="width:120px">기법</th><th>동작</th></tr></thead>
+      <tbody>
+        <tr><td><b>FCFS</b></td><td>요청 순서대로. 공평하지만 비효율</td></tr>
+        <tr><td><b>SSTF</b></td><td>현재 헤드에서 <b>가장 가까운</b> 요청 먼저. 안쪽/바깥쪽 기아 발생</td></tr>
+        <tr><td><b>SCAN</b></td><td><b>엘리베이터</b> 방식 — 한 방향으로 끝까지 갔다가 되돌아옴</td></tr>
+        <tr><td><b>C-SCAN</b></td><td>한 방향만 서비스하고 <b>끝에서 처음으로 점프</b>. 대기시간 균등</td></tr>
+        <tr><td><b>LOOK / C-LOOK</b></td><td>요청이 없으면 끝까지 가지 않고 <b>되돌아옴</b></td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight">
+      <b>📝 시험 포인트</b><br>
+      • OS 목적 = <b>처리능력·반환시간·신뢰도·사용가능도</b><br>
+      • <b>비선점 = FCFS·SJF·우선순위·HRN</b> / <b>선점 = RR·SRT·다단계큐</b><br>
+      • <b>HRN = (대기+서비스) ÷ 서비스</b>, 값이 <b>클수록</b> 우선<br>
+      • 교착 4조건 = <b>상호배제·점유와대기·비선점·환형대기</b>, 회피 = <b>은행원 알고리즘</b><br>
+      • <b>페이징 = 내부 단편화 / 세그멘테이션 = 외부 단편화</b><br>
+      • <b>스래싱 대책 = 워킹셋</b>, 구역성은 <b>시간·공간</b> 두 종류
+    </div>
+  </div>
+
+  <div class="section" id="sec-ds">
+    <h2 class="section-title" style="color:#5BAD6F">🗂️ 자료구조 · 알고리즘 (5과목)</h2>
+
+    <div class="sub-title" style="color:#5BAD6F">📦 선형 구조</div>
+    <table class="tbl">
+      <thead><tr><th style="width:120px">구조</th><th>특징</th><th>대표 응용</th></tr></thead>
+      <tbody>
+        <tr><td><b>배열</b></td><td>연속된 공간, <b>인덱스로 즉시 접근</b> O(1). 삽입·삭제는 비쌈</td><td>정적 테이블</td></tr>
+        <tr><td><b>연결 리스트</b></td><td>포인터로 연결. <b>삽입·삭제 쉬움</b>, 임의 접근 불가</td><td>동적 메모리</td></tr>
+        <tr><td><b style="color:#E8A838">스택</b></td><td><b>LIFO</b> (후입선출). Top에서만 삽입(Push)·삭제(Pop)</td><td><b>함수 호출·재귀·인터럽트 복귀주소</b>, 수식 변환, 되돌리기</td></tr>
+        <tr><td><b style="color:#5B9BD5">큐</b></td><td><b>FIFO</b> (선입선출). Rear 삽입, Front 삭제</td><td><b>버퍼·스케줄링·프린터 대기열</b></td></tr>
+        <tr><td><b>데크</b><span class="tag">Deque</span></td><td>양쪽 끝에서 삽입·삭제 모두 가능</td><td>스택+큐 겸용</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="color:#9B8AE0">🌳 트리 순회 — 계산 문제 단골</div>
+    <div class="flow">
+            A
+          ╱   ╲
+        B       C
+      ╱   ╲
+    D       E
+
+  <b>전위(Preorder)</b>  뿌리 → 왼쪽 → 오른쪽    A B D E C
+  <b>중위(Inorder)</b>   왼쪽 → 뿌리 → 오른쪽    D B E A C
+  <b>후위(Postorder)</b> 왼쪽 → 오른쪽 → 뿌리    D E B C A
+    </div>
+    <div class="note" style="border-left-color:#9B8AE0">
+      <b>이름 외우는 법</b> — <b>뿌리(Root)를 언제 방문하느냐</b>로 정해진다. 전위 = 앞, 중위 = 가운데, 후위 = 뒤.
+      왼쪽이 오른쪽보다 먼저인 것은 <b>세 방식 모두 동일</b>하다.
+    </div>
+
+    <div class="sub-title" style="color:#E8A838">🔢 정렬 알고리즘 — 시간 복잡도</div>
+    <table class="tbl">
+      <thead><tr><th>알고리즘</th><th>평균</th><th>최악</th><th>특징</th></tr></thead>
+      <tbody>
+        <tr><td><b>버블 정렬</b></td><td>O(n²)</td><td>O(n²)</td><td>인접한 두 개를 비교·교환. 가장 단순</td></tr>
+        <tr><td><b>선택 정렬</b></td><td>O(n²)</td><td>O(n²)</td><td>최솟값을 골라 앞으로</td></tr>
+        <tr><td><b>삽입 정렬</b></td><td>O(n²)</td><td>O(n²)</td><td>거의 정렬된 자료에 <b>유리</b> (최선 O(n))</td></tr>
+        <tr><td><b style="color:#E8A838">퀵 정렬</b></td><td><b>O(n log n)</b></td><td>O(n²)</td><td>피벗 기준 분할. <b>평균 가장 빠름</b></td></tr>
+        <tr><td><b>병합 정렬</b></td><td><b>O(n log n)</b></td><td><b>O(n log n)</b></td><td>분할 정복. <b>안정적</b>, 추가 메모리 필요</td></tr>
+        <tr><td><b>힙 정렬</b></td><td><b>O(n log n)</b></td><td><b>O(n log n)</b></td><td>힙 자료구조 이용, 추가 메모리 불필요</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <b>⚠ 함정</b> — <b>퀵 정렬은 평균 O(n log n)이지만 최악은 O(n²)</b> 이다.
+      "항상 O(n log n)"인 것은 <b>병합·힙 정렬</b>이다.
+    </div>
+
+    <div class="sub-title" style="color:#4DBFA8">🔍 탐색 · 해싱</div>
+    <table class="tbl">
+      <thead><tr><th style="width:130px">방법</th><th>복잡도</th><th>조건 · 특징</th></tr></thead>
+      <tbody>
+        <tr><td><b>선형(순차) 탐색</b></td><td>O(n)</td><td>정렬 불필요. 처음부터 순서대로</td></tr>
+        <tr><td><b>이진 탐색</b></td><td><b>O(log n)</b></td><td><b>반드시 정렬되어 있어야</b> 함. 중간값과 비교해 절반씩 줄임</td></tr>
+        <tr><td><b>해싱</b></td><td><b>O(1)</b></td><td>해시 함수로 주소를 <b>직접 계산</b>. <b>충돌(Collision)</b> 과 오버플로 처리 필요</td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="border-left-color:#4DBFA8">
+      <b>해싱 충돌 해결</b> — <b>선형 조사법</b>(다음 빈 칸으로) · <b>이차 조사법</b> · <b>체이닝</b>(연결 리스트로 매달기) · <b>재해싱</b><br>
+      <b>해시 함수</b> — 제산법(나머지) · 중간제곱법 · 폴딩법 · 기수변환법
+    </div>
+
+    <div class="highlight">
+      <b>📝 시험 포인트</b><br>
+      • <b>스택 = LIFO</b>(함수 호출·인터럽트 복귀), <b>큐 = FIFO</b>(버퍼·스케줄링)<br>
+      • 트리 순회 — <b>뿌리를 언제 방문하는가</b>가 이름. 전위 ABDEC / 중위 DBEAC / 후위 DEBCA<br>
+      • <b>이진 탐색은 정렬이 전제</b>, O(log n)<br>
+      • <b>퀵 = 평균 O(n log n) · 최악 O(n²)</b> / 병합·힙 = 항상 O(n log n)<br>
+      • 해싱 = O(1)이지만 <b>충돌 처리</b> 필요
+    </div>
+  </div>
+
+  <div class="section" id="sec-db">
+    <h2 class="section-title" style="color:#E89050">🗄️ 데이터베이스 (5과목)</h2>
+
+    <div class="sub-title" style="color:#5B9BD5">🏗️ 3단계 스키마와 데이터 독립성</div>
+    <div class="flow">
+  <b>외부 스키마</b> (External)  — 사용자·응용 프로그램이 보는 뷰
+        ↕  <span style="color:#5BAD6F">논리적 데이터 독립성</span>
+  <b>개념 스키마</b> (Conceptual) — 조직 전체의 논리적 구조 (DB에 하나)
+        ↕  <span style="color:#E8A838">물리적 데이터 독립성</span>
+  <b>내부 스키마</b> (Internal)  — 실제 저장 구조·인덱스
+    </div>
+    <div class="note" style="border-left-color:#5B9BD5">
+      <b>논리적 독립성</b> = 개념 스키마가 바뀌어도 <b>응용 프로그램은 그대로</b><br>
+      <b>물리적 독립성</b> = 저장 구조가 바뀌어도 <b>개념 스키마는 그대로</b><br>
+      <b>개념 스키마는 데이터베이스당 오직 하나</b>라는 점이 자주 출제된다.
+    </div>
+
+    <div class="sub-title" style="color:#5BAD6F">📊 관계형 모델 용어</div>
+    <table class="tbl">
+      <thead><tr><th style="width:150px">용어</th><th>의미</th><th>일반 용어</th></tr></thead>
+      <tbody>
+        <tr><td><b>릴레이션</b></td><td>2차원 표</td><td>테이블</td></tr>
+        <tr><td><b>튜플</b> (Tuple)</td><td>릴레이션의 <b>행(row)</b></td><td>레코드</td></tr>
+        <tr><td><b>속성</b> (Attribute)</td><td>릴레이션의 <b>열(column)</b></td><td>필드</td></tr>
+        <tr><td><b>도메인</b></td><td>속성이 가질 수 있는 <b>값의 범위</b></td><td>자료형</td></tr>
+        <tr><td><b style="color:#E8A838">차수</b> (Degree)</td><td><b>속성(열)의 개수</b></td><td>—</td></tr>
+        <tr><td><b style="color:#E8A838">카디널리티</b> (Cardinality)</td><td><b>튜플(행)의 개수</b></td><td>—</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <b>⚠ 최다 함정</b> — <b>차수 = 열(속성) 수</b>, <b>카디널리티 = 행(튜플) 수</b>. 둘을 바꿔 놓은 보기가 반드시 나온다.
+      속성 5개·튜플 100개인 릴레이션이면 <b>차수 5, 카디널리티 100</b>.
+    </div>
+
+    <div class="sub-title" style="color:#9B8AE0">🔑 키(Key)의 종류</div>
+    <table class="tbl">
+      <thead><tr><th style="width:130px">키</th><th>정의</th></tr></thead>
+      <tbody>
+        <tr><td><b>슈퍼키</b></td><td><b>유일성</b>만 만족 (최소성은 없어도 됨)</td></tr>
+        <tr><td><b>후보키</b></td><td><b>유일성 + 최소성</b> 을 모두 만족</td></tr>
+        <tr><td><b>기본키</b> (PK)</td><td>후보키 중 <b>선택된 하나</b>. <b>NULL 불가, 중복 불가</b></td></tr>
+        <tr><td><b>대체키</b></td><td>후보키 중 기본키로 <b>선택되지 않은</b> 나머지</td></tr>
+        <tr><td><b>외래키</b> (FK)</td><td>다른 릴레이션의 <b>기본키를 참조</b>하는 속성. <b>참조 무결성</b>의 근거</td></tr>
+      </tbody>
+    </table>
+    <table class="tbl">
+      <thead><tr><th style="width:150px">무결성 제약</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td><b>개체 무결성</b></td><td>기본키는 <b>NULL이거나 중복될 수 없다</b></td></tr>
+        <tr><td><b>참조 무결성</b></td><td>외래키 값은 <b>참조 대상의 기본키에 존재</b>하거나 NULL이어야 한다</td></tr>
+        <tr><td><b>도메인 무결성</b></td><td>속성 값은 정의된 <b>도메인 범위</b> 안이어야 한다</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="color:#E06B5A">🧹 정규화 (Normalization)</div>
+    <div class="flow">
+비정규 릴레이션
+   ↓ <b>도메인이 원자값</b>만 갖도록                     → <b>1NF</b>
+   ↓ <b>부분 함수 종속</b> 제거                          → <b>2NF</b>
+   ↓ <b>이행 함수 종속</b> 제거                          → <b>3NF</b>
+   ↓ <b>결정자이면서 후보키가 아닌 것</b> 제거            → <b>BCNF</b>
+   ↓ 다치 종속 제거 → 4NF   ↓ 조인 종속 제거 → 5NF
+    </div>
+    <div class="note" style="border-left-color:#E06B5A">
+      <b>암기 문장</b> — <b>"원 부 이 결 다 조"</b> (원자값 → 부분종속 → 이행종속 → 결정자 → 다치종속 → 조인종속).
+      정규화의 목적은 <b>이상 현상(Anomaly) 제거</b> — 삽입 이상·삭제 이상·갱신 이상 세 가지다.
+    </div>
+
+    <div class="sub-title" style="color:#4DBFA8">📝 SQL 분류</div>
+    <table class="tbl">
+      <thead><tr><th style="width:130px">구분</th><th>명령어</th><th>용도</th></tr></thead>
+      <tbody>
+        <tr><td><b>DDL</b><br><span class="tag">정의어</span></td><td><b>CREATE · ALTER · DROP</b> · TRUNCATE</td><td>스키마·테이블 구조 정의</td></tr>
+        <tr><td><b>DML</b><br><span class="tag">조작어</span></td><td><b>SELECT · INSERT · UPDATE · DELETE</b></td><td>데이터 검색·조작</td></tr>
+        <tr><td><b>DCL</b><br><span class="tag">제어어</span></td><td><b>GRANT · REVOKE</b> · COMMIT · ROLLBACK</td><td>권한·트랜잭션 제어</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <b>⚠ 자주 틀리는 것</b> — <b>DROP</b>(구조 삭제)은 DDL, <b>DELETE</b>(행 삭제)는 DML이다.
+      <b>GRANT/REVOKE</b>는 DCL이며 DDL이 아니다.
+    </div>
+
+    <div class="sub-title" style="color:#E8A838">🔐 트랜잭션 — ACID</div>
+    <table class="tbl">
+      <thead><tr><th style="width:150px">특성</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td><b>원자성</b> Atomicity</td><td><b>전부 반영되거나 전부 취소</b>. 중간은 없다</td></tr>
+        <tr><td><b>일관성</b> Consistency</td><td>실행 전후로 DB가 <b>일관된 상태</b>를 유지</td></tr>
+        <tr><td><b>격리성</b> Isolation</td><td>수행 중인 트랜잭션에 <b>다른 트랜잭션이 끼어들 수 없음</b></td></tr>
+        <tr><td><b>지속성</b> Durability</td><td>성공한 결과는 <b>영구히 반영</b></td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="color:#5B9BD5">➗ 관계 대수</div>
+    <table class="tbl">
+      <thead><tr><th style="width:130px">연산</th><th>기호</th><th>의미</th></tr></thead>
+      <tbody>
+        <tr><td><b>SELECT</b></td><td><b>σ</b> (시그마)</td><td>조건에 맞는 <b>행(튜플)</b> 추출 — <b>수평 연산</b></td></tr>
+        <tr><td><b>PROJECT</b></td><td><b>π</b> (파이)</td><td>지정한 <b>열(속성)</b> 추출 — <b>수직 연산</b></td></tr>
+        <tr><td><b>JOIN</b></td><td><b>⋈</b></td><td>공통 속성으로 두 릴레이션 결합</td></tr>
+        <tr><td><b>DIVISION</b></td><td><b>÷</b></td><td>나누는 릴레이션의 모든 값을 갖는 튜플 추출</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">
+      <b>⚠ 함정</b> — SQL의 SELECT문과 관계대수의 SELECT는 다르다.
+      관계대수 <b>SELECT(σ)는 행 선택</b>, <b>PROJECT(π)가 열 선택</b>이다.
+    </div>
+
+    <div class="highlight">
+      <b>📝 시험 포인트</b><br>
+      • 3단계 스키마 = <b>외부·개념·내부</b>, <b>개념 스키마는 하나뿐</b><br>
+      • <b>차수 = 속성(열) 수 / 카디널리티 = 튜플(행) 수</b><br>
+      • 후보키 = <b>유일성 + 최소성</b>, 기본키는 <b>NULL 불가</b><br>
+      • 정규화 <b>원-부-이-결</b>, 목적은 <b>이상 현상 제거</b><br>
+      • <b>DDL(CREATE/ALTER/DROP) · DML(SELECT/INSERT/UPDATE/DELETE) · DCL(GRANT/REVOKE)</b><br>
+      • <b>ACID</b> = 원자성·일관성·격리성·지속성<br>
+      • 관계대수 <b>σ = 행, π = 열</b>
+    </div>
+  </div>
+
+  <div class="section" id="sec-law-tel">
+    <h2 class="section-title" style="color:#9B8AE0">⚖️ 전기통신사업법 (5과목)</h2>
+
+    <div class="warn">
+      <b>⚠ 법규 학습 시 주의</b> — 법령의 <b>구체적 수치와 조문 번호는 개정될 수 있습니다.</b>
+      아래는 <b>구조와 출제 패턴</b> 중심 정리입니다. 숫자는 반드시 <b>최신 교재·법령(국가법령정보센터)</b> 으로 대조하세요.
+    </div>
+
+    <div class="sub-title" style="color:#9B8AE0">🎯 목적</div>
+    <div class="note" style="border-left-color:#9B8AE0">
+      전기통신사업의 <b>적절한 운영</b>과 전기통신의 <b>효율적 관리</b>를 통하여 전기통신사업의 <b>건전한 발전</b>과
+      <b>이용자의 편의</b>를 도모함으로써 <b>공공복리의 증진</b>에 이바지함을 목적으로 한다.
+    </div>
+
+    <div class="sub-title" style="color:#5B9BD5">📖 핵심 용어 정의</div>
+    <table class="tbl">
+      <thead><tr><th style="width:170px">용어</th><th>정의</th></tr></thead>
+      <tbody>
+        <tr><td><b>전기통신</b></td><td><b>유선·무선·광선</b> 또는 그 밖의 전자적 방식으로 <b>부호·문언·음향 또는 영상</b>을 송신하거나 수신하는 것 <span class="tag">기출</span></td></tr>
+        <tr><td><b>전기통신설비</b></td><td>전기통신을 하기 위한 <b>기계·기구·선로</b> 또는 그 밖에 전기통신에 필요한 설비</td></tr>
+        <tr><td><b>전기통신회선설비</b></td><td>송신·수신 장소 사이에 <b>전기통신로</b>를 구성하는 <b>전송·선로설비</b>와 그 부대설비</td></tr>
+        <tr><td><b>사업용 전기통신설비</b></td><td>전기통신사업에 제공하기 위한 설비</td></tr>
+        <tr><td><b>자가 전기통신설비</b></td><td>사업용 외의 설비로, <b>자신의 통신용</b>으로 설치·운용하는 설비</td></tr>
+        <tr><td><b>전기통신역무</b></td><td>전기통신설비를 이용하여 <b>타인의 통신을 매개</b>하거나 설비를 타인의 통신용으로 제공하는 것</td></tr>
+        <tr><td><b style="color:#E8A838">보편적 역무</b></td><td><b>모든 이용자가 언제 어디서나 적정한 요금</b>으로 제공받을 수 있는 <b>기본적인 전기통신역무</b> <span class="tag">기출</span></td></tr>
+        <tr><td><b>이용자</b></td><td>전기통신역무를 제공받기 위하여 사업자와 이용계약을 체결한 자</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="color:#E8A838">🏢 전기통신사업의 구분</div>
+    <table class="tbl">
+      <thead><tr><th style="width:170px">구분</th><th>진입 절차</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td><b>기간통신사업</b></td><td><b>등록</b></td>
+            <td>전기통신회선설비를 <b>설치하거나 이용하여</b> 기간통신역무를 제공. 자본금·기술인력·재정능력 요건<br>
+            <span style="color:var(--text3)">※ 종전의 별정통신사업은 법 개정으로 기간통신사업에 통합됨</span></td></tr>
+        <tr><td><b>부가통신사업</b></td><td><b>신고</b></td>
+            <td>기간통신역무 외의 역무. 진입이 자유로움 (일정 규모 미만은 신고 면제)</td></tr>
+        <tr><td><b>특수한 유형의<br>부가통신사업</b></td><td><b>등록</b></td>
+            <td>다른 이용자 간 저작물 송수신을 매개하는 유형 등</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="color:#4DBFA8">🔗 자주 나오는 제도</div>
+    <table class="tbl">
+      <thead><tr><th style="width:170px">제도</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td><b>이용약관</b></td><td>기간통신사업자는 이용약관을 <b>신고</b>. 다만 <b>시장지배적 사업자</b>의 주요 역무는 <b>인가</b></td></tr>
+        <tr><td><b>상호접속</b></td><td>다른 사업자가 요청하면 <b>협정을 체결하여 접속을 허용</b>해야 함 — 통신망 간 연동의 근거</td></tr>
+        <tr><td><b>설비 등의 제공</b></td><td>관로·전주·케이블 등 <b>설비를 다른 사업자에게 제공</b></td></tr>
+        <tr><td><b>가입자선로 공동활용</b></td><td>가입자 구간 선로를 다른 사업자가 <b>함께 사용</b> (LLU)</td></tr>
+        <tr><td><b>무선통신시설 공동이용</b></td><td>기지국·중계기 등을 <b>공동 이용</b> (로밍)</td></tr>
+        <tr><td><b>금지행위</b></td><td>이용자 이익 저해, 부당한 차별, 비용·수익의 부당 전가 등을 금지</td></tr>
+        <tr><td><b>보편적 역무 제공</b></td><td>모든 사업자는 보편적 역무를 <b>제공하거나 손실을 분담</b>할 의무</td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight">
+      <b>📝 시험 포인트</b><br>
+      • <b>전기통신 = 유선·무선·광선, 부호·문언·음향·영상</b> 의 송수신 (정의 그대로 출제)<br>
+      • <b>보편적 역무 = 모든 이용자가 언제 어디서나 적정 요금으로</b><br>
+      • <b>기간통신사업 = 등록 / 부가통신사업 = 신고</b><br>
+      • 사업용 vs <b>자가 전기통신설비</b> 구분<br>
+      • 상호접속·설비제공·가입자선로 공동활용은 <b>망 개방</b> 관련 제도
+    </div>
+  </div>
+
+  <div class="section" id="sec-law-const">
+    <h2 class="section-title" style="color:#5BAD6F">🏗️ 정보통신공사업법 (5과목)</h2>
+
+    <div class="warn">
+      <b>⚠ 수치·기간은 개정 가능</b> — 등록 요건, 하자담보 기간, 감리원 배치 기준 등의 구체적 숫자는
+      <b>최신 교재·법령으로 반드시 대조</b>하세요. 아래는 구조와 개념 중심입니다.
+    </div>
+
+    <div class="sub-title" style="color:#5BAD6F">🎯 목적</div>
+    <div class="note" style="border-left-color:#5BAD6F">
+      정보통신공사의 <b>조사·설계·시공·감리·유지보수</b> 등에 관한 기본적인 사항을 정함으로써
+      <b>정보통신공사의 적정한 시공</b>과 <b>공사업의 건전한 발전</b>을 도모함을 목적으로 한다.
+    </div>
+
+    <div class="sub-title" style="color:#4DBFA8">📖 핵심 용어</div>
+    <table class="tbl">
+      <thead><tr><th style="width:150px">용어</th><th>정의</th></tr></thead>
+      <tbody>
+        <tr><td><b>정보통신설비</b></td><td>전기통신설비 및 방송설비 등 <b>정보의 수집·가공·저장·검색·송신·수신</b> 및 그 이용에 관한 설비</td></tr>
+        <tr><td><b>정보통신공사</b></td><td>정보통신설비의 <b>설치 및 유지·보수</b>에 관한 공사와 그에 따르는 부대공사</td></tr>
+        <tr><td><b>공사업</b></td><td>도급이나 그 밖에 명칭이 무엇이든 <b>정보통신공사를 업으로 하는 것</b></td></tr>
+        <tr><td><b>도급 / 하도급</b></td><td>도급 = 공사 완성을 약정하고 대가를 지급 / 하도급 = 도급받은 공사의 <b>일부</b>를 다시 도급</td></tr>
+        <tr><td><b style="color:#E8A838">감리</b></td><td>공사가 <b>설계도서와 관련 규정에 맞게</b> 시공되는지 감독하고, <b>품질관리·시공관리·안전관리</b>에 대한 지도를 하는 것</td></tr>
+        <tr><td><b>용역 / 용역업</b></td><td>설계·감리 등의 업무 / 그것을 업으로 하는 것</td></tr>
+        <tr><td><b>발주자</b></td><td>공사를 <b>도급하는 자</b> (하도급의 경우 수급인은 발주자로 보지 않음)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="color:#E8A838">📋 공사의 진행 절차</div>
+    <div class="flow">
+  ① <b>설계</b>       — 용역업자가 수행, 설계도서 작성
+       ↓
+  ② <b>착공 전 신고</b> — 설계도서를 발주자·감리원에게 제출
+       ↓
+  ③ <b>시공</b>       — 등록한 <b>공사업자</b>가 시공 (일정 규모 이하는 예외)
+       ↓
+  ④ <b>감리</b>       — 감리원 배치, 시공 상태 확인·검사
+       ↓
+  ⑤ <b>사용전검사</b>  — 사용 전에 기술기준 적합 여부 검사
+       ↓
+  ⑥ <b>준공·하자담보</b> — 준공검사 후 하자담보책임 기간 동안 보수 의무
+    </div>
+
+    <div class="sub-title" style="color:#9B8AE0">👷 정보통신기술자 등급</div>
+    <table class="tbl">
+      <thead><tr><th style="width:130px">등급</th><th>개념</th></tr></thead>
+      <tbody>
+        <tr><td><b>특급 기술자</b></td><td>기술사 또는 상위 자격 + 일정 경력</td></tr>
+        <tr><td><b>고급 기술자</b></td><td>기사 자격 + 상당 기간 경력</td></tr>
+        <tr><td><b style="color:#E8A838">중급 기술자</b></td><td><b>정보통신기사 자격 취득 시 해당</b> — 이후 경력에 따라 고급·특급으로 상승</td></tr>
+        <tr><td><b>초급 기술자</b></td><td>산업기사 또는 관련 학력·경력</td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="border-left-color:#9B8AE0">
+      기술자는 <b>기술계</b>와 <b>기능계</b>로 나뉘며, 등급은 <b>자격 + 학력 + 경력</b> 을 합산해 산정한다.
+      구체적인 경력 연수 기준은 시행령에 있으므로 <b>교재의 최신 표</b>를 확인하세요.
+    </div>
+
+    <div class="highlight">
+      <b>📝 시험 포인트</b><br>
+      • <b>정보통신공사 = 설치 + 유지·보수 + 부대공사</b><br>
+      • <b>감리 = 설계도서대로 시공되는지 감독 + 품질·시공·안전 관리 지도</b><br>
+      • 절차 — <b>설계 → 착공 전 신고 → 시공 → 감리 → 사용전검사 → 준공</b><br>
+      • <b>정보통신기사 = 중급 기술자</b><br>
+      • 하도급은 <b>일부</b>만 가능 (전부 하도급 금지)
+    </div>
+  </div>
+
+  <div class="section" id="sec-facility">
+    <style>#sec-facility .fblank{display:inline-block;min-width:58px;border-bottom:1.5px dotted #E8A838;margin:0 4px;}</style>
+    <h2 class="section-title" style="color:#E06B5A">📏 정보통신설비 기술기준 (5과목)</h2>
+
+    <div class="warn">
+      <b>⚠ 이 단원은 "숫자 암기" 과목입니다</b> — 그리고 그 숫자는 <b>개정될 수 있습니다.</b><br>
+      아래는 <b>어떤 항목의 숫자가 출제되는지</b> 를 정리한 것입니다. 값이 적힌 항목도 <b>반드시 최신 교재·법령으로 대조</b>하시고,
+      빈칸은 직접 채우면서 외우세요. <b>손으로 한 번 쓰는 것이 이 단원 최고의 공부법</b>입니다.
+    </div>
+
+    <div class="sub-title" style="color:#E06B5A">📚 두 개의 법령 구조 — 먼저 이것부터</div>
+    <table class="tbl">
+      <thead><tr><th style="width:220px">법령</th><th>성격</th><th>다루는 내용</th></tr></thead>
+      <tbody>
+        <tr><td><b>방송통신설비의 기술기준에<br>관한 규정</b></td><td><b>대통령령</b></td>
+            <td>총칙, <b>분계점</b>, 설비의 안전성·신뢰성, 절연저항, 낙뢰·과전압 보호, 전원설비, 누화 등 <b>전반적 기준</b></td></tr>
+        <tr><td><b>접지설비·구내통신설비·<br>선로설비 및 통신공동구등에<br>대한 기술기준</b></td><td><b>과기정통부령</b></td>
+            <td><b>접지</b>, 구내통신선로설비(국선접속설비·세대단자함·인출구), 옥내외 <b>선로설비</b>, 관로·맨홀, <b>통신공동구</b></td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="border-left-color:#E06B5A">
+      <b>출제 구분 요령</b> — "접지·구내통신·선로·공동구" 가 나오면 <b>부령(기술기준)</b>,
+      "분계점·안전성·신뢰성·전원설비" 가 나오면 <b>대통령령(규정)</b> 쪽이다.
+    </div>
+
+    <div class="sub-title" style="color:#E8A838">⚡ 자주 출제되는 수치 항목 — 채워 가며 외우기</div>
+    <div style="overflow-x:auto;">
+    <table class="tbl" style="min-width:760px;">
+      <thead><tr><th style="width:180px">항목</th><th style="width:150px">값</th><th>비고 · 확인 포인트</th></tr></thead>
+      <tbody>
+        <tr><td><b>접지저항</b></td><td><b style="color:#E8A838">100 Ω 이하</b><br><span style="color:var(--text3)">일부 설비 10 Ω 이하</span></td>
+            <td>어떤 설비가 <b>10Ω</b> 대상인지 교재에서 확인 <span class="tag">대조 필수</span></td></tr>
+        <tr><td><b>절연저항</b></td><td><b style="color:#E8A838">10 MΩ 이상</b></td>
+            <td>직류 <b>500 V</b> 절연저항계로 측정. 회선 상호간 / 회선과 대지간 <span class="tag">대조 필수</span></td></tr>
+        <tr><td><b>접지선 굵기</b></td><td><span class="fblank"></span> mm² 이상</td><td>동선 기준. 설비 종류별 차등</td></tr>
+        <tr><td><b>세대단자함</b></td><td>세대당 <span class="fblank"></span>개 이상</td><td>규격(가로×세로×깊이)도 함께 출제</td></tr>
+        <tr><td><b>인출구</b></td><td>세대당 <span class="fblank"></span>구 이상</td><td>거실·침실 등 실별 기준 확인</td></tr>
+        <tr><td><b>구내통신선로설비<br>국선 수용 회선</b></td><td><span class="fblank"></span></td><td>건축물 용도·면적별 기준표</td></tr>
+        <tr><td><b>옥외 지하 매설 깊이</b></td><td><span class="fblank"></span> m 이상</td><td>차도·보도 구분</td></tr>
+        <tr><td><b>맨홀·핸드홀 간격</b></td><td><span class="fblank"></span></td><td>관로 길이 기준</td></tr>
+        <tr><td><b>통신공동구 규격</b></td><td><span class="fblank"></span></td><td>내부 폭·높이, 환기·배수 설비</td></tr>
+        <tr><td><b>누화 감쇠량</b></td><td><span class="fblank"></span> dB 이상</td><td>선로설비 간 혼선 방지</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="sub-title" style="color:#5B9BD5">🔌 분계점 (Demarcation Point)</div>
+    <div class="flow">
+   [사업자 설비]  ────────●──────── [이용자 설비]
+                       분계점
+
+  · 사업용 방송통신설비와 <b>이용자 방송통신설비의 책임 경계</b>
+  · 원칙 : <b>도로와 사유지의 경계</b>
+  · 복수 사업자·특수 건축물의 경우 별도 기준 적용
+    </div>
+    <div class="note" style="border-left-color:#5B9BD5">
+      분계점이 중요한 이유는 <b>고장 책임과 유지보수 의무의 경계</b>이기 때문이다.
+      분계점 안쪽(이용자 측)은 이용자가, 바깥쪽은 사업자가 책임진다.
+    </div>
+
+    <div class="sub-title" style="color:#4DBFA8">🛡️ 설비의 안전성 · 신뢰성 기준</div>
+    <table class="tbl">
+      <thead><tr><th style="width:170px">항목</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td><b>낙뢰·과전압 보호</b></td><td>피뢰기·서지보호기(SPD) 설치, <b>접지</b> 연계</td></tr>
+        <tr><td><b>전원설비</b></td><td>정전 대비 <b>축전지·UPS·비상발전기</b>. 예비 전원 확보 시간 기준 있음</td></tr>
+        <tr><td><b>전자파 적합성</b></td><td>EMC — 다른 설비에 <b>장해를 주지 않고</b>, 받지도 않을 것</td></tr>
+        <tr><td><b>환경 조건</b></td><td>온도·습도 유지, 침수·화재 대비</td></tr>
+        <tr><td><b>이중화</b></td><td>중요 설비의 <b>예비 회선·예비 장비</b> 확보</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="color:#9B8AE0">🏠 구내통신선로설비 구성</div>
+    <div class="flow">
+  국선 ──▶ <b>국선접속설비</b> ──▶ <b>주배선반(MDF)</b> ──▶ 동별·층별 <b>배선반</b>
+                                                    ↓
+                                          <b>세대단자함</b> ──▶ <b>인출구</b> ──▶ 단말
+    </div>
+    <table class="tbl">
+      <thead><tr><th style="width:170px">구성 요소</th><th>역할</th></tr></thead>
+      <tbody>
+        <tr><td><b>국선접속설비</b></td><td>사업자의 국선을 <b>건물 구내로 끌어들이는</b> 설비</td></tr>
+        <tr><td><b>주배선반(MDF)</b></td><td>국선과 구내선을 <b>연결·분배</b>하는 중심 배선반</td></tr>
+        <tr><td><b>세대단자함</b></td><td>세대 내 통신 배선의 <b>집중 분배점</b>. 광·동선·TV 인입</td></tr>
+        <tr><td><b>인출구</b></td><td>실제 단말을 꽂는 <b>콘센트</b> (RJ-45 등)</td></tr>
+      </tbody>
+    </table>
+
+
+    <div id="anchor-mdf" class="sub-title" style="color:#E8A838;margin-top:22px;">🏢 집중구내통신실(MDF실) 설치 기준</div>
+    <div class="highlight">
+      <b>공동주택 세대 수에 따라 최소 면적이 정해져 있다.</b> 이 표는 <b>숫자가 그대로 보기로 나오므로</b>
+      다섯 개 값만 정확히 외우면 된다.
+    </div>
+
+    <table class="tbl">
+      <thead><tr><th style="width:150px">항목</th><th>기준</th></tr></thead>
+      <tbody>
+        <tr><td><b style="color:#5BAD6F">위치</b></td><td><b>지상</b> — 침수 우려가 없는 곳</td></tr>
+      </tbody>
+    </table>
+
+    <div style="font-size:15.5px;font-weight:700;color:#E8A838;margin:14px 0 6px;">📐 세대 수별 최소 면적</div>
+    <table class="tbl">
+      <thead><tr><th style="width:190px">세대 수</th><th>최소 면적</th><th>증가폭</th></tr></thead>
+      <tbody>
+        <tr><td><b class="mono">~ 300세대</b></td><td><b class="mono" style="color:#E8A838;font-size:15px">12 ㎡</b> 이상</td><td><span class="tag">시작</span></td></tr>
+        <tr><td><b class="mono">~ 500세대</b></td><td><b class="mono" style="color:#E8A838;font-size:15px">18 ㎡</b> 이상</td><td><b style="color:#5BAD6F">+6</b></td></tr>
+        <tr style="background:#2a1010;"><td><b class="mono">~ 1,000세대</b></td><td><b class="mono" style="color:#E8A838;font-size:15px">22 ㎡</b> 이상</td><td><b style="color:#ff6060">+4</b> ← 여기만 다르다</td></tr>
+        <tr><td><b class="mono">~ 1,500세대</b></td><td><b class="mono" style="color:#E8A838;font-size:15px">28 ㎡</b> 이상</td><td><b style="color:#5BAD6F">+6</b></td></tr>
+        <tr><td><b class="mono">1,501세대 ~</b></td><td><b class="mono" style="color:#E8A838;font-size:15px">34 ㎡</b> 이상</td><td><b style="color:#5BAD6F">+6</b></td></tr>
+        <tr style="background:#1a2d45;"><td><b style="color:#7fb8ea">디지털방송설비 설치 시</b></td><td><b style="color:#7fb8ea">3 ㎡ 추가</b></td><td><b style="color:#ff8060">단, 방재실에 설치하는 경우 제외</b></td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="border-left-color:#E8A838;">
+      🧠 <b>「12에서 6씩, 한 번만 4」</b><br>
+      <span class="mono" style="line-height:2.1;">
+      　12 ─(+6)→ 18 ─(<b style="color:#ff6060">+4</b>)→ 22 ─(+6)→ 28 ─(+6)→ 34
+      </span><br>
+      네 번의 증가 중 <b>세 번은 +6</b>이고, <b style="color:#ff6060">1,000세대 칸에서만 +4</b> 다.
+      양 끝 <b>12와 34</b> 를 먼저 박아두고, 가운데를 6·4·6·6으로 채우면 표가 복원된다.<br>
+      세대 경계는 <b>300 · 500 · 1,000 · 1,500</b> — <b>3·5·10·15</b> 로 외운다.
+    </div>
+
+    <div style="font-size:15.5px;font-weight:700;color:#9B8AE0;margin:18px 0 6px;">🚪 출입문 · 환경 기준</div>
+    <table class="tbl">
+      <thead><tr><th style="width:150px">항목</th><th>기준</th></tr></thead>
+      <tbody>
+        <tr><td><b>출입문</b></td><td>
+          <b>유효너비 0.9 m</b> · <b>유효높이 2 m</b> 이상의 <b>잠금장치가 있는 방화문</b> 설치<br>
+          <b>관계자 외 출입통제 표시</b> 부착
+        </td></tr>
+        <tr><td><b>환경 · 관리</b></td><td>
+          • 통신장비 및 <b>상온 / 상습 장치</b> 설치<br>
+          • <b>전용의 전원설비</b> 설치
+        </td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="border-left-color:#9B8AE0;">
+      🧠 <b>출입문 3종 세트 — 「0.9 · 2 · 방화문」</b><br>
+      너비 <b>0.9m</b>, 높이 <b>2m</b>, <b>잠금장치 있는 방화문</b>. 여기에 <b>출입통제 표시</b>까지 넷이 한 묶음이다.<br>
+      환경은 <b>「상온·상습 + 전용 전원」</b> 두 가지. <b>전용</b>이라는 말이 빠지면 틀린 보기다.
+    </div>
+
+    <div class="warn">
+      ⚠️ <b>유효높이가 2 m 인가, 2.1 m 인가 — 기준이 두 개다</b><br>
+      • <b>법령 기준</b>(접지설비·구내통신설비 기술기준) → <b>유효높이 2 m</b> 이상 ← 위 표<br>
+      • <b style="color:#ff8060">초고속정보통신건물 인증제도</b>(KAIT 인증) → <b style="color:#ff8060">유효높이 2.1 m</b> 이상<br>
+      <b>2022-3회 4과목 77번</b>이 <b>인증제도</b> 기준으로 출제되어 <b>"유효높이 1.8m"를 틀린 것</b>으로 골랐다.
+      문제에 <b>"초고속정보통신건물 인증제도"</b> 라는 말이 있으면 <b>2.1m</b>, 그냥 기술기준이면 <b>2m</b> 다.
+    </div>
+
+    <div style="font-size:15.5px;font-weight:700;color:#5B9BD5;margin:18px 0 6px;">🏗️ MDF · IDF · 배선계 관계</div>
+    <div class="flow">
+  국선 ─▶ 국선접속설비 ─▶ 집중구내통신실 (MDF실) ─── 건물 간선계 ───▶ 층단자함 (IDF)
+                              │                                          │
+                         주배선반 MDF                              수평 배선계
+                         구내교환기(PBX)도 여기                          │
+                         지상 설치                                   인출구 (RJ-45)
+    </div>
+    <table class="tbl">
+      <thead><tr><th>용어</th><th>역할</th><th>기출 포인트</th></tr></thead>
+      <tbody>
+        <tr><td><b>집중구내통신실</b><br><span class="tag">MDF실</span></td><td>국선과 구내선을 연결·분배하는 <b>건물의 통신 중심</b></td><td><b>구내교환기(PBX)는 여기</b>에 설치</td></tr>
+        <tr><td><b>층단자함</b><br><span class="tag">IDF · 중간단자함</span></td><td>각 <b>층의 배선 분배</b>. 선로 분기·접속이 필요한 곳에 설치</td><td><b style="color:#ff8060">PBX를 IDF에 수용한다 → 오답</b> <span class="tag">2023-2회</span></td></tr>
+        <tr><td><b>건물 간선계</b></td><td>MDF ↔ 각 층 IDF 사이 구간</td><td>세로(수직) 방향</td></tr>
+        <tr><td><b>수평 배선계</b></td><td><b>MDF·IDF 사이</b>, 각 층에서 인출구까지</td><td><span class="tag">2023-2회 정답</span></td></tr>
+        <tr><td><b>인출구</b></td><td>단말을 꽂는 콘센트</td><td>층단자함에서 인출구까지는 <b>성형(스타) 배선</b></td></tr>
+      </tbody>
+    </table>
+
+    <div style="font-size:15.5px;font-weight:700;color:#E06B5A;margin:18px 0 6px;">📖 기출 포인트</div>
+    <table class="tbl">
+      <thead><tr><th>물음</th><th>답</th></tr></thead>
+      <tbody>
+        <tr><td>집중구내통신실의 설치 위치는?</td><td><b style="color:#5BAD6F">침수 우려가 없는 지상</b></td></tr>
+        <tr><td>300세대 이하 공동주택의 최소 면적은?</td><td><b style="color:#5BAD6F">12 ㎡ 이상</b></td></tr>
+        <tr><td>1,501세대 이상의 최소 면적은?</td><td><b style="color:#5BAD6F">34 ㎡ 이상</b></td></tr>
+        <tr><td>디지털방송설비를 설치하면?</td><td><b style="color:#5BAD6F">3 ㎡ 추가</b> — 단 <b>방재실에 설치하는 경우는 제외</b></td></tr>
+        <tr><td>출입문 기준은?</td><td><b style="color:#5BAD6F">유효너비 0.9m · 유효높이 2m 이상, 잠금장치 있는 방화문</b></td></tr>
+        <tr><td>구내교환기(PBX)는 어디에 설치하는가?</td><td><b style="color:#5BAD6F">집중구내통신실(MDF실)</b> — 층단자함이 아니다</td></tr>
+        <tr><td>MDF와 IDF 사이의 배선 구간 명칭은?</td><td><b style="color:#5BAD6F">수평 배선계</b></td></tr>
+      </tbody>
+    </table>
+
+    <div class="highlight">
+      <b>📝 학습 전략</b><br>
+      이 단원은 이해할 것이 거의 없고 <b>숫자와 명칭</b>만 남습니다. 그래서 <b>가장 늦게, 가장 집중적으로</b> 외우는 것이 유리합니다.<br>
+      • <b>D-5(9/13)</b> 에 숫자 목록을 한 번 만들고<br>
+      • <b>D-2(9/16)</b> 와 <b>D-1(9/17)</b> 에 반복 — 계획표의 "설비기준 숫자 최종 암기"가 이 항목입니다<br>
+      • 위 표의 <b>빈칸을 손으로 채우는 것</b> 자체가 1회독입니다
+    </div>
+
+    <div class="sub-title">🔗 이어지는 단원</div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:8px;">
+      <button class="qfbtn" onclick="showSection('law-tel',null)">⚖️ 전기통신사업법</button>
+      <button class="qfbtn" onclick="showSection('law-const',null)">🏗️ 정보통신공사업법</button>
+      <button class="qfbtn" onclick="showSection('cable',null)">🔌 UTP 카테고리</button>
+      <button class="qfbtn" onclick="showSection('fiber',null)">🔦 광섬유</button>
+    </div>
+  </div>
+
