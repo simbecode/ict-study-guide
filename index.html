@@ -284,6 +284,11 @@ body{background:var(--bg);color:var(--text);font-family:'Pretendard','Malgun Got
   /* 좁은 화면에서는 드롭다운 패널을 화면 폭에 맞춰 고정 */
   .subj-items{position:fixed;top:var(--topbar-h,110px);left:8px;right:8px;min-width:0;max-width:none;max-height:60vh;}
   .two-col{grid-template-columns:1fr;}
+  /* 과목 탭 줄: 가로 스크롤 대신 줄바꿈으로 5개 버튼이 전부 화면 안에 보이도록 함.
+     (가로 스크롤만 있으면 마지막 버튼이 화면 밖에서 잘려 보이고,
+      터치 시 스크롤 제스처로 오인되어 탭이 열리지 않는 문제가 있었음) */
+  .tabs{flex-wrap:wrap;overflow-x:visible;-webkit-overflow-scrolling:auto;}
+  .subj-head{touch-action:manipulation;}
 }
 
 @media(max-width:620px){
@@ -320,7 +325,7 @@ html,body{max-width:100%;overflow-x:hidden;}
   /* 스크롤 가능한 표에 오른쪽 가장자리 그라데이션 힌트 */
   .tbl-scroll{background:linear-gradient(to left, rgba(91,155,213,.10), transparent 26px);border-radius:6px;}
 }
-".main img,.main svg,.main pre{max-width:100%;}
+.main img,.main svg,.main pre{max-width:100%;}
 
 /* ── 섹션 하단 관련 기출 ── */
 .relq{margin-top:28px;padding-top:16px;border-top:2px solid var(--border);}
