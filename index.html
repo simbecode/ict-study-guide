@@ -735,6 +735,8 @@ html,body{max-width:100%;overflow-x:hidden;}
       .cd-filter{font-size:13.5px;padding:6px 13px;border-radius:20px;background:var(--bg2);
         border:1.5px solid var(--border);color:var(--text2);cursor:pointer;font-family:inherit;}
       .cd-filter.on{border-color:var(--cd);background:#0d2e28;color:#4DBFA8;font-weight:700;}
+      .cd-filter-push{margin-left:auto;}
+      @media(max-width:820px){ .cd-filter-push{margin-left:0;} }
       #cd-done{display:none;background:linear-gradient(135deg,#0d2710,#0f1117);border:2px solid #5BAD6F;
         border-radius:14px;padding:24px;margin-top:12px;text-align:center;}
     </style>
@@ -761,7 +763,7 @@ html,body{max-width:100%;overflow-x:hidden;}
         <button class="cd-filter" data-k="def" onclick="cdKind('def',this)">용어</button>
         <button class="cd-filter" data-k="calc" onclick="cdKind('calc',this)">공식 🧮</button>
         <button class="cd-filter" data-k="num" onclick="cdKind('num',this)">암기표 📋</button>
-        <button class="cd-filter" style="margin-left:auto" onclick="cdShuffle()">🔀 섞기</button>
+        <button class="cd-filter cd-filter-push" onclick="cdShuffle()">🔀 섞기</button>
         <button class="cd-filter" onclick="cdRestart()">↺ 처음부터</button>
         <button class="cd-filter" id="cd-hard-btn" onclick="cdHardOnly()">⭐ 어려운 것만</button>
       </div>
@@ -830,6 +832,7 @@ html,body{max-width:100%;overflow-x:hidden;}
     #exam-bar.show{display:flex;}
     #exam-bar .lbl{font-size:13px;color:var(--text2);}
     #exam-status{font-size:14px;color:var(--text2);margin-left:auto;}
+    @media(max-width:820px){ #exam-status{margin-left:0;} }
     .exam-submit{background:#E06B5A;border:none;color:#fff;border-radius:8px;padding:8px 16px;
       font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;}
     .exam-submit:hover{background:#ff8060;}
