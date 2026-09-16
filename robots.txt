@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://simbecode.github.io/ict-study-guide/sitemap.xml
+Sitemap: https://ict.kyufind.com/sitemap.xml
