@@ -464,6 +464,42 @@ html,body{max-width:100%;overflow-x:clip;}
   .cram-formula{font-size:13px;}
   .cram-q summary{flex-wrap:wrap;gap:4px 8px;}
 }
+
+/* ══════════ 2026년 4회 CBT 복원 ══════════ */
+.cbt-lead{font-size:14px;color:var(--text2);margin:-4px 0 10px;}
+.cbt-dot{display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--sc);margin-right:8px;vertical-align:1px;}
+.cbt-toc td:first-child{white-space:nowrap;width:1%;font-weight:700;}
+.cbt-toc td{vertical-align:top;}
+.cbt-toc tbody tr:hover td{background:transparent;}
+.cbt-topic{display:inline-block;margin:2px 3px 2px 0;padding:3px 9px;border-radius:6px;background:var(--scb);color:var(--sct);font-size:13px;text-decoration:none;line-height:1.5;}
+.cbt-topic:hover{text-decoration:underline;}
+.cbt-fix{margin-top:12px;border:1px solid var(--border);border-radius:10px;background:var(--surface);}
+.cbt-fix summary{cursor:pointer;padding:10px 14px;font-size:14px;font-weight:700;color:var(--text2);}
+.cbt-fix ul{margin:0;padding:0 16px 12px 34px;font-size:13.5px;line-height:1.8;color:var(--text2);}
+.cbt-memo{font-family:var(--mono);font-size:12.5px;background:#fff;border:1px solid var(--border);border-radius:4px;padding:0 5px;color:var(--text);}
+.cbt-bar{position:sticky;top:var(--topbar-h);z-index:40;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  padding:10px 0;margin-bottom:12px;background:rgba(250,252,254,.95);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);}
+.cbt-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.cbt-score{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12.5px;color:var(--text2);white-space:nowrap;}
+.cbt-list > .cbt-subj{margin:20px 0 0;}
+.cbt-list > .cbt-subj:first-child{margin-top:0;}
+.cbt-cnt{font-size:13px;font-weight:500;color:var(--text3);margin-left:6px;}
+.cbt-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;font-size:12.5px;color:var(--text3);}
+.cbt-num{font-family:var(--mono);font-weight:500;color:var(--text2);}
+.cbt-topic-name{color:var(--text2);}
+.cbt-sbadge{margin-left:auto;font-size:12px;font-weight:700;padding:2px 8px;border-radius:5px;background:var(--scb);color:var(--sct);}
+.cbt-no{font-family:var(--mono);margin-right:4px;}
+.cbt-card{scroll-margin-top:calc(var(--topbar-h) + 64px);transition:box-shadow .3s;}
+.cbt-card.cbt-flash{box-shadow:0 0 0 3px var(--key-bd);}
+.cbt-ex b{color:var(--ok);}
+@media(max-width:959px){
+  .cbt-toc td{display:block;width:100% !important;}
+  .cbt-toc td:first-child{padding-bottom:0 !important;border:none !important;}
+  .cbt-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px;}
+  .cbt-chips::-webkit-scrollbar{display:none;}
+  .cbt-score{width:100%;justify-content:space-between;}
+}
+@media(max-width:480px){ .cbt-chips{margin:0 -12px;padding:0 12px;} }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-N0XWRMVEX0"></script>
@@ -627,6 +663,7 @@ html,body{max-width:100%;overflow-x:clip;}
   </nav>
   <div class="nav-label">문제 · 암기</div>
   <div class="sub-item nav-top" data-sec="cram" onclick="showSection('cram',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></svg>시험 직전 요약</div>
+  <div class="sub-item nav-top" data-sec="cbt26" onclick="showSection('cbt26',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="2.6"/></svg>2026-4회 CBT 복원<span class="nav-count">54</span></div>
   <div class="sub-item nav-top" data-sec="quiz" onclick="showSection('quiz',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12.5h8M8 16.5h5"/></svg>기출문제<span class="nav-count" id="nav-quiz-count">500</span></div>
   <div class="sub-item nav-top" data-card="def" onclick="cdOpen('def',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6.5" width="13" height="14" rx="2"/><path d="M8 3.5h10.5a2 2 0 0 1 2 2v12"/></svg>용어 카드<span class="nav-count" id="nav-def-count">189</span></div>
   <div class="sub-item nav-top" data-card="num" onclick="cdOpen('num',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M9.5 9.5v10"/></svg>암기표<span class="nav-count" id="nav-num-count">82</span></div>
@@ -836,6 +873,354 @@ html,body{max-width:100%;overflow-x:clip;}
     <table class="tbl cram-tbl cram-law"><thead><tr><th>항목</th><th>외울 내용</th><th>기출</th></tr></thead><tbody><tr><td>접지저항</td><td>원칙 <b>10 Ω 이하</b>. 국선 수용 <b>100회선 이하 주배선반</b> 등 예외 설비는 <b>100 Ω 이하</b></td><td><span class="cram-tag">2022-1회 88번</span></td></tr><tr><td>맨홀·핸드홀 간 거리</td><td>"<b>350 m 이내</b>"는 <b>틀린 보기</b>로 두 번 나왔다</td><td><span class="cram-tag">2022-1회 94번</span> <span class="cram-tag">2022-2회 90번</span></td></tr><tr><td>설계 발주</td><td><b>50회선 이상</b> 구내통신선로설비공사는 용역업자에게 설계를 발주해야 한다</td><td><span class="cram-tag">2022-3회 82번</span></td></tr><tr><td>설계도서 보관</td><td>설계한 용역업자: 실시설계도서 <b>준공 후 5년</b><br>감리한 용역업자: 준공설계도서 <b>하자담보책임기간 종료 때까지</b><br>실시·준공설계도서: 공사 목적물이 <b>폐지될 때까지</b><br>설계도서가 바뀌면 <b>변경 후</b> 도서를 보관 ("변경 전후 모두"는 틀린 보기)</td><td><span class="cram-tag">2022-3회 86번</span> <span class="cram-tag">2023-2회 100번</span></td></tr><tr><td>감리원 배치</td><td>총공사금액 <b>70억~100억 원 미만 → 특급감리원</b><br>30억~70억 미만 고급 · 5억~30억 미만 중급 · 5억 미만 초급 (각 이상 등급)</td><td><span class="cram-tag">2023-1회 100번</span></td></tr><tr><td>감리원의 공사중지</td><td>부적합 시공이면 <b>발주자의 동의</b>를 얻어 공사중지 명령</td><td><span class="cram-tag">2022-1회 96번</span> <span class="cram-tag">2023-1회 98번</span></td></tr><tr><td>기간통신사업</td><td><b>과학기술정보통신부장관</b> (기출 보기는 "허가", 현행법은 "등록")</td><td><span class="cram-tag">2022-1회 92번</span></td></tr></tbody></table>
     <div class="sub-title">두 번 나온 문제</div>
     <table class="tbl cram-tbl cram-rep"><thead><tr><th>문제</th><th>정답</th><th>기출</th></tr></thead><tbody><tr><td>정보보호지침에 <b>포함되지 않는</b> 것</td><td>전문보안업체를 통한 위탁관리 등 관리적 보호조치</td><td><span class="cram-tag">2022-1회 100번</span> <span class="cram-tag">2022-2회 86번</span></td></tr><tr><td>프로그램 <b>이식성</b>을 가능하게 하는 주소지정</td><td>베이스레지스터 주소지정</td><td><span class="cram-tag">2022-1회 87번</span> <span class="cram-tag">2022-2회 81번</span></td></tr><tr><td>고층 건물·철탑 등 <b>인공구조물</b>에 의한 페이딩</td><td>Short-term Fading (단기 페이딩)</td><td><span class="cram-tag">2022-1회 13번</span> <span class="cram-tag">2022-2회 14번</span></td></tr><tr><td>맨홀·핸드홀 설치기준으로 <b>틀린</b> 것</td><td>간격 350 m 이내</td><td><span class="cram-tag">2022-1회 94번</span> <span class="cram-tag">2022-2회 90번</span></td></tr><tr><td>감리원이 부적합 시공에 취할 수 있는 조치</td><td>발주자의 동의를 얻어 공사중지 명령</td><td><span class="cram-tag">2022-1회 96번</span> <span class="cram-tag">2023-1회 98번</span></td></tr><tr><td>멀티미디어 특징으로 <b>틀린</b> 것</td><td>인간과 컴퓨터의 독립성 / 단방향성<br><span class="cram-dim">맞는 것: 디지털화·통합성·양방향성·상호작용성</span></td><td><span class="cram-tag">2022-1회 23번</span> <span class="cram-tag">2022-2회 29번</span></td></tr><tr><td>정지궤도 위성 설명으로 <b>틀린</b> 것</td><td>지구 면적의 약 20 %가 보인다 / 90° 간격 4개로 전 지구 커버<br><span class="cram-dim">실제: 약 42 %, 120° 간격 3개 (극지방 제외)</span></td><td><span class="cram-tag">2023-1회 58번</span> <span class="cram-tag">2023-2회 58번</span></td></tr></tbody></table>
+  </div>
+
+  
+  <div class="section" id="sec-cbt26">
+    <h2 class="section-title">2026년 4회 CBT 복원</h2>
+    <div class="warn"><b>실제 출제 문항이 아닙니다.</b> 응시 후기로 모은 출제 주제를 바탕으로 만든 <b>예상 문제</b>라서, 실제 시험의 문장·보기와 다릅니다. 주제별로 개념을 점검하는 용도로 쓰세요.</div>
+
+    <div class="sub-title">출제 주제 목록</div>
+    <p class="cbt-lead">후기에 나온 주제를 과목별로 나눴습니다. 주제를 누르면 해당 문제로 이동합니다. (총 54문항)</p>
+    <table class="tbl cbt-toc"><tbody><tr class="c-s1"><td><span class="cbt-dot"></span>1과목</td><td><a href="#cbt-q1" class="cbt-topic" data-q="1">문자 동기 방식</a> <a href="#cbt-q2" class="cbt-topic" data-q="2">DPCM</a> <a href="#cbt-q3" class="cbt-topic" data-q="3">PWM</a> <a href="#cbt-q4" class="cbt-topic" data-q="4">신호대잡음비 dB 변환</a> <a href="#cbt-q5" class="cbt-topic" data-q="5">송신전력 dB 변환</a> <a href="#cbt-q6" class="cbt-topic" data-q="6">W ↔ dB 변환</a> <a href="#cbt-q7" class="cbt-topic" data-q="7">RC 발진회로</a> <a href="#cbt-q8" class="cbt-topic" data-q="8">LPF 차단주파수</a> <a href="#cbt-q9" class="cbt-topic" data-q="9">광속도와 굴절률</a> <a href="#cbt-q10" class="cbt-topic" data-q="10">반파장 안테나</a> <a href="#cbt-q11" class="cbt-topic" data-q="11">PAPR 계산</a> <a href="#cbt-q12" class="cbt-topic" data-q="12">DS-CDMA 상호상관</a> <a href="#cbt-q13" class="cbt-topic" data-q="13">MU-MIMO</a> <a href="#cbt-q14" class="cbt-topic" data-q="14">AMI 선로부호</a></td></tr><tr class="c-s2"><td><span class="cbt-dot"></span>2과목</td><td><a href="#cbt-q15" class="cbt-topic" data-q="15">IPTV · H.264 / H.265</a> <a href="#cbt-q16" class="cbt-topic" data-q="16">CCTV 동축 vs 네트워크 카메라</a> <a href="#cbt-q17" class="cbt-topic" data-q="17">위성 지구국 구성</a> <a href="#cbt-q18" class="cbt-topic" data-q="18">위성 왕복 지연</a> <a href="#cbt-q19" class="cbt-topic" data-q="19">STM-n 전송속도</a> <a href="#cbt-q20" class="cbt-topic" data-q="20">STB(셋톱박스)</a> <a href="#cbt-q21" class="cbt-topic" data-q="21">음량조절기(볼륨)</a> <a href="#cbt-q22" class="cbt-topic" data-q="22">DSU</a> <a href="#cbt-q23" class="cbt-topic" data-q="23">Wi-Fi 7</a> <a href="#cbt-q24" class="cbt-topic" data-q="24">WPAN</a> <a href="#cbt-q25" class="cbt-topic" data-q="25">ZigBee</a> <a href="#cbt-q26" class="cbt-topic" data-q="26">BLE</a> <a href="#cbt-q27" class="cbt-topic" data-q="27">UWB</a> <a href="#cbt-q28" class="cbt-topic" data-q="28">LTE</a> <a href="#cbt-q29" class="cbt-topic" data-q="29">AMI(지능형 원격검침)</a></td></tr><tr class="c-s3"><td><span class="cbt-dot"></span>3과목</td><td><a href="#cbt-q30" class="cbt-topic" data-q="30">IPv4 · IPv6 주소 표현</a> <a href="#cbt-q31" class="cbt-topic" data-q="31">IPv4 · IPv6 주소 길이</a> <a href="#cbt-q32" class="cbt-topic" data-q="32">STP 표준</a> <a href="#cbt-q33" class="cbt-topic" data-q="33">VLAN과 서브넷</a> <a href="#cbt-q34" class="cbt-topic" data-q="34">서브넷 마스크 → CIDR</a> <a href="#cbt-q35" class="cbt-topic" data-q="35">VTP</a> <a href="#cbt-q36" class="cbt-topic" data-q="36">ACL</a> <a href="#cbt-q37" class="cbt-topic" data-q="37">NTP</a> <a href="#cbt-q38" class="cbt-topic" data-q="38">SDN</a> <a href="#cbt-q39" class="cbt-topic" data-q="39">Cut-through 스위칭</a> <a href="#cbt-q40" class="cbt-topic" data-q="40">NAS</a></td></tr><tr class="c-s4"><td><span class="cbt-dot"></span>4과목</td><td><a href="#cbt-q41" class="cbt-topic" data-q="41">고장점 측정 — 머레이 루프법</a> <a href="#cbt-q42" class="cbt-topic" data-q="42">고장점 측정 — 교류 측정</a> <a href="#cbt-q43" class="cbt-topic" data-q="43">ISMS 5단계</a></td></tr><tr class="c-s5"><td><span class="cbt-dot"></span>5과목</td><td><a href="#cbt-q44" class="cbt-topic" data-q="44">컴퓨터 부팅</a> <a href="#cbt-q45" class="cbt-topic" data-q="45">프로그램 계수기(PC)</a> <a href="#cbt-q46" class="cbt-topic" data-q="46">MAR</a> <a href="#cbt-q47" class="cbt-topic" data-q="47">MBR(메모리 버퍼 레지스터)</a> <a href="#cbt-q48" class="cbt-topic" data-q="48">T 플립플롭 분주</a> <a href="#cbt-q49" class="cbt-topic" data-q="49">운영체제 구성</a> <a href="#cbt-q50" class="cbt-topic" data-q="50">홈네트워크 필수설비</a> <a href="#cbt-q51" class="cbt-topic" data-q="51">홈네트워크 단지서버 위치</a> <a href="#cbt-q52" class="cbt-topic" data-q="52">홈네트워크 통신배관실</a> <a href="#cbt-q53" class="cbt-topic" data-q="53">홈네트워크 전원</a> <a href="#cbt-q54" class="cbt-topic" data-q="54">MDF실(집중구내통신실) 기준</a></td></tr></tbody></table>
+    <details class="cbt-fix"><summary>메모 검토 내용 (정리·수정한 항목)</summary><ul><li><span class="cbt-memo">위성 1500km 왕복 속도</span> → 왕복 <b>지연시간</b> 계산으로 정리</li><li><span class="cbt-memo">1pv4-6주소표현 방법</span> → IPv4·IPv6 주소 표현</li><li><span class="cbt-memo">parp구하는 문제</span> → PAPR 계산으로 정리</li><li><span class="cbt-memo">stm-1,8,16,32 속도</span> → 표준 등급은 STM-1·4·16·64 (8·32는 없음)</li><li><span class="cbt-memo">신호대잡음비·송신전력·w-db 변환</span> → dB 변환 문제 3개로 정리</li><li><span class="cbt-memo">머레이, 바레이, 고장지점 교류측정방식</span> → 고장점 측정(직류 루프법 / 교류 정전용량법) 2문제</li><li><span class="cbt-memo">mbr</span> → CPU 레지스터(Memory Buffer Register)로 정리, 부팅의 MBR(Master Boot Record)은 부팅 문제에 포함</li><li><span class="cbt-memo">ami해당하지 않는것</span> → 뜻이 두 가지라 선로부호 AMI(1과목)와 원격검침 AMI(2과목) 둘 다 수록</li><li><span class="cbt-memo">mdf설치높이</span> → 정확한 수치를 확인하지 못해 MDF실 위치·출입문 기준 문제로 대체</li><li><span class="cbt-memo">컴파일러, 응용 패키지, 등</span> → "운영체제 구성이 아닌 것" 문제의 보기로 합침</li><li><span class="cbt-memo">zigbee / lte / ble / uwb</span> → WPAN 문제 보기이자 각각의 개별 문제로 수록</li></ul></details>
+
+    <div class="sub-title">예상 문제</div>
+    <div class="cbt-bar" id="cbt-bar">
+      <div class="cbt-chips"><button type="button" class="qfbtn active" data-f="all" onclick="cbtFilter('all',this)">전체</button><button type="button" class="qfbtn" data-f="1" onclick="cbtFilter('1',this)">1과목</button><button type="button" class="qfbtn" data-f="2" onclick="cbtFilter('2',this)">2과목</button><button type="button" class="qfbtn" data-f="3" onclick="cbtFilter('3',this)">3과목</button><button type="button" class="qfbtn" data-f="4" onclick="cbtFilter('4',this)">4과목</button><button type="button" class="qfbtn" data-f="5" onclick="cbtFilter('5',this)">5과목</button></div>
+      <div class="cbt-score"><span id="cbt-score">0 / 54 풀이 · 정답 0</span><button type="button" class="retry-btn sm" onclick="cbtReset()">다시 풀기</button></div>
+    </div>
+    <div class="quiz-wrap cbt-list">
+    <div class="sub-title cbt-subj c-s1"><span class="cbt-dot"></span>1과목 정보전송일반 <span class="cbt-cnt">14문항</span></div>
+    <div class="quiz-card cbt-card" id="cbt-q1" data-subj="1" data-ans="3">
+      <div class="cbt-meta"><span class="cbt-num">1</span><span class="cbt-topic-name">문자 동기 방식</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">동기식 전송에서 SYN 문자를 2개 이상 앞에 붙여 수신 측과 동기를 맞추는 방식은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 프레임 동기 방식</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 비트 동기 방식</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 문자 동기 방식</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 비동기 방식</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ③</b> — 문자 동기(BSC 방식)는 SYN 문자(0x16)로 동기를 맞춘다. 비트 동기(HDLC 방식)는 플래그 01111110으로 프레임 시작과 끝을 구분한다. 스타트·스톱 비트를 쓰는 것은 비동기 방식이다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q2" data-subj="1" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">2</span><span class="cbt-topic-name">DPCM</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">표본값 자체 대신 이전 표본으로 예측한 값과의 차이만 부호화하여 전송 비트 수를 줄이는 방식은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> PAM</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> DPCM</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> PCM</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> PWM</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — DPCM(차분 PCM)은 인접 표본 사이의 상관성을 이용해 차이값만 양자화·부호화한다. 차이를 1비트로만 표현하면 델타변조(DM)가 된다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q3" data-subj="1" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">3</span><span class="cbt-topic-name">PWM</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">표본값의 크기에 따라 펄스의 폭(지속시간)을 변화시키는 펄스 변조 방식은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> PWM</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> PAM</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> PPM</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> PCM</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — PAM은 펄스의 진폭, PWM(PDM)은 펄스의 폭, PPM은 펄스의 위치를 바꾼다. PCM은 표본화·양자화·부호화를 거친 디지털 변조다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q4" data-subj="1" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">4</span><span class="cbt-topic-name">신호대잡음비 dB 변환</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">신호전력이 10 W, 잡음전력이 0.01 W일 때 신호대잡음비(SNR)는?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 20 dB</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 30 dB</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 40 dB</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 60 dB</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — 전력비이므로 10 log(10 / 0.01) = 10 log 1,000 = 30 dB. 전압비였다면 20 log를 쓴다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q5" data-subj="1" data-ans="3">
+      <div class="cbt-meta"><span class="cbt-num">5</span><span class="cbt-topic-name">송신전력 dB 변환</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">송신전력 100 W를 dBm으로 나타내면?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 20 dBm</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 40 dBm</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 50 dBm</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 80 dBm</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ③</b> — dBm = 10 log(P / 1 mW) = 10 log(100 / 0.001) = 10 log 10<sup>5</sup> = 50 dBm. 같은 전력은 20 dBW이다(dBW + 30 = dBm).</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q6" data-subj="1" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">6</span><span class="cbt-topic-name">W ↔ dB 변환</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">전력 단위의 환산으로 틀린 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 1 W = 0 dBW</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 1 W = 30 dBm</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 1 mW = 0 dBm</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 10 W = 20 dBW</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — 10 W = 10 log 10 = 10 dBW(= 40 dBm)이다. 20 dBW는 100 W다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q7" data-subj="1" data-ans="3">
+      <div class="cbt-meta"><span class="cbt-num">7</span><span class="cbt-topic-name">RC 발진회로</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">3단 RC 위상천이(이상형) 발진회로에 대한 설명으로 옳은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 수정진동자를 사용해 주파수 안정도가 매우 높다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 증폭기는 입력과 출력이 동위상(0°)이어야 한다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> RC 회로 3단을 거치며 위상이 모두 180° 바뀐다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 주로 수 MHz 이상의 고주파 발진에 쓰인다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ③</b> — RC 1단마다 약 60°씩, 3단에서 180°를 바꾸고 반전증폭기(180°)와 합쳐 360°(바크하우젠 위상 조건)를 만족한다. RC 발진기는 저주파용이며, 수정발진기와는 다르다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q8" data-subj="1" data-ans="3">
+      <div class="cbt-meta"><span class="cbt-num">8</span><span class="cbt-topic-name">LPF 차단주파수</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">R = 1 kΩ, C = 0.159 μF인 RC 저역통과필터(LPF)의 차단주파수는 약 얼마인가?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 100 Hz</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 159 Hz</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 1 kHz</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 10 kHz</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ③</b> — f<sub>c</sub> = 1 / (2πRC) = 1 / (2π × 1,000 × 0.159×10<sup>−6</sup>) ≈ 1,000 Hz. LPF는 f<sub>c</sub>보다 낮은 주파수만 통과시킨다(HPF는 반대).</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q9" data-subj="1" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">9</span><span class="cbt-topic-name">광속도와 굴절률</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">굴절률이 1.5인 광섬유 코어 안에서 빛의 속도는? (진공 중 광속 3×10<sup>8</sup> m/s)</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 1.5×10<sup>8</sup> m/s</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 2×10<sup>8</sup> m/s</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 3×10<sup>8</sup> m/s</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 4.5×10<sup>8</sup> m/s</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — v = c / n = 3×10<sup>8</sup> / 1.5 = 2×10<sup>8</sup> m/s. 굴절률이 클수록 빛은 느려진다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q10" data-subj="1" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">10</span><span class="cbt-topic-name">반파장 안테나</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">150 MHz용 반파장(λ/2) 다이폴 안테나의 이론적인 길이는?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 0.5 m</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 1 m</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 2 m</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 4 m</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — λ = c / f = 3×10<sup>8</sup> / 150×10<sup>6</sup> = 2 m → 반파장 = 1 m.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q11" data-subj="1" data-ans="3">
+      <div class="cbt-meta"><span class="cbt-num">11</span><span class="cbt-topic-name">PAPR 계산</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">OFDM 신호의 최대 순시전력이 10 W, 평균전력이 1 W일 때 PAPR은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 1 dB</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 3 dB</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 10 dB</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 20 dB</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ③</b> — PAPR = 10 log(최대전력 / 평균전력) = 10 log 10 = 10 dB. OFDM은 부반송파가 겹쳐 PAPR이 커지는 것이 단점이며, LTE 상향링크는 이를 줄이려고 SC-FDMA를 쓴다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q12" data-subj="1" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">12</span><span class="cbt-topic-name">DS-CDMA 상호상관</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">DS-CDMA에서 사용하는 확산부호의 특성으로 옳은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 부호 길이가 짧을수록 처리이득이 커진다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 서로 다른 부호 간 상호상관이 작을수록 다른 사용자의 간섭이 줄어든다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 자기상관은 평탄할수록 동기 획득이 쉽다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 상호상관이 클수록 다중접속에 유리하다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — 확산부호는 자기상관이 뾰족하고(동기 획득), 서로 다른 부호끼리의 상호상관은 0에 가까워야(직교에 가깝게) 사용자 간 간섭이 작다. 처리이득은 확산 대역폭(부호 길이)이 클수록 커진다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q13" data-subj="1" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">13</span><span class="cbt-topic-name">MU-MIMO</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">하나의 AP(기지국)가 여러 단말에게 동시에 서로 다른 공간 스트림을 보내는 다중안테나 기술은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> MU-MIMO</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 공간 다이버시티</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> SISO</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> SU-MIMO</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — SU-MIMO는 한 단말에 여러 스트림을 보내고, MU-MIMO는 여러 단말에 동시에 나눠 보낸다. Wi-Fi 5(802.11ac Wave 2)에서 하향, Wi-Fi 6에서 상향까지 지원한다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q14" data-subj="1" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">14</span><span class="cbt-topic-name">AMI 선로부호</span><span class="cbt-sbadge c-s1">1과목</span></div>
+      <div class="quiz-q">AMI(Alternate Mark Inversion) 선로부호에 대한 설명으로 틀린 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> "0"은 0 V로, "1"은 +와 −를 번갈아 보낸다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 한 비트를 두 번의 레벨 전이로 표현하는 맨체스터 부호의 일종이다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> "0"이 길게 이어지면 동기를 잃기 쉬워 B8ZS·HDB3로 보완한다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 직류 성분이 거의 없다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — AMI는 양극성(바이폴라) 부호다. 비트 가운데서 전이가 일어나는 것은 맨체스터 부호의 특징이다.</div>
+    </div>
+    <div class="sub-title cbt-subj c-s2"><span class="cbt-dot"></span>2과목 정보통신기기 <span class="cbt-cnt">15문항</span></div>
+    <div class="quiz-card cbt-card" id="cbt-q15" data-subj="2" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">15</span><span class="cbt-topic-name">IPTV · H.264 / H.265</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">UHD IPTV에 주로 쓰이며, H.264 대비 같은 화질에서 약 2배의 압축 효율을 갖는 영상 코덱은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> H.265/HEVC</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> MPEG-1</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> H.264/AVC</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> MPEG-2</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — H.265(HEVC)는 H.264(AVC)의 후속 표준으로 약 절반의 비트율로 같은 화질을 낸다. H.264는 FHD IPTV·CCTV에서 널리 쓰인다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q16" data-subj="2" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">16</span><span class="cbt-topic-name">CCTV 동축 vs 네트워크 카메라</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">아날로그(동축) CCTV와 네트워크(IP) 카메라에 대한 설명으로 틀린 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 아날로그 카메라는 DVR, IP 카메라는 주로 NVR에 녹화한다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> IP 카메라는 카메라 안에서 영상을 압축(인코딩)해 네트워크로 보낸다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> IP 카메라는 PoE를 쓰면 UTP 한 가닥으로 영상과 전원을 함께 보낼 수 있다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 동축 방식 카메라는 카메라마다 IP 주소를 할당해야 한다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — IP 주소가 필요한 것은 네트워크 카메라다. 동축 방식은 카메라마다 동축 케이블을 DVR까지 따로 배선하고, DVR에서 영상을 압축한다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q17" data-subj="2" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">17</span><span class="cbt-topic-name">위성 지구국 구성</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">위성통신 지구국의 구성 요소가 아닌 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 안테나계</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 트랜스폰더(중계기)</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 변복조 및 기저대역계</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 송수신계(HPA·LNA)</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — 트랜스폰더는 위성에 실린 중계기다. 지구국은 안테나, 고출력증폭기(HPA)·저잡음증폭기(LNA) 등 송수신계, 변복조·기저대역 처리, 감시제어 설비로 구성된다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q18" data-subj="2" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">18</span><span class="cbt-topic-name">위성 왕복 지연</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">고도 1,500 km 위성과 바로 아래 지구국 사이를 전파가 왕복하는 데 걸리는 시간은? (전파 속도 3×10<sup>8</sup> m/s)</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 5 ms</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 10 ms</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 20 ms</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 50 ms</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — 왕복 거리 3,000 km = 3×10<sup>6</sup> m → 3×10<sup>6</sup> / 3×10<sup>8</sup> = 0.01 s = 10 ms. 정지궤도(약 36,000 km)는 왕복 약 0.24초다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q19" data-subj="2" data-ans="3">
+      <div class="cbt-meta"><span class="cbt-num">19</span><span class="cbt-topic-name">STM-n 전송속도</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">SDH 전송계위 STM-16의 전송속도는?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 155.52 Mbps</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 622.08 Mbps</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 2,488.32 Mbps</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 9,953.28 Mbps</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ③</b> — STM-1 = 155.52 Mbps를 기준으로 STM-4 = 622.08, STM-16 = 2,488.32, STM-64 = 9,953.28 Mbps(각각 4배씩).</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q20" data-subj="2" data-ans="3">
+      <div class="cbt-meta"><span class="cbt-num">20</span><span class="cbt-topic-name">STB(셋톱박스)</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">디지털 방송 셋톱박스(STB)의 핵심 기능은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 방송신호를 고출력으로 증폭하여 재송신</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 여러 회선을 하나로 묶는 다중화</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 수신한 압축 방송신호를 복호화(디코딩)하여 TV로 출력</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 카메라 영상을 압축(인코딩)하여 송출</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ③</b> — STB는 방송망(위성·케이블·IPTV)에서 받은 신호를 복조·복호화(디코더)해 TV가 표시할 수 있는 신호로 바꾼다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q21" data-subj="2" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">21</span><span class="cbt-topic-name">음량조절기(볼륨)</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">오디오 음량조절기(볼륨)에 주로 사용하는 가변저항의 특성은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 고정저항</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> A형(대수 특성)</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> B형(직선 특성)</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> C형(역대수 특성)</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — 사람의 청각은 소리 크기를 로그적으로 느끼므로 볼륨에는 회전각에 따라 저항이 대수적으로 변하는 A형을 쓴다. B형은 직선 변화로 톤·밸런스 조정 등에 쓴다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q22" data-subj="2" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">22</span><span class="cbt-topic-name">DSU</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">디지털 전용회선의 가입자 측에 설치하여 단말의 단극성 신호를 회선에 맞는 양극성 신호로 바꿔 주는 장치는?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> DSU</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> MUX</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> MODEM</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 리피터</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — DSU(Digital Service Unit)는 디지털 신호를 디지털 회선에 맞게 변환한다. MODEM은 디지털↔아날로그 변환이다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q23" data-subj="2" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">23</span><span class="cbt-topic-name">Wi-Fi 7</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">Wi-Fi 7(IEEE 802.11be)의 특징으로 틀린 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 2.4 GHz 단일 대역만 사용</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 4096-QAM</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 여러 대역을 동시에 쓰는 멀티링크 동작(MLO)</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 최대 320 MHz 채널 폭</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — Wi-Fi 7은 2.4 · 5 · 6 GHz 대역을 쓰며, MLO로 여러 대역을 동시에 묶어 사용한다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q24" data-subj="2" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">24</span><span class="cbt-topic-name">WPAN</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">무선 개인 영역망(WPAN) 기술에 해당하지 않는 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> UWB</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> ZigBee</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> BLE</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> LTE</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — LTE는 이동통신(WWAN) 기술이다. ZigBee(IEEE 802.15.4), Bluetooth·BLE(802.15.1 계열), UWB는 WPAN 기술이다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q25" data-subj="2" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">25</span><span class="cbt-topic-name">ZigBee</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">ZigBee에 대한 설명으로 옳은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 이동통신사 기지국망을 이용한다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> IEEE 802.11 기반의 고속 무선랜이다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 수 Gbps급 전송을 목표로 한다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> IEEE 802.15.4 기반의 저전력·저속 센서 네트워크 기술이다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — ZigBee는 802.15.4 물리·MAC 계층 위에 메시(mesh) 네트워크를 구성하며, 전송속도는 수십~250 kbps 수준이다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q26" data-subj="2" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">26</span><span class="cbt-topic-name">BLE</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">BLE(Bluetooth Low Energy)에 대한 설명으로 옳은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 블루투스 4.0부터 도입된 저전력 규격이다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> IEEE 802.15.4를 그대로 사용한다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 수십 km 원거리 통신용이다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 5 GHz 대역만 사용한다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — BLE는 2.4 GHz ISM 대역을 쓰며 블루투스 4.0에서 도입됐다. 적은 전력으로 비콘·웨어러블 등에 쓰인다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q27" data-subj="2" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">27</span><span class="cbt-topic-name">UWB</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">UWB(초광대역) 통신에 대한 설명으로 틀린 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 높은 송신전력으로 원거리 통신에 주로 쓰인다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 500 MHz 이상의 매우 넓은 대역을 사용한다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 매우 짧은 펄스를 사용한다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 정밀한 거리·위치 측정에 활용된다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — UWB는 넓은 대역에 매우 낮은 전력 밀도로 신호를 퍼뜨리는 근거리 기술이다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q28" data-subj="2" data-ans="3">
+      <div class="cbt-meta"><span class="cbt-num">28</span><span class="cbt-topic-name">LTE</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">LTE에 대한 설명으로 틀린 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 하향링크에 OFDMA를 사용한다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 상향링크에 SC-FDMA를 사용한다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 음성은 회선교환 방식으로만 제공한다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 전체 망이 IP 기반(All-IP)이다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ③</b> — LTE는 All-IP 망이며 음성은 VoLTE(패킷 방식)로 제공한다. 상향링크는 단말 전력 효율을 위해 PAPR이 낮은 SC-FDMA를 쓴다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q29" data-subj="2" data-ans="3">
+      <div class="cbt-meta"><span class="cbt-num">29</span><span class="cbt-topic-name">AMI(지능형 원격검침)</span><span class="cbt-sbadge c-s2">2과목</span></div>
+      <div class="quiz-q">스마트그리드의 AMI(지능형 원격검침 인프라) 구성 요소가 아닌 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 계량데이터 관리시스템(MDMS)</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 데이터 집중장치(DCU)</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 변전소 가스절연 개폐장치(GIS)</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 스마트 미터</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ③</b> — AMI는 스마트 미터 – 통신망(DCU 등) – MDMS로 검침 데이터를 양방향으로 주고받는 체계다. GIS는 변전설비다. (메모의 "AMI"가 선로부호를 뜻했다면 1과목 AMI 문제를 참고)</div>
+    </div>
+    <div class="sub-title cbt-subj c-s3"><span class="cbt-dot"></span>3과목 정보통신네트워크 <span class="cbt-cnt">11문항</span></div>
+    <div class="quiz-card cbt-card" id="cbt-q30" data-subj="3" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">30</span><span class="cbt-topic-name">IPv4 · IPv6 주소 표현</span><span class="cbt-sbadge c-s3">3과목</span></div>
+      <div class="quiz-q">IPv6 주소 표기로 옳은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 2001:db8::1</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 2001:db8::1::2</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 2001:db8:g::1</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 192.168.300.1</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — IPv6는 128비트를 16진수 4자리씩 콜론으로 구분하고, 연속된 0은 "::"로 한 번만 줄일 수 있다. g는 16진수가 아니고, IPv4(32비트, 점 10진)의 각 칸은 0~255다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q31" data-subj="3" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">31</span><span class="cbt-topic-name">IPv4 · IPv6 주소 길이</span><span class="cbt-sbadge c-s3">3과목</span></div>
+      <div class="quiz-q">IPv4와 IPv6의 주소 길이를 바르게 짝지은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 32비트 – 64비트</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 32비트 – 128비트</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 48비트 – 128비트</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 64비트 – 128비트</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — IPv4 32비트(점으로 구분한 10진수 4개), IPv6 128비트(콜론으로 구분한 16진수 8그룹). 48비트는 MAC 주소다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q32" data-subj="3" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">32</span><span class="cbt-topic-name">STP 표준</span><span class="cbt-sbadge c-s3">3과목</span></div>
+      <div class="quiz-q">스위치 네트워크의 루프를 막는 STP(Spanning Tree Protocol)의 IEEE 표준은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> IEEE 802.1D</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> IEEE 802.1Q</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> IEEE 802.3</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> IEEE 802.11</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — STP = 802.1D, RSTP = 802.1w, MSTP = 802.1s. 802.1Q는 VLAN 태깅, 802.3은 이더넷, 802.11은 무선랜이다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q33" data-subj="3" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">33</span><span class="cbt-topic-name">VLAN과 서브넷</span><span class="cbt-sbadge c-s3">3과목</span></div>
+      <div class="quiz-q">VLAN에 대한 설명으로 옳은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> VLAN 태그 표준은 IEEE 802.1D이다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 물리적 위치와 관계없이 브로드캐스트 도메인을 논리적으로 나눈다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> VLAN 사이의 통신은 L2 스위치만으로 가능하다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 서로 다른 VLAN은 반드시 같은 IP 서브넷을 써야 한다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — 보통 VLAN 하나에 서브넷 하나를 대응시키며, VLAN 간 통신에는 라우터나 L3 스위치가 필요하다. 태그 표준은 802.1Q다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q34" data-subj="3" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">34</span><span class="cbt-topic-name">서브넷 마스크 → CIDR</span><span class="cbt-sbadge c-s3">3과목</span></div>
+      <div class="quiz-q">서브넷 마스크 255.255.254.0을 CIDR로 표기하면?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> /22</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> /23</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> /24</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> /25</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — 255.255.254.0 = 11111111.11111111.11111110.00000000 → 1이 23개 → /23 (호스트 수 2<sup>9</sup> − 2 = 510).</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q35" data-subj="3" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">35</span><span class="cbt-topic-name">VTP</span><span class="cbt-sbadge c-s3">3과목</span></div>
+      <div class="quiz-q">스위치 사이에 VLAN 정보를 전파하여 동기화하는 프로토콜은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> STP</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> VTP</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> DTP</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> NTP</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — VTP(VLAN Trunking Protocol)는 서버·클라이언트·트랜스페어런트 모드로 VLAN 설정을 트렁크로 전파한다. DTP는 트렁크 협상, STP는 루프 방지다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q36" data-subj="3" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">36</span><span class="cbt-topic-name">ACL</span><span class="cbt-sbadge c-s3">3과목</span></div>
+      <div class="quiz-q">라우터에서 출발지·목적지 IP 주소와 포트 번호를 기준으로 패킷을 허용하거나 차단하는 규칙 목록은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> ARP</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> DHCP</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> NAT</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> ACL</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — ACL(Access Control List)은 위에서부터 차례로 비교하며, 어느 규칙에도 맞지 않으면 마지막의 암묵적 deny로 차단된다. 표준 ACL은 출발지 IP만, 확장 ACL은 목적지·프로토콜·포트까지 본다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q37" data-subj="3" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">37</span><span class="cbt-topic-name">NTP</span><span class="cbt-sbadge c-s3">3과목</span></div>
+      <div class="quiz-q">네트워크 장비의 시각을 동기화하는 프로토콜과 기본 포트를 바르게 짝지은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> NTP – UDP 123</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> NTP – TCP 23</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> SMTP – TCP 123</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> SNMP – UDP 123</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — NTP는 UDP 123번을 쓰며, 계층(stratum) 구조로 기준 시각을 전달한다. 23은 Telnet, 161/162는 SNMP, 25는 SMTP다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q38" data-subj="3" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">38</span><span class="cbt-topic-name">SDN</span><span class="cbt-sbadge c-s3">3과목</span></div>
+      <div class="quiz-q">SDN(소프트웨어 정의 네트워크)에 대한 설명으로 옳은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 각 장비가 독립적으로 경로를 결정하는 기존 방식을 강화한 것이다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 망 기능을 바꾸려면 반드시 장비를 교체해야 한다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 물리 계층의 전송 매체를 정의하는 표준이다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 제어 평면과 데이터 평면을 분리하고 중앙 컨트롤러가 망을 제어한다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — SDN은 컨트롤러가 OpenFlow 같은 프로토콜로 스위치의 전달 규칙을 프로그래밍한다. 네트워크 기능을 소프트웨어로 만드는 NFV와 함께 자주 나온다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q39" data-subj="3" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">39</span><span class="cbt-topic-name">Cut-through 스위칭</span><span class="cbt-sbadge c-s3">3과목</span></div>
+      <div class="quiz-q">프레임의 목적지 MAC 주소까지만 읽고 바로 전달하여 지연이 가장 짧은 스위칭 방식은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> Cut-Through</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> Message Switching</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> Store-and-Forward</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> Fragment-Free</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — Cut-Through는 오류 검사 없이 바로 전달한다. Store-and-Forward는 프레임 전체를 받아 CRC를 검사한 뒤 전달하고, Fragment-Free는 앞 64바이트까지 확인해 충돌 조각을 걸러낸다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q40" data-subj="3" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">40</span><span class="cbt-topic-name">NAS</span><span class="cbt-sbadge c-s3">3과목</span></div>
+      <div class="quiz-q">NAS(Network Attached Storage)에 대한 설명으로 옳은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 서버 내부에 직접 연결한 디스크만을 말한다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 파이버 채널 전용망으로 블록 단위 저장장치를 연결한다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> RAID를 구성할 수 없다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 기존 LAN에 연결해 NFS·SMB 같은 파일 단위 프로토콜로 공유한다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — DAS는 서버에 직접 연결, NAS는 LAN으로 파일 단위 공유, SAN은 전용 고속망(FC·iSCSI)으로 블록 단위 접근이다.</div>
+    </div>
+    <div class="sub-title cbt-subj c-s4"><span class="cbt-dot"></span>4과목 정보시스템운용 <span class="cbt-cnt">3문항</span></div>
+    <div class="quiz-card cbt-card" id="cbt-q41" data-subj="4" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">41</span><span class="cbt-topic-name">고장점 측정 — 머레이 루프법</span><span class="cbt-sbadge c-s4">4과목</span></div>
+      <div class="quiz-q">케이블의 지락(절연 불량) 고장점까지의 거리를 휘트스톤 브리지 원리로 측정하는 방법은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> OTDR</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 머레이 루프법</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 펄스 반사법</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 정전용량 측정법</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — 머레이 루프법과 그 변형인 바레이 루프법은 직류 브리지로 저항을 비교해 지락·혼선 고장점을 찾는다. 펄스 반사법은 반사파가 돌아오는 시간으로 거리를 구하고, OTDR은 광케이블용이다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q42" data-subj="4" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">42</span><span class="cbt-topic-name">고장점 측정 — 교류 측정</span><span class="cbt-sbadge c-s4">4과목</span></div>
+      <div class="quiz-q">선로의 단선 고장점을 건전한 선로와의 정전용량 비교로 찾는 교류 측정법은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 머레이 루프법</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 바레이 루프법</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 절연저항 측정법</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 정전용량 측정법</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — 단선은 직류 루프가 만들어지지 않으므로 교류 브리지로 정전용량을 비교한다. 정전용량은 선로 길이에 비례하므로 고장점까지의 거리를 구할 수 있다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q43" data-subj="4" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">43</span><span class="cbt-topic-name">ISMS 5단계</span><span class="cbt-sbadge c-s4">4과목</span></div>
+      <div class="quiz-q">정보보호관리체계(ISMS) 관리과정 5단계 중 가장 먼저 수행하는 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 정보보호 정책 수립 및 범위 설정</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 사후관리</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 위험관리</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 정보보호대책 구현</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — 정책 수립 및 범위 설정 → 경영진 책임 및 조직 구성 → 위험관리 → 정보보호대책 구현 → 사후관리 순이다. 문제집에 따라 순서가 다르게 표시된 경우가 있으니 교재로 한 번 더 확인할 것.</div>
+    </div>
+    <div class="sub-title cbt-subj c-s5"><span class="cbt-dot"></span>5과목 컴퓨터일반 및 정보설비기준 <span class="cbt-cnt">11문항</span></div>
+    <div class="quiz-card cbt-card" id="cbt-q44" data-subj="5" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">44</span><span class="cbt-topic-name">컴퓨터 부팅</span><span class="cbt-sbadge c-s5">5과목</span></div>
+      <div class="quiz-q">일반적인 컴퓨터의 부팅 순서로 옳은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 전원 → 운영체제 초기화 → BIOS(POST) → 커널 적재 → 부트로더</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 전원 → BIOS(POST) → 부트로더(MBR) → 커널 적재 → 운영체제 초기화</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 전원 → 커널 적재 → BIOS(POST) → 부트로더 → 운영체제 초기화</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 전원 → 부트로더 → BIOS(POST) → 커널 적재 → 운영체제 초기화</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — ROM의 BIOS(또는 UEFI)가 POST로 하드웨어를 점검한 뒤 부트 디스크의 MBR(Master Boot Record)에 있는 부트로더를 읽고, 부트로더가 커널을 메모리에 올린다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q45" data-subj="5" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">45</span><span class="cbt-topic-name">프로그램 계수기(PC)</span><span class="cbt-sbadge c-s5">5과목</span></div>
+      <div class="quiz-q">다음에 실행할 명령어의 주소를 기억하는 레지스터는?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 메모리 버퍼 레지스터(MBR)</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 누산기(AC)</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 명령 레지스터(IR)</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 프로그램 계수기(PC)</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — PC는 명령어를 인출할 때마다 다음 명령어 주소로 증가한다. IR은 현재 실행 중인 명령어를 보관한다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q46" data-subj="5" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">46</span><span class="cbt-topic-name">MAR</span><span class="cbt-sbadge c-s5">5과목</span></div>
+      <div class="quiz-q">기억장치에 접근하기 위한 주소를 일시 보관하는 레지스터는?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> IR</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> MBR</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> PC</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> MAR</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — MAR(Memory Address Register)은 읽거나 쓸 기억장소의 주소를 담는다. 인출 사이클: MAR ← PC → MBR ← M[MAR] → IR ← MBR.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q47" data-subj="5" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">47</span><span class="cbt-topic-name">MBR(메모리 버퍼 레지스터)</span><span class="cbt-sbadge c-s5">5과목</span></div>
+      <div class="quiz-q">기억장치에서 읽어 온 데이터나 기억장치에 쓸 데이터를 일시 보관하는 레지스터는?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> MAR</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> PSW</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> PC</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> MBR</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — CPU 레지스터의 MBR은 Memory Buffer Register다. 디스크의 부트 영역인 MBR(Master Boot Record)과 이름이 같으니 문맥으로 구분한다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q48" data-subj="5" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">48</span><span class="cbt-topic-name">T 플립플롭 분주</span><span class="cbt-sbadge c-s5">5과목</span></div>
+      <div class="quiz-q">T 플립플롭 3개를 직렬로 연결하고 첫 단에 1,000 Hz 클럭을 넣었을 때 마지막 단의 출력 주파수는?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 125 Hz</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 250 Hz</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 333 Hz</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 3,000 Hz</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — T 플립플롭(T = 1) 한 단은 주파수를 1/2로 나눈다. 3단이면 1/2<sup>3</sup> = 1/8 → 1,000 / 8 = 125 Hz.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q49" data-subj="5" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">49</span><span class="cbt-topic-name">운영체제 구성</span><span class="cbt-sbadge c-s5">5과목</span></div>
+      <div class="quiz-q">운영체제(시스템 소프트웨어)의 구성 요소에 해당하지 않는 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 응용 패키지 프로그램</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 감시 프로그램</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 컴파일러(언어 번역 프로그램)</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 작업 관리 프로그램</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — 운영체제 = 제어 프로그램(감시, 작업 관리, 데이터 관리) + 처리 프로그램(언어 번역, 서비스, 문제 처리). 컴파일러는 처리 프로그램에 포함되고, 워드프로세서 같은 응용 패키지는 운영체제가 아니다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q50" data-subj="5" data-ans="3">
+      <div class="cbt-meta"><span class="cbt-num">50</span><span class="cbt-topic-name">홈네트워크 필수설비</span><span class="cbt-sbadge c-s5">5과목</span></div>
+      <div class="quiz-q">「지능형 홈네트워크 설비 설치 및 기술기준」의 홈네트워크 필수설비가 아닌 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 단지네트워크장비</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 세대단말기</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 원격검침시스템</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 단지서버</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ③</b> — 필수설비는 홈네트워크망(단지망·세대망)과 홈네트워크장비(홈게이트웨이, 세대단말기, 단지네트워크장비, 단지서버)다. 원격검침·무인택배·차량출입 시스템 등은 홈네트워크 사용기기다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q51" data-subj="5" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">51</span><span class="cbt-topic-name">홈네트워크 단지서버 위치</span><span class="cbt-sbadge c-s5">5과목</span></div>
+      <div class="quiz-q">홈네트워크 단지서버의 설치 장소로 옳은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 옥상 또는 기계실</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 세대단자함 또는 거실</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 각 동 출입구</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 집중구내통신실 또는 방재실</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — 단지서버는 집중구내통신실 또는 방재실에 설치한다(클라우드 서비스로 대체 가능). 단지네트워크장비는 집중구내통신실 또는 통신배관실, 홈게이트웨이는 세대단자함이나 세대단말기에 둔다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q52" data-subj="5" data-ans="2">
+      <div class="cbt-meta"><span class="cbt-num">52</span><span class="cbt-topic-name">홈네트워크 통신배관실</span><span class="cbt-sbadge c-s5">5과목</span></div>
+      <div class="quiz-q">홈네트워크 기준에서 통신배관실 출입문의 최소 크기(문틀 내측 치수)는?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 폭 1.0 m, 높이 2.1 m 이상</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 폭 0.7 m, 높이 1.8 m 이상</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 폭 0.9 m, 높이 2.0 m 이상</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 폭 0.6 m, 높이 1.5 m 이상</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ②</b> — 통신배관실 출입문은 폭 0.7 m, 높이 1.8 m 이상이며, 침수를 막기 위해 문턱을 50 mm 이상 둔다. 폭 0.9 m · 높이 2 m는 집중구내통신실(MDF실) 출입문 기준이다.</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q53" data-subj="5" data-ans="1">
+      <div class="cbt-meta"><span class="cbt-num">53</span><span class="cbt-topic-name">홈네트워크 전원</span><span class="cbt-sbadge c-s5">5과목</span></div>
+      <div class="quiz-q">홈네트워크 필수설비의 전원 기준으로 옳은 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 상시전원으로 동작하고, 정전 시 예비전원이 공급되어야 한다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 태양광 전원을 반드시 갖춰야 한다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 건전지로만 동작해야 한다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 정전 시에는 동작하지 않아도 된다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ①</b> — 필수설비는 상시전원으로 동작하고 정전 시 예비전원이 공급될 수 있어야 한다(이동형 세대단말기는 예외).</div>
+    </div>
+    <div class="quiz-card cbt-card" id="cbt-q54" data-subj="5" data-ans="4">
+      <div class="cbt-meta"><span class="cbt-num">54</span><span class="cbt-topic-name">MDF실(집중구내통신실) 기준</span><span class="cbt-sbadge c-s5">5과목</span></div>
+      <div class="quiz-q">접지설비·구내통신설비 기술기준에서 집중구내통신실(MDF실)에 대한 설명으로 틀린 것은?</div>
+      <div class="quiz-opts"><button type="button" class="qopt" data-i="1" onclick="cbtPick(this)"><span class="cbt-no">①</span> 전용의 전원설비를 설치한다</button><button type="button" class="qopt" data-i="2" onclick="cbtPick(this)"><span class="cbt-no">②</span> 침수 우려가 없는 지상에 설치하는 것이 원칙이다</button><button type="button" class="qopt" data-i="3" onclick="cbtPick(this)"><span class="cbt-no">③</span> 출입문은 유효너비 0.9 m, 유효높이 2 m 이상의 잠금장치가 있는 방화문으로 한다</button><button type="button" class="qopt" data-i="4" onclick="cbtPick(this)"><span class="cbt-no">④</span> 구내교환기(PBX)는 각 층 층단자함(IDF)에 설치한다</button></div>
+      <div class="quiz-result cbt-ex"><b>정답 ④</b> — 구내교환기는 집중구내통신실에 설치한다. 부득이한 경우 침수 우려가 없는 지하에도 설치할 수 있다. (메모의 "MDF 설치 높이"는 정확한 문항을 확인하지 못해 출입문 높이·위치 기준으로 정리했다)</div>
+    </div>
+    </div>
   </div>
 
   <div class="section" id="sec-cards">
@@ -1786,6 +2171,7 @@ function showFinalResult(){
 
 // 사이드바 검색 데이터
 const menuItems = [
+  {label:'2026년 4회 CBT 복원 예상 문제 후기 출제 주제', action:"showSection('cbt26',this)", subj:'2026-4회 CBT 복원'},
   {label:'시험 직전 요약 계산 공식 나이퀴스트 섀넌 샤논 데시벨 dB 오류율 BER 다중화 설비기준 법규 숫자 암기 반복 출제', action:"showSection('cram',this)", subj:'시험 직전 요약'},
   {label:'가산기 감산기 반가산기 전가산기 병렬가산기 리플캐리 캐리예측 CLA BCD가산기 2의보수 누산기 Accumulator', action:"showSection('adder',this)", subj:'5과목'},
   {label:'PCM 표본화 양자화 잡음 압신 델타변조 나이퀴스트 64kbps', action:"showSection('pcm',this)", subj:'1과목'},
@@ -2172,6 +2558,55 @@ function syncNavCounts(){
     set('home-quiz-count', q + '문항'); set('home-def-count', d + '장'); set('home-num-count', n + '장');
   }catch(e){}
 }
+
+// ══════════ 2026년 4회 CBT 복원 문제 ══════════
+function cbtScore(){
+  var cards = document.querySelectorAll('#sec-cbt26 .cbt-card');
+  var done = 0, ok = 0;
+  cards.forEach(function(c){ if(c.dataset.done){ done++; if(c.dataset.done === 'ok') ok++; } });
+  var el = document.getElementById('cbt-score');
+  if(el) el.textContent = done + ' / ' + cards.length + ' 풀이 · 정답 ' + ok;
+}
+function cbtPick(btn){
+  var card = btn.closest('.cbt-card');
+  if(!card || card.dataset.done) return;
+  var ans = card.dataset.ans, pick = btn.dataset.i;
+  card.querySelectorAll('.qopt').forEach(function(b){
+    b.disabled = true;
+    if(b.dataset.i === ans) b.classList.add('correct');
+  });
+  if(pick !== ans) btn.classList.add('wrong');
+  card.dataset.done = (pick === ans) ? 'ok' : 'ng';
+  var ex = card.querySelector('.cbt-ex');
+  if(ex) ex.classList.add('show');
+  cbtScore();
+}
+function cbtReset(){
+  document.querySelectorAll('#sec-cbt26 .cbt-card').forEach(function(card){
+    delete card.dataset.done;
+    card.querySelectorAll('.qopt').forEach(function(b){ b.disabled = false; b.classList.remove('correct', 'wrong'); });
+    var ex = card.querySelector('.cbt-ex'); if(ex) ex.classList.remove('show');
+  });
+  cbtScore();
+}
+function cbtFilter(k, el){
+  document.querySelectorAll('#cbt-bar .qfbtn').forEach(function(b){ b.classList.toggle('active', b === el); });
+  document.querySelectorAll('#sec-cbt26 .cbt-card').forEach(function(c){
+    c.style.display = (k === 'all' || c.dataset.subj === k) ? '' : 'none';
+  });
+  document.querySelectorAll('#sec-cbt26 .cbt-list > .cbt-subj').forEach(function(h){
+    h.style.display = (k === 'all' || h.classList.contains('c-s' + k)) ? '' : 'none';
+  });
+}
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('#sec-cbt26 .cbt-topic');
+  if(!a) return;
+  e.preventDefault();
+  var f = document.querySelector('#cbt-bar .qfbtn[data-f="all"]');
+  if(f) cbtFilter('all', f);
+  var t = document.getElementById('cbt-q' + a.dataset.q);
+  if(t){ t.scrollIntoView({behavior:'smooth', block:'start'}); t.classList.add('cbt-flash'); setTimeout(function(){ t.classList.remove('cbt-flash'); }, 1400); }
+});
 
 function showAndScroll(id, anchorId, el){
   showSection(id, el);
