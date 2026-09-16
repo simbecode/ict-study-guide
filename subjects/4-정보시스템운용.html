@@ -1,25 +1,25 @@
   <div class="section" id="sec-crypto">
-    <h2 class="section-title" style="color:#9B8AE0">🔐 암호화 — 대칭키 · 비대칭키 · AES-256</h2>
+    <h2 class="section-title" style="color:#6b59aa">🔐 암호화 — 대칭키 · 비대칭키 · AES-256</h2>
 
     <!-- 보안 3요소 -->
-    <div class="sub-title" style="color:#9B8AE0">🛡️ 정보보안 3대 요소 (CIA)</div>
+    <div class="sub-title" style="color:#6b59aa">🛡️ 정보보안 3대 요소 (CIA)</div>
     <table class="tbl">
       <thead><tr><th>요소</th><th>의미</th><th>깨지면</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5B9BD5">기밀성</b><br><span class="tag">Confidentiality</span></td><td>인가된 사람만 정보를 <b>볼 수 있음</b></td><td>도청 · 유출</td></tr>
-        <tr><td><b style="color:#5BAD6F">무결성</b><br><span class="tag">Integrity</span></td><td>인가된 사람만 <b>수정</b> 가능하고, 전송 중 <b>변조되지 않음</b> <span class="tag">기출 2회</span></td><td>위조 · 변조</td></tr>
-        <tr><td><b style="color:#E8A838">가용성</b><br><span class="tag">Availability</span></td><td>필요할 때 <b>언제든 사용</b> 가능</td><td>서비스 중단 · DDoS</td></tr>
+        <tr><td><b style="color:#2c6da4">기밀성</b><br><span class="tag">Confidentiality</span></td><td>인가된 사람만 정보를 <b>볼 수 있음</b></td><td>도청 · 유출</td></tr>
+        <tr><td><b style="color:#267c41">무결성</b><br><span class="tag">Integrity</span></td><td>인가된 사람만 <b>수정</b> 가능하고, 전송 중 <b>변조되지 않음</b> <span class="tag">기출 2회</span></td><td>위조 · 변조</td></tr>
+        <tr><td><b style="color:#8a6012">가용성</b><br><span class="tag">Availability</span></td><td>필요할 때 <b>언제든 사용</b> 가능</td><td>서비스 중단 · DDoS</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#9B8AE0">
+    <div class="note" style="border-left-color:#6b59aa">
       여기에 <b>인증(Authentication)</b> 과 <b>부인방지(Non-repudiation)</b> 를 더해 5요소로 보기도 한다.
     </div>
 
     <!-- 대칭 vs 비대칭 -->
-    <div class="sub-title" style="color:#5B9BD5">🔑 대칭키 vs 비대칭키</div>
+    <div class="sub-title" style="color:#2c6da4">🔑 대칭키 vs 비대칭키</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:680px;">
-      <thead><tr><th>구분</th><th style="color:#5BAD6F">대칭키 (비밀키)</th><th style="color:#9B8AE0">비대칭키 (공개키)</th></tr></thead>
+      <thead><tr><th>구분</th><th style="color:#267c41">대칭키 (비밀키)</th><th style="color:#6b59aa">비대칭키 (공개키)</th></tr></thead>
       <tbody>
         <tr><td>키</td><td>암호화·복호화에 <b>같은 키</b></td><td>암호화·복호화에 <b>다른 키</b> (공개키 / 개인키)</td></tr>
         <tr><td>속도</td><td><span class="badge b-both">빠름</span> 대용량 데이터에 적합</td><td><span class="badge b-red">느림</span> (수백~수천 배)</td></tr>
@@ -40,8 +40,8 @@
     </div>
 
     <!-- ═══ 대칭키 · 비대칭키 상세 ═══ -->
-    <div id="anchor-keys" class="sub-title" style="color:#4DBFA8">🔁 동작 방식 — 버튼을 눌러 흐름을 비교해 보세요</div>
-    <div style="background:linear-gradient(135deg,#0a2620,#0f1117);border:2px solid #4DBFA8;border-radius:12px;padding:18px 20px;margin-top:10px;">
+    <div id="anchor-keys" class="sub-title" style="color:#117a68">🔁 동작 방식 — 버튼을 눌러 흐름을 비교해 보세요</div>
+    <div style="background:#e1f3ee;border:2px solid #117a68;border-radius:12px;padding:18px 20px;margin-top:10px;">
       <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px;">
         <button class="qfbtn active" id="key-btn-sym"    onclick="showKeyFlow('sym')">🔑 대칭키</button>
         <button class="qfbtn"        id="key-btn-conf"   onclick="showKeyFlow('conf')">🔒 비대칭 · 기밀성</button>
@@ -52,42 +52,42 @@
     </div>
 
     <!-- 공개키 용도 매트릭스 -->
-    <div class="sub-title" style="color:#9B8AE0">🎯 어느 키로 잠그느냐에 따라 목적이 달라진다 <span style="font-size:13px;font-weight:400;color:var(--text3)">— 시험 최다 출제</span></div>
+    <div class="sub-title" style="color:#6b59aa">🎯 어느 키로 잠그느냐에 따라 목적이 달라진다 <span style="font-size:13px;font-weight:400;color:var(--text3)">— 시험 최다 출제</span></div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:640px;">
       <thead><tr><th>암호화에 쓴 키</th><th>복호화할 수 있는 키</th><th>얻는 것</th><th>의미</th></tr></thead>
       <tbody>
         <tr>
-          <td><b style="color:#5B9BD5">받는 사람의 공개키</b></td>
+          <td><b style="color:#2c6da4">받는 사람의 공개키</b></td>
           <td>받는 사람의 개인키</td>
           <td><span class="badge b-tcp">기밀성</span></td>
           <td><b>그 사람만 열 수 있다</b><br>→ 비밀 전송 <span class="tag">기출</span></td>
         </tr>
         <tr>
-          <td><b style="color:#E8A838">보내는 사람의 개인키</b></td>
+          <td><b style="color:#8a6012">보내는 사람의 개인키</b></td>
           <td>보내는 사람의 공개키<br><span class="tag">= 누구나 열 수 있음</span></td>
           <td><span class="badge b-amber">인증 · 부인방지 · 무결성</span></td>
           <td><b>그 사람이 보낸 게 증명된다</b><br>→ 전자서명</td>
         </tr>
         <tr>
-          <td colspan="2"><b style="color:#4DBFA8">① 내 개인키로 서명 → ② 상대 공개키로 암호화</b></td>
+          <td colspan="2"><b style="color:#117a68">① 내 개인키로 서명 → ② 상대 공개키로 암호화</b></td>
           <td><span class="badge b-both">기밀성 + 부인방지</span></td>
           <td>둘 다 필요할 때. <b>서명 먼저, 암호화 나중</b> <span class="tag">기출</span></td>
         </tr>
       </tbody>
     </table>
     </div>
-    <div class="note" style="border-left-color:#9B8AE0">
+    <div class="note" style="border-left-color:#6b59aa">
       💡 <b>헷갈리지 않는 법</b> — "<b>잠그는 키의 짝만 열 수 있다</b>" 는 원칙 하나만 기억하면 된다.<br>
       · <b>비밀로 보내고 싶다</b> → 받는 사람만 열 수 있어야 하니 <b>받는 사람의 공개키</b>로 잠근다<br>
       · <b>내가 보냈다고 증명하고 싶다</b> → 나만 잠글 수 있어야 하니 <b>내 개인키</b>로 잠근다
     </div>
 
     <!-- 키 개수 계산기 -->
-    <div class="sub-title" style="color:#E8A838">🧮 필요한 키 개수 계산기</div>
-    <div style="background:linear-gradient(135deg,#2e1805,#0f1117);border:2px solid #E8A838;border-radius:12px;padding:16px 20px;margin-top:10px;">
+    <div class="sub-title" style="color:#8a6012">🧮 필요한 키 개수 계산기</div>
+    <div style="background:#faece2;border:2px solid #8a6012;border-radius:12px;padding:16px 20px;margin-top:10px;">
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
-        <label style="font-size:14px;color:#E8A838;font-weight:600;">통신 참여자 수 n</label>
+        <label style="font-size:14px;color:#8a6012;font-weight:600;">통신 참여자 수 n</label>
         <input type="text" id="keycount-input" value="10" oninput="calcKeyCount()" autocomplete="off"
           style="width:110px;padding:8px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Courier New',monospace;font-size:17.5px;outline:none;">
         <button class="qfbtn" onclick="keyCountSample(10)">10명</button>
@@ -99,7 +99,7 @@
     </div>
 
     <!-- 대칭키 상세 -->
-    <div class="sub-title" style="color:#5BAD6F">🔑 대칭키 — 블록 암호 vs 스트림 암호</div>
+    <div class="sub-title" style="color:#267c41">🔑 대칭키 — 블록 암호 vs 스트림 암호</div>
     <table class="tbl">
       <thead><tr><th>구분</th><th>블록 암호</th><th>스트림 암호</th></tr></thead>
       <tbody>
@@ -112,28 +112,28 @@
     </table>
 
     <!-- 비대칭키 알고리즘 -->
-    <div class="sub-title" style="color:#9B8AE0">🔐 비대칭키 알고리즘 4종</div>
+    <div class="sub-title" style="color:#6b59aa">🔐 비대칭키 알고리즘 4종</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:660px;">
       <thead><tr><th>알고리즘</th><th>수학적 근거</th><th>암호화</th><th>전자서명</th><th>키 교환</th><th>특징</th></tr></thead>
       <tbody>
         <tr>
-          <td><b style="color:#9B8AE0">RSA</b></td><td><b>소인수분해</b>의 어려움</td>
+          <td><b style="color:#6b59aa">RSA</b></td><td><b>소인수분해</b>의 어려움</td>
           <td><span class="badge b-both">O</span></td><td><span class="badge b-both">O</span></td><td><span class="badge b-both">O</span></td>
           <td>가장 널리 쓰임. 이름은 설계자 3인(Rivest·Shamir·Adleman)의 머리글자</td>
         </tr>
         <tr>
-          <td><b style="color:#4DBFA8">ECC</b></td><td><b>타원곡선 이산대수</b></td>
+          <td><b style="color:#117a68">ECC</b></td><td><b>타원곡선 이산대수</b></td>
           <td><span class="badge b-both">O</span></td><td><span class="badge b-both">O</span></td><td><span class="badge b-both">O</span></td>
           <td><b>짧은 키로 같은 안전성</b> → 모바일 · IoT · 스마트카드에 유리</td>
         </tr>
         <tr>
-          <td><b style="color:#5B9BD5">Diffie-Hellman</b></td><td>이산대수</td>
+          <td><b style="color:#2c6da4">Diffie-Hellman</b></td><td>이산대수</td>
           <td><span class="badge b-red">X</span></td><td><span class="badge b-red">X</span></td><td><span class="badge b-both">O</span></td>
           <td><b>키 교환 전용</b> — 안전하지 않은 경로로 <b>공통 비밀키를 만들어 내는</b> 최초의 방식</td>
         </tr>
         <tr>
-          <td><b style="color:#E8A838">DSA</b></td><td>이산대수</td>
+          <td><b style="color:#8a6012">DSA</b></td><td>이산대수</td>
           <td><span class="badge b-red">X</span></td><td><span class="badge b-both">O</span></td><td><span class="badge b-red">X</span></td>
           <td><b>전자서명 전용</b> 표준 (미국 DSS)</td>
         </tr>
@@ -146,8 +146,8 @@
     </div>
 
     <!-- 동등 안전성 -->
-    <div class="sub-title" style="color:#5B9BD5">📏 같은 안전성을 내려면 키가 얼마나 필요한가</div>
-    <div class="note" style="border-left-color:#5B9BD5">
+    <div class="sub-title" style="color:#2c6da4">📏 같은 안전성을 내려면 키가 얼마나 필요한가</div>
+    <div class="note" style="border-left-color:#2c6da4">
       비대칭키는 대칭키보다 <b>훨씬 긴 키</b> 가 있어야 같은 수준의 안전성을 낸다.
       그래서 대칭키 128비트(AES-128)와 맞먹으려면 <b>RSA는 3072비트</b> 가 필요하다.
     </div>
@@ -168,7 +168,7 @@
 
 
     <!-- ── AES 본론 ── -->
-    <div class="sub-title" style="color:#4DBFA8">⭐ AES — Advanced Encryption Standard</div>
+    <div class="sub-title" style="color:#117a68">⭐ AES — Advanced Encryption Standard</div>
     <div class="highlight">
       <b>AES</b> 는 노후화된 <b>DES를 대체</b>하기 위해 미국 NIST가 공모해 <b>2001년 표준(FIPS 197)</b> 으로 채택한 대칭키 블록 암호.
       원래 알고리즘 이름은 <b>Rijndael(라인달)</b> 로, 벨기에의 Joan Daemen과 Vincent Rijmen이 설계했다.
@@ -190,8 +190,8 @@
     </div>
 
     <!-- 키 길이 계산기 -->
-    <div class="sub-title" style="color:#4DBFA8">🧮 키 길이별 비교 — 버튼을 눌러 확인해 보세요</div>
-    <div style="background:linear-gradient(135deg,#0a2620,#0f1117);border:2px solid #4DBFA8;border-radius:12px;padding:18px 20px;margin-top:10px;">
+    <div class="sub-title" style="color:#117a68">🧮 키 길이별 비교 — 버튼을 눌러 확인해 보세요</div>
+    <div style="background:#e1f3ee;border:2px solid #117a68;border-radius:12px;padding:18px 20px;margin-top:10px;">
       <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;">
         <button class="qfbtn" id="aes-btn-128" onclick="showAes(128)">AES-128</button>
         <button class="qfbtn" id="aes-btn-192" onclick="showAes(192)">AES-192</button>
@@ -201,33 +201,33 @@
     </div>
 
     <!-- 라운드 함수 -->
-    <div class="sub-title" style="color:#5BAD6F">🔄 한 라운드에서 일어나는 일 — 4단계</div>
+    <div class="sub-title" style="color:#267c41">🔄 한 라운드에서 일어나는 일 — 4단계</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:10px;">
-      <div class="mini-card" style="border-left:3px solid #E8A838;">
-        <h4 style="color:#E8A838">① SubBytes</h4>
+      <div class="mini-card" style="border-left:3px solid #8a6012;">
+        <h4 style="color:#8a6012">① SubBytes</h4>
         <p>바이트 <b>치환</b><br>S-box 표를 보고 각 바이트를 다른 값으로 바꾼다<br><br><span style="color:var(--text3)">비선형성 확보</span></p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #5BAD6F;">
-        <h4 style="color:#5BAD6F">② ShiftRows</h4>
+      <div class="mini-card" style="border-left:3px solid #267c41;">
+        <h4 style="color:#267c41">② ShiftRows</h4>
         <p>행 <b>이동</b><br>2·3·4행을 각각 1·2·3칸 왼쪽으로 순환 이동<br><br><span style="color:var(--text3)">확산(Diffusion)</span></p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #5B9BD5;">
-        <h4 style="color:#5B9BD5">③ MixColumns</h4>
+      <div class="mini-card" style="border-left:3px solid #2c6da4;">
+        <h4 style="color:#2c6da4">③ MixColumns</h4>
         <p>열 <b>혼합</b><br>각 열을 행렬 연산으로 섞는다<br><br><span style="color:var(--text3)">마지막 라운드에서는 <b>생략</b></span></p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #9B8AE0;">
-        <h4 style="color:#9B8AE0">④ AddRoundKey</h4>
+      <div class="mini-card" style="border-left:3px solid #6b59aa;">
+        <h4 style="color:#6b59aa">④ AddRoundKey</h4>
         <p>라운드 키 <b>XOR</b><br>키 스케줄로 만든 라운드 키와 XOR<br><br><span style="color:var(--text3)">실제 비밀이 개입하는 단계</span></p>
       </div>
     </div>
-    <div class="note" style="border-left-color:#5BAD6F">
+    <div class="note" style="border-left-color:#267c41">
       💡 <b>암기</b> — <b>치환 → 행 이동 → 열 섞기 → 키 XOR</b> 을 라운드 수만큼 반복한다.
       <b>마지막 라운드에서만 MixColumns를 생략</b>하는 것이 포인트.
       라운드 키는 키 스케줄로 <b>(라운드 수 + 1)개</b> 만들어진다 → AES-256이면 15개.
     </div>
 
     <!-- 운영 모드 -->
-    <div class="sub-title" style="color:#E8A838">⚙️ 블록 암호 운영 모드</div>
+    <div class="sub-title" style="color:#8a6012">⚙️ 블록 암호 운영 모드</div>
     <div class="highlight">
       AES는 <b>128비트씩</b> 만 암호화한다. 그보다 긴 데이터를 어떻게 이어 붙일지 정한 것이 <b>운영 모드</b> 다.
       같은 AES-256이라도 <b>모드를 잘못 고르면 안전하지 않다.</b>
@@ -250,7 +250,7 @@
     </div>
 
     <!-- DES와 비교 -->
-    <div class="sub-title" style="color:#E06B5A">📉 DES → 3DES → AES</div>
+    <div class="sub-title" style="color:#ae3e30">📉 DES → 3DES → AES</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:640px;">
       <thead><tr><th>알고리즘</th><th>키 길이</th><th>블록</th><th>구조</th><th>상태</th></tr></thead>
@@ -263,7 +263,7 @@
     </div>
 
     <!-- 국산 암호 -->
-    <div class="sub-title" style="color:#5B9BD5">🇰🇷 국산 암호 알고리즘</div>
+    <div class="sub-title" style="color:#2c6da4">🇰🇷 국산 암호 알고리즘</div>
     <table class="tbl">
       <thead><tr><th>알고리즘</th><th>블록 / 키</th><th>특징</th></tr></thead>
       <tbody>
@@ -275,7 +275,7 @@
     </table>
 
     <!-- 해시와 전자서명 -->
-    <div class="sub-title" style="color:#E89050">✍ 해시 함수와 전자서명</div>
+    <div class="sub-title" style="color:#9d520f">✍ 해시 함수와 전자서명</div>
     <table class="tbl">
       <thead><tr><th>해시</th><th>출력 길이</th><th>상태</th></tr></thead>
       <tbody>
@@ -285,7 +285,7 @@
         <tr><td><b>SHA-3</b></td><td>가변</td><td>차세대 표준</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E89050">
+    <div class="note" style="border-left-color:#9d520f">
       해시는 <b>단방향</b> — 복호화가 불가능하다. <b>무결성 검증</b>과 비밀번호 저장에 쓴다.
       암호화(양방향)와 혼동하지 말 것.
     </div>
@@ -293,12 +293,12 @@
     <div class="highlight">
       <b>📖 기출 <span style="font-size:13px;font-weight:400;color:var(--text3)">2022-1회</span></b> — A가 B에게 <b>전자서명 + 암호화</b>해서 보낼 때 순서는?<br>
       <span class="mono" style="line-height:2;">
-        ① 서명 : <b style="color:#fff">A의 비밀키</b> 로 서명 &nbsp;→&nbsp; 누가 보냈는지 증명(부인방지)<br>
-        ② 암호화 : <b style="color:#fff">B의 공개키</b> 로 암호화 &nbsp;→&nbsp; B만 열 수 있음(기밀성)<br>
-        정답 : <b style="color:#4DBFA8">A의 비밀키 → B의 공개키</b>
+        ① 서명 : <b style="color:#1d252d">A의 비밀키</b> 로 서명 &nbsp;→&nbsp; 누가 보냈는지 증명(부인방지)<br>
+        ② 암호화 : <b style="color:#1d252d">B의 공개키</b> 로 암호화 &nbsp;→&nbsp; B만 열 수 있음(기밀성)<br>
+        정답 : <b style="color:#117a68">A의 비밀키 → B의 공개키</b>
       </span>
     </div>
-    <div class="note" style="border-left-color:#5B9BD5">
+    <div class="note" style="border-left-color:#2c6da4">
       <b>키 선택 한 줄 정리</b><br>
       • <b>상대의 공개키</b>로 암호화 → <b>기밀성</b> (상대만 열 수 있다) <span class="tag">기출</span><br>
       • <b>내 개인키</b>로 암호화(서명) → <b>부인방지 · 인증</b> (내가 보낸 게 증명된다)
@@ -318,7 +318,7 @@
   </div>
 
   <div class="section" id="sec-cloud">
-    <h2 class="section-title" style="color:#5B9BD5">☁️ 클라우드 서비스 모델 — IaaS · PaaS · SaaS</h2>
+    <h2 class="section-title" style="color:#2c6da4">☁️ 클라우드 서비스 모델 — IaaS · PaaS · SaaS</h2>
 
     <div class="highlight">
       <b>클라우드 컴퓨팅</b> 이란 컴퓨터 데이터와 소프트웨어를 <b>별도 장소(데이터센터)</b> 에 두고
@@ -327,29 +327,29 @@
     </div>
 
     <!-- 비유 -->
-    <div class="sub-title" style="color:#E8A838">🍕 피자로 이해하기 <span style="font-size:13px;font-weight:400;color:var(--text3)">— 한 번 보면 안 잊는 비유</span></div>
+    <div class="sub-title" style="color:#8a6012">🍕 피자로 이해하기 <span style="font-size:13px;font-weight:400;color:var(--text3)">— 한 번 보면 안 잊는 비유</span></div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:10px;">
       <div class="mini-card" style="border-left:3px solid var(--text3);">
         <h4 style="color:var(--text2)">🏠 온프레미스</h4>
         <p>재료·오븐·주방 <b>전부 내 것</b><br>반죽부터 직접<br><br><span style="color:var(--text3)">= 서버실 직접 운영</span></p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #5BAD6F;">
-        <h4 style="color:#5BAD6F">🧊 IaaS</h4>
+      <div class="mini-card" style="border-left:3px solid #267c41;">
+        <h4 style="color:#267c41">🧊 IaaS</h4>
         <p><b>냉동 피자</b>를 사와서<br>내 오븐에 구움<br><br><span style="color:var(--text3)">= 서버·OS는 내가 설치</span></p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #5B9BD5;">
-        <h4 style="color:#5B9BD5">🛵 PaaS</h4>
+      <div class="mini-card" style="border-left:3px solid #2c6da4;">
+        <h4 style="color:#2c6da4">🛵 PaaS</h4>
         <p><b>배달 피자</b>를 시켜<br>내 집에서 먹음<br><br><span style="color:var(--text3)">= 코드만 올리면 끝</span></p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #9B8AE0;">
-        <h4 style="color:#9B8AE0">🍽️ SaaS</h4>
+      <div class="mini-card" style="border-left:3px solid #6b59aa;">
+        <h4 style="color:#6b59aa">🍽️ SaaS</h4>
         <p><b>피자집에 가서</b><br>그냥 먹기만 함<br><br><span style="color:var(--text3)">= 로그인하면 바로 사용</span></p>
       </div>
     </div>
 
     <!-- ── 대화형 책임 범위 ── -->
-    <div class="sub-title" style="color:#4DBFA8">🎛️ 책임 범위 — 버튼을 눌러 비교해 보세요</div>
-    <div style="background:linear-gradient(135deg,#0a2620,#0f1117);border:2px solid #4DBFA8;border-radius:12px;padding:18px 20px;margin-top:10px;">
+    <div class="sub-title" style="color:#117a68">🎛️ 책임 범위 — 버튼을 눌러 비교해 보세요</div>
+    <div style="background:#e1f3ee;border:2px solid #117a68;border-radius:12px;padding:18px 20px;margin-top:10px;">
       <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;">
         <button class="qfbtn" id="cloud-btn-onprem" onclick="showCloudModel('onprem')">🏠 온프레미스</button>
         <button class="qfbtn" id="cloud-btn-iaas"   onclick="showCloudModel('iaas')">🧊 IaaS</button>
@@ -357,22 +357,22 @@
         <button class="qfbtn" id="cloud-btn-saas"   onclick="showCloudModel('saas')">🍽️ SaaS</button>
       </div>
       <div style="display:flex;gap:16px;font-size:13px;color:var(--text3);margin-bottom:10px;flex-wrap:wrap;">
-        <span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:#E8A838;vertical-align:-1px;margin-right:5px;"></span>내가 관리 (사용자 책임)</span>
-        <span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:#4DBFA8;vertical-align:-1px;margin-right:5px;"></span>제공자가 관리</span>
+        <span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:#8a6012;vertical-align:-1px;margin-right:5px;"></span>내가 관리 (사용자 책임)</span>
+        <span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:#117a68;vertical-align:-1px;margin-right:5px;"></span>제공자가 관리</span>
       </div>
       <div id="cloud-stack" style="display:flex;flex-direction:column;gap:4px;"></div>
       <div id="cloud-summary" style="margin-top:12px;"></div>
     </div>
 
     <!-- 3종 비교 -->
-    <div class="sub-title" style="color:#5B9BD5">📊 3대 모델 비교</div>
+    <div class="sub-title" style="color:#2c6da4">📊 3대 모델 비교</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:720px;">
       <thead><tr>
         <th>구분</th>
-        <th style="color:#5BAD6F">IaaS</th>
-        <th style="color:#5B9BD5">PaaS</th>
-        <th style="color:#9B8AE0">SaaS</th>
+        <th style="color:#267c41">IaaS</th>
+        <th style="color:#2c6da4">PaaS</th>
+        <th style="color:#6b59aa">SaaS</th>
       </tr></thead>
       <tbody>
         <tr>
@@ -427,13 +427,13 @@
     </table>
     </div>
 
-    <div class="note" style="border-left-color:#E8A838">
+    <div class="note" style="border-left-color:#8a6012">
       💡 <b>한 줄 정리</b> — <b>IaaS = 서버를 빌린다</b>, <b>PaaS = 개발 환경을 빌린다</b>, <b>SaaS = 프로그램을 빌린다</b>.<br>
       아래로 갈수록 <b>편해지지만 자유도는 줄어든다.</b>
     </div>
 
     <!-- XaaS -->
-    <div class="sub-title" style="color:#4DBFA8">🧩 그 밖의 XaaS</div>
+    <div class="sub-title" style="color:#117a68">🧩 그 밖의 XaaS</div>
     <table class="tbl">
       <thead><tr><th>약어</th><th>풀네임</th><th>제공 내용</th></tr></thead>
       <tbody>
@@ -451,7 +451,7 @@
     </div>
 
     <!-- 배치 모델 -->
-    <div class="sub-title" style="color:#9B8AE0">🏢 배치(구축) 모델</div>
+    <div class="sub-title" style="color:#6b59aa">🏢 배치(구축) 모델</div>
     <table class="tbl">
       <thead><tr><th>모델</th><th>내용</th><th>특징</th></tr></thead>
       <tbody>
@@ -468,7 +468,7 @@
     </div>
 
     <!-- 핵심 기술 -->
-    <div class="sub-title" style="color:#5BAD6F">⚙️ 클라우드를 떠받치는 기술</div>
+    <div class="sub-title" style="color:#267c41">⚙️ 클라우드를 떠받치는 기술</div>
     <table class="tbl">
       <thead><tr><th>기술</th><th>내용</th></tr></thead>
       <tbody>
@@ -482,11 +482,11 @@
 
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#5B9BD5">Scale-Up (수직 확장)</h4>
+        <h4 style="color:#2c6da4">Scale-Up (수직 확장)</h4>
         <p><b>한 대의 성능</b>을 올림<br>CPU·메모리 업그레이드<br><br>한계가 있고 비용이 급증</p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#5BAD6F">Scale-Out (수평 확장)</h4>
+        <h4 style="color:#267c41">Scale-Out (수평 확장)</h4>
         <p><b>서버 대수</b>를 늘림<br>분산 처리·로드밸런싱<br><br>클라우드가 잘하는 방식</p>
       </div>
     </div>
@@ -499,7 +499,7 @@
     <div class="sub-title">⚖ 클라우드 · 가상화의 이점과 한계</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#5BAD6F">✅ 이점</h4>
+        <h4 style="color:#267c41">✅ 이점</h4>
         <p>
           • 초기 <b>구축 비용 절감</b> (CapEx → OpEx)<br>
           • 사용한 만큼만 과금<br>
@@ -509,7 +509,7 @@
         </p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#E06B5A">⚠ 한계</h4>
+        <h4 style="color:#ae3e30">⚠ 한계</h4>
         <p>
           • 네트워크 장애 시 <b>업무 전면 중단</b><br>
           • 데이터 <b>보안·주권·규제</b> 문제<br>
@@ -523,7 +523,7 @@
       이점은 비용 절감 · 효율성 · 재해복구 · 빠른 배포 · 유연성이다.
     </div>
 
-    <div class="note" style="border-left-color:#9B8AE0">
+    <div class="note" style="border-left-color:#6b59aa">
       <b>클라우드 보안 — Governance(관리방식) 영역 <span class="tag">기출</span></b><br>
       컴플라이언스/감사 · 정보관리/데이터 보안 · 이식성/상호운영성이 <b>Governance</b> 영역이고,
       <b>애플리케이션 보안은 여기에 포함되지 않는다</b>(운영 영역).
@@ -542,7 +542,7 @@
   </div>
 
   <div class="section" id="sec-mtbf">
-    <h2 class="section-title" style="color:#E06B5A">⏱️ MTTF · MTTR · MTBF — 신뢰성 지표와 가동률</h2>
+    <h2 class="section-title" style="color:#ae3e30">⏱️ MTTF · MTTR · MTBF — 신뢰성 지표와 가동률</h2>
 
     <div class="highlight">
       시스템이 <b>얼마나 오래 잘 버티는가(MTTF)</b>, <b>고장 나면 얼마나 빨리 고치는가(MTTR)</b>,
@@ -550,68 +550,68 @@
     </div>
 
     <!-- 세 용어 -->
-    <div class="sub-title" style="color:#E06B5A">📌 세 용어 구분</div>
+    <div class="sub-title" style="color:#ae3e30">📌 세 용어 구분</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px;">
-      <div style="background:linear-gradient(135deg,#0d2010,#0f1117);border:2px solid #5BAD6F;border-radius:12px;padding:16px;">
-        <div style="font-size:17.5px;font-weight:700;color:#5BAD6F;">MTTF</div>
+      <div style="background:#e8f4e9;border:2px solid #267c41;border-radius:12px;padding:16px;">
+        <div style="font-size:17.5px;font-weight:700;color:#267c41;">MTTF</div>
         <div style="font-size:13px;color:var(--text3);margin:3px 0 10px;">Mean Time To Failure</div>
-        <div style="font-size:15.5px;color:#fff;font-weight:600;margin-bottom:6px;">평균 고장 시간</div>
+        <div style="font-size:15.5px;color:#1d252d;font-weight:600;margin-bottom:6px;">평균 고장 시간</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.9;">
-          정상 동작을 시작해서 <b style="color:#fff">고장 날 때까지</b>의 평균 시간<br>
-          = 실제로 <b style="color:#5BAD6F">일한 시간</b>
+          정상 동작을 시작해서 <b style="color:#1d252d">고장 날 때까지</b>의 평균 시간<br>
+          = 실제로 <b style="color:#267c41">일한 시간</b>
         </div>
       </div>
-      <div style="background:linear-gradient(135deg,#2e1208,#0f1117);border:2px solid #E06B5A;border-radius:12px;padding:16px;">
-        <div style="font-size:17.5px;font-weight:700;color:#E06B5A;">MTTR</div>
+      <div style="background:#feebe5;border:2px solid #ae3e30;border-radius:12px;padding:16px;">
+        <div style="font-size:17.5px;font-weight:700;color:#ae3e30;">MTTR</div>
         <div style="font-size:13px;color:var(--text3);margin:3px 0 10px;">Mean Time To Repair</div>
-        <div style="font-size:15.5px;color:#fff;font-weight:600;margin-bottom:6px;">평균 수리 시간</div>
+        <div style="font-size:15.5px;color:#1d252d;font-weight:600;margin-bottom:6px;">평균 수리 시간</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.9;">
-          고장 난 순간부터 <b style="color:#fff">복구 완료까지</b>의 평균 시간<br>
-          = <b style="color:#E06B5A">멈춰 있던 시간</b>
+          고장 난 순간부터 <b style="color:#1d252d">복구 완료까지</b>의 평균 시간<br>
+          = <b style="color:#ae3e30">멈춰 있던 시간</b>
         </div>
       </div>
-      <div style="background:linear-gradient(135deg,#1a2d45,#0f1117);border:2px solid #5B9BD5;border-radius:12px;padding:16px;">
-        <div style="font-size:17.5px;font-weight:700;color:#5B9BD5;">MTBF</div>
+      <div style="background:#e1ecfb;border:2px solid #2c6da4;border-radius:12px;padding:16px;">
+        <div style="font-size:17.5px;font-weight:700;color:#2c6da4;">MTBF</div>
         <div style="font-size:13px;color:var(--text3);margin:3px 0 10px;">Mean Time Between Failures</div>
-        <div style="font-size:15.5px;color:#fff;font-weight:600;margin-bottom:6px;">평균 고장 간격</div>
+        <div style="font-size:15.5px;color:#1d252d;font-weight:600;margin-bottom:6px;">평균 고장 간격</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.9;">
-          한 고장에서 <b style="color:#fff">다음 고장까지</b>의 평균 시간<br>
+          한 고장에서 <b style="color:#1d252d">다음 고장까지</b>의 평균 시간<br>
           = 일한 시간 + 고친 시간
         </div>
       </div>
     </div>
 
     <!-- 관계식 -->
-    <div class="sub-title" style="color:#4DBFA8">🔗 핵심 관계식</div>
-    <div style="background:linear-gradient(135deg,#0a2620,#0f1117);border:2px solid #4DBFA8;border-radius:12px;padding:20px 24px;margin-top:10px;text-align:center;">
-      <div style="font-size:13px;color:#4DBFA8;letter-spacing:1px;font-weight:600;margin-bottom:12px;">셋의 관계</div>
-      <div style="font-size:28.5px;font-weight:700;color:#fff;">
-        <span style="color:#5B9BD5">MTBF</span> = <span style="color:#5BAD6F">MTTF</span> + <span style="color:#E06B5A">MTTR</span>
+    <div class="sub-title" style="color:#117a68">🔗 핵심 관계식</div>
+    <div style="background:#e1f3ee;border:2px solid #117a68;border-radius:12px;padding:20px 24px;margin-top:10px;text-align:center;">
+      <div style="font-size:13px;color:#117a68;letter-spacing:1px;font-weight:600;margin-bottom:12px;">셋의 관계</div>
+      <div style="font-size:28.5px;font-weight:700;color:#1d252d;">
+        <span style="color:#2c6da4">MTBF</span> = <span style="color:#267c41">MTTF</span> + <span style="color:#ae3e30">MTTR</span>
       </div>
       <div style="font-size:14px;color:var(--text2);margin-top:10px;">
         (고장 간격) = (동작한 시간) + (수리한 시간)
       </div>
     </div>
 
-    <div class="sub-title" style="color:#4DBFA8">📈 시간축으로 보면</div>
-    <div class="flow"><span style="color:#5BAD6F">━━━ 동작 ━━━</span><span style="color:#E06B5A">✖ 수리 ✖</span><span style="color:#5BAD6F">━━━ 동작 ━━━</span><span style="color:#E06B5A">✖ 수리 ✖</span><span style="color:#5BAD6F">━━━ 동작 ━━━</span>
-     <span style="color:#5BAD6F">MTTF</span>       <span style="color:#E06B5A">MTTR</span>        <span style="color:#5BAD6F">MTTF</span>       <span style="color:#E06B5A">MTTR</span>
-└──────────── <span style="color:#5B9BD5">MTBF</span> ────────────┘
+    <div class="sub-title" style="color:#117a68">📈 시간축으로 보면</div>
+    <div class="flow"><span style="color:#267c41">━━━ 동작 ━━━</span><span style="color:#ae3e30">✖ 수리 ✖</span><span style="color:#267c41">━━━ 동작 ━━━</span><span style="color:#ae3e30">✖ 수리 ✖</span><span style="color:#267c41">━━━ 동작 ━━━</span>
+     <span style="color:#267c41">MTTF</span>       <span style="color:#ae3e30">MTTR</span>        <span style="color:#267c41">MTTF</span>       <span style="color:#ae3e30">MTTR</span>
+└──────────── <span style="color:#2c6da4">MTBF</span> ────────────┘
 
-<span style="color:#E8A838">MTTF ↑ (고장이 드물다)  ·  MTTR ↓ (빨리 고친다)  →  가동률 ↑</span></div>
+<span style="color:#8a6012">MTTF ↑ (고장이 드물다)  ·  MTTR ↓ (빨리 고친다)  →  가동률 ↑</span></div>
 
     <!-- 가동률 -->
-    <div class="sub-title" style="color:#E8A838">🎯 가동률(가용도, Availability) 공식</div>
-    <div style="background:linear-gradient(135deg,#2e1805,#0f1117);border:2px solid #E8A838;border-radius:12px;padding:20px 24px;margin-top:10px;text-align:center;">
-      <div style="font-size:13px;color:#E8A838;letter-spacing:1px;font-weight:600;margin-bottom:12px;">시험에 나오는 형태 — 이것만 외우면 된다</div>
-      <div style="font-size:27px;font-weight:700;color:#fff;margin-bottom:6px;">
-        가동률 = <span class="fr"><span style="color:#5B9BD5">MTBF</span><span><span style="color:#5B9BD5">MTBF</span> + <span style="color:#E06B5A">MTTR</span></span></span>
+    <div class="sub-title" style="color:#8a6012">🎯 가동률(가용도, Availability) 공식</div>
+    <div style="background:#faece2;border:2px solid #8a6012;border-radius:12px;padding:20px 24px;margin-top:10px;text-align:center;">
+      <div style="font-size:13px;color:#8a6012;letter-spacing:1px;font-weight:600;margin-bottom:12px;">시험에 나오는 형태 — 이것만 외우면 된다</div>
+      <div style="font-size:27px;font-weight:700;color:#1d252d;margin-bottom:6px;">
+        가동률 = <span class="fr"><span style="color:#2c6da4">MTBF</span><span><span style="color:#2c6da4">MTBF</span> + <span style="color:#ae3e30">MTTR</span></span></span>
       </div>
-      <div style="height:1px;background:#E8A83830;margin:14px 0;"></div>
-      <div style="font-size:16.5px;font-weight:600;color:#4DBFA8;">불가동률 = <span class="fr"><span>MTTR</span><span>MTBF + MTTR</span></span> = 1 − 가동률</div>
+      <div style="height:1px;background:#8a601230;margin:14px 0;"></div>
+      <div style="font-size:16.5px;font-weight:600;color:#117a68;">불가동률 = <span class="fr"><span>MTTR</span><span>MTBF + MTTR</span></span> = 1 − 가동률</div>
     </div>
 
-    <div class="note" style="border-left-color:#9B8AE0">
+    <div class="note" style="border-left-color:#6b59aa">
       <b>❓ 왜 교재마다 공식이 달라 보일까</b> — 엄밀한 정의로는 MTBF 안에 MTTR이 이미 포함되므로
       가용도 = <b><span class="fr"><span>MTTF</span><span>MTTF + MTTR</span></span></b> = <span class="fr"><span>MTTF</span><span>MTBF</span></span> 가 맞다.
       그런데 <b>시험 문제에서는 MTBF를 "동작한 시간"의 뜻으로 주고</b> 가동률 = <span class="fr"><span>MTBF</span><span>MTBF+MTTR</span></span> 로 계산하게 한다.
@@ -620,26 +620,26 @@
     </div>
 
     <!-- 기출 예제 -->
-    <div class="sub-title" style="color:#5B9BD5">📖 기출 계산 예제</div>
+    <div class="sub-title" style="color:#2c6da4">📖 기출 계산 예제</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#5B9BD5">예제 1 <span style="font-size:12px;font-weight:400;color:var(--text3)">2022-1회</span></h4>
+        <h4 style="color:#2c6da4">예제 1 <span style="font-size:12px;font-weight:400;color:var(--text3)">2022-1회</span></h4>
         <p>Q: MTBF = <b>22시간</b>, MTTR = <b>2시간</b> 일 때 가동률은?</p>
         <p class="mono" style="line-height:2;margin-top:6px;">
           = <span class="fr"><span>22</span><span>22 + 2</span></span><br>
           = <span class="fr"><span>22</span><span>24</span></span><br>
           = 0.9166…<br>
-          → <b style="color:#fff">0.92</b>
+          → <b style="color:#1d252d">0.92</b>
         </p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#5B9BD5">예제 2 <span style="font-size:12px;font-weight:400;color:var(--text3)">2023-2회</span></h4>
+        <h4 style="color:#2c6da4">예제 2 <span style="font-size:12px;font-weight:400;color:var(--text3)">2023-2회</span></h4>
         <p>Q: 평균고장간격 <b>23시간</b>, 평균복구시간 <b>1시간</b> 일 때 1일 가동률[%]은?</p>
         <p class="mono" style="line-height:2;margin-top:6px;">
           = <span class="fr"><span>23</span><span>23 + 1</span></span><br>
           = <span class="fr"><span>23</span><span>24</span></span><br>
           = 0.9583…<br>
-          → <b style="color:#fff">95.83 [%]</b>
+          → <b style="color:#1d252d">95.83 [%]</b>
         </p>
       </div>
     </div>
@@ -649,13 +649,13 @@
     </div>
 
     <!-- ── 계산기 ── -->
-    <div class="sub-title" style="color:#4DBFA8">🧮 가동률 계산기 <span style="font-size:13px;font-weight:400;color:var(--text3)">— MTBF와 MTTR을 넣으면 가동률과 연간 다운타임까지 계산합니다</span></div>
-    <div style="background:linear-gradient(135deg,#0a2620,#0f1117);border:2px solid #4DBFA8;border-radius:12px;padding:18px 20px;margin-top:10px;">
+    <div class="sub-title" style="color:#117a68">🧮 가동률 계산기 <span style="font-size:13px;font-weight:400;color:var(--text3)">— MTBF와 MTTR을 넣으면 가동률과 연간 다운타임까지 계산합니다</span></div>
+    <div style="background:#e1f3ee;border:2px solid #117a68;border-radius:12px;padding:18px 20px;margin-top:10px;">
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
-        <label style="font-size:14px;color:#5B9BD5;font-weight:600;">MTBF</label>
+        <label style="font-size:14px;color:#2c6da4;font-weight:600;">MTBF</label>
         <input type="text" id="mtbf-input" value="22" oninput="calcAvailability()" autocomplete="off"
           style="width:110px;padding:8px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Courier New',monospace;font-size:17.5px;outline:none;">
-        <label style="font-size:14px;color:#E06B5A;font-weight:600;">MTTR</label>
+        <label style="font-size:14px;color:#ae3e30;font-weight:600;">MTTR</label>
         <input type="text" id="mttr-input" value="2" oninput="calcAvailability()" autocomplete="off"
           style="width:110px;padding:8px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Courier New',monospace;font-size:17.5px;outline:none;">
         <select id="mtbf-unit" onchange="calcAvailability()" style="padding:8px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-size:15.5px;font-family:inherit;outline:none;cursor:pointer;">
@@ -676,8 +676,8 @@
     </div>
 
     <!-- 9의 개수 -->
-    <div class="sub-title" style="color:#9B8AE0">🔢 가용도 "9의 개수"와 연간 다운타임</div>
-    <div class="note" style="border-left-color:#9B8AE0">
+    <div class="sub-title" style="color:#6b59aa">🔢 가용도 "9의 개수"와 연간 다운타임</div>
+    <div class="note" style="border-left-color:#6b59aa">
       가용도는 보통 <b>9가 몇 개인가</b>로 부른다. 9가 하나 늘어날 때마다 <b>허용 정지 시간이 1/10</b> 로 줄어든다.
       1년 = 365일 = <b>8,760시간</b> = 525,600분.
     </div>
@@ -694,22 +694,22 @@
     </table>
 
     <!-- 신뢰도 -->
-    <div class="sub-title" style="color:#5BAD6F">🔧 시스템 신뢰도 — 직렬 vs 병렬(이중화)</div>
+    <div class="sub-title" style="color:#267c41">🔧 시스템 신뢰도 — 직렬 vs 병렬(이중화)</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#E06B5A">직렬 구조 — 하나만 고장나도 정지</h4>
+        <h4 style="color:#ae3e30">직렬 구조 — 하나만 고장나도 정지</h4>
         <p class="mono" style="font-size:15.5px;line-height:2;">R = R₁ × R₂ × … × Rₙ</p>
         <p style="margin-top:6px;">
-          예) 0.9 × 0.9 = <b style="color:#fff">0.81</b><br>
-          장치를 이어 붙일수록 <b style="color:#E06B5A">신뢰도가 떨어진다.</b>
+          예) 0.9 × 0.9 = <b style="color:#1d252d">0.81</b><br>
+          장치를 이어 붙일수록 <b style="color:#ae3e30">신뢰도가 떨어진다.</b>
         </p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#5BAD6F">병렬 구조 — 하나만 살아도 동작 (이중화)</h4>
+        <h4 style="color:#267c41">병렬 구조 — 하나만 살아도 동작 (이중화)</h4>
         <p class="mono" style="font-size:15.5px;line-height:2;">R = 1 − (1−R₁)(1−R₂)…</p>
         <p style="margin-top:6px;">
-          예) 1 − (1−0.9)² = <b style="color:#fff">0.99</b><br>
-          이중화할수록 <b style="color:#5BAD6F">신뢰도가 올라간다.</b>
+          예) 1 − (1−0.9)² = <b style="color:#1d252d">0.99</b><br>
+          이중화할수록 <b style="color:#267c41">신뢰도가 올라간다.</b>
         </p>
       </div>
     </div>
@@ -718,7 +718,7 @@
       <span class="mono" style="line-height:2;">
         ① 0.8 병렬쌍 : 1 − (1−0.8)² = 1 − 0.04 = <b>0.96</b><br>
         ② 0.9 병렬쌍 : 1 − (1−0.9)² = 1 − 0.01 = <b>0.99</b><br>
-        ③ 두 블록은 직렬 : 0.96 × 0.99 = <b style="color:#fff">0.9504</b>
+        ③ 두 블록은 직렬 : 0.96 × 0.99 = <b style="color:#1d252d">0.9504</b>
       </span><br>
       💡 <b>병렬 먼저 묶고, 묶인 블록끼리 직렬로 곱한다</b> — 이 순서만 지키면 된다.
     </div>
@@ -746,7 +746,7 @@
         <tr><td><b>예방 유지보수</b> (Preventive)</td><td>장래의 <b>장애를 미리 방지</b> → MTTF를 늘리는 활동</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E8A838">
+    <div class="note" style="border-left-color:#8a6012">
       <b>장애 대응 절차 <span class="tag">기출</span></b> — 장애발생 신고접수 → 장애처리 → 결과보고 → <b>장애이력관리</b><br>
       마지막의 <b>이력 관리</b>가 빠진 보기는 오답이다. 축적된 이력이 예방 유지보수의 근거가 된다.
     </div>
@@ -764,7 +764,7 @@
   </div>
 
   <div class="section" id="sec-netmgmt">
-    <h2 class="section-title" style="color:#E06B5A">🛰️ 네트워크 관리 — SNMP · MIB · SMI · RMON</h2>
+    <h2 class="section-title" style="color:#ae3e30">🛰️ 네트워크 관리 — SNMP · MIB · SMI · RMON</h2>
 
     <div class="highlight">
       4과목에서 <b>매 회차 2~3문항</b>이 이 한 주제에서 나온다. 구조는 단순하다 —
@@ -773,26 +773,26 @@
     </div>
 
     <!-- 망관리 5대 기능 -->
-    <div class="sub-title" style="color:#E06B5A">📋 ISO 망관리 5대 기능 (FCAPS)</div>
+    <div class="sub-title" style="color:#ae3e30">📋 ISO 망관리 5대 기능 (FCAPS)</div>
     <table class="tbl">
       <thead><tr><th>기능</th><th>영문</th><th>하는 일</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#E06B5A">장애관리</b></td><td class="mono">Fault</td><td>장애 <b>탐지·격리·복구</b>, 장애 이력 관리 — 가장 먼저 나오는 기능</td></tr>
-        <tr><td><b style="color:#5B9BD5">구성관리</b></td><td class="mono">Configuration</td><td>장비 목록·연결 관계·버전 <b>파악과 변경</b>, 망 구성도 유지</td></tr>
-        <tr><td><b style="color:#E8A838">계정관리</b></td><td class="mono">Accounting</td><td>사용자별 <b>자원 사용량 측정 → 과금</b>·할당량 관리</td></tr>
-        <tr><td><b style="color:#5BAD6F">성능관리</b></td><td class="mono">Performance</td><td><b>처리량·지연·이용률</b> 측정, 임계치 감시, 용량 산정</td></tr>
-        <tr><td><b style="color:#9B8AE0">보안관리</b></td><td class="mono">Security</td><td>접근 권한·인증·<b>암호키 관리</b>, 보안 로그 감시</td></tr>
+        <tr><td><b style="color:#ae3e30">장애관리</b></td><td class="mono">Fault</td><td>장애 <b>탐지·격리·복구</b>, 장애 이력 관리 — 가장 먼저 나오는 기능</td></tr>
+        <tr><td><b style="color:#2c6da4">구성관리</b></td><td class="mono">Configuration</td><td>장비 목록·연결 관계·버전 <b>파악과 변경</b>, 망 구성도 유지</td></tr>
+        <tr><td><b style="color:#8a6012">계정관리</b></td><td class="mono">Accounting</td><td>사용자별 <b>자원 사용량 측정 → 과금</b>·할당량 관리</td></tr>
+        <tr><td><b style="color:#267c41">성능관리</b></td><td class="mono">Performance</td><td><b>처리량·지연·이용률</b> 측정, 임계치 감시, 용량 산정</td></tr>
+        <tr><td><b style="color:#6b59aa">보안관리</b></td><td class="mono">Security</td><td>접근 권한·인증·<b>암호키 관리</b>, 보안 로그 감시</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E06B5A;">
+    <div class="note" style="border-left-color:#ae3e30;">
       🧠 <b>암기 — 「장구계성보」</b><br>
       <b>장</b>애 · <b>구</b>성 · <b>계</b>정 · <b>성</b>능 · <b>보</b>안. 영문 머리글자로는 <b class="mono">FCAPS</b>.
-      보기에 <b style="color:#ff8060">"설계관리 · 개발관리 · 영업관리"</b> 같은 게 섞여 나오면 그게 답(아닌 것)이다 —
+      보기에 <b style="color:#ae4024">"설계관리 · 개발관리 · 영업관리"</b> 같은 게 섞여 나오면 그게 답(아닌 것)이다 —
       망관리는 <b>이미 깔린 망을 돌보는</b> 일이지, 만드는 일이 아니다.
     </div>
 
     <!-- NMS 구조 -->
-    <div class="sub-title" style="color:#5B9BD5">🏗️ NMS 구조 — 누가 누구에게 무엇을</div>
+    <div class="sub-title" style="color:#2c6da4">🏗️ NMS 구조 — 누가 누구에게 무엇을</div>
     <div class="flow">
       Manager (NMS 서버)                              Agent (장비에 탑재)
       │                                         │
@@ -806,11 +806,11 @@
     <table class="tbl">
       <thead><tr><th>구성요소</th><th>역할</th><th>기출 포인트</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5B9BD5">Manager</b><br><span class="tag">관리자</span></td><td>관리 명령을 보내고 응답·Trap을 수집·표시하는 <b>NMS 서버</b></td><td>운영자가 보는 화면 쪽</td></tr>
-        <tr><td><b style="color:#5BAD6F">Agent</b><br><span class="tag">에이전트</span></td><td>피관리 장비에 <b>탑재된 프로세스</b>. MIB를 읽어 응답하고, 사건이 생기면 Trap 발송</td><td><b>장비 쪽</b>에 있다</td></tr>
-        <tr><td><b style="color:#E8A838">MIB</b></td><td>관리 대상 자원을 <b>객체로 표현한 데이터베이스</b>. 객체들의 <b>구조적 모임</b>, 트리 구조</td><td><b style="color:#ff8060">읽기 전용 아님!</b> Set으로 변경 가능</td></tr>
-        <tr><td><b style="color:#9B8AE0">SMI</b></td><td>MIB 객체의 <b>데이터 형태와 이름 붙이는 법</b>을 정의하는 규칙 (ASN.1 사용)</td><td>MIB의 <b>문법서</b></td></tr>
-        <tr><td><b style="color:#E06B5A">SNMP</b></td><td>Manager와 Agent가 주고받는 <b>프로토콜</b> (응용 계층)</td><td>UDP 161 / 162</td></tr>
+        <tr><td><b style="color:#2c6da4">Manager</b><br><span class="tag">관리자</span></td><td>관리 명령을 보내고 응답·Trap을 수집·표시하는 <b>NMS 서버</b></td><td>운영자가 보는 화면 쪽</td></tr>
+        <tr><td><b style="color:#267c41">Agent</b><br><span class="tag">에이전트</span></td><td>피관리 장비에 <b>탑재된 프로세스</b>. MIB를 읽어 응답하고, 사건이 생기면 Trap 발송</td><td><b>장비 쪽</b>에 있다</td></tr>
+        <tr><td><b style="color:#8a6012">MIB</b></td><td>관리 대상 자원을 <b>객체로 표현한 데이터베이스</b>. 객체들의 <b>구조적 모임</b>, 트리 구조</td><td><b style="color:#ae4024">읽기 전용 아님!</b> Set으로 변경 가능</td></tr>
+        <tr><td><b style="color:#6b59aa">SMI</b></td><td>MIB 객체의 <b>데이터 형태와 이름 붙이는 법</b>을 정의하는 규칙 (ASN.1 사용)</td><td>MIB의 <b>문법서</b></td></tr>
+        <tr><td><b style="color:#ae3e30">SNMP</b></td><td>Manager와 Agent가 주고받는 <b>프로토콜</b> (응용 계층)</td><td>UDP 161 / 162</td></tr>
       </tbody>
     </table>
     <div class="warn">
@@ -820,18 +820,18 @@
     </div>
 
     <!-- SNMP PDU -->
-    <div class="sub-title" style="color:#E8A838">📮 SNMP 메시지(PDU) 5종 — v1 기준</div>
+    <div class="sub-title" style="color:#8a6012">📮 SNMP 메시지(PDU) 5종 — v1 기준</div>
     <table class="tbl">
       <thead><tr><th>PDU</th><th>방향</th><th>의미</th></tr></thead>
       <tbody>
-        <tr><td><b class="mono" style="color:#5B9BD5">Get-Request</b></td><td>M → A</td><td>지정한 OID <b>하나의 값을 달라</b></td></tr>
-        <tr><td><b class="mono" style="color:#5B9BD5">GetNext-Request</b></td><td>M → A</td><td>지정 OID의 <b>다음 객체</b>를 달라 — 트리를 <b>순회(walk)</b>할 때 사용</td></tr>
-        <tr><td><b class="mono" style="color:#E8A838">Set-Request</b></td><td>M → A</td><td>객체 값을 <b>바꿔라</b> — 유일한 쓰기 명령</td></tr>
-        <tr><td><b class="mono" style="color:#5BAD6F">Get-Response</b></td><td>A → M</td><td>위 세 요청에 대한 <b>응답</b></td></tr>
-        <tr><td><b class="mono" style="color:#E06B5A">Trap</b></td><td><b>A → M</b></td><td>사건이 생기면 <b>에이전트가 먼저</b> 알린다 — 유일한 <b>비요청(unsolicited)</b> 메시지</td></tr>
+        <tr><td><b class="mono" style="color:#2c6da4">Get-Request</b></td><td>M → A</td><td>지정한 OID <b>하나의 값을 달라</b></td></tr>
+        <tr><td><b class="mono" style="color:#2c6da4">GetNext-Request</b></td><td>M → A</td><td>지정 OID의 <b>다음 객체</b>를 달라 — 트리를 <b>순회(walk)</b>할 때 사용</td></tr>
+        <tr><td><b class="mono" style="color:#8a6012">Set-Request</b></td><td>M → A</td><td>객체 값을 <b>바꿔라</b> — 유일한 쓰기 명령</td></tr>
+        <tr><td><b class="mono" style="color:#267c41">Get-Response</b></td><td>A → M</td><td>위 세 요청에 대한 <b>응답</b></td></tr>
+        <tr><td><b class="mono" style="color:#ae3e30">Trap</b></td><td><b>A → M</b></td><td>사건이 생기면 <b>에이전트가 먼저</b> 알린다 — 유일한 <b>비요청(unsolicited)</b> 메시지</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E8A838;">
+    <div class="note" style="border-left-color:#8a6012;">
       🧠 <b>포트 암기 — 「평소엔 161, 사고 나면 162」</b><br>
       <b class="mono">UDP 161</b> = Agent가 열어놓고 질문을 받는 문. <b class="mono">UDP 162</b> = Manager가 열어놓고 Trap을 받는 문.
       <b>Trap만 번호가 하나 크다</b>고 외우면 된다.<br>
@@ -840,13 +840,13 @@
     </div>
 
     <!-- SNMP 버전 -->
-    <div class="sub-title" style="color:#9B8AE0">🔢 SNMP 버전 비교</div>
+    <div class="sub-title" style="color:#6b59aa">🔢 SNMP 버전 비교</div>
     <table class="tbl">
       <thead><tr><th>버전</th><th>인증 방식</th><th>추가된 것</th><th>한계</th></tr></thead>
       <tbody>
-        <tr><td><b>v1</b></td><td><b>커뮤니티 스트링</b> (평문 문자열, 기본값 public/private)</td><td>기본 5개 PDU</td><td><b style="color:#ff8060">평문 전송 → 도청 취약</b></td></tr>
+        <tr><td><b>v1</b></td><td><b>커뮤니티 스트링</b> (평문 문자열, 기본값 public/private)</td><td>기본 5개 PDU</td><td><b style="color:#ae4024">평문 전송 → 도청 취약</b></td></tr>
         <tr><td><b>v2c</b></td><td>커뮤니티 스트링 (v1과 동일)</td><td><b>GetBulk</b>(대량 조회) · <b>Inform</b>(응답받는 Trap) · 64비트 카운터</td><td>보안은 v1과 같음</td></tr>
-        <tr><td><b style="color:#5BAD6F">v3</b></td><td><b>USM</b> — 사용자 기반 인증 + <b>암호화</b></td><td><b>인증·암호화·무결성·접근제어(VACM)</b></td><td>설정이 복잡</td></tr>
+        <tr><td><b style="color:#267c41">v3</b></td><td><b>USM</b> — 사용자 기반 인증 + <b>암호화</b></td><td><b>인증·암호화·무결성·접근제어(VACM)</b></td><td>설정이 복잡</td></tr>
       </tbody>
     </table>
     <div class="highlight">
@@ -855,7 +855,7 @@
     </div>
 
     <!-- MIB 트리 -->
-    <div class="sub-title" style="color:#5BAD6F">🌳 MIB 트리와 OID</div>
+    <div class="sub-title" style="color:#267c41">🌳 MIB 트리와 OID</div>
     <div class="flow">
 root
  └─ iso (1)
@@ -870,14 +870,14 @@ root
   MIB-II 의 OID 시작 = 1.3.6.1.2.1        (RFC 1213)
   벤더 고유 MIB 시작 = 1.3.6.1.4.1
     </div>
-    <div class="note" style="border-left-color:#5BAD6F;">
+    <div class="note" style="border-left-color:#267c41;">
       🧠 <b>「1.3.6.1」은 무조건 외운다</b> — iso(1)·org(3)·dod(6)·internet(1).
       뒤에 <b>2.1이면 표준 MIB-II</b>, <b>4.1이면 벤더 사설 MIB</b>.
       <b>MIB-II = RFC 1213</b>, <b>SMI = ASN.1 표기법</b>, 전송 시 인코딩은 <b>BER</b>.
     </div>
 
     <!-- RMON -->
-    <div class="sub-title" style="color:#E89050">📡 RMON — 원격 모니터링</div>
+    <div class="sub-title" style="color:#9d520f">📡 RMON — 원격 모니터링</div>
     <table class="tbl">
       <thead><tr><th>구분</th><th>감시 계층</th><th>보는 것</th></tr></thead>
       <tbody>
@@ -885,47 +885,47 @@ root
         <tr><td><b>RMON 2</b></td><td><b>3~7계층</b> (네트워크~응용)</td><td>프로토콜별·호스트별·<b>응용별 트래픽 분석</b></td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E89050;">
+    <div class="note" style="border-left-color:#9d520f;">
       SNMP는 <b>"물어봐야 답하는"</b> 방식이라 Manager가 계속 폴링하면 망에 부하가 걸린다.
       RMON은 <b>프로브(probe)가 현장에서 스스로 통계를 모아뒀다가</b> 요약해서 넘긴다 — <b>폴링 트래픽을 줄이는 것</b>이 목적.
     </div>
 
     <!-- SNMP vs CMIP -->
-    <div class="sub-title" style="color:#9B8AE0">⚖️ SNMP vs CMIP</div>
+    <div class="sub-title" style="color:#6b59aa">⚖️ SNMP vs CMIP</div>
     <div class="two-col">
-      <div class="mini-card" style="border-left:3px solid #5BAD6F;">
-        <h4 style="color:#5BAD6F">SNMP <span class="tag">TCP/IP 진영</span></h4>
+      <div class="mini-card" style="border-left:3px solid #267c41;">
+        <h4 style="color:#267c41">SNMP <span class="tag">TCP/IP 진영</span></h4>
         <p><b>UDP</b> 기반 · 구조 단순 · 구현 쉬움<br>
         폴링 방식이라 <b>트래픽 부담</b><br>
         보안은 v3에서야 해결<br>
-        <b style="color:#5BAD6F">사실상의 표준(de facto)</b></p>
+        <b style="color:#267c41">사실상의 표준(de facto)</b></p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #9B8AE0;">
-        <h4 style="color:#9B8AE0">CMIP <span class="tag">OSI 진영</span></h4>
+      <div class="mini-card" style="border-left:3px solid #6b59aa;">
+        <h4 style="color:#6b59aa">CMIP <span class="tag">OSI 진영</span></h4>
         <p><b>연결형(TCP 계열)</b> · 기능 풍부<br>
         객체지향, <b>보안·신뢰성 우수</b><br>
-        <b style="color:#ff8060">무겁고 구현 복잡 → 보급 실패</b><br>
+        <b style="color:#ae4024">무겁고 구현 복잡 → 보급 실패</b><br>
         서비스 규격은 <b>CMIS</b>, 프로토콜이 <b>CMIP</b></p>
       </div>
     </div>
 
     <!-- 기출 -->
-    <div class="sub-title" style="color:#E06B5A">📖 기출 포인트 총정리</div>
+    <div class="sub-title" style="color:#ae3e30">📖 기출 포인트 총정리</div>
     <table class="tbl">
       <thead><tr><th>문제 형태</th><th>답</th></tr></thead>
       <tbody>
-        <tr><td>네트워크 장치와 동작을 감시·관리하는 프로토콜은? <span class="tag">2022-1회 62번</span></td><td><b style="color:#5BAD6F">SNMP</b> (SMTP·SIP·SDP는 오답)</td></tr>
-        <tr><td>MIB 설명 중 <b>틀린</b> 것은? <span class="tag">2022-1회 69번</span></td><td><b style="color:#5BAD6F">"객체 값은 읽기 전용"</b> ← 이게 틀린 설명</td></tr>
-        <tr><td>SNMP Agent / Trap 포트는?</td><td><b style="color:#5BAD6F">UDP 161 / UDP 162</b></td></tr>
-        <tr><td>MIB 객체의 형식과 이름 규칙을 정의하는 것은?</td><td><b style="color:#5BAD6F">SMI</b> (ASN.1 사용)</td></tr>
-        <tr><td>에이전트가 능동적으로 보내는 메시지는?</td><td><b style="color:#5BAD6F">Trap</b></td></tr>
+        <tr><td>네트워크 장치와 동작을 감시·관리하는 프로토콜은? <span class="tag">2022-1회 62번</span></td><td><b style="color:#267c41">SNMP</b> (SMTP·SIP·SDP는 오답)</td></tr>
+        <tr><td>MIB 설명 중 <b>틀린</b> 것은? <span class="tag">2022-1회 69번</span></td><td><b style="color:#267c41">"객체 값은 읽기 전용"</b> ← 이게 틀린 설명</td></tr>
+        <tr><td>SNMP Agent / Trap 포트는?</td><td><b style="color:#267c41">UDP 161 / UDP 162</b></td></tr>
+        <tr><td>MIB 객체의 형식과 이름 규칙을 정의하는 것은?</td><td><b style="color:#267c41">SMI</b> (ASN.1 사용)</td></tr>
+        <tr><td>에이전트가 능동적으로 보내는 메시지는?</td><td><b style="color:#267c41">Trap</b></td></tr>
         <tr><td>ISO 망관리 5대 기능이 <b>아닌</b> 것은?</td><td>장·구·계·성·보 밖의 보기 (설계·개발·영업 등)</td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="section" id="sec-sysops">
-    <h2 class="section-title" style="color:#E89050">🛠️ 정보시스템 운용관리 — 생애주기 · 운영계획 · 장애대응</h2>
+    <h2 class="section-title" style="color:#9d520f">🛠️ 정보시스템 운용관리 — 생애주기 · 운영계획 · 장애대응</h2>
 
     <div class="highlight">
       이 주제는 <b>계산도 공식도 없다.</b> 대신 <b>"순서"와 "어느 단계 일인가"</b>만 묻는다.
@@ -933,7 +933,7 @@ root
     </div>
 
     <!-- 생애주기 -->
-    <div class="sub-title" style="color:#E89050">🔄 정보시스템 생애주기 5단계</div>
+    <div class="sub-title" style="color:#9d520f">🔄 정보시스템 생애주기 5단계</div>
     <div class="flow">
   ① 분석  ──▶  ② 설계  ──▶  ③ 구현  ──▶  ④ 시험  ──▶  ⑤ 운용·유지보수
   요구 파악      회선·HW·SW     코딩·구축      단위·통합      성능평가·피드백
@@ -943,33 +943,33 @@ root
     <table class="tbl">
       <thead><tr><th>단계</th><th>하는 일</th><th>기출 키워드</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5B9BD5">① 분석</b></td><td>현행 업무·요구사항 파악, <b>비능률·낭비 요소 발견</b>, 전산화 효과 분석</td><td>"새 시스템 설계의 <b>기초자료</b>를 얻는다"</td></tr>
-        <tr><td><b style="color:#5BAD6F">② 설계</b></td><td><b>최적 회선망 설계조건 검토</b>, HW/SW 구성, 프로그램 설계</td><td>"설계조건 검토" = <b style="color:#ff8060">운영계획이 아니다</b></td></tr>
-        <tr><td><b style="color:#E8A838">③ 구현</b></td><td>프로그램 작성, 장비 설치, 망 구축</td><td>코딩·설치</td></tr>
-        <tr><td><b style="color:#9B8AE0">④ 시험</b></td><td>단위·통합·시스템·인수 시험, <b>루프백 시험</b></td><td>정상 동작 확인</td></tr>
-        <tr><td><b style="color:#E06B5A">⑤ 유지보수</b></td><td><b>성능 평가 · 사용자 피드백 · 문제 개선 및 보안 · 개량개선 검토</b></td><td><span class="tag">2022-1회 80번 정답</span></td></tr>
+        <tr><td><b style="color:#2c6da4">① 분석</b></td><td>현행 업무·요구사항 파악, <b>비능률·낭비 요소 발견</b>, 전산화 효과 분석</td><td>"새 시스템 설계의 <b>기초자료</b>를 얻는다"</td></tr>
+        <tr><td><b style="color:#267c41">② 설계</b></td><td><b>최적 회선망 설계조건 검토</b>, HW/SW 구성, 프로그램 설계</td><td>"설계조건 검토" = <b style="color:#ae4024">운영계획이 아니다</b></td></tr>
+        <tr><td><b style="color:#8a6012">③ 구현</b></td><td>프로그램 작성, 장비 설치, 망 구축</td><td>코딩·설치</td></tr>
+        <tr><td><b style="color:#6b59aa">④ 시험</b></td><td>단위·통합·시스템·인수 시험, <b>루프백 시험</b></td><td>정상 동작 확인</td></tr>
+        <tr><td><b style="color:#ae3e30">⑤ 유지보수</b></td><td><b>성능 평가 · 사용자 피드백 · 문제 개선 및 보안 · 개량개선 검토</b></td><td><span class="tag">2022-1회 80번 정답</span></td></tr>
       </tbody>
     </table>
     <div class="warn">
       ⚠️ <b>기출 구분 연습</b><br>
       • "시스템 성능 평가, 사용자 피드백, 개선 및 보안" → <b>유지보수</b> (설계·구현·시험 아님)<br>
-      • "최적 회선망의 설계조건 검토" → <b>설계</b> 단계. <b style="color:#ff8060">운영계획에 포함되면 안 되는 항목</b><span class="tag">2022-1회 63번</span><br>
-      • "장애 발생 시 수리의 간편성·정기 점검 자료" → <b>유지보수 계획</b>의 목적이지 <b style="color:#ff8060">시스템 분석의 목적이 아님</b><span class="tag">2022-1회 73번</span>
+      • "최적 회선망의 설계조건 검토" → <b>설계</b> 단계. <b style="color:#ae4024">운영계획에 포함되면 안 되는 항목</b><span class="tag">2022-1회 63번</span><br>
+      • "장애 발생 시 수리의 간편성·정기 점검 자료" → <b>유지보수 계획</b>의 목적이지 <b style="color:#ae4024">시스템 분석의 목적이 아님</b><span class="tag">2022-1회 73번</span>
     </div>
 
     <!-- 운영계획 -->
-    <div class="sub-title" style="color:#5B9BD5">📅 정보통신망 운영계획에 들어가는 것</div>
+    <div class="sub-title" style="color:#2c6da4">📅 정보통신망 운영계획에 들어가는 것</div>
     <div class="two-col">
-      <div class="mini-card" style="border-left:3px solid #5BAD6F;">
-        <h4 style="color:#5BAD6F">✅ 포함된다</h4>
+      <div class="mini-card" style="border-left:3px solid #267c41;">
+        <h4 style="color:#267c41">✅ 포함된다</h4>
         <p>• <b>장기계획</b> — 연간 · 월간<br>
         • <b>단기계획</b> — 주간 · 일간<br>
         • 작업내용 · 작업량 · <b>우선순위</b><br>
         • 주기 · 운전소요시간 · 운전형태<br>
         • 시스템 구성</p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #E06B5A;">
-        <h4 style="color:#ff8060">❌ 포함되지 않는다</h4>
+      <div class="mini-card" style="border-left:3px solid #ae3e30;">
+        <h4 style="color:#ae4024">❌ 포함되지 않는다</h4>
         <p>• <b>최적 회선망의 설계조건 검토</b><br>
         <span style="color:var(--text3)">→ 이건 <b>설계 단계</b>의 일</span><br><br>
         🧠 <b>가르는 기준</b> — "이미 돌아가는 망을 <b>어떻게 굴릴까</b>"면 운영계획,
@@ -978,36 +978,36 @@ root
     </div>
 
     <!-- 장애 대응 절차 -->
-    <div class="sub-title" style="color:#E06B5A">🚨 장애 대응 절차 — 순서 그대로 나온다</div>
+    <div class="sub-title" style="color:#ae3e30">🚨 장애 대응 절차 — 순서 그대로 나온다</div>
     <div class="flow">
   ① 장애발생 신고접수  ──▶  ② 장애처리  ──▶  ③ 결과보고  ──▶  ④ 장애이력관리
      (접수·등급판정)        (원인분석·복구)     (보고·공지)      (기록·재발방지)
     </div>
-    <div class="note" style="border-left-color:#E06B5A;">
+    <div class="note" style="border-left-color:#ae3e30;">
       🧠 <b>암기 — 「접수 → 처리 → 보고 → 기록」</b><br>
       상식으로 풀린다. <b>접수가 먼저</b>고 <b>이력관리가 끝</b>이다.
-      보기에서 <b style="color:#ff8060">"결과보고가 장애처리보다 앞</b>"이거나 <b style="color:#ff8060">"장애처리가 신고접수보다 앞"</b>이면 전부 오답.
+      보기에서 <b style="color:#ae4024">"결과보고가 장애처리보다 앞</b>"이거나 <b style="color:#ae4024">"장애처리가 신고접수보다 앞"</b>이면 전부 오답.
       <span class="tag">2022-1회 67번</span>
     </div>
 
     <!-- 운용 프로그램 -->
-    <div class="sub-title" style="color:#9B8AE0">💾 운용·보수용 프로그램 4종</div>
+    <div class="sub-title" style="color:#6b59aa">💾 운용·보수용 프로그램 4종</div>
     <table class="tbl">
       <thead><tr><th>프로그램</th><th>목적</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5BAD6F">보수시험 프로그램</b></td><td>각 장비의 <b>기능에 따라 정상상태를 시험</b>할 목적 — 주기적 점검용 <span class="tag">2022-1회 78번 정답</span></td></tr>
-        <tr><td><b style="color:#E8A838">장애해석 프로그램</b></td><td>장애가 <b>발생한 뒤</b> 원인을 분석·진단</td></tr>
-        <tr><td><b style="color:#5B9BD5">시스템 가동통계 프로그램</b></td><td>가동률·이용률 등 <b>통계 수집</b></td></tr>
-        <tr><td><b style="color:#9B8AE0">프로그램 보수 프로그램</b></td><td>운용 중인 <b>프로그램 자체의 수정·갱신</b> 지원</td></tr>
+        <tr><td><b style="color:#267c41">보수시험 프로그램</b></td><td>각 장비의 <b>기능에 따라 정상상태를 시험</b>할 목적 — 주기적 점검용 <span class="tag">2022-1회 78번 정답</span></td></tr>
+        <tr><td><b style="color:#8a6012">장애해석 프로그램</b></td><td>장애가 <b>발생한 뒤</b> 원인을 분석·진단</td></tr>
+        <tr><td><b style="color:#2c6da4">시스템 가동통계 프로그램</b></td><td>가동률·이용률 등 <b>통계 수집</b></td></tr>
+        <tr><td><b style="color:#6b59aa">프로그램 보수 프로그램</b></td><td>운용 중인 <b>프로그램 자체의 수정·갱신</b> 지원</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#9B8AE0;">
+    <div class="note" style="border-left-color:#6b59aa;">
       🧠 <b>가르는 한 마디</b> — <b>고장 나기 전에</b> 돌려보는 게 <b>보수시험</b>, <b>고장 난 뒤에</b> 캐는 게 <b>장애해석</b>.
       "정상상태를 시험할 목적"이라는 표현이 나오면 무조건 <b>보수시험 프로그램</b>.
     </div>
 
     <!-- 루프백 -->
-    <div class="sub-title" style="color:#4DBFA8">🔁 루프백(Loop-Back) 시험</div>
+    <div class="sub-title" style="color:#117a68">🔁 루프백(Loop-Back) 시험</div>
     <div class="flow">
   ■ 자국 루프백 (Local)   — 내 장비까지는 정상인지 확인
 
@@ -1029,13 +1029,13 @@ root
     </table>
     <div class="warn">
       ⚠️ <b>기출 함정</b> <span class="tag">2022-1회 65번</span><br>
-      <b style="color:#ff8060">"원격루프백은 자국으로부터 수신한 신호를 자국으로 돌려주는 것"</b> → <b>틀린 설명</b>.
+      <b style="color:#ae4024">"원격루프백은 자국으로부터 수신한 신호를 자국으로 돌려주는 것"</b> → <b>틀린 설명</b>.
       되돌리는 주체는 <b>원격국</b>이다. "자국이 자국으로" 되돌리면 그건 <b>자국 루프백</b>.
       <b>주어가 누구인지</b>만 보면 걸러진다.
     </div>
 
     <!-- 프로그램 설계 기법 -->
-    <div class="sub-title" style="color:#5BAD6F">🧩 프로그램(소프트웨어) 설계 기법</div>
+    <div class="sub-title" style="color:#267c41">🧩 프로그램(소프트웨어) 설계 기법</div>
     <table class="tbl">
       <thead><tr><th>기법</th><th>내용</th></tr></thead>
       <tbody>
@@ -1043,12 +1043,12 @@ root
         <tr><td><b>바텀업(Bottom-Up) 설계</b></td><td>작은 모듈부터 만들어 <b>아래에서 위로</b> 합침</td></tr>
         <tr><td><b>복합(Composite) 설계</b></td><td>모듈 간 <b>결합도는 낮게, 응집도는 높게</b> — 톱다운·바텀업 절충</td></tr>
         <tr><td><b>데이터 중심형 설계</b></td><td>처리 흐름이 아니라 <b>자료 구조</b>를 기준으로 설계 (Jackson·Warnier)</td></tr>
-        <tr><td style="background:#2a1010;"><b style="color:#ff8060">하드웨어 설계</b></td><td style="background:#2a1010;"><b style="color:#ff8060">프로그램 설계가 아니다</b> — 보기에 끼면 그게 답 <span class="tag">2022-1회 66번</span></td></tr>
+        <tr><td style="background:#feeceb;"><b style="color:#ae4024">하드웨어 설계</b></td><td style="background:#feeceb;"><b style="color:#ae4024">프로그램 설계가 아니다</b> — 보기에 끼면 그게 답 <span class="tag">2022-1회 66번</span></td></tr>
       </tbody>
     </table>
 
     <!-- 운용 지표 -->
-    <div class="sub-title" style="color:#E8A838">📊 함께 나오는 운용 개념</div>
+    <div class="sub-title" style="color:#8a6012">📊 함께 나오는 운용 개념</div>
     <table class="tbl">
       <thead><tr><th>용어</th><th>뜻</th></tr></thead>
       <tbody>
@@ -1062,7 +1062,7 @@ root
   </div>
 
   <div class="section" id="sec-backup">
-    <h2 class="section-title" style="color:#5BAD6F">💾 백업 · RAID · 이중화 · 재해복구</h2>
+    <h2 class="section-title" style="color:#267c41">💾 백업 · RAID · 이중화 · 재해복구</h2>
 
     <div class="highlight">
       운용 파트에서 <b>"가용성을 어떻게 지키는가"</b>를 묻는 묶음이다.
@@ -1071,16 +1071,16 @@ root
     </div>
 
     <!-- 백업 유형 -->
-    <div class="sub-title" style="color:#5BAD6F">🗂️ 백업 3유형 — 시간을 어디서 쓸 것인가</div>
+    <div class="sub-title" style="color:#267c41">🗂️ 백업 3유형 — 시간을 어디서 쓸 것인가</div>
     <table class="tbl">
       <thead><tr><th>유형</th><th>무엇을 백업</th><th>백업 시간</th><th>복구 시간</th><th>복구 시 필요한 것</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5B9BD5">전체 백업</b><br><span class="tag">Full</span></td><td>전체 데이터</td><td><b style="color:#ff8060">가장 길다</b></td><td><b style="color:#5BAD6F">가장 짧다</b></td><td>전체본 <b>1개</b></td></tr>
-        <tr><td><b style="color:#E8A838">증분 백업</b><br><span class="tag">Incremental</span></td><td><b>직전 백업</b> 이후 바뀐 것</td><td><b style="color:#5BAD6F">가장 짧다</b></td><td><b style="color:#ff8060">가장 길다</b></td><td>전체본 + <b>모든 증분본</b></td></tr>
-        <tr><td><b style="color:#9B8AE0">차등 백업</b><br><span class="tag">Differential</span></td><td><b>마지막 전체 백업</b> 이후 바뀐 것</td><td>중간</td><td>중간</td><td>전체본 + <b>최근 차등본 1개</b></td></tr>
+        <tr><td><b style="color:#2c6da4">전체 백업</b><br><span class="tag">Full</span></td><td>전체 데이터</td><td><b style="color:#ae4024">가장 길다</b></td><td><b style="color:#267c41">가장 짧다</b></td><td>전체본 <b>1개</b></td></tr>
+        <tr><td><b style="color:#8a6012">증분 백업</b><br><span class="tag">Incremental</span></td><td><b>직전 백업</b> 이후 바뀐 것</td><td><b style="color:#267c41">가장 짧다</b></td><td><b style="color:#ae4024">가장 길다</b></td><td>전체본 + <b>모든 증분본</b></td></tr>
+        <tr><td><b style="color:#6b59aa">차등 백업</b><br><span class="tag">Differential</span></td><td><b>마지막 전체 백업</b> 이후 바뀐 것</td><td>중간</td><td>중간</td><td>전체본 + <b>최근 차등본 1개</b></td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#5BAD6F;">
+    <div class="note" style="border-left-color:#267c41;">
       🧠 <b>가르는 한 마디 — 「증분은 직전, 차등은 전체 이후」</b><br>
       <b>증</b>분 = <b>직</b>전 기준(쌓인다) · <b>차</b>등 = <b>처</b>음(전체) 기준(덮어쓰듯 커진다).<br>
       그래서 <b>백업이 빠르면 복구가 느리고, 백업이 느리면 복구가 빠르다</b>는 시소 관계가 성립한다.
@@ -1088,39 +1088,39 @@ root
     </div>
 
     <!-- RAID -->
-    <div class="sub-title" style="color:#E8A838">🧱 RAID 레벨</div>
+    <div class="sub-title" style="color:#8a6012">🧱 RAID 레벨</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:640px;">
       <thead><tr><th>레벨</th><th>방식</th><th>최소 디스크</th><th>내결함성</th><th>용량 효율</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#ff8060">RAID 0</b></td><td><b>스트라이핑</b> — 나눠 저장, 속도만 추구</td><td>2</td><td><b style="color:#ff8060">없음</b> (1개 고장 = 전멸)</td><td>100%</td></tr>
-        <tr><td><b style="color:#5BAD6F">RAID 1</b></td><td><b>미러링</b> — 똑같이 복제</td><td>2</td><td>1개 고장 OK</td><td><b>50%</b></td></tr>
+        <tr><td><b style="color:#ae4024">RAID 0</b></td><td><b>스트라이핑</b> — 나눠 저장, 속도만 추구</td><td>2</td><td><b style="color:#ae4024">없음</b> (1개 고장 = 전멸)</td><td>100%</td></tr>
+        <tr><td><b style="color:#267c41">RAID 1</b></td><td><b>미러링</b> — 똑같이 복제</td><td>2</td><td>1개 고장 OK</td><td><b>50%</b></td></tr>
         <tr><td><b>RAID 3</b></td><td>바이트 스트라이핑 + <b>전용 패리티 디스크</b></td><td>3</td><td>1개 고장 OK</td><td><span class="fr"><span>n−1</span><span>n</span></span></td></tr>
         <tr><td><b>RAID 4</b></td><td><b>블록</b> 스트라이핑 + 전용 패리티 디스크</td><td>3</td><td>1개 고장 OK</td><td><span class="fr"><span>n−1</span><span>n</span></span></td></tr>
-        <tr><td><b style="color:#5B9BD5">RAID 5</b></td><td>블록 스트라이핑 + <b>패리티 분산</b></td><td><b>3</b></td><td><b>1개</b> 고장 OK</td><td><span class="fr"><span>n−1</span><span>n</span></span></td></tr>
-        <tr><td><b style="color:#9B8AE0">RAID 6</b></td><td>패리티 <b>2벌</b> 분산</td><td><b>4</b></td><td><b>2개</b> 고장 OK</td><td><span class="fr"><span>n−2</span><span>n</span></span></td></tr>
-        <tr><td><b style="color:#E8A838">RAID 10</b></td><td>미러(1) 묶고 스트라이핑(0)</td><td>4</td><td>미러 쌍마다 1개씩 OK</td><td>50%</td></tr>
+        <tr><td><b style="color:#2c6da4">RAID 5</b></td><td>블록 스트라이핑 + <b>패리티 분산</b></td><td><b>3</b></td><td><b>1개</b> 고장 OK</td><td><span class="fr"><span>n−1</span><span>n</span></span></td></tr>
+        <tr><td><b style="color:#6b59aa">RAID 6</b></td><td>패리티 <b>2벌</b> 분산</td><td><b>4</b></td><td><b>2개</b> 고장 OK</td><td><span class="fr"><span>n−2</span><span>n</span></span></td></tr>
+        <tr><td><b style="color:#8a6012">RAID 10</b></td><td>미러(1) 묶고 스트라이핑(0)</td><td>4</td><td>미러 쌍마다 1개씩 OK</td><td>50%</td></tr>
       </tbody>
     </table>
     </div>
-    <div class="note" style="border-left-color:#E8A838;">
+    <div class="note" style="border-left-color:#8a6012;">
       🧠 <b>숫자만 외우면 되는 것</b> — <b>RAID 5는 최소 3개·1개 고장 허용</b>, <b>RAID 6은 최소 4개·2개 고장 허용</b>,
       <b>RAID 0은 내결함성 0</b>. <b>패리티가 전용이면 3·4, 분산이면 5</b>.<br>
       "성능만 좋고 안정성은 없는 것" → <b>RAID 0</b>. "용량 절반을 버리고 안정성을 사는 것" → <b>RAID 1</b>.
     </div>
 
     <!-- 이중화 -->
-    <div class="sub-title" style="color:#5B9BD5">🔗 이중화(HA) 구성</div>
+    <div class="sub-title" style="color:#2c6da4">🔗 이중화(HA) 구성</div>
     <div class="two-col">
-      <div class="mini-card" style="border-left:3px solid #5BAD6F;">
-        <h4 style="color:#5BAD6F">Active–Active</h4>
+      <div class="mini-card" style="border-left:3px solid #267c41;">
+        <h4 style="color:#267c41">Active–Active</h4>
         <p>둘 다 <b>동시에 서비스</b><br>
         평상시 <b>부하 분산</b>까지 얻는다<br>
         하나 죽어도 무중단, 대신 <b>용량 계산 주의</b><br>
         (한쪽이 죽으면 나머지가 2배를 감당)</p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #E8A838;">
-        <h4 style="color:#E8A838">Active–Standby</h4>
+      <div class="mini-card" style="border-left:3px solid #8a6012;">
+        <h4 style="color:#8a6012">Active–Standby</h4>
         <p>하나는 <b>대기</b>만 하다가 넘겨받음(Failover)<br>
         <b>Hot standby</b> = 켜둔 채 대기(전환 빠름)<br>
         <b>Cold standby</b> = 꺼둔 채 대기(전환 느림)<br>
@@ -1133,7 +1133,7 @@ root
     </div>
 
     <!-- 재해복구 -->
-    <div class="sub-title" style="color:#E06B5A">🌋 재해복구 — RTO · RPO</div>
+    <div class="sub-title" style="color:#ae3e30">🌋 재해복구 — RTO · RPO</div>
     <div class="flow">
    ──── 과거 ─────────────  ◉ 재해 발생  ───────────── 미래 ────
 
@@ -1145,34 +1145,34 @@ root
     <table class="tbl">
       <thead><tr><th>지표</th><th>정의</th><th>단위가 뜻하는 것</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#E06B5A">RTO</b><br><span class="tag">Recovery Time Objective</span></td><td>재해 후 <b>서비스를 다시 살릴 때까지 걸려도 되는 시간</b></td><td><b>시간</b> — 얼마나 멈춰 있어도 되나</td></tr>
-        <tr><td><b style="color:#5B9BD5">RPO</b><br><span class="tag">Recovery Point Objective</span></td><td>재해 시 <b>잃어도 되는 데이터의 시간 폭</b></td><td><b>시점</b> — 얼마나 되돌아가도 되나</td></tr>
+        <tr><td><b style="color:#ae3e30">RTO</b><br><span class="tag">Recovery Time Objective</span></td><td>재해 후 <b>서비스를 다시 살릴 때까지 걸려도 되는 시간</b></td><td><b>시간</b> — 얼마나 멈춰 있어도 되나</td></tr>
+        <tr><td><b style="color:#2c6da4">RPO</b><br><span class="tag">Recovery Point Objective</span></td><td>재해 시 <b>잃어도 되는 데이터의 시간 폭</b></td><td><b>시점</b> — 얼마나 되돌아가도 되나</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#5B9BD5;">
+    <div class="note" style="border-left-color:#2c6da4;">
       🧠 <b>헷갈릴 때 — 「T는 Time(복구 시간), P는 Point(데이터 시점)」</b><br>
       "RPO = 0" 은 <b>데이터를 한 건도 못 잃는다</b>(동기 미러링 필요),
       "RTO = 0" 은 <b>한 순간도 못 멈춘다</b>(무중단 이중화 필요). 둘은 다른 요구다.
     </div>
 
     <!-- DR 사이트 -->
-    <div class="sub-title" style="color:#9B8AE0">🏢 재해복구 사이트 4종 — 비용 순</div>
+    <div class="sub-title" style="color:#6b59aa">🏢 재해복구 사이트 4종 — 비용 순</div>
     <table class="tbl">
       <thead><tr><th>사이트</th><th>상태</th><th>복구 소요</th><th>비용</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#E06B5A">Mirror Site</b></td><td>주센터와 <b>동일 구성 + 실시간 동기화</b>, 양쪽 동시 가동</td><td><b>즉시 (0)</b></td><td><b style="color:#ff8060">최고</b></td></tr>
-        <tr><td><b style="color:#E8A838">Hot Site</b></td><td>동일 설비를 <b>대기 상태</b>로 유지, 데이터는 주기적 동기화</td><td><b>수 시간</b></td><td>높음</td></tr>
-        <tr><td><b style="color:#5B9BD5">Warm Site</b></td><td><b>중요 설비만</b> 부분 보유</td><td><b>수 일</b></td><td>중간</td></tr>
-        <tr><td><b style="color:#5BAD6F">Cold Site</b></td><td><b>공간·전원·회선만</b> 확보, 장비는 재해 후 반입</td><td><b>수 주</b></td><td><b style="color:#5BAD6F">최저</b></td></tr>
+        <tr><td><b style="color:#ae3e30">Mirror Site</b></td><td>주센터와 <b>동일 구성 + 실시간 동기화</b>, 양쪽 동시 가동</td><td><b>즉시 (0)</b></td><td><b style="color:#ae4024">최고</b></td></tr>
+        <tr><td><b style="color:#8a6012">Hot Site</b></td><td>동일 설비를 <b>대기 상태</b>로 유지, 데이터는 주기적 동기화</td><td><b>수 시간</b></td><td>높음</td></tr>
+        <tr><td><b style="color:#2c6da4">Warm Site</b></td><td><b>중요 설비만</b> 부분 보유</td><td><b>수 일</b></td><td>중간</td></tr>
+        <tr><td><b style="color:#267c41">Cold Site</b></td><td><b>공간·전원·회선만</b> 확보, 장비는 재해 후 반입</td><td><b>수 주</b></td><td><b style="color:#267c41">최저</b></td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#9B8AE0;">
+    <div class="note" style="border-left-color:#6b59aa;">
       🧠 <b>온도로 외운다</b> — <b>미러(똑같이 켜짐) &gt; 뜨겁다(대기 중) &gt; 미지근 &gt; 차갑다(빈 방)</b>.
       뜨거울수록 <b>빨리 살아나고 비싸다</b>. 순서를 묻는 문제가 대부분이다.
     </div>
 
     <!-- BCP -->
-    <div class="sub-title" style="color:#4DBFA8">📘 BCP / DRP</div>
+    <div class="sub-title" style="color:#117a68">📘 BCP / DRP</div>
     <table class="tbl">
       <thead><tr><th>용어</th><th>범위</th></tr></thead>
       <tbody>
@@ -1188,7 +1188,7 @@ root
   </div>
 
   <div class="section" id="sec-secthreat">
-    <h2 class="section-title" style="color:#E06B5A">⚔️ 보안 위협 유형 · 공격 기법</h2>
+    <h2 class="section-title" style="color:#ae3e30">⚔️ 보안 위협 유형 · 공격 기법</h2>
 
     <div class="highlight">
       출제의 <b>뼈대는 딱 하나</b> — <b>「어떤 보안 요건을 깨뜨리는 공격인가」</b>.
@@ -1196,7 +1196,7 @@ root
     </div>
 
     <!-- 위협 4분류 -->
-    <div class="sub-title" style="color:#E06B5A">🎯 보안 위협 4분류 — 매 회차 출제</div>
+    <div class="sub-title" style="color:#ae3e30">🎯 보안 위협 4분류 — 매 회차 출제</div>
     <div class="flow">
         정상 흐름                      ① 가로막기 (Interruption)
    송신자 ──────▶ 수신자          송신자 ──╳    수신자     → 가용성 침해
@@ -1212,13 +1212,13 @@ root
     <table class="tbl">
       <thead><tr><th>위협</th><th>행위</th><th>깨지는 요건</th><th>공격 예</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#E8A838">가로막기</b><br><span class="tag">Interruption</span></td><td>전달 자체를 <b>차단·마비</b></td><td><b style="color:#E8A838">가용성</b></td><td>DoS/DDoS, 회선 절단</td></tr>
-        <tr><td><b style="color:#5B9BD5">가로채기</b><br><span class="tag">Interception</span></td><td>몰래 <b>엿봄</b> (내용은 안 건드림)</td><td><b style="color:#5B9BD5">기밀성</b></td><td>스니핑, 도청, 트래픽 분석</td></tr>
-        <tr><td><b style="color:#5BAD6F">변조</b><br><span class="tag">Modification</span></td><td>접근할 뿐 아니라 <b>내용을 바꿈</b></td><td><b style="color:#5BAD6F">무결성</b></td><td>데이터 수정, 웹 변조</td></tr>
-        <tr><td><b style="color:#9B8AE0">위조</b><br><span class="tag">Fabrication</span></td><td>없던 것을 <b>새로 만들어 삽입</b></td><td><b style="color:#9B8AE0">인증</b></td><td>스푸핑, 위조 메시지 삽입</td></tr>
+        <tr><td><b style="color:#8a6012">가로막기</b><br><span class="tag">Interruption</span></td><td>전달 자체를 <b>차단·마비</b></td><td><b style="color:#8a6012">가용성</b></td><td>DoS/DDoS, 회선 절단</td></tr>
+        <tr><td><b style="color:#2c6da4">가로채기</b><br><span class="tag">Interception</span></td><td>몰래 <b>엿봄</b> (내용은 안 건드림)</td><td><b style="color:#2c6da4">기밀성</b></td><td>스니핑, 도청, 트래픽 분석</td></tr>
+        <tr><td><b style="color:#267c41">변조</b><br><span class="tag">Modification</span></td><td>접근할 뿐 아니라 <b>내용을 바꿈</b></td><td><b style="color:#267c41">무결성</b></td><td>데이터 수정, 웹 변조</td></tr>
+        <tr><td><b style="color:#6b59aa">위조</b><br><span class="tag">Fabrication</span></td><td>없던 것을 <b>새로 만들어 삽입</b></td><td><b style="color:#6b59aa">인증</b></td><td>스푸핑, 위조 메시지 삽입</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E06B5A;">
+    <div class="note" style="border-left-color:#ae3e30;">
       🧠 <b>「막·채·변·위」 → 「가·기·무·인」</b><br>
       가로<b>막</b>기=<b>가</b>용성 · 가로<b>채</b>기=<b>기</b>밀성 · <b>변</b>조=<b>무</b>결성 · <b>위</b>조=<b>인</b>증.<br>
       기출 문장 <b>"인가받지 않은 제3자가 자원에 접근할 뿐만 아니라 내용을 변경"</b> → <b>변조</b>
@@ -1226,16 +1226,16 @@ root
     </div>
 
     <!-- 소극/적극 -->
-    <div class="sub-title" style="color:#5B9BD5">🔀 소극적 공격 vs 적극적 공격</div>
+    <div class="sub-title" style="color:#2c6da4">🔀 소극적 공격 vs 적극적 공격</div>
     <div class="two-col">
-      <div class="mini-card" style="border-left:3px solid #5B9BD5;">
-        <h4 style="color:#5B9BD5">소극적(Passive) 공격</h4>
+      <div class="mini-card" style="border-left:3px solid #2c6da4;">
+        <h4 style="color:#2c6da4">소극적(Passive) 공격</h4>
         <p>데이터를 <b>건드리지 않고 관찰만</b><br>
         • 스니핑 · 도청 · <b>트래픽 분석</b><br>
-        <b style="color:#ff8060">탐지가 어렵다</b> → <b>예방(암호화)</b>이 대책</p>
+        <b style="color:#ae4024">탐지가 어렵다</b> → <b>예방(암호화)</b>이 대책</p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #E06B5A;">
-        <h4 style="color:#ff8060">적극적(Active) 공격</h4>
+      <div class="mini-card" style="border-left:3px solid #ae3e30;">
+        <h4 style="color:#ae4024">적극적(Active) 공격</h4>
         <p>데이터를 <b>바꾸거나 흐름을 방해</b><br>
         • 변조 · 위장 · 재전송 · <b>서비스 거부</b><br>
         탐지는 비교적 쉽다 → <b>탐지·복구</b>가 대책</p>
@@ -1243,7 +1243,7 @@ root
     </div>
 
     <!-- 공격 기법 -->
-    <div class="sub-title" style="color:#E8A838">🗡️ 자주 나오는 공격 기법</div>
+    <div class="sub-title" style="color:#8a6012">🗡️ 자주 나오는 공격 기법</div>
     <table class="tbl">
       <thead><tr><th>공격</th><th>수법</th><th>노리는 것</th></tr></thead>
       <tbody>
@@ -1265,7 +1265,7 @@ root
     </table>
 
     <!-- DoS 세부 -->
-    <div class="sub-title" style="color:#E06B5A">💥 DoS 공격 세부 유형</div>
+    <div class="sub-title" style="color:#ae3e30">💥 DoS 공격 세부 유형</div>
     <table class="tbl">
       <thead><tr><th>공격</th><th>원리</th></tr></thead>
       <tbody>
@@ -1276,19 +1276,19 @@ root
         <tr><td><b>Land</b></td><td>출발지와 목적지 <b>주소를 똑같이</b> 만들어 자기 자신에게 응답하게 함</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E06B5A;">
+    <div class="note" style="border-left-color:#ae3e30;">
       🧠 <b>키워드 하나씩만</b> — SYN=<b>미완성 연결</b>, Smurf=<b>브로드캐스트 ICMP</b>,
       PoD=<b>큰 패킷</b>, Teardrop=<b>겹친 오프셋</b>, Land=<b>출발지=목적지</b>.
     </div>
 
     <!-- 악성코드 -->
-    <div class="sub-title" style="color:#9B8AE0">🦠 악성코드 3분류</div>
+    <div class="sub-title" style="color:#6b59aa">🦠 악성코드 3분류</div>
     <table class="tbl">
       <thead><tr><th>종류</th><th>숙주</th><th>자기 복제</th><th>특징</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#E8A838">바이러스</b></td><td><b>필요</b> (파일에 기생)</td><td>O</td><td>숙주 파일이 실행돼야 퍼진다</td></tr>
-        <tr><td><b style="color:#E06B5A">웜</b> <span class="tag">Worm</span></td><td><b style="color:#ff8060">불필요</b> (독립 실행)</td><td>O</td><td><b>네트워크를 타고 스스로</b> 확산 → 대역폭 고갈</td></tr>
-        <tr><td><b style="color:#9B8AE0">트로이 목마</b></td><td>정상 프로그램 <b>위장</b></td><td><b style="color:#ff8060">X</b></td><td>복제하지 않고 <b>백도어·정보 유출</b> 수행</td></tr>
+        <tr><td><b style="color:#8a6012">바이러스</b></td><td><b>필요</b> (파일에 기생)</td><td>O</td><td>숙주 파일이 실행돼야 퍼진다</td></tr>
+        <tr><td><b style="color:#ae3e30">웜</b> <span class="tag">Worm</span></td><td><b style="color:#ae4024">불필요</b> (독립 실행)</td><td>O</td><td><b>네트워크를 타고 스스로</b> 확산 → 대역폭 고갈</td></tr>
+        <tr><td><b style="color:#6b59aa">트로이 목마</b></td><td>정상 프로그램 <b>위장</b></td><td><b style="color:#ae4024">X</b></td><td>복제하지 않고 <b>백도어·정보 유출</b> 수행</td></tr>
       </tbody>
     </table>
     <div class="warn">
@@ -1297,15 +1297,15 @@ root
     </div>
 
     <!-- 보안 요건 -->
-    <div class="sub-title" style="color:#5BAD6F">🛡️ 정보통신보안 요건 정리</div>
+    <div class="sub-title" style="color:#267c41">🛡️ 정보통신보안 요건 정리</div>
     <table class="tbl">
       <thead><tr><th>요건</th><th>정의 문장 (기출 그대로)</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5B9BD5">기밀성</b></td><td>인가된 사용자만 정보를 <b>볼 수 있음</b> — 도청·유출 방지</td></tr>
-        <tr><td><b style="color:#5BAD6F">무결성</b></td><td>인가된 사용자만 <b>수정 가능</b>하며, <b>전송 중 수정되지 않고</b> 전달됨 <span class="tag">2022-1회 71번</span></td></tr>
-        <tr><td><b style="color:#E8A838">가용성</b></td><td>필요할 때 <b>언제든 사용 가능</b> — DDoS·장애로 깨진다</td></tr>
-        <tr><td><b style="color:#9B8AE0">인증</b></td><td>통신 상대가 <b>주장하는 그 사람이 맞는지</b> 확인</td></tr>
-        <tr><td><b style="color:#E89050">부인방지</b></td><td>보낸 사실·받은 사실을 <b>나중에 부인하지 못하게</b> — 전자서명이 수단</td></tr>
+        <tr><td><b style="color:#2c6da4">기밀성</b></td><td>인가된 사용자만 정보를 <b>볼 수 있음</b> — 도청·유출 방지</td></tr>
+        <tr><td><b style="color:#267c41">무결성</b></td><td>인가된 사용자만 <b>수정 가능</b>하며, <b>전송 중 수정되지 않고</b> 전달됨 <span class="tag">2022-1회 71번</span></td></tr>
+        <tr><td><b style="color:#8a6012">가용성</b></td><td>필요할 때 <b>언제든 사용 가능</b> — DDoS·장애로 깨진다</td></tr>
+        <tr><td><b style="color:#6b59aa">인증</b></td><td>통신 상대가 <b>주장하는 그 사람이 맞는지</b> 확인</td></tr>
+        <tr><td><b style="color:#9d520f">부인방지</b></td><td>보낸 사실·받은 사실을 <b>나중에 부인하지 못하게</b> — 전자서명이 수단</td></tr>
       </tbody>
     </table>
     <div class="highlight">
@@ -1315,7 +1315,7 @@ root
   </div>
 
   <div class="section" id="sec-secdev">
-    <h2 class="section-title" style="color:#9B8AE0">🧱 보안 장비 · 인증 · 접근통제</h2>
+    <h2 class="section-title" style="color:#6b59aa">🧱 보안 장비 · 인증 · 접근통제</h2>
 
     <div class="highlight">
       앞 섹션이 <b>"어떻게 공격하는가"</b>였다면, 여기는 <b>"무엇으로 막는가"</b>다.
@@ -1323,23 +1323,23 @@ root
     </div>
 
     <!-- 방화벽 -->
-    <div class="sub-title" style="color:#9B8AE0">🚧 방화벽(Firewall) 유형</div>
+    <div class="sub-title" style="color:#6b59aa">🚧 방화벽(Firewall) 유형</div>
     <table class="tbl">
       <thead><tr><th>유형</th><th>동작 계층</th><th>판단 기준</th><th>특징</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5B9BD5">패킷 필터링</b></td><td>3~4계층</td><td>IP · 포트 · 프로토콜</td><td><b>빠르지만</b> 내용은 못 봄, 상태 추적 없음</td></tr>
-        <tr><td><b style="color:#5BAD6F">상태 기반 검사</b><br><span class="tag">Stateful Inspection</span></td><td>3~4계층 +</td><td>연결 <b>세션 상태 테이블</b></td><td>응답 패킷인지 구분 가능 — <b>현재 주류</b></td></tr>
-        <tr><td><b style="color:#E8A838">응용 게이트웨이</b><br><span class="tag">Proxy</span></td><td><b>7계층</b></td><td>응용 데이터 <b>내용</b></td><td>보안 강함, <b style="color:#ff8060">속도 느림</b>, 서비스별 프록시 필요</td></tr>
-        <tr><td><b style="color:#E89050">회선 게이트웨이</b><br><span class="tag">Circuit</span></td><td>5계층</td><td>세션 단위 중계 (SOCKS)</td><td>내용은 안 보고 연결만 중계</td></tr>
+        <tr><td><b style="color:#2c6da4">패킷 필터링</b></td><td>3~4계층</td><td>IP · 포트 · 프로토콜</td><td><b>빠르지만</b> 내용은 못 봄, 상태 추적 없음</td></tr>
+        <tr><td><b style="color:#267c41">상태 기반 검사</b><br><span class="tag">Stateful Inspection</span></td><td>3~4계층 +</td><td>연결 <b>세션 상태 테이블</b></td><td>응답 패킷인지 구분 가능 — <b>현재 주류</b></td></tr>
+        <tr><td><b style="color:#8a6012">응용 게이트웨이</b><br><span class="tag">Proxy</span></td><td><b>7계층</b></td><td>응용 데이터 <b>내용</b></td><td>보안 강함, <b style="color:#ae4024">속도 느림</b>, 서비스별 프록시 필요</td></tr>
+        <tr><td><b style="color:#9d520f">회선 게이트웨이</b><br><span class="tag">Circuit</span></td><td>5계층</td><td>세션 단위 중계 (SOCKS)</td><td>내용은 안 보고 연결만 중계</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#9B8AE0;">
+    <div class="note" style="border-left-color:#6b59aa;">
       🧠 <b>「계층이 올라갈수록 똑똑하지만 느리다」</b> — 패킷필터(빠름·멍청) → 상태기반 → 프록시(느림·똑똑).
-      방화벽은 <b>외부 위협</b>을 막는 장비라 <b style="color:#ff8060">내부자 공격은 막지 못한다</b>는 한계 문장이 자주 출제된다.
+      방화벽은 <b>외부 위협</b>을 막는 장비라 <b style="color:#ae4024">내부자 공격은 막지 못한다</b>는 한계 문장이 자주 출제된다.
     </div>
 
     <!-- DMZ -->
-    <div class="sub-title" style="color:#5B9BD5">🏛️ DMZ — 비무장지대</div>
+    <div class="sub-title" style="color:#2c6da4">🏛️ DMZ — 비무장지대</div>
     <div class="flow">
    인터넷 ──▶ [외부 방화벽] ──▶  DMZ  ──▶ [내부 방화벽] ──▶ 내부망
                               웹·메일·DNS                사내 서버·PC
@@ -1350,31 +1350,31 @@ root
     </div>
 
     <!-- IDS / IPS -->
-    <div class="sub-title" style="color:#E06B5A">👁️ IDS vs IPS</div>
+    <div class="sub-title" style="color:#ae3e30">👁️ IDS vs IPS</div>
     <table class="tbl">
       <thead><tr><th>구분</th><th>IDS <span class="tag">침입탐지</span></th><th>IPS <span class="tag">침입방지</span></th></tr></thead>
       <tbody>
-        <tr><td>목적</td><td><b>탐지·경보</b>까지</td><td><b style="color:#5BAD6F">탐지 + 차단</b></td></tr>
+        <tr><td>목적</td><td><b>탐지·경보</b>까지</td><td><b style="color:#267c41">탐지 + 차단</b></td></tr>
         <tr><td>설치 위치</td><td><b>미러링(Out-of-band)</b> — 트래픽 사본을 봄</td><td><b>인라인(In-line)</b> — 트래픽이 통과</td></tr>
-        <tr><td>지연 영향</td><td>거의 없음</td><td><b style="color:#ff8060">있음</b> (통과 경로에 있으므로)</td></tr>
-        <tr><td>오탐 시</td><td>경보만 남음</td><td><b style="color:#ff8060">정상 트래픽이 끊긴다</b></td></tr>
+        <tr><td>지연 영향</td><td>거의 없음</td><td><b style="color:#ae4024">있음</b> (통과 경로에 있으므로)</td></tr>
+        <tr><td>오탐 시</td><td>경보만 남음</td><td><b style="color:#ae4024">정상 트래픽이 끊긴다</b></td></tr>
       </tbody>
     </table>
     <div class="two-col">
-      <div class="mini-card" style="border-left:3px solid #E8A838;">
-        <h4 style="color:#E8A838">오용 탐지 <span class="tag">Misuse</span></h4>
+      <div class="mini-card" style="border-left:3px solid #8a6012;">
+        <h4 style="color:#8a6012">오용 탐지 <span class="tag">Misuse</span></h4>
         <p><b>알려진 공격 패턴(시그니처)</b>과 대조<br>
-        오탐 적음 · <b style="color:#ff8060">제로데이는 못 잡음</b></p>
+        오탐 적음 · <b style="color:#ae4024">제로데이는 못 잡음</b></p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #5BAD6F;">
-        <h4 style="color:#5BAD6F">이상 탐지 <span class="tag">Anomaly</span></h4>
+      <div class="mini-card" style="border-left:3px solid #267c41;">
+        <h4 style="color:#267c41">이상 탐지 <span class="tag">Anomaly</span></h4>
         <p><b>평소 행동 프로파일</b>과 다르면 경보<br>
         <b>미지의 공격 탐지 가능</b> · 오탐 많음</p>
       </div>
     </div>
 
     <!-- 기타 보안 장비 -->
-    <div class="sub-title" style="color:#4DBFA8">🧰 그 밖의 보안 솔루션</div>
+    <div class="sub-title" style="color:#117a68">🧰 그 밖의 보안 솔루션</div>
     <table class="tbl">
       <thead><tr><th>솔루션</th><th>역할</th></tr></thead>
       <tbody>
@@ -1388,47 +1388,47 @@ root
     </table>
 
     <!-- VPN -->
-    <div class="sub-title" style="color:#5BAD6F">🔒 VPN — 공중망 위의 사설망</div>
+    <div class="sub-title" style="color:#267c41">🔒 VPN — 공중망 위의 사설망</div>
     <table class="tbl">
       <thead><tr><th>구분</th><th>내용</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5B9BD5">IPsec</b></td><td><b>3계층</b>에서 동작. 게이트웨이 간 <b>사이트 간 VPN</b>에 주로 사용</td></tr>
-        <tr><td>└ <b>AH</b> <span class="tag">Authentication Header</span></td><td><b>무결성 + 인증</b>만 제공 — <b style="color:#ff8060">암호화(기밀성) 없음</b></td></tr>
-        <tr><td>└ <b>ESP</b> <span class="tag">Encapsulating Security Payload</span></td><td>무결성 + 인증 + <b style="color:#5BAD6F">암호화(기밀성)</b></td></tr>
+        <tr><td><b style="color:#2c6da4">IPsec</b></td><td><b>3계층</b>에서 동작. 게이트웨이 간 <b>사이트 간 VPN</b>에 주로 사용</td></tr>
+        <tr><td>└ <b>AH</b> <span class="tag">Authentication Header</span></td><td><b>무결성 + 인증</b>만 제공 — <b style="color:#ae4024">암호화(기밀성) 없음</b></td></tr>
+        <tr><td>└ <b>ESP</b> <span class="tag">Encapsulating Security Payload</span></td><td>무결성 + 인증 + <b style="color:#267c41">암호화(기밀성)</b></td></tr>
         <tr><td>└ <b>전송 모드</b></td><td><b>페이로드만</b> 보호, 원래 IP 헤더 유지 — 단말 간</td></tr>
         <tr><td>└ <b>터널 모드</b></td><td><b>IP 헤더까지 통째로</b> 감싸고 새 헤더를 붙임 — 게이트웨이 간</td></tr>
-        <tr><td><b style="color:#9B8AE0">SSL/TLS VPN</b></td><td><b>4~7계층</b>. 브라우저만 있으면 접속 — <b>원격 사용자</b>용</td></tr>
+        <tr><td><b style="color:#6b59aa">SSL/TLS VPN</b></td><td><b>4~7계층</b>. 브라우저만 있으면 접속 — <b>원격 사용자</b>용</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#5BAD6F;">
+    <div class="note" style="border-left-color:#267c41;">
       🧠 <b>「AH는 도장, ESP는 봉투」</b> — AH는 <b>진짜임을 보증</b>할 뿐 내용은 보이고,
       ESP는 <b>봉투에 넣어 가린다</b>. "기밀성을 제공하지 않는 IPsec 프로토콜은?" → <b>AH</b>.
     </div>
 
     <!-- 인증 -->
-    <div class="sub-title" style="color:#E8A838">🪪 사용자 인증 3요소</div>
+    <div class="sub-title" style="color:#8a6012">🪪 사용자 인증 3요소</div>
     <table class="tbl">
       <thead><tr><th>요소</th><th>무엇으로 증명</th><th>예</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5B9BD5">지식</b> <span class="tag">What you know</span></td><td><b>알고 있는 것</b></td><td>패스워드, PIN, 보안질문</td></tr>
-        <tr><td><b style="color:#E8A838">소유</b> <span class="tag">What you have</span></td><td><b>가지고 있는 것</b></td><td>OTP 토큰, 스마트카드, 인증서</td></tr>
-        <tr><td><b style="color:#5BAD6F">존재</b> <span class="tag">What you are</span></td><td><b>신체 그 자체</b></td><td>지문·홍채·얼굴·정맥</td></tr>
-        <tr><td><b style="color:#9B8AE0">행위</b> <span class="tag">What you do</span></td><td>행동 특성 (보조 요소)</td><td>서명 필적, 걸음걸이</td></tr>
+        <tr><td><b style="color:#2c6da4">지식</b> <span class="tag">What you know</span></td><td><b>알고 있는 것</b></td><td>패스워드, PIN, 보안질문</td></tr>
+        <tr><td><b style="color:#8a6012">소유</b> <span class="tag">What you have</span></td><td><b>가지고 있는 것</b></td><td>OTP 토큰, 스마트카드, 인증서</td></tr>
+        <tr><td><b style="color:#267c41">존재</b> <span class="tag">What you are</span></td><td><b>신체 그 자체</b></td><td>지문·홍채·얼굴·정맥</td></tr>
+        <tr><td><b style="color:#6b59aa">행위</b> <span class="tag">What you do</span></td><td>행동 특성 (보조 요소)</td><td>서명 필적, 걸음걸이</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E8A838;">
+    <div class="note" style="border-left-color:#8a6012;">
       <b>2요소 인증(2FA)</b> = 서로 <b>다른 종류</b>를 둘 조합. 비밀번호 + OTP(지식+소유)는 2FA지만,
-      <b style="color:#ff8060">비밀번호 + 보안질문은 둘 다 '지식'이라 2FA가 아니다</b>.
+      <b style="color:#ae4024">비밀번호 + 보안질문은 둘 다 '지식'이라 2FA가 아니다</b>.
     </div>
 
     <!-- 생체인식 -->
-    <div class="sub-title" style="color:#E89050">🖐️ 생체인식 성능 지표</div>
+    <div class="sub-title" style="color:#9d520f">🖐️ 생체인식 성능 지표</div>
     <table class="tbl">
       <thead><tr><th>지표</th><th>의미</th><th>높으면</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#E06B5A">FAR</b> <span class="tag">오인식률</span></td><td><b>남을 본인으로</b> 잘못 받아들일 확률</td><td><b style="color:#ff8060">보안이 위험</b></td></tr>
-        <tr><td><b style="color:#5B9BD5">FRR</b> <span class="tag">오거부률</span></td><td><b>본인을 남으로</b> 잘못 거부할 확률</td><td>사용자가 불편</td></tr>
-        <tr><td><b style="color:#5BAD6F">CER</b> <span class="tag">교차점</span></td><td>FAR과 FRR이 <b>같아지는 지점</b></td><td><b>낮을수록 우수한 장비</b></td></tr>
+        <tr><td><b style="color:#ae3e30">FAR</b> <span class="tag">오인식률</span></td><td><b>남을 본인으로</b> 잘못 받아들일 확률</td><td><b style="color:#ae4024">보안이 위험</b></td></tr>
+        <tr><td><b style="color:#2c6da4">FRR</b> <span class="tag">오거부률</span></td><td><b>본인을 남으로</b> 잘못 거부할 확률</td><td>사용자가 불편</td></tr>
+        <tr><td><b style="color:#267c41">CER</b> <span class="tag">교차점</span></td><td>FAR과 FRR이 <b>같아지는 지점</b></td><td><b>낮을수록 우수한 장비</b></td></tr>
       </tbody>
     </table>
     <div class="highlight">
@@ -1437,30 +1437,30 @@ root
     </div>
 
     <!-- 접근통제 -->
-    <div class="sub-title" style="color:#9B8AE0">🔑 접근통제 모델</div>
+    <div class="sub-title" style="color:#6b59aa">🔑 접근통제 모델</div>
     <table class="tbl">
       <thead><tr><th>모델</th><th>누가 권한을 정하나</th><th>특징</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5B9BD5">DAC</b><br><span class="tag">임의적 접근통제</span></td><td><b>자원 소유자</b></td><td>유연하지만 <b>권한이 번져나가기 쉬움</b>. 일반 OS 파일 권한</td></tr>
-        <tr><td><b style="color:#E06B5A">MAC</b><br><span class="tag">강제적 접근통제</span></td><td><b>시스템(관리자) 정책</b></td><td><b>보안등급(라벨)</b>으로 강제 — 군·정부용, 가장 엄격</td></tr>
-        <tr><td><b style="color:#5BAD6F">RBAC</b><br><span class="tag">역할기반 접근통제</span></td><td><b>역할(직무)</b></td><td>사람이 아닌 <b>역할에 권한 부여</b> — 인사이동에 강함, 기업 표준</td></tr>
+        <tr><td><b style="color:#2c6da4">DAC</b><br><span class="tag">임의적 접근통제</span></td><td><b>자원 소유자</b></td><td>유연하지만 <b>권한이 번져나가기 쉬움</b>. 일반 OS 파일 권한</td></tr>
+        <tr><td><b style="color:#ae3e30">MAC</b><br><span class="tag">강제적 접근통제</span></td><td><b>시스템(관리자) 정책</b></td><td><b>보안등급(라벨)</b>으로 강제 — 군·정부용, 가장 엄격</td></tr>
+        <tr><td><b style="color:#267c41">RBAC</b><br><span class="tag">역할기반 접근통제</span></td><td><b>역할(직무)</b></td><td>사람이 아닌 <b>역할에 권한 부여</b> — 인사이동에 강함, 기업 표준</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#9B8AE0;">
+    <div class="note" style="border-left-color:#6b59aa;">
       🧠 <b>주체로 외운다</b> — <b>D</b>AC는 <b>주인(Owner)</b>, <b>M</b>AC는 <b>관리자(라벨)</b>, <b>R</b>BAC는 <b>역할(Role)</b>.
       "소유자가 마음대로 권한을 줄 수 있다" → DAC, "보안등급에 따라 강제된다" → MAC.
     </div>
 
     <!-- AAA -->
-    <div class="sub-title" style="color:#4DBFA8">🎫 AAA와 인증 프로토콜</div>
+    <div class="sub-title" style="color:#117a68">🎫 AAA와 인증 프로토콜</div>
     <table class="tbl">
       <thead><tr><th>용어</th><th>내용</th></tr></thead>
       <tbody>
         <tr><td><b>AAA</b></td><td><b>Authentication</b>(인증) · <b>Authorization</b>(인가) · <b>Accounting</b>(과금/계정)</td></tr>
-        <tr><td><b style="color:#5B9BD5">RADIUS</b></td><td><b>UDP 1812(인증) / 1813(과금)</b>. 인증+인가를 <b>묶어</b> 처리, 암호는 <b>패스워드만</b> 암호화</td></tr>
-        <tr><td><b style="color:#5BAD6F">TACACS+</b></td><td><b>TCP 49</b>. 인증·인가·과금을 <b>분리</b>, <b>패킷 전체 암호화</b> — 장비 관리용</td></tr>
-        <tr><td><b style="color:#E8A838">Kerberos</b></td><td><b>티켓</b> 기반 SSO. <b>KDC</b>(= AS + TGS)가 티켓 발급, <b>대칭키</b> 사용, <b style="color:#ff8060">시간 동기화 필수</b></td></tr>
-        <tr><td><b style="color:#9B8AE0">IEEE 802.1X</b></td><td><b>포트 기반 인증</b> — 인증 전에는 스위치 포트를 열지 않음 (EAP 사용)</td></tr>
+        <tr><td><b style="color:#2c6da4">RADIUS</b></td><td><b>UDP 1812(인증) / 1813(과금)</b>. 인증+인가를 <b>묶어</b> 처리, 암호는 <b>패스워드만</b> 암호화</td></tr>
+        <tr><td><b style="color:#267c41">TACACS+</b></td><td><b>TCP 49</b>. 인증·인가·과금을 <b>분리</b>, <b>패킷 전체 암호화</b> — 장비 관리용</td></tr>
+        <tr><td><b style="color:#8a6012">Kerberos</b></td><td><b>티켓</b> 기반 SSO. <b>KDC</b>(= AS + TGS)가 티켓 발급, <b>대칭키</b> 사용, <b style="color:#ae4024">시간 동기화 필수</b></td></tr>
+        <tr><td><b style="color:#6b59aa">IEEE 802.1X</b></td><td><b>포트 기반 인증</b> — 인증 전에는 스위치 포트를 열지 않음 (EAP 사용)</td></tr>
       </tbody>
     </table>
     <div class="warn">
@@ -1470,7 +1470,7 @@ root
     </div>
 
     <!-- 관리체계 -->
-    <div class="sub-title" style="color:#E06B5A">📜 정보보호 관리체계</div>
+    <div class="sub-title" style="color:#ae3e30">📜 정보보호 관리체계</div>
     <table class="tbl">
       <thead><tr><th>제도</th><th>내용</th></tr></thead>
       <tbody>

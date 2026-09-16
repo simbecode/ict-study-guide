@@ -1,8 +1,8 @@
   <!-- 7계층 -->  <div class="section" id="sec-l7">
-    <h2 class="section-title" style="color:#9B8AE0">7계층 — 응용 계층 (Application Layer)</h2>
+    <h2 class="section-title" style="color:#6b59aa">7계층 — 응용 계층 (Application Layer)</h2>
     <div class="osi-nav-slot" data-layer="l7"></div>
 
-    <div class="note" style="border-color:#9B8AE0"><b>역할:</b> 사용자와 직접 맞닿는 계층. 실제 서비스(웹·메일·파일전송 등)를 제공하는 프로토콜이 동작<br><b>PDU:</b> 데이터 (Data) | <b>장비:</b> 게이트웨이, L7 스위치</div>
+    <div class="note" style="border-color:#6b59aa"><b>역할:</b> 사용자와 직접 맞닿는 계층. 실제 서비스(웹·메일·파일전송 등)를 제공하는 프로토콜이 동작<br><b>PDU:</b> 데이터 (Data) | <b>장비:</b> 게이트웨이, L7 스위치</div>
     <div class="sub-title">TCP 사용 프로토콜</div>
     <table class="tbl">
       <thead><tr><th>프로토콜</th><th>포트</th><th>풀네임</th><th>역할</th></tr></thead>
@@ -33,7 +33,7 @@
     
     <!-- ── 처리 방법 ── -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#9B8AE0">⚙️ 처리 방법 — 이 계층이 하는 일</div>
+    <div class="sub-title" style="color:#6b59aa">⚙️ 처리 방법 — 이 계층이 하는 일</div>
     <table class="tbl">
       <thead><tr><th>기능</th><th>내용</th></tr></thead>
       <tbody>
@@ -53,7 +53,7 @@
 
     <!-- SW -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#4DBFA8">💻 소프트웨어 · 응용</div>
+    <div class="sub-title" style="color:#117a68">💻 소프트웨어 · 응용</div>
     <table class="tbl">
       <thead><tr><th>분야</th><th>소프트웨어</th><th>사용하는 프로토콜</th></tr></thead>
       <tbody>
@@ -66,16 +66,16 @@
         <tr><td>망 관리</td><td>NMS · Zabbix · Nagios</td><td><b>SNMP</b>(161/162)</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#4DBFA8">
+    <div class="note" style="border-left-color:#117a68">
       <b>SNMP vs CMIP</b> — 둘 다 망 관리 프로토콜이다.
       <b>SNMP</b> 는 TCP/IP 기반으로 <b>간단하고 널리 쓰이며</b>, <b>CMIP</b> 는 OSI 기반으로 기능이 풍부하지만 무겁다.
-      TMN의 5대 관리 기능은 <b>FCAPS</b> → <a onclick="showSection('mtbf',null)" style="color:#5B9BD5;cursor:pointer;text-decoration:underline">운용 지표 단원</a>
+      TMN의 5대 관리 기능은 <b>FCAPS</b> → <a onclick="showSection('mtbf',null)" style="color:#2c6da4;cursor:pointer;text-decoration:underline">운용 지표 단원</a>
     </div>
     </div>
 
     <!-- 장비 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#E8A838">🔧 장비 · 보안 장비</div>
+    <div class="sub-title" style="color:#8a6012">🔧 장비 · 보안 장비</div>
     <table class="tbl">
       <thead><tr><th>장비</th><th>역할</th></tr></thead>
       <tbody>
@@ -94,14 +94,14 @@
 
     <!-- 계측 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#E06B5A">📐 계측 — 응용 계층에서 무엇을 보는가</div>
+    <div class="sub-title" style="color:#ae3e30">📐 계측 — 응용 계층에서 무엇을 보는가</div>
     <table class="tbl">
       <thead><tr><th>지표</th><th>의미</th></tr></thead>
       <tbody>
         <tr><td><b>응답 시간</b> (Response Time)</td><td>요청 → 응답까지. 사용자가 체감하는 성능</td></tr>
         <tr><td><b>TPS / RPS</b></td><td>초당 처리 건수 — 서버 처리 능력</td></tr>
         <tr><td><b>HTTP 상태 코드</b></td><td><b>2xx</b> 성공 · <b>3xx</b> 리다이렉트 · <b>4xx</b> 클라이언트 오류(404) · <b>5xx</b> 서버 오류(500·502·503)</td></tr>
-        <tr><td><b>가용성</b></td><td>서비스가 정상 응답한 비율 → <a onclick="showSection('mtbf',null)" style="color:#5B9BD5;cursor:pointer;text-decoration:underline">가동률 단원</a></td></tr>
+        <tr><td><b>가용성</b></td><td>서비스가 정상 응답한 비율 → <a onclick="showSection('mtbf',null)" style="color:#2c6da4;cursor:pointer;text-decoration:underline">가동률 단원</a></td></tr>
         <tr><td><b>SNMP MIB 폴링</b></td><td>장비의 트래픽·CPU·포트 상태 수집. 이상 시 <b>Trap</b> 으로 즉시 통보</td></tr>
       </tbody>
     </table>
@@ -131,9 +131,9 @@
   </div>
 
   <div class="section" id="sec-l6">
-    <h2 class="section-title" style="color:#4DBFA8">6계층 — 표현 계층 (Presentation Layer)</h2>
+    <h2 class="section-title" style="color:#117a68">6계층 — 표현 계층 (Presentation Layer)</h2>
     <div class="osi-nav-slot" data-layer="l6"></div>
-    <div class="note" style="border-color:#4DBFA8"><b>역할:</b> 데이터 형식 변환·암호화·압축. 서로 다른 형식의 데이터를 통일된 형식으로 변환<br><b>PDU:</b> 데이터 (Data) | <b>장비:</b> 전용 장비 없음 (소프트웨어 처리)</div>
+    <div class="note" style="border-color:#117a68"><b>역할:</b> 데이터 형식 변환·암호화·압축. 서로 다른 형식의 데이터를 통일된 형식으로 변환<br><b>PDU:</b> 데이터 (Data) | <b>장비:</b> 전용 장비 없음 (소프트웨어 처리)</div>
     <table class="tbl">
       <thead><tr><th>기술/프로토콜</th><th>역할</th><th>특징</th></tr></thead>
       <tbody>
@@ -147,35 +147,35 @@
     <div class="highlight" style="cursor:pointer;" onclick="showSection('crypto',null)" role="button" tabindex="0">
       🔐 <b>대칭키 · 비대칭키 · AES-256 · 운영 모드 · 전자서명</b> → <b style="text-decoration:underline">「암호화」 상세 보기</b>
     </div>
-    <div class="note" style="border-color:#4DBFA8;margin-top:10px"><b>시험 포인트:</b> 6계층 = 암호화(SSL/TLS)·압축·형식변환. "전용 장비 없음"이 자주 출제됨</div>
+    <div class="note" style="border-color:#117a68;margin-top:10px"><b>시험 포인트:</b> 6계층 = 암호화(SSL/TLS)·압축·형식변환. "전용 장비 없음"이 자주 출제됨</div>
     
     <!-- ── 처리 방법 ── -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#4DBFA8">⚙️ 처리 방법 — 이 계층이 하는 일 (3가지)</div>
+    <div class="sub-title" style="color:#117a68">⚙️ 처리 방법 — 이 계층이 하는 일 (3가지)</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px;margin-top:10px;">
-      <div style="background:linear-gradient(135deg,#0a2620,#0f1117);border:2px solid #4DBFA8;border-radius:12px;padding:15px;">
-        <div style="font-size:16.5px;font-weight:700;color:#4DBFA8;">① 형식 변환</div>
+      <div style="background:#e1f3ee;border:2px solid #117a68;border-radius:12px;padding:15px;">
+        <div style="font-size:16.5px;font-weight:700;color:#117a68;">① 형식 변환</div>
         <div style="font-size:13px;color:var(--text3);margin:3px 0 9px;">Translation</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.9;">
-          서로 다른 시스템의 표현 방식을 <b style="color:#fff">통일</b><br>
-          <b style="color:#fff">코드 변환</b> (ASCII ↔ EBCDIC)<br>
-          <b style="color:#fff">구문 검색</b>, 바이트 순서 맞추기
+          서로 다른 시스템의 표현 방식을 <b style="color:#1d252d">통일</b><br>
+          <b style="color:#1d252d">코드 변환</b> (ASCII ↔ EBCDIC)<br>
+          <b style="color:#1d252d">구문 검색</b>, 바이트 순서 맞추기
         </div>
       </div>
-      <div style="background:linear-gradient(135deg,#1a2d45,#0f1117);border:2px solid #5B9BD5;border-radius:12px;padding:15px;">
-        <div style="font-size:16.5px;font-weight:700;color:#5B9BD5;">② 압축</div>
+      <div style="background:#e1ecfb;border:2px solid #2c6da4;border-radius:12px;padding:15px;">
+        <div style="font-size:16.5px;font-weight:700;color:#2c6da4;">② 압축</div>
         <div style="font-size:13px;color:var(--text3);margin:3px 0 9px;">Compression</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.9;">
-          전송량을 줄여 <b style="color:#fff">효율 향상</b><br>
+          전송량을 줄여 <b style="color:#1d252d">효율 향상</b><br>
           무손실 : ZIP · PNG · GZIP<br>
           손실 : JPEG · MP3 · MPEG
         </div>
       </div>
-      <div style="background:linear-gradient(135deg,#1a1535,#0f1117);border:2px solid #9B8AE0;border-radius:12px;padding:15px;">
-        <div style="font-size:16.5px;font-weight:700;color:#9B8AE0;">③ 암호화</div>
+      <div style="background:#efeefe;border:2px solid #6b59aa;border-radius:12px;padding:15px;">
+        <div style="font-size:16.5px;font-weight:700;color:#6b59aa;">③ 암호화</div>
         <div style="font-size:13px;color:var(--text3);margin:3px 0 9px;">Encryption</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.9;">
-          내용을 <b style="color:#fff">읽을 수 없게</b> 변환<br>
+          내용을 <b style="color:#1d252d">읽을 수 없게</b> 변환<br>
           SSL / TLS 가 대표<br>
           HTTPS의 실제 암호화 담당
         </div>
@@ -189,11 +189,11 @@
 
     <!-- 표현 표준 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#E8A838">🔤 문자 · 데이터 표현 표준</div>
+    <div class="sub-title" style="color:#8a6012">🔤 문자 · 데이터 표현 표준</div>
     <table class="tbl">
       <thead><tr><th>표준</th><th>내용</th></tr></thead>
       <tbody>
-        <tr><td><b>ASCII</b></td><td><b>7비트</b> 문자 코드(128자). 'A'=65=0x41, 'a'=97, '0'=48 → <a onclick="showSection('radix',null)" style="color:#5B9BD5;cursor:pointer;text-decoration:underline">진수 변환 단원</a></td></tr>
+        <tr><td><b>ASCII</b></td><td><b>7비트</b> 문자 코드(128자). 'A'=65=0x41, 'a'=97, '0'=48 → <a onclick="showSection('radix',null)" style="color:#2c6da4;cursor:pointer;text-decoration:underline">진수 변환 단원</a></td></tr>
         <tr><td><b>EBCDIC</b></td><td>IBM 메인프레임용 <b>8비트</b> 코드. ASCII와 서로 변환이 필요 → 이것이 <b>코드 변환</b></td></tr>
         <tr><td><b>UTF-8</b></td><td>유니코드 가변 길이 인코딩. 영문 1바이트, <b>한글 3바이트</b></td></tr>
         <tr><td><b>ASN.1</b></td><td>플랫폼 독립적인 <b>데이터 구조 표기법</b>. SNMP·X.509 인증서에서 사용</td></tr>
@@ -204,7 +204,7 @@
 
     <!-- 압축 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#5B9BD5">🗜️ 압축 — 무손실 vs 손실</div>
+    <div class="sub-title" style="color:#2c6da4">🗜️ 압축 — 무손실 vs 손실</div>
     <table class="tbl">
       <thead><tr><th>구분</th><th>원본 복원</th><th>압축률</th><th>예</th><th>용도</th></tr></thead>
       <tbody>
@@ -212,15 +212,15 @@
         <tr><td><b>손실</b> (Lossy)</td><td><span class="badge b-red">복원 불가</span></td><td><b>높음</b></td><td>JPEG · MP3 · <b>MPEG · H.264 · H.265</b></td><td>사진 · 음악 · 영상</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#5B9BD5">
+    <div class="note" style="border-left-color:#2c6da4">
       💡 사람이 <b>잘 못 느끼는 정보를 버려서</b> 압축률을 높이는 것이 손실 압축. CCTV의 H.264/H.265도 여기 속한다
-      → <a onclick="showSection('cctv',null)" style="color:#5B9BD5;cursor:pointer;text-decoration:underline">CCTV 영상 압축 단원</a>
+      → <a onclick="showSection('cctv',null)" style="color:#2c6da4;cursor:pointer;text-decoration:underline">CCTV 영상 압축 단원</a>
     </div>
     </div>
 
     <!-- 암호화 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#9B8AE0">🔐 암호화 — SSL / TLS</div>
+    <div class="sub-title" style="color:#6b59aa">🔐 암호화 — SSL / TLS</div>
     <table class="tbl">
       <thead><tr><th>항목</th><th>내용</th></tr></thead>
       <tbody>
@@ -240,13 +240,13 @@
     <div class="sub-title">🔧 장비 · 📐 계측</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#4DBFA8">장비</h4>
+        <h4 style="color:#117a68">장비</h4>
         <p><b>전용 장비 없음</b> — 소프트웨어가 처리한다. <span class="tag">기출 단골</span><br><br>
         관련 장비를 꼽으면 <b>SSL 가속기 / SSL 오프로딩</b> 기능을 가진 로드밸런서·ADC 정도.<br>
         보안 장비로는 IPS · WAF가 이 계층 내용을 함께 본다.</p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#E06B5A">계측 · 점검 항목</h4>
+        <h4 style="color:#ae3e30">계측 · 점검 항목</h4>
         <p>• 압축률 (원본 대비 %)<br>
         • 암호화 오버헤드 · 핸드셰이크 지연<br>
         • <b>인증서 유효기간 · 체인 검증</b><br>
@@ -277,9 +277,9 @@
   </div>
 
   <div class="section" id="sec-l5">
-    <h2 class="section-title" style="color:#5B9BD5">5계층 — 세션 계층 (Session Layer)</h2>
+    <h2 class="section-title" style="color:#2c6da4">5계층 — 세션 계층 (Session Layer)</h2>
     <div class="osi-nav-slot" data-layer="l5"></div>
-    <div class="note" style="border-color:#5B9BD5"><b>역할:</b> 응용 프로그램 간 논리적 연결(세션)의 시작·유지·동기화·종료 관리<br><b>PDU:</b> 데이터 (Data) | <b>장비:</b> 전용 장비 없음 (소프트웨어 처리)</div>
+    <div class="note" style="border-color:#2c6da4"><b>역할:</b> 응용 프로그램 간 논리적 연결(세션)의 시작·유지·동기화·종료 관리<br><b>PDU:</b> 데이터 (Data) | <b>장비:</b> 전용 장비 없음 (소프트웨어 처리)</div>
     <table class="tbl">
       <thead><tr><th>프로토콜</th><th>역할</th></tr></thead>
       <tbody>
@@ -291,18 +291,18 @@
     </table>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#5B9BD5">세션 vs 연결 차이</h4>
+        <h4 style="color:#2c6da4">세션 vs 연결 차이</h4>
         <p>TCP 연결(4계층): 물리적 통신 경로<br>세션(5계층): 논리적 대화 단위<br>하나의 세션 = 여러 TCP 연결 가능</p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#5B9BD5">동기화 포인트</h4>
+        <h4 style="color:#2c6da4">동기화 포인트</h4>
         <p>긴 데이터 전송 중 중간 저장점<br>오류 시 처음부터가 아닌<br>동기화 포인트부터 재전송</p>
       </div>
     </div>
     
     <!-- ── 처리 방법 ── -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#5B9BD5">⚙️ 처리 방법 — 이 계층이 하는 일</div>
+    <div class="sub-title" style="color:#2c6da4">⚙️ 처리 방법 — 이 계층이 하는 일</div>
     <table class="tbl">
       <thead><tr><th>기능</th><th>내용</th></tr></thead>
       <tbody>
@@ -317,12 +317,12 @@
 
     <!-- 동기점 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#4DBFA8">📍 동기점(Synchronization Point) — 세션 계층의 핵심</div>
+    <div class="sub-title" style="color:#117a68">📍 동기점(Synchronization Point) — 세션 계층의 핵심</div>
     <div class="flow">1GB 파일을 전송하는 중 900MB 지점에서 오류 발생
 
-<span style="color:#E06B5A">동기점이 없으면</span>   ━━━━━━━━━━━━━━━━━━━━✖   → <b style="color:#E06B5A">처음부터 다시</b> (900MB 낭비)
+<span style="color:#ae3e30">동기점이 없으면</span>   ━━━━━━━━━━━━━━━━━━━━✖   → <b style="color:#ae3e30">처음부터 다시</b> (900MB 낭비)
 
-<span style="color:#5BAD6F">동기점이 있으면</span>   ━━━<span style="color:#E8A838">◆</span>━━━<span style="color:#E8A838">◆</span>━━━<span style="color:#E8A838">◆</span>━━━━✖   → <b style="color:#5BAD6F">마지막 동기점부터</b> 재전송
+<span style="color:#267c41">동기점이 있으면</span>   ━━━<span style="color:#8a6012">◆</span>━━━<span style="color:#8a6012">◆</span>━━━<span style="color:#8a6012">◆</span>━━━━✖   → <b style="color:#267c41">마지막 동기점부터</b> 재전송
                     100  400  800MB           (100MB만 다시)</div>
     <table class="tbl">
       <thead><tr><th>구분</th><th>내용</th></tr></thead>
@@ -339,7 +339,7 @@
 
     <!-- SW / 프로토콜 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#9B8AE0">📡 프로토콜 · 소프트웨어</div>
+    <div class="sub-title" style="color:#6b59aa">📡 프로토콜 · 소프트웨어</div>
     <table class="tbl">
       <thead><tr><th>프로토콜 / SW</th><th>역할</th></tr></thead>
       <tbody>
@@ -356,7 +356,7 @@
 
     <!-- 응용 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#E8A838">💼 실제 응용 — 어디서 체감하나</div>
+    <div class="sub-title" style="color:#8a6012">💼 실제 응용 — 어디서 체감하나</div>
     <table class="tbl">
       <thead><tr><th>사례</th><th>세션 계층이 하는 일</th></tr></thead>
       <tbody>
@@ -373,12 +373,12 @@
     <div class="sub-title">🔧 장비 · 📐 계측</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#5B9BD5">장비</h4>
+        <h4 style="color:#2c6da4">장비</h4>
         <p><b>전용 장비 없음</b> — 소프트웨어(OS·미들웨어)가 처리한다.<br><br>
         굳이 꼽으면 세션 정보를 보고 분산하는 <b>L7 스위치 / 로드밸런서의 세션 고정(Sticky Session)</b> 기능 정도.</p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#E06B5A">계측 · 관리 항목</h4>
+        <h4 style="color:#ae3e30">계측 · 관리 항목</h4>
         <p>• 동시 세션 수 (Concurrent Sessions)<br>
         • 세션 유지 시간 · <b>타임아웃</b><br>
         • Keep-alive 주기<br>
@@ -416,16 +416,16 @@
   </div>
 
   <div class="section" id="sec-l4">
-    <h2 class="section-title" style="color:#E8A838">4계층 — 전송 계층 (Transport Layer)</h2>
+    <h2 class="section-title" style="color:#8a6012">4계층 — 전송 계층 (Transport Layer)</h2>
     <div class="osi-nav-slot" data-layer="l4"></div>
-    <div class="note" style="border-color:#E8A838"><b>역할:</b> 종단 간(End-to-End) 신뢰성 있는 데이터 전송. 포트번호로 프로세스 구분<br><b>PDU:</b> 세그먼트(TCP) / 데이터그램(UDP) | <b>장비:</b> L4스위치, 로드밸런서</div>
+    <div class="note" style="border-color:#8a6012"><b>역할:</b> 종단 간(End-to-End) 신뢰성 있는 데이터 전송. 포트번호로 프로세스 구분<br><b>PDU:</b> 세그먼트(TCP) / 데이터그램(UDP) | <b>장비:</b> L4스위치, 로드밸런서</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#5B9BD5">TCP — Transmission Control Protocol</h4>
+        <h4 style="color:#2c6da4">TCP — Transmission Control Protocol</h4>
         <p>연결지향형 / 신뢰성 보장<br>3-way 핸드셰이크로 연결<br>4-way 핸드셰이크로 종료<br>흐름제어(슬라이딩 윈도우)<br>혼잡제어 / 오류제어(ARQ)<br>헤더: 최소 20 bytes<br>PDU: <b>세그먼트</b></p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#E8A838">UDP — User Datagram Protocol</h4>
+        <h4 style="color:#8a6012">UDP — User Datagram Protocol</h4>
         <p>비연결형 / 신뢰성 없음<br>연결 수립 과정 없음<br>확인·재전송 없음<br>속도 빠름 / 오버헤드 최소<br>체크섬만 존재<br>헤더: 고정 8 bytes<br>PDU: <b>데이터그램</b></p>
       </div>
     </div>
@@ -445,7 +445,7 @@
     
     <!-- ── 처리 방법 ── -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#E8A838">⚙️ 처리 방법 — 이 계층이 하는 일</div>
+    <div class="sub-title" style="color:#8a6012">⚙️ 처리 방법 — 이 계층이 하는 일</div>
     <table class="tbl">
       <thead><tr><th>기능</th><th>내용</th></tr></thead>
       <tbody>
@@ -468,16 +468,16 @@
 
     <!-- 헤더 구조 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#5B9BD5">📦 TCP 헤더 구조 (최소 20바이트)</div>
+    <div class="sub-title" style="color:#2c6da4">📦 TCP 헤더 구조 (최소 20바이트)</div>
     <div class="flow"> 0                   16                  31
  ┌───────────────────┬───────────────────┐
- │  <span style="color:#E8A838">출발지 포트 16bit</span>  │  <span style="color:#E8A838">목적지 포트 16bit</span>  │
+ │  <span style="color:#8a6012">출발지 포트 16bit</span>  │  <span style="color:#8a6012">목적지 포트 16bit</span>  │
  ├───────────────────┴───────────────────┤
- │      <span style="color:#5BAD6F">순서 번호 (Sequence Number) 32bit</span>   │
+ │      <span style="color:#267c41">순서 번호 (Sequence Number) 32bit</span>   │
  ├───────────────────────────────────────┤
- │      <span style="color:#5B9BD5">확인 응답 번호 (ACK Number) 32bit</span>   │
+ │      <span style="color:#2c6da4">확인 응답 번호 (ACK Number) 32bit</span>   │
  ├─────┬─────┬───────┬───────────────────┤
- │offset│예약 │<span style="color:#9B8AE0">플래그</span> │   <span style="color:#4DBFA8">윈도우 크기 16bit</span>  │
+ │offset│예약 │<span style="color:#6b59aa">플래그</span> │   <span style="color:#117a68">윈도우 크기 16bit</span>  │
  ├─────┴─────┴───────┼───────────────────┤
  │   체크섬 16bit     │  긴급 포인터 16bit  │
  └───────────────────┴───────────────────┘</div>
@@ -492,7 +492,7 @@
         <tr><td><b>체크섬</b></td><td>16비트</td><td>헤더 + 데이터 오류 검출</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E8A838">
+    <div class="note" style="border-left-color:#8a6012">
       <b>UDP 헤더는 고정 8바이트</b> — 출발지 포트 · 목적지 포트 · 길이 · 체크섬, 이렇게 <b>4개 필드뿐</b>이다.
       순서 번호도 ACK도 없어서 오버헤드가 최소다.
     </div>
@@ -500,28 +500,28 @@
 
     <!-- 연결 흐름 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#5BAD6F">🤝 연결 설정과 해제</div>
+    <div class="sub-title" style="color:#267c41">🤝 연결 설정과 해제</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#5BAD6F">3-way 핸드셰이크 (연결)</h4>
+        <h4 style="color:#267c41">3-way 핸드셰이크 (연결)</h4>
         <p class="mono" style="line-height:2;">
-          ① A → B : <b style="color:#fff">SYN</b><br>
-          ② B → A : <b style="color:#fff">SYN + ACK</b><br>
-          ③ A → B : <b style="color:#fff">ACK</b><br>
+          ① A → B : <b style="color:#1d252d">SYN</b><br>
+          ② B → A : <b style="color:#1d252d">SYN + ACK</b><br>
+          ③ A → B : <b style="color:#1d252d">ACK</b><br>
           → 연결 수립 (ESTABLISHED)
         </p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#E06B5A">4-way 핸드셰이크 (해제)</h4>
+        <h4 style="color:#ae3e30">4-way 핸드셰이크 (해제)</h4>
         <p class="mono" style="line-height:2;">
-          ① A → B : <b style="color:#fff">FIN</b><br>
-          ② B → A : <b style="color:#fff">ACK</b><br>
-          ③ B → A : <b style="color:#fff">FIN</b><br>
-          ④ A → B : <b style="color:#fff">ACK</b> → TIME_WAIT
+          ① A → B : <b style="color:#1d252d">FIN</b><br>
+          ② B → A : <b style="color:#1d252d">ACK</b><br>
+          ③ B → A : <b style="color:#1d252d">FIN</b><br>
+          ④ A → B : <b style="color:#1d252d">ACK</b> → TIME_WAIT
         </p>
       </div>
     </div>
-    <div class="note" style="border-left-color:#5BAD6F">
+    <div class="note" style="border-left-color:#267c41">
       해제가 <b>4단계인 이유</b> — 한쪽이 FIN을 보내도 <b>반대 방향은 아직 보낼 데이터가 남아 있을 수 있어서</b>,
       각 방향을 따로 닫는다(Half-close).
     </div>
@@ -529,24 +529,24 @@
 
     <!-- ══════ 4계층 심화 (추가) ══════ -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#E8A838">🚦 혼잡 제어 4단계 — 출제 1순위</div>
+    <div class="sub-title" style="color:#8a6012">🚦 혼잡 제어 4단계 — 출제 1순위</div>
     <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:6px">
-      실제 전송량 = <b style="color:#fff">min(cwnd, rwnd)</b> — 혼잡 윈도우(네트워크 사정)와 수신 윈도우(상대 버퍼) 중 <b>작은 쪽</b>을 따른다.
+      실제 전송량 = <b style="color:#1d252d">min(cwnd, rwnd)</b> — 혼잡 윈도우(네트워크 사정)와 수신 윈도우(상대 버퍼) 중 <b>작은 쪽</b>을 따른다.
       흐름 제어는 rwnd, 혼잡 제어는 cwnd를 조절하는 것이다.
     </p>
     <table class="tbl">
       <thead><tr><th style="width:130px">단계</th><th>동작</th><th>증가 방식</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5BAD6F">① 느린 시작</b><br><span class="tag">Slow Start</span></td>
+        <tr><td><b style="color:#267c41">① 느린 시작</b><br><span class="tag">Slow Start</span></td>
             <td>cwnd = 1 MSS로 시작, ACK 하나마다 cwnd를 1씩 증가 → <b>RTT마다 2배</b><br>임계값(ssthresh)에 도달하면 ②로 전환</td>
-            <td><b style="color:#E8A838">지수적</b><br>1 → 2 → 4 → 8</td></tr>
-        <tr><td><b style="color:#5B9BD5">② 혼잡 회피</b><br><span class="tag">Congestion Avoidance</span></td>
+            <td><b style="color:#8a6012">지수적</b><br>1 → 2 → 4 → 8</td></tr>
+        <tr><td><b style="color:#2c6da4">② 혼잡 회피</b><br><span class="tag">Congestion Avoidance</span></td>
             <td>ssthresh 이후에는 조심스럽게 <b>RTT마다 1 MSS씩</b>만 증가</td>
-            <td><b style="color:#4DBFA8">선형</b><br>8 → 9 → 10</td></tr>
-        <tr><td><b style="color:#E89050">③ 빠른 재전송</b><br><span class="tag">Fast Retransmit</span></td>
+            <td><b style="color:#117a68">선형</b><br>8 → 9 → 10</td></tr>
+        <tr><td><b style="color:#9d520f">③ 빠른 재전송</b><br><span class="tag">Fast Retransmit</span></td>
             <td><b>중복 ACK 3개</b>를 받으면 재전송 타이머 만료를 기다리지 않고 <b>즉시 재전송</b></td>
             <td>—</td></tr>
-        <tr><td><b style="color:#9B8AE0">④ 빠른 회복</b><br><span class="tag">Fast Recovery</span></td>
+        <tr><td><b style="color:#6b59aa">④ 빠른 회복</b><br><span class="tag">Fast Recovery</span></td>
             <td>재전송 후 cwnd를 1로 떨어뜨리지 않고 <b>ssthresh부터 혼잡 회피</b>로 복귀 (TCP Reno)</td>
             <td>선형 재개</td></tr>
       </tbody>
@@ -560,10 +560,10 @@
     </div>
 
     <div class="layer-block">
-    <div class="sub-title" style="color:#5B9BD5">🔄 TCP 상태 전이 · TIME_WAIT</div>
+    <div class="sub-title" style="color:#2c6da4">🔄 TCP 상태 전이 · TIME_WAIT</div>
     <div class="flow">
 서버 : CLOSED → LISTEN → SYN_RECEIVED → ESTABLISHED → CLOSE_WAIT → LAST_ACK → CLOSED
-클라 : CLOSED → SYN_SENT → ESTABLISHED → FIN_WAIT_1 → FIN_WAIT_2 → <span style="color:#E8A838">TIME_WAIT</span> → CLOSED
+클라 : CLOSED → SYN_SENT → ESTABLISHED → FIN_WAIT_1 → FIN_WAIT_2 → <span style="color:#8a6012">TIME_WAIT</span> → CLOSED
     </div>
     <table class="tbl">
       <thead><tr><th style="width:130px">상태</th><th>의미</th></tr></thead>
@@ -571,7 +571,7 @@
         <tr><td><b>LISTEN</b></td><td>서버가 SYN을 기다리는 대기 상태</td></tr>
         <tr><td><b>ESTABLISHED</b></td><td>연결 수립 완료. 실제 데이터 송수신 중</td></tr>
         <tr><td><b>CLOSE_WAIT</b></td><td>상대 FIN을 받고 ACK를 보낸 상태. <b>내 쪽 close() 호출을 기다리는 중</b></td></tr>
-        <tr><td><b style="color:#E8A838">TIME_WAIT</b></td><td>마지막 ACK를 보낸 뒤 <b>2MSL</b> 동안 대기 (능동적으로 먼저 닫은 쪽만 거침)</td></tr>
+        <tr><td><b style="color:#8a6012">TIME_WAIT</b></td><td>마지막 ACK를 보낸 뒤 <b>2MSL</b> 동안 대기 (능동적으로 먼저 닫은 쪽만 거침)</td></tr>
       </tbody>
     </table>
     <div class="highlight">
@@ -587,7 +587,7 @@
     </div>
 
     <div class="layer-block">
-    <div class="sub-title" style="color:#4DBFA8">🔌 포트 번호 분류 · 소켓</div>
+    <div class="sub-title" style="color:#117a68">🔌 포트 번호 분류 · 소켓</div>
     <table class="tbl">
       <thead><tr><th style="width:150px">구분</th><th style="width:130px">범위</th><th>설명</th></tr></thead>
       <tbody>
@@ -604,7 +604,7 @@
     </div>
 
     <div class="layer-block">
-    <div class="sub-title" style="color:#E89050">⏱️ TCP 타이머 4종 · MSS</div>
+    <div class="sub-title" style="color:#9d520f">⏱️ TCP 타이머 4종 · MSS</div>
     <table class="tbl">
       <thead><tr><th style="width:150px">타이머</th><th>역할</th></tr></thead>
       <tbody>
@@ -614,16 +614,16 @@
         <tr><td><b>TIME_WAIT 타이머</b></td><td>2MSL 대기</td></tr>
       </tbody>
     </table>
-    <div class="highlight" style="border-left-color:#4DBFA8">
-      <b style="color:#4DBFA8">MSS vs MTU</b> — <b>MTU</b>는 2계층이 한 번에 실어나를 수 있는 최대 크기(이더넷 <b>1500</b> byte),
+    <div class="highlight" style="border-left-color:#117a68">
+      <b style="color:#117a68">MSS vs MTU</b> — <b>MTU</b>는 2계층이 한 번에 실어나를 수 있는 최대 크기(이더넷 <b>1500</b> byte),
       <b>MSS</b>는 그중 TCP 데이터가 차지할 수 있는 최대 크기다.<br>
-      <span class="mono" style="color:#fff">MSS = MTU − IP헤더(20) − TCP헤더(20) = 1500 − 40 = <b>1460</b> byte</span><br>
+      <span class="mono" style="color:#1d252d">MSS = MTU − IP헤더(20) − TCP헤더(20) = 1500 − 40 = <b>1460</b> byte</span><br>
       MSS는 <b>3-way 핸드셰이크의 SYN 옵션</b>으로 서로 알려주고 <b>더 작은 값</b>을 채택한다.
     </div>
     </div>
 
     <div class="layer-block">
-    <div class="sub-title" style="color:#9B8AE0">🧩 TCP 옵션 · 헤더 길이 필드</div>
+    <div class="sub-title" style="color:#6b59aa">🧩 TCP 옵션 · 헤더 길이 필드</div>
     <table class="tbl">
       <thead><tr><th style="width:150px">항목</th><th>내용</th></tr></thead>
       <tbody>
@@ -642,11 +642,11 @@
     </div>
 
     <div class="layer-block">
-    <div class="sub-title" style="color:#E06B5A">📡 UDP를 쓰는 프로토콜 · 다른 전송계층 프로토콜</div>
+    <div class="sub-title" style="color:#ae3e30">📡 UDP를 쓰는 프로토콜 · 다른 전송계층 프로토콜</div>
     <table class="tbl">
       <thead><tr><th style="width:110px">프로토콜</th><th style="width:100px">포트</th><th>UDP를 쓰는 이유</th></tr></thead>
       <tbody>
-        <tr><td><b>DNS</b></td><td>53</td><td>질의·응답 1회로 끝나 연결 수립이 낭비<br><b style="color:#E8A838">단, 응답 512byte 초과·존 전송(AXFR)은 TCP</b> <span class="tag">기출</span></td></tr>
+        <tr><td><b>DNS</b></td><td>53</td><td>질의·응답 1회로 끝나 연결 수립이 낭비<br><b style="color:#8a6012">단, 응답 512byte 초과·존 전송(AXFR)은 TCP</b> <span class="tag">기출</span></td></tr>
         <tr><td><b>DHCP</b></td><td>67 / 68</td><td>주소가 없는 상태라 브로드캐스트가 필요 — TCP는 브로드캐스트 불가</td></tr>
         <tr><td><b>TFTP</b></td><td>69</td><td>단순 파일 전송. 자체적으로 최소한의 확인만</td></tr>
         <tr><td><b>SNMP</b></td><td>161 / 162</td><td>다수 장비를 가볍게 폴링</td></tr>
@@ -673,7 +673,7 @@
     <div class="sub-title">🔧 장비 · 📐 계측</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#E8A838">장비</h4>
+        <h4 style="color:#8a6012">장비</h4>
         <p>
           <b>L4 스위치 / 로드밸런서</b> — IP + <b>포트</b>를 보고 서버로 분산<br>
           <b>방화벽</b> — 포트 기반 접근 제어 (ACL)<br>
@@ -682,7 +682,7 @@
         </p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#E06B5A">계측 · 점검 항목</h4>
+        <h4 style="color:#ae3e30">계측 · 점검 항목</h4>
         <p>
           • <b>RTT</b> (왕복 지연) · 지터<br>
           • <b>재전송률</b> — 높으면 회선·혼잡 문제<br>
@@ -718,9 +718,9 @@
   </div>
 
   <div class="section" id="sec-l3">
-    <h2 class="section-title" style="color:#E89050">3계층 — 네트워크 계층 (Network Layer)</h2>
+    <h2 class="section-title" style="color:#9d520f">3계층 — 네트워크 계층 (Network Layer)</h2>
     <div class="osi-nav-slot" data-layer="l3"></div>
-    <div class="note" style="border-color:#E89050"><b>역할:</b> IP 주소 기반 경로 결정(라우팅)과 패킷 전달<br><b>PDU:</b> 패킷 (Packet) | <b>장비:</b> 라우터, L3스위치, IP공유기</div>
+    <div class="note" style="border-color:#9d520f"><b>역할:</b> IP 주소 기반 경로 결정(라우팅)과 패킷 전달<br><b>PDU:</b> 패킷 (Packet) | <b>장비:</b> 라우터, L3스위치, IP공유기</div>
     <table class="tbl">
       <thead><tr><th>프로토콜</th><th>역할</th><th>특징</th></tr></thead>
       <tbody>
@@ -749,10 +749,10 @@
 
     <div id="anchor-ipv4" class="sub-title" style="margin-top:18px">IPv4 vs IPv6 완전 비교</div>
     <table class="tbl">
-      <thead><tr><th>항목</th><th style="color:#E89050">IPv4</th><th style="color:#5B9BD5">IPv6</th></tr></thead>
+      <thead><tr><th>항목</th><th style="color:#9d520f">IPv4</th><th style="color:#2c6da4">IPv6</th></tr></thead>
       <tbody>
-        <tr><td>주소 길이</td><td><span class="badge" style="background:#2a1805;color:#E89050">32 bit</span></td><td><span class="badge" style="background:#1a2d45;color:#5B9BD5">128 bit</span></td></tr>
-        <tr><td>표현 방식</td><td>10진수 점 표기<br><span class="mono" style="color:#E89050">192.168.0.1</span></td><td>16진수 콜론 표기<br><span class="mono" style="color:#5B9BD5">2001:0db8:85a3::8a2e:0370:7334</span></td></tr>
+        <tr><td>주소 길이</td><td><span class="badge" style="background:#f9ede2;color:#9d520f">32 bit</span></td><td><span class="badge" style="background:#e1ecfb;color:#2c6da4">128 bit</span></td></tr>
+        <tr><td>표현 방식</td><td>10진수 점 표기<br><span class="mono" style="color:#9d520f">192.168.0.1</span></td><td>16진수 콜론 표기<br><span class="mono" style="color:#2c6da4">2001:0db8:85a3::8a2e:0370:7334</span></td></tr>
         <tr><td>주소 개수</td><td>약 43억 개 (2³²)<br><span style="font-size:13px;color:var(--text2)">→ 고갈 문제 발생</span></td><td>약 3.4×10³⁸ 개 (2¹²⁸)<br><span style="font-size:13px;color:var(--text2)">→ 사실상 무한대</span></td></tr>
         <tr><td>헤더 구조</td><td>가변 길이<br>최소 20 bytes. 옵션 필드 있음</td><td>고정 40 bytes<br>옵션 → 확장 헤더로 분리</td></tr>
         <tr><td>헤더 필드 수</td><td>12개 필드</td><td>8개 필드 (단순화)</td></tr>
@@ -771,20 +771,20 @@
     <div class="sub-title" style="margin-top:18px">IPv6 주소 표기 규칙</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#5B9BD5">기본 표기</h4>
+        <h4 style="color:#2c6da4">기본 표기</h4>
         <p>
           128bit를 16bit씩 8그룹으로 나눔<br>
           각 그룹을 16진수로 표기, 콜론(:)으로 구분<br><br>
-          <span class="mono" style="color:#5B9BD5">2001:0db8:0000:0000:0000:0000:0000:0001</span>
+          <span class="mono" style="color:#2c6da4">2001:0db8:0000:0000:0000:0000:0000:0001</span>
         </p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#5B9BD5">축약 표기 규칙</h4>
+        <h4 style="color:#2c6da4">축약 표기 규칙</h4>
         <p>
           ① 각 그룹 앞의 0 생략 가능<br>
-          <span class="mono" style="color:#5B9BD5">2001:db8:0:0:0:0:0:1</span><br><br>
+          <span class="mono" style="color:#2c6da4">2001:db8:0:0:0:0:0:1</span><br><br>
           ② 연속된 0 그룹은 :: 로 생략 (1회만)<br>
-          <span class="mono" style="color:#5B9BD5">2001:db8::1</span>
+          <span class="mono" style="color:#2c6da4">2001:db8::1</span>
         </p>
       </div>
     </div>
@@ -798,7 +798,7 @@
         <tr><td><b>애니캐스트</b><br>(Anycast)</td><td>1:1 통신. 가장 가까운 노드에 전송<br><span style="font-size:13px;color:var(--text2)">IPv6에서 새로 등장한 개념</span></td><td>해당 없음</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-color:#E89050;margin-top:8px">
+    <div class="note" style="border-color:#9d520f;margin-top:8px">
       <b>IPv4 → IPv6 전환 기술</b><br>
       <b>듀얼 스택:</b> 장비가 IPv4·IPv6 동시 지원<br>
       <b>터널링:</b> IPv6 패킷을 IPv4로 감싸서 전송<br>
@@ -825,7 +825,7 @@
     </div>
 
     <div id="anchor-arp" class="sub-title" style="margin-top:18px">ARP / RARP 완전 정리</div>
-    <div class="note" style="border-color:#E89050">
+    <div class="note" style="border-color:#9d520f">
       <b>ARP = Address Resolution Protocol</b> — 주소 결정 프로토콜<br>
       <b>RARP = Reverse ARP</b> — 역방향 주소 결정 프로토콜<br>
       둘 다 <b>2~3계층 경계</b>에서 동작 (IP ↔ MAC 주소 변환 담당)
@@ -833,72 +833,72 @@
 
     <div class="sub-title" style="margin-top:12px">ARP vs RARP 핵심 비교</div>
     <table class="tbl">
-      <thead><tr><th>항목</th><th style="color:#E89050">ARP</th><th style="color:#5B9BD5">RARP</th></tr></thead>
+      <thead><tr><th>항목</th><th style="color:#9d520f">ARP</th><th style="color:#2c6da4">RARP</th></tr></thead>
       <tbody>
         <tr><td>풀네임</td><td>Address Resolution Protocol</td><td>Reverse Address Resolution Protocol</td></tr>
-        <tr><td>변환 방향</td><td><span class="badge" style="background:#2a1805;color:#E89050">IP → MAC</span></td><td><span class="badge" style="background:#1a2d45;color:#5B9BD5">MAC → IP</span></td></tr>
+        <tr><td>변환 방향</td><td><span class="badge" style="background:#f9ede2;color:#9d520f">IP → MAC</span></td><td><span class="badge" style="background:#e1ecfb;color:#2c6da4">MAC → IP</span></td></tr>
         <tr><td>알고 있는 것</td><td>IP 주소</td><td>MAC 주소</td></tr>
         <tr><td>알고 싶은 것</td><td>MAC 주소</td><td>IP 주소</td></tr>
         <tr><td>동작 계층</td><td>2~3계층 경계</td><td>2~3계층 경계</td></tr>
         <tr><td>전송 방식</td><td>브로드캐스트 요청<br>유니캐스트 응답</td><td>브로드캐스트 요청<br>유니캐스트 응답</td></tr>
         <tr><td>사용 환경</td><td>일반 네트워크 통신</td><td>디스크 없는 워크스테이션<br>(현재는 DHCP로 대체)</td></tr>
-        <tr><td>현재 사용</td><td><span class="badge" style="background:#0d2710;color:#5BAD6F">현재도 필수 사용</span></td><td><span class="badge b-gray">거의 미사용 (DHCP 대체)</span></td></tr>
+        <tr><td>현재 사용</td><td><span class="badge" style="background:#e5f3e5;color:#267c41">현재도 필수 사용</span></td><td><span class="badge b-gray">거의 미사용 (DHCP 대체)</span></td></tr>
       </tbody>
     </table>
 
     <div class="sub-title" style="margin-top:14px">ARP 동작 원리</div>
-    <div class="note" style="border-color:#E89050">
+    <div class="note" style="border-color:#9d520f">
       <b>상황:</b> PC A(192.168.1.1)가 PC B(192.168.1.2)에게 데이터를 보내려 함<br>
       PC A는 B의 IP는 알지만 <b>MAC 주소를 모름</b> → ARP로 알아냄
     </div>
     <div class="flow" style="font-size:14px;line-height:2.2;">
-<span style="color:#E89050">① ARP Request (브로드캐스트)</span>
-PC A → <span style="color:#ff8800">FF:FF:FF:FF:FF:FF</span> (전체에게)
+<span style="color:#9d520f">① ARP Request (브로드캐스트)</span>
+PC A → <span style="color:#9e5200">FF:FF:FF:FF:FF:FF</span> (전체에게)
 "192.168.1.2 쓰는 사람 MAC 주소 알려줘!"
 
-<span style="color:#5BAD6F">② ARP Reply (유니캐스트)</span>
+<span style="color:#267c41">② ARP Reply (유니캐스트)</span>
 PC B → PC A (나한테만)
 "나야! MAC은 AA:BB:CC:DD:EE:FF"
 
-<span style="color:#5B9BD5">③ ARP 캐시 저장</span>
+<span style="color:#2c6da4">③ ARP 캐시 저장</span>
 PC A의 ARP 테이블에 저장
 192.168.1.2 → AA:BB:CC:DD:EE:FF
 (일정 시간 후 만료 → 재요청)
 
-<span style="color:#9B8AE0">④ 이후 통신</span>
+<span style="color:#6b59aa">④ 이후 통신</span>
 ARP 없이 캐시에서 MAC 주소 바로 사용
     </div>
 
     <div class="sub-title" style="margin-top:14px">RARP 동작 원리</div>
     <div class="flow" style="font-size:14px;line-height:2.2;">
-<span style="color:#5B9BD5">① RARP Request (브로드캐스트)</span>
+<span style="color:#2c6da4">① RARP Request (브로드캐스트)</span>
 디스크 없는 장치 → 전체에게
 "내 MAC은 AA:BB:CC:DD:EE:FF인데 IP 주소가 뭐야?"
 
-<span style="color:#5BAD6F">② RARP Server 응답 (유니캐스트)</span>
+<span style="color:#267c41">② RARP Server 응답 (유니캐스트)</span>
 RARP 서버 → 요청 장치
 "너의 IP는 192.168.1.5야!"
 
-<span style="color:#9090B0">※ 현재는 DHCP가 이 역할을 대체</span>
+<span style="color:#4d5660">※ 현재는 DHCP가 이 역할을 대체</span>
     </div>
 
     <div class="sub-title" style="margin-top:14px">ARP 패킷 구조</div>
     <div style="overflow-x:auto;margin-top:8px;">
       <table style="border-collapse:collapse;width:100%;text-align:center;font-size:13px;">
         <tr>
-          <td style="border:1px solid #E89050;padding:8px;background:#2a1805;color:#E89050;font-weight:500;white-space:nowrap;">Hardware Type<br><span style="font-size:12px;color:var(--text2)">16 bit</span></td>
-          <td style="border:1px solid #E89050;padding:8px;background:#1a1205;color:#c0a060;font-weight:500;white-space:nowrap;">Protocol Type<br><span style="font-size:12px;color:var(--text2)">16 bit</span></td>
-          <td style="border:1px solid #E89050;padding:8px;background:#1a1205;color:#c0a060;font-weight:500;white-space:nowrap;">HW Len<br><span style="font-size:12px;color:var(--text2)">8 bit</span></td>
-          <td style="border:1px solid #E89050;padding:8px;background:#1a1205;color:#c0a060;font-weight:500;white-space:nowrap;">Proto Len<br><span style="font-size:12px;color:var(--text2)">8 bit</span></td>
-          <td style="border:1px solid #E89050;padding:8px;background:#2a1805;color:#E89050;font-weight:500;white-space:nowrap;">Operation<br><span style="font-size:12px;color:var(--text2)">16 bit</span></td>
+          <td style="border:1px solid #9d520f;padding:8px;background:#f9ede2;color:#9d520f;font-weight:500;white-space:nowrap;">Hardware Type<br><span style="font-size:12px;color:var(--text2)">16 bit</span></td>
+          <td style="border:1px solid #9d520f;padding:8px;background:#f5f9fe;color:#826421;font-weight:500;white-space:nowrap;">Protocol Type<br><span style="font-size:12px;color:var(--text2)">16 bit</span></td>
+          <td style="border:1px solid #9d520f;padding:8px;background:#f5f9fe;color:#826421;font-weight:500;white-space:nowrap;">HW Len<br><span style="font-size:12px;color:var(--text2)">8 bit</span></td>
+          <td style="border:1px solid #9d520f;padding:8px;background:#f5f9fe;color:#826421;font-weight:500;white-space:nowrap;">Proto Len<br><span style="font-size:12px;color:var(--text2)">8 bit</span></td>
+          <td style="border:1px solid #9d520f;padding:8px;background:#f9ede2;color:#9d520f;font-weight:500;white-space:nowrap;">Operation<br><span style="font-size:12px;color:var(--text2)">16 bit</span></td>
         </tr>
         <tr>
-          <td colspan="2" style="border:1px solid #E89050;padding:8px;background:#1a1205;color:#c0a060;font-weight:500;">Sender MAC Address<br><span style="font-size:12px;color:var(--text2)">48 bit</span></td>
-          <td colspan="3" style="border:1px solid #E89050;padding:8px;background:#1a1205;color:#c0a060;font-weight:500;">Sender IP Address<br><span style="font-size:12px;color:var(--text2)">32 bit</span></td>
+          <td colspan="2" style="border:1px solid #9d520f;padding:8px;background:#f5f9fe;color:#826421;font-weight:500;">Sender MAC Address<br><span style="font-size:12px;color:var(--text2)">48 bit</span></td>
+          <td colspan="3" style="border:1px solid #9d520f;padding:8px;background:#f5f9fe;color:#826421;font-weight:500;">Sender IP Address<br><span style="font-size:12px;color:var(--text2)">32 bit</span></td>
         </tr>
         <tr>
-          <td colspan="2" style="border:1px solid #E89050;padding:8px;background:#1a1205;color:#c0a060;font-weight:500;">Target MAC Address<br><span style="font-size:12px;color:var(--text2)">48 bit</span></td>
-          <td colspan="3" style="border:1px solid #E89050;padding:8px;background:#1a1205;color:#c0a060;font-weight:500;">Target IP Address<br><span style="font-size:12px;color:var(--text2)">32 bit</span></td>
+          <td colspan="2" style="border:1px solid #9d520f;padding:8px;background:#f5f9fe;color:#826421;font-weight:500;">Target MAC Address<br><span style="font-size:12px;color:var(--text2)">48 bit</span></td>
+          <td colspan="3" style="border:1px solid #9d520f;padding:8px;background:#f5f9fe;color:#826421;font-weight:500;">Target IP Address<br><span style="font-size:12px;color:var(--text2)">32 bit</span></td>
         </tr>
       </table>
     </div>
@@ -955,7 +955,7 @@ RARP 서버 → 요청 장치
     </div>
     
     <div class="layer-block">
-    <div id="anchor-icmp" class="sub-title" style="color:#E89050;margin-top:22px;">📨 ICMP / IGMP — 3계층 보조 프로토콜</div>
+    <div id="anchor-icmp" class="sub-title" style="color:#9d520f;margin-top:22px;">📨 ICMP / IGMP — 3계층 보조 프로토콜</div>
     <div class="highlight">
       3계층에는 <b>IP 혼자</b> 있는 게 아니다. IP는 <b>배달만</b> 할 뿐 <b>실패를 알리지도, 그룹을 관리하지도</b> 못해서,
       그 빈자리를 <b>ICMP(오류 보고)</b> 와 <b>IGMP(그룹 관리)</b> 가 채운다.
@@ -963,20 +963,20 @@ RARP 서버 → 요청 장치
     <table class="tbl">
       <thead><tr><th>프로토콜</th><th>프로토콜 번호</th><th>맡은 일</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#E89050">IP</b></td><td class="mono">—</td><td>주소 지정과 <b>경로 배달</b> (비신뢰·비연결)</td></tr>
-        <tr><td><b style="color:#5B9BD5">ICMP</b></td><td class="mono"><b>1</b></td><td>배달이 <b>실패한 이유를 알림</b> · 상태 진단 (ping · traceroute)</td></tr>
-        <tr><td><b style="color:#5BAD6F">IGMP</b></td><td class="mono"><b>2</b></td><td><b>멀티캐스트 그룹</b> 가입·탈퇴 관리</td></tr>
-        <tr><td><b style="color:#9B8AE0">ARP / RARP</b></td><td class="mono">—</td><td>IP ↔ MAC 주소 변환 (위 참고)</td></tr>
+        <tr><td><b style="color:#9d520f">IP</b></td><td class="mono">—</td><td>주소 지정과 <b>경로 배달</b> (비신뢰·비연결)</td></tr>
+        <tr><td><b style="color:#2c6da4">ICMP</b></td><td class="mono"><b>1</b></td><td>배달이 <b>실패한 이유를 알림</b> · 상태 진단 (ping · traceroute)</td></tr>
+        <tr><td><b style="color:#267c41">IGMP</b></td><td class="mono"><b>2</b></td><td><b>멀티캐스트 그룹</b> 가입·탈퇴 관리</td></tr>
+        <tr><td><b style="color:#6b59aa">ARP / RARP</b></td><td class="mono">—</td><td>IP ↔ MAC 주소 변환 (위 참고)</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E89050;">
+    <div class="note" style="border-left-color:#9d520f;">
       🧠 <b>프로토콜 번호 4개는 그냥 외운다 — 「1 · 2 · 6 · 17」</b><br>
       <b>ICMP 1 · IGMP 2 · TCP 6 · UDP 17</b>. IP 헤더의 <b>Protocol 필드</b>에 들어가는 값이다.<br>
       ICMP·IGMP는 <b>IP 안에 실려 전달되지만</b> 상위 계층이 아니라 <b>3계층에 속하는 동반 프로토콜</b>이다. <span class="tag">시험 단골</span>
     </div>
 
     <!-- ICMP -->
-    <div style="font-size:16.5px;font-weight:700;color:#5B9BD5;margin:20px 0 8px;">📮 ICMP — Internet Control Message Protocol</div>
+    <div style="font-size:16.5px;font-weight:700;color:#2c6da4;margin:20px 0 8px;">📮 ICMP — Internet Control Message Protocol</div>
     <div class="flow">
   IP 헤더 (Protocol = 1) 안에 ICMP 메시지가 실린다
 
@@ -993,17 +993,17 @@ RARP 서버 → 요청 장치
       <thead><tr><th>Type</th><th>메시지</th><th>구분</th><th>언제 발생하나</th></tr></thead>
       <tbody>
         <tr><td class="mono"><b>0</b></td><td><b>Echo Reply</b></td><td><span class="badge b-both">질의</span></td><td>ping 응답</td></tr>
-        <tr><td class="mono"><b style="color:#ff8060">3</b></td><td><b>Destination Unreachable</b><br><span class="tag">목적지 도달 불가</span></td><td><span class="badge b-red">오류</span></td><td>호스트·네트워크·<b>포트</b>가 없거나 막힘 — <b>가장 많이 나옴</b></td></tr>
+        <tr><td class="mono"><b style="color:#ae4024">3</b></td><td><b>Destination Unreachable</b><br><span class="tag">목적지 도달 불가</span></td><td><span class="badge b-red">오류</span></td><td>호스트·네트워크·<b>포트</b>가 없거나 막힘 — <b>가장 많이 나옴</b></td></tr>
         <tr><td class="mono"><b>4</b></td><td>Source Quench</td><td><span class="badge b-red">오류</span></td><td>혼잡하니 <b>천천히 보내라</b> (현재는 거의 미사용)</td></tr>
         <tr><td class="mono"><b>5</b></td><td><b>Redirect</b></td><td><span class="badge b-red">오류</span></td><td>더 좋은 경로가 있으니 <b>다른 라우터로 보내라</b></td></tr>
         <tr><td class="mono"><b>8</b></td><td><b>Echo Request</b></td><td><span class="badge b-both">질의</span></td><td>ping 요청</td></tr>
-        <tr><td class="mono"><b style="color:#E8A838">11</b></td><td><b>Time Exceeded</b><br><span class="tag">시간 초과</span></td><td><span class="badge b-red">오류</span></td><td><b>TTL이 0</b>이 되어 폐기 — <b>traceroute의 원리</b></td></tr>
+        <tr><td class="mono"><b style="color:#8a6012">11</b></td><td><b>Time Exceeded</b><br><span class="tag">시간 초과</span></td><td><span class="badge b-red">오류</span></td><td><b>TTL이 0</b>이 되어 폐기 — <b>traceroute의 원리</b></td></tr>
         <tr><td class="mono"><b>12</b></td><td>Parameter Problem</td><td><span class="badge b-red">오류</span></td><td>IP 헤더 필드 값이 잘못됨</td></tr>
         <tr><td class="mono"><b>13 / 14</b></td><td>Timestamp Request / Reply</td><td><span class="badge b-both">질의</span></td><td>왕복 지연 시간 측정</td></tr>
       </tbody>
     </table>
     </div>
-    <div class="note" style="border-left-color:#5B9BD5;">
+    <div class="note" style="border-left-color:#2c6da4;">
       🧠 <b>번호 3개만 확실히 — 「3 · 8/0 · 11」</b><br>
       <b>3 = 도달 불가</b>(가장 흔한 오류) · <b>8 → 0 = ping</b>(요청→응답) · <b>11 = 시간 초과</b>(TTL 0).<br>
       ICMP는 <b>오류 메시지와 질의 메시지</b> 두 갈래인데, <b>짝수 0·14는 응답</b>, <b>홀수 8·13은 요청</b>인 것만 봐도 절반은 갈린다.
@@ -1029,7 +1029,7 @@ RARP 서버 → 요청 장치
     </div>
 
     <!-- IGMP -->
-    <div style="font-size:16.5px;font-weight:700;color:#5BAD6F;margin:20px 0 8px;">📡 IGMP — Internet Group Management Protocol</div>
+    <div style="font-size:16.5px;font-weight:700;color:#267c41;margin:20px 0 8px;">📡 IGMP — Internet Group Management Protocol</div>
     <div class="highlight">
       <b>호스트가 라우터에게 "나 이 멀티캐스트 그룹 들을게요 / 안 들을게요"를 알리는</b> 프로토콜.
       멀티캐스트 주소는 <b>D 클래스(224.0.0.0 ~ 239.255.255.255)</b> 를 쓴다.
@@ -1045,7 +1045,7 @@ RARP 서버 → 요청 장치
       <thead><tr><th>버전</th><th>추가된 것</th><th>특징</th></tr></thead>
       <tbody>
         <tr><td><b>IGMPv1</b></td><td>Query · Report</td><td><b>탈퇴 메시지가 없어</b> 타임아웃으로 판단 → 느림</td></tr>
-        <tr><td><b style="color:#5BAD6F">IGMPv2</b></td><td><b>Leave 메시지</b></td><td>즉시 탈퇴 가능 → <b>전환이 빨라짐</b>. 가장 널리 쓰임</td></tr>
+        <tr><td><b style="color:#267c41">IGMPv2</b></td><td><b>Leave 메시지</b></td><td>즉시 탈퇴 가능 → <b>전환이 빨라짐</b>. 가장 널리 쓰임</td></tr>
         <tr><td><b>IGMPv3</b></td><td><b>소스 지정(SSM)</b></td><td>"이 그룹을 <b>이 송신자한테서만</b> 받겠다" 지정 가능</td></tr>
       </tbody>
     </table>
@@ -1058,7 +1058,7 @@ RARP 서버 → 요청 장치
         <tr><td class="mono"><b>224.0.0.9</b></td><td><b>RIPv2</b></td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#5BAD6F;">
+    <div class="note" style="border-left-color:#267c41;">
       <b>IGMP 스누핑(Snooping)</b> — <b>L2 스위치</b>가 오가는 IGMP 메시지를 몰래 엿봐서,
       멀티캐스트 트래픽을 <b>실제로 가입한 포트로만</b> 내보내는 기능.
       이게 없으면 스위치는 멀티캐스트를 <b>브로드캐스트처럼 전 포트에 뿌려</b> 대역폭을 낭비한다.
@@ -1066,7 +1066,7 @@ RARP 서버 → 요청 장치
     </div>
 
     <!-- 비교 -->
-    <div style="font-size:16.5px;font-weight:700;color:#9B8AE0;margin:20px 0 8px;">⚖️ ICMP vs IGMP 한눈에</div>
+    <div style="font-size:16.5px;font-weight:700;color:#6b59aa;margin:20px 0 8px;">⚖️ ICMP vs IGMP 한눈에</div>
     <table class="tbl">
       <thead><tr><th>구분</th><th>ICMP</th><th>IGMP</th></tr></thead>
       <tbody>
@@ -1082,21 +1082,21 @@ RARP 서버 → 요청 장치
       <b>"오류면 ICMP, 그룹이면 IGMP"</b>.
     </div>
 
-    <div style="font-size:16.5px;font-weight:700;color:#E06B5A;margin:20px 0 8px;">📖 기출 포인트</div>
+    <div style="font-size:16.5px;font-weight:700;color:#ae3e30;margin:20px 0 8px;">📖 기출 포인트</div>
     <table class="tbl">
       <thead><tr><th>물음</th><th>답</th></tr></thead>
       <tbody>
-        <tr><td>ping 명령이 사용하는 프로토콜은?</td><td><b style="color:#5BAD6F">ICMP</b> (Echo Request 8 / Reply 0)</td></tr>
-        <tr><td>traceroute가 경로를 알아내는 원리는?</td><td><b style="color:#5BAD6F">TTL을 1씩 증가</b>시켜 Type 11(시간 초과) 회신을 받는다</td></tr>
-        <tr><td>IP 헤더의 Protocol 값 1 · 2 · 6 · 17은?</td><td><b style="color:#5BAD6F">ICMP · IGMP · TCP · UDP</b></td></tr>
-        <tr><td>멀티캐스트 그룹 가입·탈퇴를 관리하는 프로토콜은?</td><td><b style="color:#5BAD6F">IGMP</b></td></tr>
-        <tr><td>멀티캐스트에 사용하는 IP 클래스는?</td><td><b style="color:#5BAD6F">D 클래스 (224 ~ 239)</b></td></tr>
-        <tr><td>ICMP와 IGMP가 속한 계층은?</td><td><b style="color:#5BAD6F">3계층(네트워크)</b> — IP에 캡슐화되지만 상위 계층이 아니다</td></tr>
-        <tr><td>L2 스위치가 멀티캐스트를 가입 포트로만 보내는 기능은?</td><td><b style="color:#5BAD6F">IGMP 스누핑</b></td></tr>
+        <tr><td>ping 명령이 사용하는 프로토콜은?</td><td><b style="color:#267c41">ICMP</b> (Echo Request 8 / Reply 0)</td></tr>
+        <tr><td>traceroute가 경로를 알아내는 원리는?</td><td><b style="color:#267c41">TTL을 1씩 증가</b>시켜 Type 11(시간 초과) 회신을 받는다</td></tr>
+        <tr><td>IP 헤더의 Protocol 값 1 · 2 · 6 · 17은?</td><td><b style="color:#267c41">ICMP · IGMP · TCP · UDP</b></td></tr>
+        <tr><td>멀티캐스트 그룹 가입·탈퇴를 관리하는 프로토콜은?</td><td><b style="color:#267c41">IGMP</b></td></tr>
+        <tr><td>멀티캐스트에 사용하는 IP 클래스는?</td><td><b style="color:#267c41">D 클래스 (224 ~ 239)</b></td></tr>
+        <tr><td>ICMP와 IGMP가 속한 계층은?</td><td><b style="color:#267c41">3계층(네트워크)</b> — IP에 캡슐화되지만 상위 계층이 아니다</td></tr>
+        <tr><td>L2 스위치가 멀티캐스트를 가입 포트로만 보내는 기능은?</td><td><b style="color:#267c41">IGMP 스누핑</b></td></tr>
       </tbody>
     </table>
 
-    <div class="sub-title" style="color:#E89050">⚙️ 처리 방법 — 이 계층이 하는 일</div>
+    <div class="sub-title" style="color:#9d520f">⚙️ 처리 방법 — 이 계층이 하는 일</div>
     <table class="tbl">
       <thead><tr><th>기능</th><th>내용</th></tr></thead>
       <tbody>
@@ -1115,7 +1115,7 @@ RARP 서버 → 요청 장치
     </div>
 
     <div class="layer-block">
-    <div class="sub-title" style="color:#E06B5A">📐 계측 — 네트워크 계층에서 무엇을 보는가</div>
+    <div class="sub-title" style="color:#ae3e30">📐 계측 — 네트워크 계층에서 무엇을 보는가</div>
     <table class="tbl">
       <thead><tr><th>도구 · 지표</th><th>무엇을 알 수 있나</th></tr></thead>
       <tbody>
@@ -1153,7 +1153,7 @@ RARP 서버 → 요청 장치
   </div>
 
   <div class="section" id="sec-netdev">
-    <h2 class="section-title" style="color:#5BAD6F">🔧 네트워크 장비 — 리피터 · 허브 · 브리지 · 스위치 · 라우터</h2>
+    <h2 class="section-title" style="color:#267c41">🔧 네트워크 장비 — 리피터 · 허브 · 브리지 · 스위치 · 라우터</h2>
 
     <div class="highlight">
       장비 문제는 <b>"몇 계층에서 무엇을 보고 판단하는가"</b> 하나로 다 풀린다.
@@ -1170,9 +1170,9 @@ RARP 서버 → 요청 장치
             <td><b>멀티포트 리피터</b>. 받은 신호를 모든 포트로 뿌림. 반이중</td><td><span class="badge b-red">1개 (공유)</span></td><td>1개</td></tr>
         <tr><td><b>브리지</b><br><span class="tag">Bridge</span></td><td><span class="badge b-both">2계층</span></td><td><b>MAC 주소</b></td>
             <td>MAC 학습 후 <b>필터링·포워딩</b>. <b>소프트웨어</b> 처리, 포트 수 적음</td><td><span class="badge b-both">포트별 분리</span></td><td>1개</td></tr>
-        <tr><td><b style="color:#5BAD6F">스위치</b><br><span class="tag">L2 Switch</span></td><td><span class="badge b-both">2계층</span></td><td><b>MAC 주소</b></td>
+        <tr><td><b style="color:#267c41">스위치</b><br><span class="tag">L2 Switch</span></td><td><span class="badge b-both">2계층</span></td><td><b>MAC 주소</b></td>
             <td>브리지와 원리는 같으나 <b>ASIC 하드웨어</b> 처리, 포트 많음, 전이중</td><td><span class="badge b-both">포트별 분리</span></td><td>1개 <span class="tag">VLAN이면 분리</span></td></tr>
-        <tr><td><b style="color:#E89050">라우터</b><br><span class="tag">Router</span></td><td><span class="badge b-amber">3계층</span></td><td><b>IP 주소</b></td>
+        <tr><td><b style="color:#9d520f">라우터</b><br><span class="tag">Router</span></td><td><span class="badge b-amber">3계층</span></td><td><b>IP 주소</b></td>
             <td>최적 <b>경로 선택</b>, 서로 다른 네트워크 연결, 브로드캐스트 차단</td><td>분리</td><td><span class="badge b-both">분리</span></td></tr>
         <tr><td><b>게이트웨이</b><br><span class="tag">Gateway</span></td><td>상위 계층<br>(~7계층)</td><td>프로토콜 전체</td>
             <td><b>서로 다른 프로토콜 체계</b>를 변환·중계</td><td>분리</td><td>분리</td></tr>
@@ -1185,7 +1185,7 @@ RARP 서버 → 요청 장치
       · <b>스위치는 브로드캐스트 도메인을 나누지 못한다.</b> 나누는 것은 <b>라우터</b>(또는 VLAN).
     </div>
 
-    <div class="sub-title" style="color:#5B9BD5">🔀 L2 ~ L7 스위치 구분</div>
+    <div class="sub-title" style="color:#2c6da4">🔀 L2 ~ L7 스위치 구분</div>
     <table class="tbl">
       <thead><tr><th style="width:110px">종류</th><th>판단 기준</th><th>용도</th></tr></thead>
       <tbody>
@@ -1196,7 +1196,7 @@ RARP 서버 → 요청 장치
       </tbody>
     </table>
 
-    <div class="sub-title" style="color:#E8A838">⚙️ 스위칭 방식 3가지</div>
+    <div class="sub-title" style="color:#8a6012">⚙️ 스위칭 방식 3가지</div>
     <table class="tbl">
       <thead><tr><th style="width:150px">방식</th><th>동작</th><th>지연 / 오류검출</th></tr></thead>
       <tbody>
@@ -1206,7 +1206,7 @@ RARP 서버 → 요청 장치
       </tbody>
     </table>
 
-    <div class="sub-title" style="color:#9B8AE0">🌳 STP — 스패닝 트리 프로토콜 (IEEE 802.1D)</div>
+    <div class="sub-title" style="color:#6b59aa">🌳 STP — 스패닝 트리 프로토콜 (IEEE 802.1D)</div>
     <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:6px">
       스위치를 이중화하면 <b>루프</b>가 생기고, 브로드캐스트가 무한 순환하는 <b>브로드캐스트 스톰</b>이 발생한다.
       STP는 <b>BPDU</b>를 교환해 논리적으로 <b>루프 없는 트리</b>를 만들고, 남는 경로는 <b>차단(Blocking)</b> 상태로 대기시킨다.
@@ -1231,20 +1231,20 @@ RARP 서버 → 요청 장치
   </div>
 
   <div class="section" id="sec-routing">
-    <h2 class="section-title" style="color:#E89050">🧭 라우팅 프로토콜 — RIP · OSPF · BGP</h2>
+    <h2 class="section-title" style="color:#9d520f">🧭 라우팅 프로토콜 — RIP · OSPF · BGP</h2>
 
     <div class="flow">
 라우팅
- ├─ <span style="color:#5BAD6F">정적(Static)</span>  : 관리자가 직접 입력. 안전·부하 없음. 규모 커지면 관리 불가
- └─ <span style="color:#E8A838">동적(Dynamic)</span> : 라우터끼리 정보 교환
-      ├─ <span style="color:#5B9BD5">IGP</span> (AS 내부)  ─ 거리벡터 : <b>RIP</b>, IGRP, EIGRP
+ ├─ <span style="color:#267c41">정적(Static)</span>  : 관리자가 직접 입력. 안전·부하 없음. 규모 커지면 관리 불가
+ └─ <span style="color:#8a6012">동적(Dynamic)</span> : 라우터끼리 정보 교환
+      ├─ <span style="color:#2c6da4">IGP</span> (AS 내부)  ─ 거리벡터 : <b>RIP</b>, IGRP, EIGRP
       │                      ─ 링크상태 : <b>OSPF</b>, IS-IS
-      └─ <span style="color:#E06B5A">EGP</span> (AS 간)    ─ 경로벡터 : <b>BGP</b>
+      └─ <span style="color:#ae3e30">EGP</span> (AS 간)    ─ 경로벡터 : <b>BGP</b>
     </div>
 
-    <div class="sub-title" style="color:#5B9BD5">⚖️ 거리벡터 vs 링크상태</div>
+    <div class="sub-title" style="color:#2c6da4">⚖️ 거리벡터 vs 링크상태</div>
     <table class="tbl">
-      <thead><tr><th style="width:130px">구분</th><th style="color:#E8A838">거리벡터 (Distance Vector)</th><th style="color:#5B9BD5">링크상태 (Link State)</th></tr></thead>
+      <thead><tr><th style="width:130px">구분</th><th style="color:#8a6012">거리벡터 (Distance Vector)</th><th style="color:#2c6da4">링크상태 (Link State)</th></tr></thead>
       <tbody>
         <tr><td><b>원리</b></td><td>이웃에게 <b>내 라우팅 테이블 전체</b>를 알림</td><td>전체에 <b>링크 상태만</b> 알리고 각자 지도를 그림</td></tr>
         <tr><td><b>알고리즘</b></td><td><b>벨만-포드</b></td><td><b>다익스트라(SPF)</b></td></tr>
@@ -1256,15 +1256,15 @@ RARP 서버 → 요청 장치
       </tbody>
     </table>
 
-    <div class="sub-title" style="color:#E8A838">📋 RIP · OSPF · BGP 핵심 비교</div>
+    <div class="sub-title" style="color:#8a6012">📋 RIP · OSPF · BGP 핵심 비교</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:800px;">
-      <thead><tr><th style="width:110px">항목</th><th style="color:#E8A838">RIP</th><th style="color:#5B9BD5">OSPF</th><th style="color:#E06B5A">BGP</th></tr></thead>
+      <thead><tr><th style="width:110px">항목</th><th style="color:#8a6012">RIP</th><th style="color:#2c6da4">OSPF</th><th style="color:#ae3e30">BGP</th></tr></thead>
       <tbody>
         <tr><td><b>방식</b></td><td>거리벡터</td><td>링크상태</td><td><b>경로벡터</b></td></tr>
         <tr><td><b>범위</b></td><td>IGP (AS 내부)</td><td>IGP (AS 내부)</td><td><b>EGP (AS 간)</b></td></tr>
         <tr><td><b>메트릭</b></td><td><b>홉 수</b></td><td><b>비용</b> = <span class="fr"><span>10⁸</span><span>대역폭</span></span></td><td>AS-Path 등 <b>정책</b></td></tr>
-        <tr><td><b>최대 홉</b></td><td><b style="color:#E8A838">15</b> (16 = 도달 불가)</td><td>제한 없음</td><td>제한 없음</td></tr>
+        <tr><td><b>최대 홉</b></td><td><b style="color:#8a6012">15</b> (16 = 도달 불가)</td><td>제한 없음</td><td>제한 없음</td></tr>
         <tr><td><b>갱신 주기</b></td><td><b>30초</b> 전체 전송</td><td>변화 시 + 30분 요약</td><td>변화 시</td></tr>
         <tr><td><b>전송 프로토콜</b></td><td><b>UDP 520</b></td><td><b>IP 프로토콜 89</b><br>(TCP·UDP 아님)</td><td><b>TCP 179</b></td></tr>
         <tr><td><b>알고리즘</b></td><td>벨만-포드</td><td><b>다익스트라</b></td><td>경로 선택 정책</td></tr>
@@ -1277,7 +1277,7 @@ RARP 서버 → 요청 장치
       <b>OSPF는 TCP도 UDP도 아닌 IP 프로토콜 번호 89</b> 로 직접 IP 위에 올라탄다.
     </div>
 
-    <div class="sub-title" style="color:#E06B5A">🔁 거리벡터의 무한 카운트 문제와 대책</div>
+    <div class="sub-title" style="color:#ae3e30">🔁 거리벡터의 무한 카운트 문제와 대책</div>
     <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:6px">
       경로가 끊겼는데 서로 "나는 그쪽으로 갈 수 있어"라고 잘못된 정보를 주고받으며 홉 수가 무한히 올라가는 현상.
     </p>
@@ -1303,7 +1303,7 @@ RARP 서버 → 요청 장치
   </div>
 
   <div class="section" id="sec-topology">
-    <h2 class="section-title" style="color:#4DBFA8">🕸️ 통신망 토폴로지 (Topology)</h2>
+    <h2 class="section-title" style="color:#117a68">🕸️ 통신망 토폴로지 (Topology)</h2>
 
     <div class="flow">
    성형(Star)          링형(Ring)         버스형(Bus)
@@ -1322,27 +1322,27 @@ RARP 서버 → 요청 장치
     <table class="tbl" style="min-width:840px;">
       <thead><tr><th style="width:100px">형태</th><th>구조</th><th>장점</th><th>단점</th><th>고장 시</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5B9BD5">성형</b><br><span class="tag">Star</span></td>
+        <tr><td><b style="color:#2c6da4">성형</b><br><span class="tag">Star</span></td>
             <td>중앙 장치(허브·스위치)에 <b>모든 노드가 1:1</b> 연결</td>
             <td>설치·관리 쉬움, 장애 노드 <b>격리 용이</b>, 고속</td>
             <td><b>중앙 장치에 집중</b>, 회선 수 많음</td>
-            <td><b style="color:#E06B5A">중앙 고장 = 전체 마비</b></td></tr>
-        <tr><td><b style="color:#5BAD6F">링형</b><br><span class="tag">Ring</span></td>
+            <td><b style="color:#ae3e30">중앙 고장 = 전체 마비</b></td></tr>
+        <tr><td><b style="color:#267c41">링형</b><br><span class="tag">Ring</span></td>
             <td>인접 노드끼리 <b>고리 모양</b>으로 단방향 연결</td>
             <td>충돌 없음(토큰), 분산 제어, 장거리 유리</td>
             <td>노드 추가·삭제 어려움, 지연 누적</td>
             <td>한 노드 고장 시 <b>전체 마비</b> → <b>이중 링</b>으로 보완</td></tr>
-        <tr><td><b style="color:#E8A838">버스형</b><br><span class="tag">Bus</span></td>
+        <tr><td><b style="color:#8a6012">버스형</b><br><span class="tag">Bus</span></td>
             <td>하나의 <b>공용 회선</b>에 모든 노드가 붙음. 양 끝 <b>종단저항</b></td>
             <td>회선이 가장 적음, 설치 저렴, 노드 추가 쉬움</td>
             <td><b>충돌</b> 발생(CSMA/CD 필요), 보안 취약, 장애 위치 파악 어려움</td>
             <td>노드 고장은 영향 없음 / <b>회선 절단 = 전체 마비</b></td></tr>
-        <tr><td><b style="color:#E89050">트리형</b><br><span class="tag">Tree</span></td>
+        <tr><td><b style="color:#9d520f">트리형</b><br><span class="tag">Tree</span></td>
             <td>성형을 <b>계층적으로</b> 확장. 분기점에 허브</td>
             <td>확장성 우수, 계층 관리 용이</td>
             <td>상위 노드 부하 집중</td>
             <td><b>상위 노드 고장 시 하위 전체</b> 영향</td></tr>
-        <tr><td><b style="color:#9B8AE0">망형</b><br><span class="tag">Mesh</span></td>
+        <tr><td><b style="color:#6b59aa">망형</b><br><span class="tag">Mesh</span></td>
             <td>모든 노드가 <b>서로 직접</b> 연결 (완전 망형)</td>
             <td><b>신뢰성 최고</b>, 우회 경로 확보, 트래픽 분산</td>
             <td><b>회선 수·비용 최대</b>, 설치 복잡</td>
@@ -1351,15 +1351,15 @@ RARP 서버 → 요청 장치
     </table>
     </div>
 
-    <div style="background:linear-gradient(135deg,#2d2650,#0f1117);border:2px solid #9B8AE0;border-radius:12px;padding:16px 22px;margin-top:14px;text-align:center;">
-      <div style="font-size:13px;color:#9B8AE0;letter-spacing:1px;font-weight:600;margin-bottom:8px;">완전 망형 — 계산 문제 단골</div>
-      <div style="font-size:25px;font-weight:700;color:#fff;">회선 수 = <span class="fr"><span>n(n−1)</span><span>2</span></span> &nbsp;·&nbsp; 노드당 포트 = n − 1</div>
+    <div style="background:#eae8ff;border:2px solid #6b59aa;border-radius:12px;padding:16px 22px;margin-top:14px;text-align:center;">
+      <div style="font-size:13px;color:#6b59aa;letter-spacing:1px;font-weight:600;margin-bottom:8px;">완전 망형 — 계산 문제 단골</div>
+      <div style="font-size:25px;font-weight:700;color:#1d252d;">회선 수 = <span class="fr"><span>n(n−1)</span><span>2</span></span> &nbsp;·&nbsp; 노드당 포트 = n − 1</div>
       <div style="font-size:14px;color:var(--text2);margin-top:8px;">n = 노드 수</div>
     </div>
     <div class="highlight">
       <b>📖 기출 계산</b> — 노드 <b>10개</b>를 완전 망형으로 연결할 때 필요한 회선 수는?<br>
       <span class="mono" style="line-height:2;">
-        10 × 9 ÷ 2 = <b style="color:#fff">45 회선</b> &nbsp;· 각 노드는 <b>9개</b> 포트 필요
+        10 × 9 ÷ 2 = <b style="color:#1d252d">45 회선</b> &nbsp;· 각 노드는 <b>9개</b> 포트 필요
       </span><br>
       n=5 → 10회선 · n=6 → 15 · n=8 → 28 · n=10 → 45. <b>노드가 늘면 회선이 제곱으로</b> 늘어난다.
     </div>
@@ -1374,10 +1374,10 @@ RARP 서버 → 요청 장치
   </div>
 
   <div class="section" id="sec-lan">
-    <h2 class="section-title" style="color:#5B9BD5">🏢 LAN — VLAN · 무선랜 · DHCP</h2>
+    <h2 class="section-title" style="color:#2c6da4">🏢 LAN — VLAN · 무선랜 · DHCP</h2>
 
     <!-- VLAN -->
-    <div id="anchor-vlan" class="sub-title" style="color:#5BAD6F">🏷️ VLAN — 가상 랜</div>
+    <div id="anchor-vlan" class="sub-title" style="color:#267c41">🏷️ VLAN — 가상 랜</div>
     <p style="font-size:15px;color:var(--text2);line-height:1.8;margin-top:6px">
       물리적으로 <b>같은 스위치</b>에 꽂혀 있어도, 논리적으로 <b>서로 다른 브로드캐스트 도메인</b>으로 나누는 기술.
       스위치 한 대를 여러 대처럼 쓰는 셈이다.
@@ -1399,7 +1399,7 @@ RARP 서버 → 요청 장치
     </div>
 
     <!-- WLAN -->
-    <div id="anchor-wlan" class="sub-title" style="color:#4DBFA8">📶 무선랜 (WLAN) — IEEE 802.11 세대 총정리</div>
+    <div id="anchor-wlan" class="sub-title" style="color:#117a68">📶 무선랜 (WLAN) — IEEE 802.11 세대 총정리</div>
     <div class="note" style="margin-bottom:10px">
       시험에 가장 많이 나오는 형태는 <b>"다음 중 가장 속도가 빠른(느린) 규격은?"</b> 이다.
       아래 <b>순서</b> 열이 곧 <b>속도 순서</b>이므로 순서만 외우면 대부분 풀린다.
@@ -1444,14 +1444,14 @@ RARP 서버 → 요청 장치
 
     <div class="two-col" style="margin-top:12px">
       <div class="mini-card">
-        <b style="color:#E8A33D">🧠 순서 암기법</b><br>
+        <b style="color:#8e5d05">🧠 순서 암기법</b><br>
         <span class="mono" style="font-size:13px">(원조) → b → a·g → n → ac → ax → be</span><br><br>
         <b>"버(b) 아지(a·g) 는(n) 액(ac) 스(ax) 배(be)"</b><br>
         <span style="color:var(--text3);font-size:13px">
         속도: 2M → 11M → 54M → 600M → 6.9G → 9.6G → 46G</span>
       </div>
       <div class="mini-card">
-        <b style="color:#E06C6C">⚠️ 최다 함정</b><br>
+        <b style="color:#ad3e42">⚠️ 최다 함정</b><br>
         • <b>a와 b의 주파수를 뒤바꾸는 문제</b> — <b>802.11a = 5 GHz</b>, 802.11b = 2.4 GHz<br>
         • <b>a보다 b가 먼저 상용화</b>되었지만 <b>속도는 a가 더 빠름</b> (a 54M &gt; b 11M)<br>
         • <b>802.11ac 는 5 GHz 전용</b> (2.4 GHz 안 씀)<br>
@@ -1488,7 +1488,7 @@ RARP 서버 → 요청 장치
     </table>
 
     <!-- DHCP -->
-    <div id="anchor-dhcp" class="sub-title" style="color:#E8A838">🎫 DHCP — IP 자동 할당</div>
+    <div id="anchor-dhcp" class="sub-title" style="color:#8a6012">🎫 DHCP — IP 자동 할당</div>
     <div class="flow">
 클라이언트                                    DHCP 서버
     │──① DISCOVER (브로드캐스트 255.255.255.255)──▶│   "IP 주세요"
@@ -1521,11 +1521,11 @@ RARP 서버 → 요청 장치
   </div>
 
   <div class="section" id="sec-wan">
-    <h2 class="section-title" style="color:#E06B5A">🌍 WAN — 교환방식 · X.25 · 프레임릴레이 · ATM · T1/E1</h2>
+    <h2 class="section-title" style="color:#ae3e30">🌍 WAN — 교환방식 · X.25 · 프레임릴레이 · ATM · T1/E1</h2>
 
-    <div class="sub-title" style="color:#5B9BD5">🔀 교환 방식 3가지</div>
-    <div class="note" style="border-left-color:#E8A838;">
-      📌 전체 분류를 <b>한 장의 계통도</b>로 보려면 2과목 <b><a href="javascript:void(0)" onclick="showSection('switch',null)" style="color:#E8A838;text-decoration:underline;">「교환기 · 전송장비 · VoIP」</a></b> 섹션의 교환방식 도식을 참고.
+    <div class="sub-title" style="color:#2c6da4">🔀 교환 방식 3가지</div>
+    <div class="note" style="border-left-color:#8a6012;">
+      📌 전체 분류를 <b>한 장의 계통도</b>로 보려면 2과목 <b><a href="javascript:void(0)" onclick="showSection('switch',null)" style="color:#8a6012;text-decoration:underline;">「교환기 · 전송장비 · VoIP」</a></b> 섹션의 교환방식 도식을 참고.
       여기서는 <b>망 관점의 장단점 비교</b>를 다룬다.
     </div>
     <div style="overflow-x:auto;">
@@ -1540,7 +1540,7 @@ RARP 서버 → 요청 장치
             <td>메시지 <b>통째로</b> 저장 후 전달 (Store-and-Forward)</td>
             <td>회선 효율 높음, 우선순위 부여 가능</td>
             <td>지연 큼, <b>대용량 저장장치 필요</b>. 실시간 불가</td></tr>
-        <tr><td><b style="color:#E8A838">패킷 교환</b><br><span class="tag">Packet</span></td>
+        <tr><td><b style="color:#8a6012">패킷 교환</b><br><span class="tag">Packet</span></td>
             <td>일정 크기 <b>패킷으로 분할</b>해 전송</td>
             <td><b>회선 이용률 최고</b>, 속도·코드 변환 가능, 오류 제어</td>
             <td>패킷 오버헤드, 지연 변동(지터)</td></tr>
@@ -1558,7 +1558,7 @@ RARP 서버 → 요청 장치
       </tbody>
     </table>
 
-    <div id="anchor-wan-proto" class="sub-title" style="color:#E8A838">📦 X.25 → 프레임릴레이 → ATM 발전 흐름</div>
+    <div id="anchor-wan-proto" class="sub-title" style="color:#8a6012">📦 X.25 → 프레임릴레이 → ATM 발전 흐름</div>
     <div class="flow">
 X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
 회선이 나쁘던 시절     회선이 좋아짐               고속·멀티미디어
@@ -1567,7 +1567,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:820px;">
-      <thead><tr><th style="width:110px">항목</th><th style="color:#5BAD6F">X.25</th><th style="color:#E8A838">프레임릴레이</th><th style="color:#E06B5A">ATM</th></tr></thead>
+      <thead><tr><th style="width:110px">항목</th><th style="color:#267c41">X.25</th><th style="color:#8a6012">프레임릴레이</th><th style="color:#ae3e30">ATM</th></tr></thead>
       <tbody>
         <tr><td><b>계층 범위</b></td><td><b>1·2·3계층</b></td><td>1·2계층</td><td>1·2계층 (셀 릴레이)</td></tr>
         <tr><td><b>2계층 프로토콜</b></td><td><b>LAPB</b> (HDLC ABM)</td><td>LAPF</td><td>—</td></tr>
@@ -1585,14 +1585,14 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       이는 회선 품질이 좋아졌기에 가능해진 설계다.
     </div>
 
-    <div id="anchor-t1e1" class="sub-title" style="color:#9B8AE0">📊 디지털 전송 계위 — T1 / E1 · PDH / SDH</div>
+    <div id="anchor-t1e1" class="sub-title" style="color:#6b59aa">📊 디지털 전송 계위 — T1 / E1 · PDH / SDH</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:760px;">
-      <thead><tr><th style="width:110px">계위</th><th style="color:#5B9BD5">북미 (T 계열)</th><th style="color:#E8A838">유럽 (E 계열)</th></tr></thead>
+      <thead><tr><th style="width:110px">계위</th><th style="color:#2c6da4">북미 (T 계열)</th><th style="color:#8a6012">유럽 (E 계열)</th></tr></thead>
       <tbody>
         <tr><td><b>기본 채널</b></td><td colspan="2" style="text-align:center"><b>DS-0 = 64 kbps</b> (8 kHz × 8 bit)</td></tr>
-        <tr><td><b>1차군</b></td><td><b style="color:#5B9BD5">T1 = 1.544 Mbps</b><br>24채널 × 8bit + 동기 1bit</td>
-            <td><b style="color:#E8A838">E1 = 2.048 Mbps</b><br>32슬롯 (음성 30 + 동기 1 + 신호 1)</td></tr>
+        <tr><td><b>1차군</b></td><td><b style="color:#2c6da4">T1 = 1.544 Mbps</b><br>24채널 × 8bit + 동기 1bit</td>
+            <td><b style="color:#8a6012">E1 = 2.048 Mbps</b><br>32슬롯 (음성 30 + 동기 1 + 신호 1)</td></tr>
         <tr><td><b>2차군</b></td><td>T2 = 6.312 Mbps (96ch)</td><td>E2 = 8.448 Mbps (120ch)</td></tr>
         <tr><td><b>3차군</b></td><td>T3 = 44.736 Mbps (672ch)</td><td>E3 = 34.368 Mbps (480ch)</td></tr>
         <tr><td><b>4차군</b></td><td>T4 = 274.176 Mbps</td><td>E4 = 139.264 Mbps</td></tr>
@@ -1604,29 +1604,29 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       <span class="mono" style="line-height:2;">
         ① 음성 4kHz → 표본화 8kHz, 8비트 부호화 → 채널당 <b>64 kbps</b><br>
         ② 24채널 × 8비트 = 192비트 + <b>프레임 동기 1비트</b> = <b>193비트/프레임</b><br>
-        ③ 193비트 × 8,000프레임/초 = <b style="color:#fff">1,544,000 bps = 1.544 Mbps</b>
+        ③ 193비트 × 8,000프레임/초 = <b style="color:#1d252d">1,544,000 bps = 1.544 Mbps</b>
       </span><br>
       <b>E1</b> = 32 × 8 × 8,000 = <b>2.048 Mbps</b> (동기비트 없이 슬롯 0을 동기용으로 씀)
     </div>
 
-    <div id="anchor-t1e1-full" style="font-size:16.5px;font-weight:700;color:#E8A838;margin:20px 0 8px;">📋 T1(북미) vs E1(유럽) 전체 비교</div>
+    <div id="anchor-t1e1-full" style="font-size:16.5px;font-weight:700;color:#8a6012;margin:20px 0 8px;">📋 T1(북미) vs E1(유럽) 전체 비교</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:700px;">
       <thead><tr>
         <th style="width:170px">구분</th>
-        <th style="color:#5B9BD5">E1 방식 <span class="tag">유럽</span></th>
-        <th style="color:#E89050">T1 방식 <span class="tag">북미</span></th>
+        <th style="color:#2c6da4">E1 방식 <span class="tag">유럽</span></th>
+        <th style="color:#9d520f">T1 방식 <span class="tag">북미</span></th>
       </tr></thead>
       <tbody>
         <tr><td><b>주파수 대역</b></td><td colspan="2" style="text-align:center;"><b class="mono">300 ~ 3,400 [Hz]</b> <span class="tag">양쪽 동일</span></td></tr>
         <tr><td><b>표본화 주파수</b></td><td colspan="2" style="text-align:center;"><b class="mono">8,000 [Hz]</b> <span class="tag">양쪽 동일</span></td></tr>
         <tr><td><b>Bit 수 / 채널당</b></td><td colspan="2" style="text-align:center;"><b class="mono">8 bit</b> <span class="tag">양쪽 동일</span></td></tr>
-        <tr style="background:#1c1f30;"><td><b>Time Slot 수 / 프레임당</b></td><td><b class="mono" style="color:#7fb8ea">32</b></td><td><b class="mono" style="color:#E89050">24</b></td></tr>
-        <tr style="background:#1c1f30;"><td><b>음성채널 수 / 프레임당</b></td><td><b class="mono" style="color:#7fb8ea">30</b></td><td><b class="mono" style="color:#E89050">24</b></td></tr>
-        <tr style="background:#1c1f30;"><td><b>전송속도</b></td><td><b class="mono" style="color:#7fb8ea">2.048 [Mbps]</b></td><td><b class="mono" style="color:#E89050">1.544 [Mbps]</b></td></tr>
-        <tr style="background:#1c1f30;"><td><b>채널당 전송속도</b></td><td><b class="mono" style="color:#7fb8ea">64 [kbps]</b></td><td><b class="mono" style="color:#E89050">56 [kbps]</b></td></tr>
-        <tr style="background:#2e1f05;"><td><b style="color:#E8A838">부호화 법칙</b></td><td><b class="mono" style="color:#E8A838">A-law (A = 87.6)</b></td><td><b class="mono" style="color:#E8A838">μ-law (μ = 255)</b></td></tr>
-        <tr style="background:#2e1f05;"><td><b style="color:#E8A838">압축 특성</b></td><td><b class="mono" style="color:#E8A838">13절선</b></td><td><b class="mono" style="color:#E8A838">15절선</b></td></tr>
+        <tr style="background:#ebf0f5;"><td><b>Time Slot 수 / 프레임당</b></td><td><b class="mono" style="color:#366e9b">32</b></td><td><b class="mono" style="color:#9d520f">24</b></td></tr>
+        <tr style="background:#ebf0f5;"><td><b>음성채널 수 / 프레임당</b></td><td><b class="mono" style="color:#366e9b">30</b></td><td><b class="mono" style="color:#9d520f">24</b></td></tr>
+        <tr style="background:#ebf0f5;"><td><b>전송속도</b></td><td><b class="mono" style="color:#366e9b">2.048 [Mbps]</b></td><td><b class="mono" style="color:#9d520f">1.544 [Mbps]</b></td></tr>
+        <tr style="background:#ebf0f5;"><td><b>채널당 전송속도</b></td><td><b class="mono" style="color:#366e9b">64 [kbps]</b></td><td><b class="mono" style="color:#9d520f">56 [kbps]</b></td></tr>
+        <tr style="background:#f6eddf;"><td><b style="color:#8a6012">부호화 법칙</b></td><td><b class="mono" style="color:#8a6012">A-law (A = 87.6)</b></td><td><b class="mono" style="color:#8a6012">μ-law (μ = 255)</b></td></tr>
+        <tr style="background:#f6eddf;"><td><b style="color:#8a6012">압축 특성</b></td><td><b class="mono" style="color:#8a6012">13절선</b></td><td><b class="mono" style="color:#8a6012">15절선</b></td></tr>
         <tr><td><b>동기용 채널</b></td><td><b>1개</b> — 0번 CH</td><td>프레임마다 <b>동기 비트 1 bit</b></td></tr>
         <tr><td><b>신호용 채널</b></td><td><b>1개</b> — 16번 CH <span class="tag">별도 채널</span></td><td>각 채널 안의 <b>8번 비트</b> <span class="tag">채널 내 도용</span></td></tr>
         <tr><td><b>선로 부호</b></td><td><b class="mono">HDB3</b></td><td><b class="mono">AMI · B8ZS</b></td></tr>
@@ -1637,7 +1637,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </table>
     </div>
 
-    <div class="note" style="border-left-color:#E8A838;">
+    <div class="note" style="border-left-color:#8a6012;">
       🧠 <b>부호화 법칙 — 「A는 유럽, μ는 미국」</b><br>
       　<b>A-law</b> (A = <b>87.6</b>) → <b>E1 · 유럽</b> · 압축 특성 <b>13절선</b><br>
       　<b>μ-law</b> (μ = <b>255</b>) → <b>T1 · 북미</b>(미국·일본) · 압축 특성 <b>15절선</b><br>
@@ -1651,7 +1651,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       <b>각 채널의 8번째 비트를 6프레임마다 빌려 쓰기</b>(로버드 비트) 때문에,
       <b>실제 데이터로 쓸 수 있는 것은 7비트 × 8k = 56 kbps</b> 가 된다.<br>
       E1은 <b>16번 슬롯을 통째로 신호용</b>으로 따로 떼어 놓아서, <b>데이터 채널은 온전히 64 kbps</b> 를 쓴다.<br>
-      → <b style="color:#ff8060">"신호를 어디서 실어 나르는가"</b> 하나가 56 / 64 의 차이를 만든다.
+      → <b style="color:#ae4024">"신호를 어디서 실어 나르는가"</b> 하나가 56 / 64 의 차이를 만든다.
     </div>
 
     <div class="flow">
@@ -1669,7 +1669,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
    ※ 각 채널의 8번째 비트를 주기적으로 신호용으로 빌려 씀
     </div>
 
-    <div class="note" style="border-left-color:#5BAD6F;">
+    <div class="note" style="border-left-color:#267c41;">
       🧠 <b>숫자를 외우지 말고 계산한다</b><br>
       　<b>E1</b> = 32슬롯 × 8bit × 8,000 = <b>2,048,000 = 2.048 Mbps</b><br>
       　<b>T1</b> = (24 × 8 + <b>1</b>) × 8,000 = 193 × 8,000 = <b>1,544,000 = 1.544 Mbps</b><br>
@@ -1678,7 +1678,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <table class="tbl">
-      <thead><tr><th style="width:150px">구분</th><th style="color:#E89050">PDH</th><th style="color:#4DBFA8">SDH / SONET</th></tr></thead>
+      <thead><tr><th style="width:150px">구분</th><th style="color:#9d520f">PDH</th><th style="color:#117a68">SDH / SONET</th></tr></thead>
       <tbody>
         <tr><td><b>동기</b></td><td>준동기 — 각 장비가 <b>자체 클럭</b></td><td><b>전 망이 하나의 클럭</b>에 동기</td></tr>
         <tr><td><b>다중화</b></td><td>단계마다 <b>전부 분리·재조립</b> 필요</td><td>원하는 채널만 <b>바로 분기/삽입(ADM)</b></td></tr>
@@ -1687,7 +1687,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       </tbody>
     </table>
 
-    <div class="sub-title" style="color:#4DBFA8">🔌 WAN 회선 종류</div>
+    <div class="sub-title" style="color:#117a68">🔌 WAN 회선 종류</div>
     <table class="tbl">
       <thead><tr><th style="width:150px">종류</th><th>특징</th></tr></thead>
       <tbody>
@@ -1721,7 +1721,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
   </div>
 
   <div class="section" id="sec-ipclass">
-    <h2 class="section-title" style="color:#E89050">🏷️ IP 주소 클래스 · 서브넷 마스크 · CIDR</h2>
+    <h2 class="section-title" style="color:#9d520f">🏷️ IP 주소 클래스 · 서브넷 마스크 · CIDR</h2>
 
     <div class="highlight">
       IPv4 주소는 32비트이고 <b>네트워크 부분 + 호스트 부분</b> 으로 나뉜다.
@@ -1730,27 +1730,27 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <!-- 선두 비트 원리 -->
-    <div class="sub-title" style="color:#E89050">🔑 원리 — 맨 앞 비트가 클래스를 결정한다</div>
-    <div class="flow">첫 번째 옥텟(8비트)의 <span style="color:#E89050">앞부분</span>만 보면 끝
+    <div class="sub-title" style="color:#9d520f">🔑 원리 — 맨 앞 비트가 클래스를 결정한다</div>
+    <div class="flow">첫 번째 옥텟(8비트)의 <span style="color:#9d520f">앞부분</span>만 보면 끝
 
-<span style="color:#5BAD6F">0</span>xxxxxxx  →  <b style="color:#5BAD6F">A 클래스</b>   0 ~ 127
-<span style="color:#5B9BD5">10</span>xxxxxx  →  <b style="color:#5B9BD5">B 클래스</b>   128 ~ 191
-<span style="color:#E8A838">110</span>xxxxx  →  <b style="color:#E8A838">C 클래스</b>   192 ~ 223
-<span style="color:#9B8AE0">1110</span>xxxx  →  <b style="color:#9B8AE0">D 클래스</b>   224 ~ 239   (멀티캐스트)
-<span style="color:#E06B5A">1111</span>xxxx  →  <b style="color:#E06B5A">E 클래스</b>   240 ~ 255   (예약)</div>
-    <div class="note" style="border-left-color:#E89050">
+<span style="color:#267c41">0</span>xxxxxxx  →  <b style="color:#267c41">A 클래스</b>   0 ~ 127
+<span style="color:#2c6da4">10</span>xxxxxx  →  <b style="color:#2c6da4">B 클래스</b>   128 ~ 191
+<span style="color:#8a6012">110</span>xxxxx  →  <b style="color:#8a6012">C 클래스</b>   192 ~ 223
+<span style="color:#6b59aa">1110</span>xxxx  →  <b style="color:#6b59aa">D 클래스</b>   224 ~ 239   (멀티캐스트)
+<span style="color:#ae3e30">1111</span>xxxx  →  <b style="color:#ae3e30">E 클래스</b>   240 ~ 255   (예약)</div>
+    <div class="note" style="border-left-color:#9d520f">
       💡 <b>왜 이 숫자들인가</b> — 앞 비트가 고정되면 남은 자리로 만들 수 있는 범위가 정해진다.
       <b>128 = 2⁷</b>, <b>192 = 128+64</b>, <b>224 = 192+32</b>, <b>240 = 224+16</b>.
       경계가 <b>128 → 192 → 224 → 240</b> 으로 <b>간격이 절반씩 줄어드는</b> 것만 기억하면 범위표를 외울 필요가 없다.
     </div>
 
     <!-- 암기 요령 -->
-    <div class="sub-title" style="color:#4DBFA8">⭐ 30초 암기법</div>
+    <div class="sub-title" style="color:#117a68">⭐ 30초 암기법</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#4DBFA8">경계 숫자 4개만</h4>
+        <h4 style="color:#117a68">경계 숫자 4개만</h4>
         <p class="mono" style="line-height:2.1;font-size:14px;">
-          <b style="color:#fff">128 · 192 · 224 · 240</b><br>
+          <b style="color:#1d252d">128 · 192 · 224 · 240</b><br>
           ↓ 각 구간의 크기<br>
           A: 128개 &nbsp;(0~127)<br>
           B: &nbsp;64개 &nbsp;(128~191)<br>
@@ -1760,11 +1760,11 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         </p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#5BAD6F">네트워크 비트 = 8 · 16 · 24</h4>
+        <h4 style="color:#267c41">네트워크 비트 = 8 · 16 · 24</h4>
         <p style="line-height:2.1;">
-          A → <b style="color:#fff">/8</b> &nbsp;255.0.0.0<br>
-          B → <b style="color:#fff">/16</b> 255.255.0.0<br>
-          C → <b style="color:#fff">/24</b> 255.255.255.0<br>
+          A → <b style="color:#1d252d">/8</b> &nbsp;255.0.0.0<br>
+          B → <b style="color:#1d252d">/16</b> 255.255.0.0<br>
+          C → <b style="color:#1d252d">/24</b> 255.255.255.0<br>
           <span style="color:var(--text3)">D · E는 네트워크/호스트 구분이 없다</span><br><br>
           <b>A는 첫 칸, B는 두 칸, C는 세 칸</b>이 네트워크.
         </p>
@@ -1772,7 +1772,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <!-- 종합표 -->
-    <div class="sub-title" style="color:#E89050">📊 클래스별 종합 비교표</div>
+    <div class="sub-title" style="color:#9d520f">📊 클래스별 종합 비교표</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:760px;">
       <thead><tr>
@@ -1781,8 +1781,8 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       </tr></thead>
       <tbody>
         <tr>
-          <td><b style="color:#5BAD6F;font-size:17.5px">A</b></td>
-          <td class="mono"><b style="color:#5BAD6F">0</b>xxxxxxx</td>
+          <td><b style="color:#267c41;font-size:17.5px">A</b></td>
+          <td class="mono"><b style="color:#267c41">0</b>xxxxxxx</td>
           <td><b>1 ~ 126</b><br><span class="tag">0·127 제외</span></td>
           <td class="mono">255.0.0.0<br><span class="tag">/8</span></td>
           <td><b>8</b> : 24 bit</td>
@@ -1791,8 +1791,8 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
           <td>초대규모 기관 (국가·대기업)</td>
         </tr>
         <tr>
-          <td><b style="color:#5B9BD5;font-size:17.5px">B</b></td>
-          <td class="mono"><b style="color:#5B9BD5">10</b>xxxxxx</td>
+          <td><b style="color:#2c6da4;font-size:17.5px">B</b></td>
+          <td class="mono"><b style="color:#2c6da4">10</b>xxxxxx</td>
           <td><b>128 ~ 191</b></td>
           <td class="mono">255.255.0.0<br><span class="tag">/16</span></td>
           <td><b>16</b> : 16 bit</td>
@@ -1801,8 +1801,8 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
           <td>중규모 (대학·중견기업)</td>
         </tr>
         <tr>
-          <td><b style="color:#E8A838;font-size:17.5px">C</b></td>
-          <td class="mono"><b style="color:#E8A838">110</b>xxxxx</td>
+          <td><b style="color:#8a6012;font-size:17.5px">C</b></td>
+          <td class="mono"><b style="color:#8a6012">110</b>xxxxx</td>
           <td><b>192 ~ 223</b></td>
           <td class="mono">255.255.255.0<br><span class="tag">/24</span></td>
           <td><b>24</b> : 8 bit</td>
@@ -1811,19 +1811,19 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
           <td>소규모 (소기업·가정)</td>
         </tr>
         <tr>
-          <td><b style="color:#9B8AE0;font-size:17.5px">D</b></td>
-          <td class="mono"><b style="color:#9B8AE0">1110</b>xxxx</td>
+          <td><b style="color:#6b59aa;font-size:17.5px">D</b></td>
+          <td class="mono"><b style="color:#6b59aa">1110</b>xxxx</td>
           <td><b>224 ~ 239</b></td>
           <td>없음</td>
-          <td colspan="3" style="text-align:center;color:#9B8AE0">네트워크 / 호스트 구분이 없다</td>
+          <td colspan="3" style="text-align:center;color:#6b59aa">네트워크 / 호스트 구분이 없다</td>
           <td><b>멀티캐스트</b> (1:다 전송)</td>
         </tr>
         <tr>
-          <td><b style="color:#E06B5A;font-size:17.5px">E</b></td>
-          <td class="mono"><b style="color:#E06B5A">1111</b>xxxx</td>
+          <td><b style="color:#ae3e30;font-size:17.5px">E</b></td>
+          <td class="mono"><b style="color:#ae3e30">1111</b>xxxx</td>
           <td><b>240 ~ 255</b></td>
           <td>없음</td>
-          <td colspan="3" style="text-align:center;color:#E06B5A">할당되지 않음</td>
+          <td colspan="3" style="text-align:center;color:#ae3e30">할당되지 않음</td>
           <td><b>연구 · 예약</b> (실험용)</td>
         </tr>
       </tbody>
@@ -1838,8 +1838,8 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <!-- ── 대화형 판별기 ── -->
-    <div class="sub-title" style="color:#4DBFA8">🔍 IP 클래스 판별기 <span style="font-size:13px;font-weight:400;color:var(--text3)">— 주소를 넣으면 클래스와 계산 결과를 바로 보여줍니다</span></div>
-    <div style="background:linear-gradient(135deg,#0a2620,#0f1117);border:2px solid #4DBFA8;border-radius:12px;padding:18px 20px;margin-top:10px;">
+    <div class="sub-title" style="color:#117a68">🔍 IP 클래스 판별기 <span style="font-size:13px;font-weight:400;color:var(--text3)">— 주소를 넣으면 클래스와 계산 결과를 바로 보여줍니다</span></div>
+    <div style="background:#e1f3ee;border:2px solid #117a68;border-radius:12px;padding:18px 20px;margin-top:10px;">
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
         <input type="text" id="ipclass-input" value="192.168.1.100" oninput="ipClassify()" placeholder="예: 172.16.0.1"
           autocomplete="off" spellcheck="false"
@@ -1859,7 +1859,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <!-- 특수 주소 -->
-    <div class="sub-title" style="color:#9B8AE0">🚫 호스트에 줄 수 없는 특수 주소</div>
+    <div class="sub-title" style="color:#6b59aa">🚫 호스트에 줄 수 없는 특수 주소</div>
     <table class="tbl">
       <thead><tr><th>주소</th><th>이름</th><th>의미</th></tr></thead>
       <tbody>
@@ -1873,7 +1873,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </table>
 
     <!-- 사설 IP -->
-    <div class="sub-title" style="color:#5BAD6F">🏠 사설 IP 대역 (RFC 1918)</div>
+    <div class="sub-title" style="color:#267c41">🏠 사설 IP 대역 (RFC 1918)</div>
     <div class="highlight">
       인터넷에 직접 나갈 수 없고 <b>내부 네트워크에서만</b> 쓰는 주소. 외부로 나갈 때는 <b>NAT</b> 가 공인 IP로 바꿔 준다.
       IPv4 주소 고갈을 늦춘 핵심 기술.
@@ -1881,9 +1881,9 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     <table class="tbl">
       <thead><tr><th>클래스</th><th>대역</th><th>CIDR</th><th>개수</th><th>주로 쓰이는 곳</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#5BAD6F">A</b></td><td class="mono"><b>10</b>.0.0.0 ~ 10.255.255.255</td><td class="mono">10.0.0.0/8</td><td>1개 네트워크<br><span class="tag">약 1,678만 호스트</span></td><td>대기업 사내망, 클라우드 VPC</td></tr>
-        <tr><td><b style="color:#5B9BD5">B</b></td><td class="mono"><b>172.16</b>.0.0 ~ 172.<b>31</b>.255.255</td><td class="mono">172.16.0.0/12</td><td>16개 네트워크</td><td>중규모 사내망, 도커 기본 대역</td></tr>
-        <tr><td><b style="color:#E8A838">C</b></td><td class="mono"><b>192.168</b>.0.0 ~ 192.168.255.255</td><td class="mono">192.168.0.0/16</td><td>256개 네트워크</td><td>가정용 공유기 (가장 익숙한 대역)</td></tr>
+        <tr><td><b style="color:#267c41">A</b></td><td class="mono"><b>10</b>.0.0.0 ~ 10.255.255.255</td><td class="mono">10.0.0.0/8</td><td>1개 네트워크<br><span class="tag">약 1,678만 호스트</span></td><td>대기업 사내망, 클라우드 VPC</td></tr>
+        <tr><td><b style="color:#2c6da4">B</b></td><td class="mono"><b>172.16</b>.0.0 ~ 172.<b>31</b>.255.255</td><td class="mono">172.16.0.0/12</td><td>16개 네트워크</td><td>중규모 사내망, 도커 기본 대역</td></tr>
+        <tr><td><b style="color:#8a6012">C</b></td><td class="mono"><b>192.168</b>.0.0 ~ 192.168.255.255</td><td class="mono">192.168.0.0/16</td><td>256개 네트워크</td><td>가정용 공유기 (가장 익숙한 대역)</td></tr>
       </tbody>
     </table>
     <div class="warn">
@@ -1892,49 +1892,49 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <!-- 클래스풀의 한계 -->
-    <div id="anchor-special" class="sub-title" style="color:#9B8AE0;margin-top:22px;">🔀 IPv4 ↔ IPv6 특수 주소 대조</div>
+    <div id="anchor-special" class="sub-title" style="color:#6b59aa;margin-top:22px;">🔀 IPv4 ↔ IPv6 특수 주소 대조</div>
     <div class="highlight">
       IPv4의 특수 주소는 <b>IPv6에 거의 그대로 대응</b>한다. 따로 외우지 말고 <b>짝으로</b> 외운다.
-      단 하나, <b style="color:#ff8060">브로드캐스트만 IPv6에 없다</b>.
+      단 하나, <b style="color:#ae4024">브로드캐스트만 IPv6에 없다</b>.
     </div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:700px;">
       <thead><tr><th>용도</th><th>IPv4</th><th>IPv6</th><th>한 줄 설명</th></tr></thead>
       <tbody>
         <tr>
-          <td><b style="color:#5BAD6F">루프백</b><br><span class="tag">Loopback</span></td>
+          <td><b style="color:#267c41">루프백</b><br><span class="tag">Loopback</span></td>
           <td class="mono"><b>127.0.0.0/8</b><br>(127.0.0.1)</td>
           <td class="mono"><b>::1/128</b></td>
           <td><b>자기 자신</b>. 패킷이 밖으로 나가지 않고 되돌아온다</td>
         </tr>
         <tr>
-          <td><b style="color:#9090b0">미지정</b><br><span class="tag">Unspecified</span></td>
+          <td><b style="color:#4d5660">미지정</b><br><span class="tag">Unspecified</span></td>
           <td class="mono"><b>0.0.0.0</b></td>
           <td class="mono"><b>:: (::/128)</b></td>
           <td><b>"아직 주소가 없다"</b>. 출발지로만 쓰고 <b>목적지로는 못 쓴다</b></td>
         </tr>
         <tr>
-          <td><b style="color:#E8A838">링크 로컬</b><br><span class="tag">Link-Local</span></td>
+          <td><b style="color:#8a6012">링크 로컬</b><br><span class="tag">Link-Local</span></td>
           <td class="mono"><b>169.254.0.0/16</b><br><span class="tag">APIPA</span></td>
           <td class="mono"><b>fe80::/10</b></td>
           <td>같은 링크(서브넷) 안에서만 유효. <b>라우터를 넘지 못한다</b></td>
         </tr>
         <tr>
-          <td><b style="color:#5B9BD5">사설 · 내부용</b></td>
+          <td><b style="color:#2c6da4">사설 · 내부용</b></td>
           <td class="mono">10.0.0.0/8<br>172.16.0.0/12<br>192.168.0.0/16</td>
           <td class="mono"><b>fc00::/7</b><br>(실제는 fd00::/8)</td>
           <td>조직 내부 전용. IPv6에서는 <b>ULA</b>(Unique Local Address)</td>
         </tr>
         <tr>
-          <td><b style="color:#E89050">멀티캐스트</b></td>
+          <td><b style="color:#9d520f">멀티캐스트</b></td>
           <td class="mono"><b>224.0.0.0/4</b><br>(224 ~ 239, <b>D 클래스</b>)</td>
           <td class="mono"><b>ff00::/8</b></td>
           <td>그룹 전송. 가입한 노드만 받는다</td>
         </tr>
-        <tr style="background:#2a1010;">
-          <td><b style="color:#ff8060">브로드캐스트</b></td>
+        <tr style="background:#feeceb;">
+          <td><b style="color:#ae4024">브로드캐스트</b></td>
           <td class="mono">255.255.255.255<br>(호스트부 전부 1)</td>
-          <td><b style="color:#ff8060">없음</b></td>
+          <td><b style="color:#ae4024">없음</b></td>
           <td>IPv6는 <b>멀티캐스트(ff02::1)</b>와 <b>애니캐스트</b>로 대체 <span class="tag">기출 단골</span></td>
         </tr>
         <tr>
@@ -1946,22 +1946,22 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       </tbody>
     </table>
     </div>
-    <div class="note" style="border-left-color:#9B8AE0;">
+    <div class="note" style="border-left-color:#6b59aa;">
       🧠 <b>「1은 나, 0은 없음」</b> — IPv4와 IPv6가 똑같은 구조다.<br>
-      　<b>끝이 1</b> → <b>127.0.0.<b style="color:#5BAD6F">1</b></b> / <b>::<b style="color:#5BAD6F">1</b></b> = <b>자기 자신(루프백)</b><br>
+      　<b>끝이 1</b> → <b>127.0.0.<b style="color:#267c41">1</b></b> / <b>::<b style="color:#267c41">1</b></b> = <b>자기 자신(루프백)</b><br>
       　<b>전부 0</b> → <b>0.0.0.0</b> / <b>::</b> = <b>주소 없음(미지정)</b><br>
-      🧠 <b>IPv6 앞 두 글자</b> — <b style="color:#E8A838">fe80</b>은 <b>동네(링크 로컬)</b>, <b style="color:#E89050">ff</b>로 시작하면 <b>무조건 멀티캐스트</b>.
+      🧠 <b>IPv6 앞 두 글자</b> — <b style="color:#8a6012">fe80</b>은 <b>동네(링크 로컬)</b>, <b style="color:#9d520f">ff</b>로 시작하면 <b>무조건 멀티캐스트</b>.
       <b>f로 시작하면 특수 주소</b>라고 묶어 기억하면 된다.
     </div>
 
     <!-- 개별 상세 -->
-    <div style="font-size:16.5px;font-weight:700;color:#5BAD6F;margin:20px 0 8px;">🔁 루프백 — 127.0.0.1 · ::1</div>
+    <div style="font-size:16.5px;font-weight:700;color:#267c41;margin:20px 0 8px;">🔁 루프백 — 127.0.0.1 · ::1</div>
     <table class="tbl">
       <thead><tr><th>항목</th><th>내용</th></tr></thead>
       <tbody>
         <tr><td>의미</td><td>자기 자신을 가리키는 주소. <b>localhost</b>. NIC를 거치지 않고 커널에서 되돌아온다</td></tr>
-        <tr><td>IPv4 범위</td><td><b>127.0.0.0 ~ 127.255.255.255</b> — <b style="color:#E8A838">/8 통째로</b> 예약. 이 때문에 <b>A 클래스가 1~126까지</b></td></tr>
-        <tr><td>IPv6</td><td><b>::1</b> <b style="color:#5BAD6F">단 하나</b>만 예약 (IPv4처럼 1,670만 개를 낭비하지 않는다)</td></tr>
+        <tr><td>IPv4 범위</td><td><b>127.0.0.0 ~ 127.255.255.255</b> — <b style="color:#8a6012">/8 통째로</b> 예약. 이 때문에 <b>A 클래스가 1~126까지</b></td></tr>
+        <tr><td>IPv6</td><td><b>::1</b> <b style="color:#267c41">단 하나</b>만 예약 (IPv4처럼 1,670만 개를 낭비하지 않는다)</td></tr>
         <tr><td>용도</td><td>TCP/IP 스택 정상 동작 확인 — <span class="mono">ping 127.0.0.1</span> 이 되면 최소한 내 컴퓨터의 네트워크 소프트웨어는 살아 있다</td></tr>
       </tbody>
     </table>
@@ -1972,27 +1972,27 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       시험에 <b>둘 다</b> 나온다. 루프백 시험은 4과목 <b>「운용관리 · 장애대응」</b> 섹션 참고.
     </div>
 
-    <div style="font-size:16.5px;font-weight:700;color:#E8A838;margin:20px 0 8px;">🏘️ 링크 로컬 — 169.254.x.x · fe80::</div>
+    <div style="font-size:16.5px;font-weight:700;color:#8a6012;margin:20px 0 8px;">🏘️ 링크 로컬 — 169.254.x.x · fe80::</div>
     <div class="two-col">
-      <div class="mini-card" style="border-left:3px solid #E06B5A;">
-        <h4 style="color:#ff8060">IPv4 — 169.254.0.0/16 (APIPA)</h4>
+      <div class="mini-card" style="border-left:3px solid #ae3e30;">
+        <h4 style="color:#ae4024">IPv4 — 169.254.0.0/16 (APIPA)</h4>
         <p><b>DHCP 서버를 못 찾았을 때</b> OS가 자동으로 붙인다<br>
         → 이 주소가 보이면 <b>DHCP 실패 신호</b>. 정상 상태가 아니다<br>
         <span style="color:var(--text3)">인터넷이 안 될 때 ipconfig에 169.254가 뜨면 원인은 DHCP</span></p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #5BAD6F;">
-        <h4 style="color:#5BAD6F">IPv6 — fe80::/10</h4>
+      <div class="mini-card" style="border-left:3px solid #267c41;">
+        <h4 style="color:#267c41">IPv6 — fe80::/10</h4>
         <p><b>모든 인터페이스가 항상 하나씩 자동 생성</b>한다<br>
         → <b>정상</b>이며, 없으면 오히려 이상하다<br>
         <span style="color:var(--text3)">이웃 탐색(NDP)·라우터 광고가 이 주소로 오간다</span></p>
       </div>
     </div>
-    <div class="note" style="border-left-color:#E8A838;">
+    <div class="note" style="border-left-color:#8a6012;">
       🧠 <b>같은 "링크 로컬"인데 성격이 정반대</b> — <b>IPv4는 사고(fallback), IPv6는 기본(필수)</b>.
       공통점은 <b>라우터를 넘지 못한다</b>는 것 하나.
     </div>
 
-    <div style="font-size:16.5px;font-weight:700;color:#E89050;margin:20px 0 8px;">📡 멀티캐스트 — 224.0.0.x · ff02::</div>
+    <div style="font-size:16.5px;font-weight:700;color:#9d520f;margin:20px 0 8px;">📡 멀티캐스트 — 224.0.0.x · ff02::</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:620px;">
       <thead><tr><th>대상</th><th>IPv4</th><th>IPv6</th></tr></thead>
@@ -2005,43 +2005,43 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       </tbody>
     </table>
     </div>
-    <div class="note" style="border-left-color:#E89050;">
+    <div class="note" style="border-left-color:#9d520f;">
       <b>뒷자리가 똑같다</b> — IPv4 <b>224.0.0.<u>N</u></b> 과 IPv6 <b>ff02::<u>N</u></b> 의 N이 일치한다(1 · 2 · 5 · 6 · 9).
       IPv4 쪽만 외워두면 IPv6는 <b>앞을 ff02::로 바꾸기만</b> 하면 된다.<br>
       <b>요청 노드 멀티캐스트</b>는 IPv6가 <b>ARP를 대신</b>하는 방식이다 — 브로드캐스트로 전체를 깨우는 대신,
       <b>MAC을 알고 싶은 상대만</b> 속한 그룹으로 보낸다. IPv6에 브로드캐스트가 없어도 되는 이유.
     </div>
 
-    <div style="font-size:16.5px;font-weight:700;color:#5B9BD5;margin:20px 0 8px;">🚫 미지정 주소 — 0.0.0.0 · ::</div>
+    <div style="font-size:16.5px;font-weight:700;color:#2c6da4;margin:20px 0 8px;">🚫 미지정 주소 — 0.0.0.0 · ::</div>
     <table class="tbl">
       <thead><tr><th>쓰임</th><th>설명</th></tr></thead>
       <tbody>
         <tr><td><b>출발지 주소</b></td><td>아직 IP를 못 받은 단말이 <b>DHCP 요청</b>을 보낼 때 (DISCOVER의 출발지가 0.0.0.0)</td></tr>
         <tr><td><b>라우팅 테이블</b></td><td><b class="mono">0.0.0.0/0</b> = <b>기본 경로(default route)</b> — "어디로 갈지 모르면 여기로"</td></tr>
         <tr><td><b>서버 바인딩</b></td><td><b>모든 인터페이스</b>에서 접속을 받겠다는 뜻 (0.0.0.0:8080)</td></tr>
-        <tr><td style="background:#2a1010;"><b style="color:#ff8060">목적지 주소</b></td><td style="background:#2a1010;"><b style="color:#ff8060">사용 불가</b> — 미지정 주소로는 패킷을 보낼 수 없다</td></tr>
+        <tr><td style="background:#feeceb;"><b style="color:#ae4024">목적지 주소</b></td><td style="background:#feeceb;"><b style="color:#ae4024">사용 불가</b> — 미지정 주소로는 패킷을 보낼 수 없다</td></tr>
       </tbody>
     </table>
 
-    <div style="font-size:16.5px;font-weight:700;color:#E06B5A;margin:20px 0 8px;">📖 기출 포인트</div>
+    <div style="font-size:16.5px;font-weight:700;color:#ae3e30;margin:20px 0 8px;">📖 기출 포인트</div>
     <table class="tbl">
       <thead><tr><th>물음</th><th>답</th></tr></thead>
       <tbody>
-        <tr><td>IPv6의 주소 유형이 <b>아닌</b> 것은?<span class="tag">2022-3회</span></td><td><b style="color:#5BAD6F">브로드캐스트</b> — 유니캐스트·멀티캐스트·애니캐스트 3종만 있다</td></tr>
-        <tr><td>IPv6에 브로드캐스트가 없는 이유는?</td><td><b style="color:#5BAD6F">멀티캐스트(ff02::1)와 애니캐스트</b>로 대체했기 때문</td></tr>
-        <tr><td>IPv6 루프백 주소는?</td><td><b style="color:#5BAD6F">::1</b> (IPv4는 127.0.0.1)</td></tr>
-        <tr><td>IPv6 링크 로컬 주소의 접두사는?</td><td><b style="color:#5BAD6F">fe80::/10</b></td></tr>
-        <tr><td>169.254.x.x 주소가 보이면?</td><td><b style="color:#5BAD6F">DHCP 할당 실패(APIPA)</b></td></tr>
-        <tr><td>멀티캐스트에 쓰는 IPv4 클래스와 IPv6 접두사는?</td><td><b style="color:#5BAD6F">D 클래스(224~239) / ff00::/8</b></td></tr>
-        <tr><td>라우팅 테이블의 0.0.0.0/0 은?</td><td><b style="color:#5BAD6F">기본 경로(default route)</b></td></tr>
-        <tr><td>A 클래스가 126까지인 이유는?</td><td><b style="color:#5BAD6F">0은 예약, 127은 루프백</b>이라 빠졌기 때문</td></tr>
+        <tr><td>IPv6의 주소 유형이 <b>아닌</b> 것은?<span class="tag">2022-3회</span></td><td><b style="color:#267c41">브로드캐스트</b> — 유니캐스트·멀티캐스트·애니캐스트 3종만 있다</td></tr>
+        <tr><td>IPv6에 브로드캐스트가 없는 이유는?</td><td><b style="color:#267c41">멀티캐스트(ff02::1)와 애니캐스트</b>로 대체했기 때문</td></tr>
+        <tr><td>IPv6 루프백 주소는?</td><td><b style="color:#267c41">::1</b> (IPv4는 127.0.0.1)</td></tr>
+        <tr><td>IPv6 링크 로컬 주소의 접두사는?</td><td><b style="color:#267c41">fe80::/10</b></td></tr>
+        <tr><td>169.254.x.x 주소가 보이면?</td><td><b style="color:#267c41">DHCP 할당 실패(APIPA)</b></td></tr>
+        <tr><td>멀티캐스트에 쓰는 IPv4 클래스와 IPv6 접두사는?</td><td><b style="color:#267c41">D 클래스(224~239) / ff00::/8</b></td></tr>
+        <tr><td>라우팅 테이블의 0.0.0.0/0 은?</td><td><b style="color:#267c41">기본 경로(default route)</b></td></tr>
+        <tr><td>A 클래스가 126까지인 이유는?</td><td><b style="color:#267c41">0은 예약, 127은 루프백</b>이라 빠졌기 때문</td></tr>
       </tbody>
     </table>
 
-    <div class="sub-title" style="color:#E06B5A">📉 클래스 방식의 한계 → CIDR로</div>
+    <div class="sub-title" style="color:#ae3e30">📉 클래스 방식의 한계 → CIDR로</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#E06B5A">문제 — 주소 낭비</h4>
+        <h4 style="color:#ae3e30">문제 — 주소 낭비</h4>
         <p>
           호스트가 <b>300대</b> 필요한 회사는?<br>
           • C 클래스(254개) → <b>부족</b><br>
@@ -2050,7 +2050,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         </p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#5BAD6F">해결 — 경계를 자유롭게</h4>
+        <h4 style="color:#267c41">해결 — 경계를 자유롭게</h4>
         <p>
           <b>서브넷팅</b> : 큰 네트워크를 잘게 쪼갬<br>
           <b>CIDR</b> : /8 /16 /24 대신 <b>/26 /27</b> 처럼 임의 지정<br>
@@ -2060,33 +2060,33 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         </p>
       </div>
     </div>
-    <div class="note" style="border-left-color:#5B9BD5">
+    <div class="note" style="border-left-color:#2c6da4">
       📎 <b>클래스는 기본 경계를 정하는 것이고, CIDR은 그 경계를 옮기는 것</b>이다.
       아래에서 그 <b>경계를 옮기는 계산</b>을 이어서 본다.
     </div>
 
-    <div id="anchor-classvsmask" class="sub-title" style="color:#E8A838;margin-top:22px;">🧠 헷갈리는 지점 — 「1~126」과 「마스크 비트」는 무엇이 다른가</div>
+    <div id="anchor-classvsmask" class="sub-title" style="color:#8a6012;margin-top:22px;">🧠 헷갈리는 지점 — 「1~126」과 「마스크 비트」는 무엇이 다른가</div>
     <div class="warn">
       둘은 <b>보는 대상 자체가 다르다.</b> 하나는 <b>IP 주소</b>를 보고, 하나는 <b>마스크</b>를 본다.
-      <b style="color:#ff8060">같은 것을 두 번 구하는 게 아니다.</b>
+      <b style="color:#ae4024">같은 것을 두 번 구하는 게 아니다.</b>
     </div>
 
     <table class="tbl">
       <thead><tr><th></th><th>1~126 (클래스 판별)</th><th>서브넷마스크 비트 구하기</th></tr></thead>
       <tbody>
-        <tr><td><b>무엇을 보나</b></td><td>IP 주소의 <b style="color:#E89050">첫 옥텟</b></td><td><b style="color:#5B9BD5">서브넷마스크 값</b> (IP는 안 본다)</td></tr>
+        <tr><td><b>무엇을 보나</b></td><td>IP 주소의 <b style="color:#9d520f">첫 옥텟</b></td><td><b style="color:#2c6da4">서브넷마스크 값</b> (IP는 안 본다)</td></tr>
         <tr><td><b>답하는 질문</b></td><td>"이 주소는 <b>어느 집안 태생</b>인가"</td><td>"실제로 <b>어디서 자르는가</b>"</td></tr>
         <tr><td><b>누가 정하나</b></td><td>주소 체계가 <b>태생적으로</b> 정해둠</td><td><b>관리자가</b> 설계해서 부여</td></tr>
         <tr><td><b>결과물</b></td><td>A/B/C/D/E + <b>기본</b> 마스크 (/8·/16·/24)</td><td><b>실제</b> 네트워크 / 호스트 경계</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E8A838;">
+    <div class="note" style="border-left-color:#8a6012;">
       🧠 <b>한 문장 — 「클래스는 주소가 들려주는 이야기, 마스크는 관리자가 그어놓은 선」</b><br>
       둘은 <b>따로 주어지고, 서로 달라도 정상</b>이다. 오히려 <b>다르기 때문에</b> 서브넷팅이 성립한다.
     </div>
 
     <!-- 왜 1~126 -->
-    <div style="font-size:16.5px;font-weight:700;color:#E89050;margin:20px 0 8px;">❓ 왜 하필 1~126인가</div>
+    <div style="font-size:16.5px;font-weight:700;color:#9d520f;margin:20px 0 8px;">❓ 왜 하필 1~126인가</div>
     <div class="flow">
   A 클래스는 선두 비트가 0  →  원래 범위는 0 ~ 127
 
@@ -2095,54 +2095,54 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     ─────────────────────────────────────────────
     1 ~ 126     → 실제로 쓰는 범위                      ✓
     </div>
-    <div class="note" style="border-left-color:#E89050;">
+    <div class="note" style="border-left-color:#9d520f;">
       여기서 얻는 정보는 <b>딱 하나</b> — <b>기본(default) 마스크가 /8</b> 이라는 것.
       즉 <b>"원래대로라면 앞 8비트가 네트워크"</b> 라는 <b>출발점</b>일 뿐이다.
     </div>
 
     <!-- 빌린 비트 도식 -->
-    <div style="font-size:16.5px;font-weight:700;color:#5B9BD5;margin:20px 0 8px;">📏 마스크 비트는 그 출발점을 「오른쪽으로 민」 결과</div>
+    <div style="font-size:16.5px;font-weight:700;color:#2c6da4;margin:20px 0 8px;">📏 마스크 비트는 그 출발점을 「오른쪽으로 민」 결과</div>
     <div style="overflow-x:auto;background:var(--bg3);border-radius:var(--radius);padding:14px 10px;margin-top:6px;">
     <svg viewBox="0 0 900 262" style="width:100%;min-width:720px;height:auto;display:block;font-family:inherit;">
       <!-- 옥텟 라벨 -->
-      <text x="166" y="26" text-anchor="middle" fill="#9090b0" font-size="12">1옥텟</text>
-      <text x="358" y="26" text-anchor="middle" fill="#9090b0" font-size="12">2옥텟</text>
-      <text x="550" y="26" text-anchor="middle" fill="#9090b0" font-size="12">3옥텟</text>
-      <text x="742" y="26" text-anchor="middle" fill="#9090b0" font-size="12">4옥텟</text>
+      <text x="166" y="26" text-anchor="middle" fill="#4d5660" font-size="12">1옥텟</text>
+      <text x="358" y="26" text-anchor="middle" fill="#4d5660" font-size="12">2옥텟</text>
+      <text x="550" y="26" text-anchor="middle" fill="#4d5660" font-size="12">3옥텟</text>
+      <text x="742" y="26" text-anchor="middle" fill="#4d5660" font-size="12">4옥텟</text>
       <!-- 옥텟 구분 점선 -->
-      <g stroke="#3a3d55" stroke-width="1" stroke-dasharray="4 4">
+      <g stroke="#d7dce0" stroke-width="1" stroke-dasharray="4 4">
         <line x1="262" y1="34" x2="262" y2="196"/>
         <line x1="454" y1="34" x2="454" y2="196"/>
         <line x1="646" y1="34" x2="646" y2="196"/>
       </g>
 
       <!-- ① 클래스 기본 -->
-      <text x="70" y="56" fill="#E89050" font-size="13.5" font-weight="700">① 첫 옥텟 192 → C 클래스 → 기본 /24</text>
-      <rect x="70" y="66" width="576" height="32" fill="#1a2d45" stroke="#5B9BD5" stroke-width="1.5"/>
-      <text x="358" y="87" text-anchor="middle" fill="#7fb8ea" font-size="13" font-weight="700">네트워크 24 bit</text>
-      <rect x="646" y="66" width="192" height="32" fill="#22253a" stroke="#6a6a8c" stroke-width="1.5"/>
-      <text x="742" y="87" text-anchor="middle" fill="#9090b0" font-size="13" font-weight="700">호스트 8 bit</text>
+      <text x="70" y="56" fill="#9d520f" font-size="13.5" font-weight="700">① 첫 옥텟 192 → C 클래스 → 기본 /24</text>
+      <rect x="70" y="66" width="576" height="32" fill="#e1ecfb" stroke="#2c6da4" stroke-width="1.5"/>
+      <text x="358" y="87" text-anchor="middle" fill="#366e9b" font-size="13" font-weight="700">네트워크 24 bit</text>
+      <rect x="646" y="66" width="192" height="32" fill="#f0f4f7" stroke="#6d767f" stroke-width="1.5"/>
+      <text x="742" y="87" text-anchor="middle" fill="#4d5660" font-size="13" font-weight="700">호스트 8 bit</text>
 
       <!-- 이동 화살표 -->
-      <path d="M650 116 L714 116" stroke="#E8A838" stroke-width="2" fill="none" marker-end="url(#mv)"/>
-      <text x="726" y="121" fill="#E8A838" font-size="12.5" font-weight="700">경계가 3칸 오른쪽으로</text>
+      <path d="M650 116 L714 116" stroke="#8a6012" stroke-width="2" fill="none" marker-end="url(#mv)"/>
+      <text x="726" y="121" fill="#8a6012" font-size="12.5" font-weight="700">경계가 3칸 오른쪽으로</text>
 
       <!-- ② 실제 마스크 -->
-      <text x="70" y="152" fill="#5B9BD5" font-size="13.5" font-weight="700">② 마스크 255.255.255.224 → /27</text>
-      <rect x="70" y="162" width="576" height="32" fill="#1a2d45" stroke="#5B9BD5" stroke-width="1.5"/>
-      <text x="358" y="183" text-anchor="middle" fill="#7fb8ea" font-size="13" font-weight="700">네트워크 24 bit</text>
-      <rect x="646" y="162" width="72" height="32" fill="#2e1f05" stroke="#E8A838" stroke-width="2"/>
-      <text x="682" y="183" text-anchor="middle" fill="#E8A838" font-size="12.5" font-weight="700">빌림 3</text>
-      <rect x="718" y="162" width="120" height="32" fill="#0d2710" stroke="#5BAD6F" stroke-width="1.5"/>
-      <text x="778" y="183" text-anchor="middle" fill="#5BAD6F" font-size="13" font-weight="700">호스트 5 bit</text>
+      <text x="70" y="152" fill="#2c6da4" font-size="13.5" font-weight="700">② 마스크 255.255.255.224 → /27</text>
+      <rect x="70" y="162" width="576" height="32" fill="#e1ecfb" stroke="#2c6da4" stroke-width="1.5"/>
+      <text x="358" y="183" text-anchor="middle" fill="#366e9b" font-size="13" font-weight="700">네트워크 24 bit</text>
+      <rect x="646" y="162" width="72" height="32" fill="#f6eddf" stroke="#8a6012" stroke-width="2"/>
+      <text x="682" y="183" text-anchor="middle" fill="#8a6012" font-size="12.5" font-weight="700">빌림 3</text>
+      <rect x="718" y="162" width="120" height="32" fill="#e5f3e5" stroke="#267c41" stroke-width="1.5"/>
+      <text x="778" y="183" text-anchor="middle" fill="#267c41" font-size="13" font-weight="700">호스트 5 bit</text>
 
       <!-- 결론 -->
-      <text x="70" y="226" fill="#e0e0f0" font-size="13.5" font-weight="700">③ 차이 3비트 = 빌린 비트</text>
-      <text x="70" y="248" fill="#9090b0" font-size="13">→ 서브넷 2³ = 8개　·　호스트 2⁵ − 2 = 30개</text>
+      <text x="70" y="226" fill="#1d252d" font-size="13.5" font-weight="700">③ 차이 3비트 = 빌린 비트</text>
+      <text x="70" y="248" fill="#4d5660" font-size="13">→ 서브넷 2³ = 8개　·　호스트 2⁵ − 2 = 30개</text>
 
       <defs>
         <marker id="mv" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
-          <path d="M0 0 L8 4 L0 8 z" fill="#E8A838"/>
+          <path d="M0 0 L8 4 L0 8 z" fill="#8a6012"/>
         </marker>
       </defs>
     </svg>
@@ -2156,36 +2156,36 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <!-- 기출 -->
-    <div style="font-size:16.5px;font-weight:700;color:#9B8AE0;margin:20px 0 8px;">📖 기출로 확인 — 둘이 반드시 함께 필요한 경우</div>
+    <div style="font-size:16.5px;font-weight:700;color:#6b59aa;margin:20px 0 8px;">📖 기출로 확인 — 둘이 반드시 함께 필요한 경우</div>
     <div class="highlight">
       <b>Q. 클래스 B 주소에 서브넷 마스크 255.255.255.240을 적용하면 서브넷 수와 호스트 수는?</b>
     </div>
     <table class="tbl">
       <thead><tr><th>단계</th><th>어디서 나온 값인가</th><th>계산</th></tr></thead>
       <tbody>
-        <tr><td>클래스 B → 기본 <b>/16</b></td><td><b style="color:#E89050">클래스 판별</b>에서</td><td>첫 옥텟 128~191</td></tr>
-        <tr><td>240 = <span class="mono">11110000</span> → <b>/28</b></td><td><b style="color:#5B9BD5">마스크</b>에서</td><td>1의 개수 8+8+8+4</td></tr>
-        <tr><td><b>빌린 비트 12</b></td><td>두 값의 <b style="color:#E8A838">차이</b></td><td>28 − 16 = 12</td></tr>
-        <tr><td><b style="color:#5BAD6F">서브넷 4,096개</b></td><td>빌린 비트에서</td><td>2¹² = 4,096</td></tr>
-        <tr><td><b style="color:#5BAD6F">호스트 14개</b></td><td>마스크에서만</td><td>32−28=4 → 2⁴−2 = 14</td></tr>
+        <tr><td>클래스 B → 기본 <b>/16</b></td><td><b style="color:#9d520f">클래스 판별</b>에서</td><td>첫 옥텟 128~191</td></tr>
+        <tr><td>240 = <span class="mono">11110000</span> → <b>/28</b></td><td><b style="color:#2c6da4">마스크</b>에서</td><td>1의 개수 8+8+8+4</td></tr>
+        <tr><td><b>빌린 비트 12</b></td><td>두 값의 <b style="color:#8a6012">차이</b></td><td>28 − 16 = 12</td></tr>
+        <tr><td><b style="color:#267c41">서브넷 4,096개</b></td><td>빌린 비트에서</td><td>2¹² = 4,096</td></tr>
+        <tr><td><b style="color:#267c41">호스트 14개</b></td><td>마스크에서만</td><td>32−28=4 → 2⁴−2 = 14</td></tr>
       </tbody>
     </table>
     <div class="warn">
       ⚠️ <b>여기서 클래스가 왜 필요한가</b><br>
       마스크만 보면 <b>/28이라는 사실</b>만 알 뿐, 그게 <b>몇 칸을 민 것인지</b> 알 수 없다.
       출발점(/16)을 알려주는 것이 <b>클래스</b>다. 반대로 클래스만 알면 <b>실제 경계</b>를 모른다.
-      <b style="color:#ff8060">서브넷 개수 문제에서만 둘이 반드시 함께 필요하다.</b>
+      <b style="color:#ae4024">서브넷 개수 문제에서만 둘이 반드시 함께 필요하다.</b>
     </div>
 
-    <div class="note" style="border-left-color:#5BAD6F;">
+    <div class="note" style="border-left-color:#267c41;">
       🧠 <b>헷갈릴 때 딱 하나만 — 「호스트냐 서브넷이냐」</b><br>
       • <b>호스트 수</b>만 물으면 → <b>마스크만</b> 보면 끝 (클래스 몰라도 된다)<br>
       • <b>서브넷 수</b>를 물으면 → <b>클래스 + 마스크</b> 둘 다 필요<br>
       <span style="color:var(--text3)">"255.255.255.224의 최대 호스트 수는?" 문제에 클래스가 안 나오는 이유가 이것 — 필요가 없어서다.</span>
     </div>
 
-    <div id="anchor-subnet" class="sub-title" style="color:#5B9BD5;margin-top:22px;">🧮 서브넷팅 / CIDR 계산법</div>
-    <div class="note" style="border-color:#E89050">
+    <div id="anchor-subnet" class="sub-title" style="color:#2c6da4;margin-top:22px;">🧮 서브넷팅 / CIDR 계산법</div>
+    <div class="note" style="border-color:#9d520f">
       <b>서브넷팅(Subnetting)</b> = 하나의 큰 네트워크를 여러 개의 작은 네트워크(서브넷)로 나누는 것<br>
       목적: IP 주소 낭비 방지 / 브로드캐스트 도메인 축소 / 보안 강화
     </div>
@@ -2204,17 +2204,17 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
 
     <div class="sub-title" style="margin-top:14px">방법 ① — CIDR 숫자로 풀기 (호스트 수 공식)</div>
     <div class="flow" style="line-height:1.8;font-size:15.5px;">
-사용 가능 호스트 수 = <span style="color:#E89050">2ⁿ - 2</span>
+사용 가능 호스트 수 = <span style="color:#9d520f">2ⁿ - 2</span>
 (n = 호스트 비트 수 = 32 - CIDR 숫자)
 (-2 = 네트워크 주소 + 브로드캐스트 주소 제외)
     </div>
 
     <div class="sub-title" style="margin-top:14px">방법 ② — 10진수 마스크로 직접 풀기 (가장 빠름)</div>
-    <div class="note" style="border-color:#5B9BD5">
+    <div class="note" style="border-color:#2c6da4">
       서브넷 마스크가 <b>255.255.255.224</b>처럼 <b>10진수</b>로 주어지면:<br>
       ① 마지막 옥텟을 <b>2진수</b>로 변환<br>
       ② <b>0의 개수 = 호스트 비트 수 (n)</b><br>
-      ③ 할당 가능 호스트 = <b style="color:#E89050">2ⁿ - 2</b>
+      ③ 할당 가능 호스트 = <b style="color:#9d520f">2ⁿ - 2</b>
     </div>
 
     <table class="tbl">
@@ -2223,7 +2223,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         <tr><td><b>0</b></td><td>00000000</td><td>0</td><td>8</td><td>256</td><td>254</td></tr>
         <tr><td><b>128</b></td><td>10000000</td><td>1</td><td>7</td><td>128</td><td>126</td></tr>
         <tr><td><b>192</b></td><td>11000000</td><td>2</td><td>6</td><td>64</td><td>62</td></tr>
-        <tr style="background:#1a2d45;"><td><b>224</b></td><td>111<span style="color:#E89050">00000</span></td><td>3</td><td><b style="color:#E89050">5</b></td><td>32</td><td><b style="color:#5BAD6F">30</b></td></tr>
+        <tr style="background:#e1ecfb;"><td><b>224</b></td><td>111<span style="color:#9d520f">00000</span></td><td>3</td><td><b style="color:#9d520f">5</b></td><td>32</td><td><b style="color:#267c41">30</b></td></tr>
         <tr><td><b>240</b></td><td>11110000</td><td>4</td><td>4</td><td>16</td><td>14</td></tr>
         <tr><td><b>248</b></td><td>11111000</td><td>5</td><td>3</td><td>8</td><td>6</td></tr>
         <tr><td><b>252</b></td><td>11111100</td><td>6</td><td>2</td><td>4</td><td>2</td></tr>
@@ -2233,52 +2233,52 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </table>
 
     <div class="mini-card" style="margin-top:12px">
-      <h4 style="color:#5B9BD5">예제 — 255.255.255.224 의 최대 호스트 수? (기출 Q88 유형)</h4>
+      <h4 style="color:#2c6da4">예제 — 255.255.255.224 의 최대 호스트 수? (기출 Q88 유형)</h4>
       <p>
         ① 마지막 옥텟 224 → <b>11100000</b> (2진수)<br>
         ② 0의 개수 = 호스트 비트 = <b>5</b><br>
-        ③ 2⁵ - 2 = 32 - 2 = <b style="color:#5BAD6F">30개</b><br><br>
+        ③ 2⁵ - 2 = 32 - 2 = <b style="color:#267c41">30개</b><br><br>
         ※ CIDR로는 /27 (네트워크 비트 = 8+8+8+3 = 27)<br>
-        ※ -2를 빠뜨려 32개로 답하면 <b style="color:#ff6060">오답!</b>
+        ※ -2를 빠뜨려 32개로 답하면 <b style="color:#af3c3d">오답!</b>
       </p>
     </div>
 
     <div class="sub-title" style="margin-top:14px">네트워크 주소 구하기 (IP AND 마스크)</div>
-    <div class="note" style="border-color:#9B8AE0">
+    <div class="note" style="border-color:#6b59aa">
       <b>네트워크 주소 = IP 주소 AND 서브넷 마스크</b> (비트 단위 AND 연산)<br>
       마스크가 <b>255</b>인 옥텟은 IP 그대로, <b>0</b>인 옥텟은 0, 그 외 옥텟만 계산하면 됨
     </div>
 
     <div class="mini-card" style="margin-top:12px">
-      <h4 style="color:#9B8AE0">예제 — IP 192.156.100.68 / 마스크 255.255.255.224 의 네트워크 주소?</h4>
+      <h4 style="color:#6b59aa">예제 — IP 192.156.100.68 / 마스크 255.255.255.224 의 네트워크 주소?</h4>
       <p>
         앞 3옥텟은 마스크가 255 → <b>192.156.100</b> 그대로<br>
         마지막 옥텟만 AND 연산:
       </p>
       <div class="flow" style="font-size:15.5px;line-height:1.9;margin:8px 0;">
 &nbsp;&nbsp;68&nbsp; = 0100 0100&nbsp; (IP)
-224&nbsp; = 1110 0000&nbsp; (마스크) <span style="color:#9B8AE0">AND</span>
+224&nbsp; = 1110 0000&nbsp; (마스크) <span style="color:#6b59aa">AND</span>
 ─────────────────────
-&nbsp;&nbsp;<span style="color:#5BAD6F">64</span>&nbsp; = 0100 0000&nbsp; (네트워크)
+&nbsp;&nbsp;<span style="color:#267c41">64</span>&nbsp; = 0100 0000&nbsp; (네트워크)
       </div>
       <p>
-        → 네트워크 주소 = <b style="color:#5BAD6F">192.156.100.64</b>
+        → 네트워크 주소 = <b style="color:#267c41">192.156.100.64</b>
       </p>
     </div>
 
     <div class="mini-card" style="margin-top:12px">
-      <h4 style="color:#E89050">⚡ 더 빠른 방법 — 블록 크기로 구간 찾기</h4>
+      <h4 style="color:#9d520f">⚡ 더 빠른 방법 — 블록 크기로 구간 찾기</h4>
       <p>
         ① 블록 크기 = 256 - 224 = <b>32</b><br>
         ② 서브넷 경계 (32씩 증가):<br>
-        &nbsp;&nbsp;<b>0</b> · <b>32</b> · <b style="color:#5BAD6F">64</b> · <b>96</b> · 128 · 160 · 192 · 224<br>
-        ③ <b>68</b>은 <b style="color:#5BAD6F">64 ~ 95</b> 구간에 속함<br><br>
-        → 네트워크 주소 = <b style="color:#5BAD6F">192.156.100.64</b>
+        &nbsp;&nbsp;<b>0</b> · <b>32</b> · <b style="color:#267c41">64</b> · <b>96</b> · 128 · 160 · 192 · 224<br>
+        ③ <b>68</b>은 <b style="color:#267c41">64 ~ 95</b> 구간에 속함<br><br>
+        → 네트워크 주소 = <b style="color:#267c41">192.156.100.64</b>
       </p>
     </div>
 
     <div class="mini-card" style="margin-top:12px">
-      <h4 style="color:#5B9BD5">📦 이 서브넷(192.156.100.64/27)의 전체 주소 구성</h4>
+      <h4 style="color:#2c6da4">📦 이 서브넷(192.156.100.64/27)의 전체 주소 구성</h4>
       <table class="tbl" style="margin-top:6px;">
         <thead><tr><th>구분</th><th>주소</th><th>용도</th></tr></thead>
         <tbody>
@@ -2311,7 +2311,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     <div class="sub-title" style="margin-top:14px">실전 계산 예제</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#E89050">예제 1 — 호스트 수 구하기</h4>
+        <h4 style="color:#9d520f">예제 1 — 호스트 수 구하기</h4>
         <p>
           Q: <b>192.168.1.0/26</b> 의 사용 가능 호스트 수?<br><br>
           호스트 비트 = 32 - 26 = <b>6</b><br>
@@ -2323,7 +2323,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         </p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#E89050">예제 2 — CIDR 역산</h4>
+        <h4 style="color:#9d520f">예제 2 — CIDR 역산</h4>
         <p>
           Q: 호스트 <b>50대</b> 필요한 최소 CIDR은?<br><br>
           2ⁿ - 2 ≥ 50<br>
@@ -2337,7 +2337,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <div class="mini-card" style="margin-top:12px">
-      <h4 style="color:#E89050">예제 3 — /24를 4개 서브넷으로 분할</h4>
+      <h4 style="color:#9d520f">예제 3 — /24를 4개 서브넷으로 분할</h4>
       <p>
         4개 필요 → 2² = 4 → <b>2비트 빌림</b> → /24 + 2 = <b>/26</b><br>
         블록 크기 = 256 - 192 = 64<br><br>
@@ -2351,17 +2351,17 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     <div class="sub-title" style="margin-top:14px">블록 크기 빠른 계산</div>
     <div class="flow" style="font-size:14px;line-height:2;">
 블록 크기 = 256 - 서브넷 마스크 마지막 옥텟 값
-<span style="color:#E8A838">※ 블록 크기 = 서브넷 하나가 갖는 주소 개수. 서브넷 "개수"가 아니다.</span>
+<span style="color:#8a6012">※ 블록 크기 = 서브넷 하나가 갖는 주소 개수. 서브넷 "개수"가 아니다.</span>
 
 마스크              블록 크기      CIDR   서브넷 수   유효 호스트
-255.255.255.<span style="color:#E89050">128</span>  256-128 = <span style="color:#5BAD6F">128</span>   /25     2개        126
-255.255.255.<span style="color:#E89050">192</span>  256-192 =  <span style="color:#5BAD6F">64</span>   /26     4개         62
-255.255.255.<span style="color:#E89050">224</span>  256-224 =  <span style="color:#5BAD6F">32</span>   /27     8개         30
-255.255.255.<span style="color:#E89050">240</span>  256-240 =  <span style="color:#5BAD6F">16</span>   /28    16개         14
-255.255.255.<span style="color:#E89050">248</span>  256-248 =   <span style="color:#5BAD6F">8</span>   /29    32개          6
-255.255.255.<span style="color:#E89050">252</span>  256-252 =   <span style="color:#5BAD6F">4</span>   /30    64개          2
+255.255.255.<span style="color:#9d520f">128</span>  256-128 = <span style="color:#267c41">128</span>   /25     2개        126
+255.255.255.<span style="color:#9d520f">192</span>  256-192 =  <span style="color:#267c41">64</span>   /26     4개         62
+255.255.255.<span style="color:#9d520f">224</span>  256-224 =  <span style="color:#267c41">32</span>   /27     8개         30
+255.255.255.<span style="color:#9d520f">240</span>  256-240 =  <span style="color:#267c41">16</span>   /28    16개         14
+255.255.255.<span style="color:#9d520f">248</span>  256-248 =   <span style="color:#267c41">8</span>   /29    32개          6
+255.255.255.<span style="color:#9d520f">252</span>  256-252 =   <span style="color:#267c41">4</span>   /30    64개          2
 
-<span style="color:#9090b0">블록 크기 × 서브넷 수 = 256 — 이 곱이 256이 안 되면 계산이 틀린 것</span>
+<span style="color:#4d5660">블록 크기 × 서브넷 수 = 256 — 이 곱이 256이 안 되면 계산이 틀린 것</span>
     </div>
 
     <div class="warn" style="margin-top:12px">
@@ -2390,9 +2390,9 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
   </div>
 
   <div class="section" id="sec-l2">
-    <h2 class="section-title" style="color:#5BAD6F">2계층 — 데이터링크 계층 (Data Link Layer)</h2>
+    <h2 class="section-title" style="color:#267c41">2계층 — 데이터링크 계층 (Data Link Layer)</h2>
     <div class="osi-nav-slot" data-layer="l2"></div>
-    <div class="note" style="border-color:#5BAD6F"><b>역할:</b> MAC 주소 기반 인접 노드 간 데이터 전송. 오류 검출<br><b>PDU:</b> 프레임 (Frame) | <b>장비:</b> 스위치, 브리지, AP</div>
+    <div class="note" style="border-color:#267c41"><b>역할:</b> MAC 주소 기반 인접 노드 간 데이터 전송. 오류 검출<br><b>PDU:</b> 프레임 (Frame) | <b>장비:</b> 스위치, 브리지, AP</div>
     <table class="tbl">
       <thead><tr><th>표준/기술</th><th>역할</th><th>특징</th></tr></thead>
       <tbody>
@@ -2413,27 +2413,27 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       <thead>
         <tr>
           <th>구분</th>
-          <th style="color:#5BAD6F">이더넷 (802.3)</th>
-          <th style="color:#9B8AE0">토큰링 (802.5)</th>
-          <th style="color:#E8A838">토큰버스 (802.4)</th>
+          <th style="color:#267c41">이더넷 (802.3)</th>
+          <th style="color:#6b59aa">토큰링 (802.5)</th>
+          <th style="color:#8a6012">토큰버스 (802.4)</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>매체 접근</td><td><span class="badge" style="background:#0d2710;color:#5BAD6F">CSMA/CD</span></td><td><span class="badge" style="background:#2d2650;color:#9B8AE0">토큰 패싱</span></td><td><span class="badge" style="background:#2e1f05;color:#E8A838">토큰 패싱</span></td></tr>
+        <tr><td>매체 접근</td><td><span class="badge" style="background:#e5f3e5;color:#267c41">CSMA/CD</span></td><td><span class="badge" style="background:#eae8ff;color:#6b59aa">토큰 패싱</span></td><td><span class="badge" style="background:#f6eddf;color:#8a6012">토큰 패싱</span></td></tr>
         <tr><td>토폴로지</td><td>버스형 → 스타형</td><td>링형 (Ring)</td><td>버스형 (Bus)</td></tr>
-        <tr><td>충돌</td><td><span class="badge b-red">발생 가능</span><br>감지 후 재전송</td><td><span class="badge" style="background:#0d2710;color:#5BAD6F">없음</span><br>토큰 보유 시만 전송</td><td><span class="badge" style="background:#0d2710;color:#5BAD6F">없음</span><br>토큰 보유 시만 전송</td></tr>
+        <tr><td>충돌</td><td><span class="badge b-red">발생 가능</span><br>감지 후 재전송</td><td><span class="badge" style="background:#e5f3e5;color:#267c41">없음</span><br>토큰 보유 시만 전송</td><td><span class="badge" style="background:#e5f3e5;color:#267c41">없음</span><br>토큰 보유 시만 전송</td></tr>
         <tr><td>속도</td><td>10M ~ 10Gbps</td><td>4 / 16 Mbps</td><td>1 ~ 10 Mbps</td></tr>
         <tr><td>장점</td><td>빠름, 저렴, 확장 쉬움</td><td>충돌 없음, 공평한 접근</td><td>충돌 없음, 결정론적</td></tr>
         <tr><td>단점</td><td>충돌 발생, 부하 시 성능 저하</td><td>토큰 분실 시 전체 장애</td><td>복잡한 구현, 느림</td></tr>
         <tr><td>장애 시</td><td>해당 구간만 영향</td><td>링 끊기면 전체 장애</td><td>버스 단선 시 전체 장애</td></tr>
-        <tr><td>현재</td><td><span class="badge" style="background:#0d2710;color:#5BAD6F">현재 표준</span></td><td><span class="badge b-gray">거의 미사용</span></td><td><span class="badge b-gray">거의 미사용</span></td></tr>
+        <tr><td>현재</td><td><span class="badge" style="background:#e5f3e5;color:#267c41">현재 표준</span></td><td><span class="badge b-gray">거의 미사용</span></td><td><span class="badge b-gray">거의 미사용</span></td></tr>
       </tbody>
     </table>
 
     <div class="sub-title" style="margin-top:18px">토큰 패싱 동작 원리</div>
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#9B8AE0">토큰링 (802.5) — 링형</h4>
+        <h4 style="color:#6b59aa">토큰링 (802.5) — 링형</h4>
         <p>
           토큰이 <b>링(원형)</b>을 따라 순환<br><br>
           ① 빈 토큰이 링을 순환<br>
@@ -2446,7 +2446,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         </p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#E8A838">토큰버스 (802.4) — 버스형</h4>
+        <h4 style="color:#8a6012">토큰버스 (802.4) — 버스형</h4>
         <p>
           물리적으로 <b>버스형</b>이지만<br>
           논리적으로 링처럼 토큰 순환<br><br>
@@ -2483,7 +2483,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <div id="anchor-hdlc" class="sub-title" style="margin-top:18px">HDLC (High-level Data Link Control) 상세</div>
-    <div class="note" style="border-color:#5BAD6F">
+    <div class="note" style="border-color:#267c41">
       <b>HDLC = High-level Data Link Control</b><br>
       직역: 고수준 데이터 링크 제어<br>
       ISO에서 표준화한 <b>2계층 데이터링크 프로토콜</b>. 점대점(P2P) 및 멀티포인트 연결에서 사용.<br>
@@ -2492,7 +2492,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
 
     <div class="two-col" style="margin-top:12px">
       <div class="mini-card">
-        <h4 style="color:#5BAD6F">기본 특징</h4>
+        <h4 style="color:#267c41">기본 특징</h4>
         <p>
           · 비트 지향 프로토콜<br>
           · 전이중(Full-Duplex) 통신 지원<br>
@@ -2503,7 +2503,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         </p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#5BAD6F">HDLC 파생 프로토콜</h4>
+        <h4 style="color:#267c41">HDLC 파생 프로토콜</h4>
         <p>
           <b>LAPB</b>: X.25에서 사용<br>
           <b>LAPD</b>: ISDN D채널에서 사용<br>
@@ -2519,12 +2519,12 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     <div style="overflow-x:auto;margin-top:8px;">
       <table style="border-collapse:collapse;width:100%;text-align:center;font-size:14px;">
         <tr>
-          <td style="border:1px solid #5BAD6F;padding:10px 12px;background:#0d2710;color:#5BAD6F;font-weight:500;white-space:nowrap;border-radius:6px 0 0 0;">시작 Flag<br><span style="font-size:12px;color:var(--text2)">01111110</span></td>
-          <td style="border:1px solid #5BAD6F;padding:10px 12px;background:#0a1e0a;color:#c0d4c0;font-weight:500;white-space:nowrap;">Address<br><span style="font-size:12px;color:var(--text2)">8 bit</span></td>
-          <td style="border:1px solid #5BAD6F;padding:10px 12px;background:#0a1e0a;color:#c0d4c0;font-weight:500;white-space:nowrap;">Control<br><span style="font-size:12px;color:var(--text2)">8/16 bit</span></td>
-          <td style="border:1px solid #5BAD6F;padding:10px 24px;background:#0a1e0a;color:#c0d4c0;font-weight:500;white-space:nowrap;">Information (Data)<br><span style="font-size:12px;color:var(--text2)">가변 길이</span></td>
-          <td style="border:1px solid #5BAD6F;padding:10px 12px;background:#0a1e0a;color:#c0d4c0;font-weight:500;white-space:nowrap;">FCS<br><span style="font-size:12px;color:var(--text2)">16/32 bit</span></td>
-          <td style="border:1px solid #5BAD6F;padding:10px 12px;background:#0d2710;color:#5BAD6F;font-weight:500;white-space:nowrap;border-radius:0 6px 6px 0;">종료 Flag<br><span style="font-size:12px;color:var(--text2)">01111110</span></td>
+          <td style="border:1px solid #267c41;padding:10px 12px;background:#e5f3e5;color:#267c41;font-weight:500;white-space:nowrap;border-radius:6px 0 0 0;">시작 Flag<br><span style="font-size:12px;color:var(--text2)">01111110</span></td>
+          <td style="border:1px solid #267c41;padding:10px 12px;background:#e9f5e8;color:#1d252d;font-weight:500;white-space:nowrap;">Address<br><span style="font-size:12px;color:var(--text2)">8 bit</span></td>
+          <td style="border:1px solid #267c41;padding:10px 12px;background:#e9f5e8;color:#1d252d;font-weight:500;white-space:nowrap;">Control<br><span style="font-size:12px;color:var(--text2)">8/16 bit</span></td>
+          <td style="border:1px solid #267c41;padding:10px 24px;background:#e9f5e8;color:#1d252d;font-weight:500;white-space:nowrap;">Information (Data)<br><span style="font-size:12px;color:var(--text2)">가변 길이</span></td>
+          <td style="border:1px solid #267c41;padding:10px 12px;background:#e9f5e8;color:#1d252d;font-weight:500;white-space:nowrap;">FCS<br><span style="font-size:12px;color:var(--text2)">16/32 bit</span></td>
+          <td style="border:1px solid #267c41;padding:10px 12px;background:#e5f3e5;color:#267c41;font-weight:500;white-space:nowrap;border-radius:0 6px 6px 0;">종료 Flag<br><span style="font-size:12px;color:var(--text2)">01111110</span></td>
         </tr>
       </table>
     </div>
@@ -2535,13 +2535,13 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         <tr>
           <td><b>Flag (시작)</b></td>
           <td>8 bit</td>
-          <td><span class="mono" style="color:#5BAD6F">01111110</span> (0x7E)</td>
+          <td><span class="mono" style="color:#267c41">01111110</span> (0x7E)</td>
           <td>프레임 <b>시작</b> 표시. 고정값. 수신측에 프레임 시작을 알림</td>
         </tr>
         <tr>
           <td><b>Flag (종료)</b></td>
           <td>8 bit</td>
-          <td><span class="mono" style="color:#5BAD6F">01111110</span> (0x7E)</td>
+          <td><span class="mono" style="color:#267c41">01111110</span> (0x7E)</td>
           <td>프레임 <b>끝</b> 표시. 시작 Flag와 동일한 값.<br>비트 스터핑으로 데이터 내 동일 패턴 방지</td>
         </tr>
         <tr>
@@ -2577,13 +2577,13 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       <tbody>
         <tr>
           <td><b>정보 프레임</b></td>
-          <td><span class="badge" style="background:#0d2710;color:#5BAD6F">I-Frame</span></td>
+          <td><span class="badge" style="background:#e5f3e5;color:#267c41">I-Frame</span></td>
           <td><span class="mono">0xxxxxxx</span> (첫 bit=0)</td>
           <td>실제 데이터 전송. 순서번호(N(S))·확인번호(N(R)) 포함</td>
         </tr>
         <tr>
           <td><b>감독 프레임</b></td>
-          <td><span class="badge" style="background:#2e1f05;color:#E8A838">S-Frame</span></td>
+          <td><span class="badge" style="background:#f6eddf;color:#8a6012">S-Frame</span></td>
           <td><span class="mono">10xxxxxx</span> (첫 bit=10)</td>
           <td>흐름·오류 제어. 데이터 없음<br>
             <span class="tag">RR: 수신 준비</span>
@@ -2594,7 +2594,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         </tr>
         <tr>
           <td><b>비번호 프레임</b></td>
-          <td><span class="badge" style="background:#2d2650;color:#9B8AE0">U-Frame</span></td>
+          <td><span class="badge" style="background:#eae8ff;color:#6b59aa">U-Frame</span></td>
           <td><span class="mono">11xxxxxx</span> (첫 bit=11)</td>
           <td>링크 설정·해제·리셋 등 제어<br>
             <span class="tag">SABM: 연결 설정</span>
@@ -2618,13 +2618,13 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         </tr>
         <tr>
           <td><b>비동기 응답 모드</b></td>
-          <td><span class="badge" style="background:#0d2710;color:#5BAD6F">ARM</span></td>
+          <td><span class="badge" style="background:#e5f3e5;color:#267c41">ARM</span></td>
           <td>주국 ↔ 종국</td>
           <td>종국이 허가 없이도 전송 가능. 점대점 연결</td>
         </tr>
         <tr>
           <td><b>비동기 균형 모드</b></td>
-          <td><span class="badge" style="background:#2e1f05;color:#E8A838">ABM</span></td>
+          <td><span class="badge" style="background:#f6eddf;color:#8a6012">ABM</span></td>
           <td>복합국 ↔ 복합국</td>
           <td>양쪽 모두 주국·종국 역할 동시 수행. 전이중. <b>현재 가장 많이 사용</b></td>
         </tr>
@@ -2632,16 +2632,16 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </table>
 
     <div class="sub-title" style="margin-top:14px">비트 스터핑 (Bit Stuffing)</div>
-    <div class="note" style="border-color:#5BAD6F">
+    <div class="note" style="border-color:#267c41">
       <b>문제:</b> Flag 패턴(01111110)이 데이터 안에도 나타날 수 있음 → 프레임 경계 혼동<br>
       <b>해결:</b> 데이터에서 1이 5개 연속되면 0을 하나 삽입 (송신 측)<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수신 측에서 5개 연속 1 뒤의 0을 제거해 원래 데이터 복원
     </div>
     <div class="flow" style="font-size:14px;line-height:2;">
-송신 전 데이터: 0 1 1 1 1 1 <span style="color:#E89050">1</span> 0 1
+송신 전 데이터: 0 1 1 1 1 1 <span style="color:#9d520f">1</span> 0 1
                               ↓ (1이 5개 연속 → 0 삽입)
-실제 전송:     0 1 1 1 1 1 <span style="color:#5BAD6F">0</span> <span style="color:#E89050">1</span> 0 1
-수신 후 복원:  0 1 1 1 1 1 <span style="color:#E89050">1</span> 0 1  (삽입된 0 제거)
+실제 전송:     0 1 1 1 1 1 <span style="color:#267c41">0</span> <span style="color:#9d520f">1</span> 0 1
+수신 후 복원:  0 1 1 1 1 1 <span style="color:#9d520f">1</span> 0 1  (삽입된 0 제거)
     </div>
 
     <div class="sub-title" style="margin-top:14px">HDLC vs 관련 프로토콜 비교</div>
@@ -2666,7 +2666,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <div id="anchor-llc" class="sub-title" style="margin-top:18px">IEEE 802.2 LLC (Logical Link Control)</div>
-    <div class="note" style="border-color:#5BAD6F">
+    <div class="note" style="border-color:#267c41">
       <b>LLC = Logical Link Control (논리 링크 제어)</b><br>
       데이터링크 계층(2계층)을 두 개의 서브레이어로 나눌 때 <b>상위 서브레이어</b>를 담당<br>
       IEEE 802.2로 표준화. MAC 계층과 상위 계층(네트워크) 사이의 인터페이스 역할
@@ -2676,28 +2676,28 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     <div style="overflow-x:auto;margin-top:8px;">
       <table style="border-collapse:collapse;width:100%;text-align:center;font-size:14px;">
         <tr>
-          <td colspan="3" style="border:1px solid #E89050;padding:10px;background:#2a1805;color:#E89050;font-weight:500;">3계층 — 네트워크 계층 (IP 등)</td>
+          <td colspan="3" style="border:1px solid #9d520f;padding:10px;background:#f9ede2;color:#9d520f;font-weight:500;">3계층 — 네트워크 계층 (IP 등)</td>
         </tr>
         <tr>
-          <td colspan="3" style="border:1px dashed #5BAD6F;padding:4px;background:transparent;color:#5BAD6F;font-size:13px;">── 2계층 데이터링크 계층 ──</td>
+          <td colspan="3" style="border:1px dashed #267c41;padding:4px;background:transparent;color:#267c41;font-size:13px;">── 2계층 데이터링크 계층 ──</td>
         </tr>
         <tr>
-          <td colspan="3" style="border:1px solid #5BAD6F;padding:10px;background:#0d2710;color:#5BAD6F;font-weight:700;">LLC (논리 링크 제어) — IEEE 802.2<br><span style="font-size:12px;font-weight:400;color:var(--text2)">흐름 제어 / 오류 제어 / 상위 프로토콜 식별</span></td>
+          <td colspan="3" style="border:1px solid #267c41;padding:10px;background:#e5f3e5;color:#267c41;font-weight:700;">LLC (논리 링크 제어) — IEEE 802.2<br><span style="font-size:12px;font-weight:400;color:var(--text2)">흐름 제어 / 오류 제어 / 상위 프로토콜 식별</span></td>
         </tr>
         <tr>
-          <td style="border:1px solid #5BAD6F;padding:10px;background:#0a1e0a;color:#c0d4c0;font-weight:500;width:33%;">MAC<br><span style="font-size:12px;color:var(--text2)">802.3 이더넷</span></td>
-          <td style="border:1px solid #5BAD6F;padding:10px;background:#0a1e0a;color:#c0d4c0;font-weight:500;width:33%;">MAC<br><span style="font-size:12px;color:var(--text2)">802.11 Wi-Fi</span></td>
-          <td style="border:1px solid #5BAD6F;padding:10px;background:#0a1e0a;color:#c0d4c0;font-weight:500;width:33%;">MAC<br><span style="font-size:12px;color:var(--text2)">802.5 토큰링</span></td>
+          <td style="border:1px solid #267c41;padding:10px;background:#e9f5e8;color:#1d252d;font-weight:500;width:33%;">MAC<br><span style="font-size:12px;color:var(--text2)">802.3 이더넷</span></td>
+          <td style="border:1px solid #267c41;padding:10px;background:#e9f5e8;color:#1d252d;font-weight:500;width:33%;">MAC<br><span style="font-size:12px;color:var(--text2)">802.11 Wi-Fi</span></td>
+          <td style="border:1px solid #267c41;padding:10px;background:#e9f5e8;color:#1d252d;font-weight:500;width:33%;">MAC<br><span style="font-size:12px;color:var(--text2)">802.5 토큰링</span></td>
         </tr>
         <tr>
-          <td colspan="3" style="border:1px solid #9090B0;padding:10px;background:#1a1a2a;color:#9090B0;font-weight:500;">1계층 — 물리 계층 (전기·광·무선 신호)</td>
+          <td colspan="3" style="border:1px solid #4d5660;padding:10px;background:#eff3f8;color:#4d5660;font-weight:500;">1계층 — 물리 계층 (전기·광·무선 신호)</td>
         </tr>
       </table>
     </div>
 
     <div class="sub-title" style="margin-top:14px">LLC vs MAC 역할 비교</div>
     <table class="tbl">
-      <thead><tr><th>구분</th><th style="color:#5BAD6F">LLC (상위 서브레이어)</th><th style="color:#4DBFA8">MAC (하위 서브레이어)</th></tr></thead>
+      <thead><tr><th>구분</th><th style="color:#267c41">LLC (상위 서브레이어)</th><th style="color:#117a68">MAC (하위 서브레이어)</th></tr></thead>
       <tbody>
         <tr><td>표준</td><td>IEEE 802.2</td><td>IEEE 802.3 / 802.11 / 802.5 등</td></tr>
         <tr><td>역할</td><td>논리적 링크 제어</td><td>물리 매체 접근 제어</td></tr>
@@ -2711,10 +2711,10 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     <div style="overflow-x:auto;margin-top:8px;">
       <table style="border-collapse:collapse;width:100%;text-align:center;font-size:14px;">
         <tr>
-          <td style="border:1px solid #5BAD6F;padding:10px 14px;background:#0d2710;color:#5BAD6F;font-weight:500;white-space:nowrap;">DSAP<br><span style="font-size:12px;color:var(--text2)">8 bit</span></td>
-          <td style="border:1px solid #5BAD6F;padding:10px 14px;background:#0a1e0a;color:#c0d4c0;font-weight:500;white-space:nowrap;">SSAP<br><span style="font-size:12px;color:var(--text2)">8 bit</span></td>
-          <td style="border:1px solid #5BAD6F;padding:10px 14px;background:#0a1e0a;color:#c0d4c0;font-weight:500;white-space:nowrap;">Control<br><span style="font-size:12px;color:var(--text2)">8/16 bit</span></td>
-          <td style="border:1px solid #5BAD6F;padding:10px 24px;background:#0a1e0a;color:#c0d4c0;font-weight:500;white-space:nowrap;">Information (Data)<br><span style="font-size:12px;color:var(--text2)">가변 길이</span></td>
+          <td style="border:1px solid #267c41;padding:10px 14px;background:#e5f3e5;color:#267c41;font-weight:500;white-space:nowrap;">DSAP<br><span style="font-size:12px;color:var(--text2)">8 bit</span></td>
+          <td style="border:1px solid #267c41;padding:10px 14px;background:#e9f5e8;color:#1d252d;font-weight:500;white-space:nowrap;">SSAP<br><span style="font-size:12px;color:var(--text2)">8 bit</span></td>
+          <td style="border:1px solid #267c41;padding:10px 14px;background:#e9f5e8;color:#1d252d;font-weight:500;white-space:nowrap;">Control<br><span style="font-size:12px;color:var(--text2)">8/16 bit</span></td>
+          <td style="border:1px solid #267c41;padding:10px 24px;background:#e9f5e8;color:#1d252d;font-weight:500;white-space:nowrap;">Information (Data)<br><span style="font-size:12px;color:var(--text2)">가변 길이</span></td>
         </tr>
       </table>
     </div>
@@ -2739,7 +2739,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
           <td>확인 없이 전송. 오버헤드 최소. UDP와 유사<br>브로드캐스트/멀티캐스트에 사용</td>
         </tr>
         <tr>
-          <td><b>Type 2</b><br><span class="badge" style="background:#0d2710;color:#5BAD6F">LLC2</span></td>
+          <td><b>Type 2</b><br><span class="badge" style="background:#e5f3e5;color:#267c41">LLC2</span></td>
           <td>연결지향형</td>
           <td>있음</td>
           <td>연결 수립 후 전송. 순서·오류 보장. TCP와 유사<br>토큰링, HDLC 기반 환경에서 주로 사용</td>
@@ -2763,34 +2763,34 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <!-- ── HDLC vs LLC 직접 비교 (추가) ── -->
-    <div id="anchor-hdlc-llc" class="sub-title" style="margin-top:20px;color:#E8A838">🔀 HDLC vs LLC — 헷갈리는 이유와 차이</div>
-    <div class="highlight" style="border-left-color:#E8A838;background:#2a1805">
-      <b style="color:#E8A838">한 줄 정리</b> — <b style="color:#fff">LLC는 HDLC에서 갈라져 나온 자식</b>이다. 그래서 프레임 종류(I/S/U)와 순서번호 방식이 똑같아 보이지만,
-      <b style="color:#fff">HDLC는 데이터링크 계층 전체</b>를 혼자 담당하고 <b style="color:#fff">LLC는 데이터링크의 상위 절반</b>만 담당한다.
+    <div id="anchor-hdlc-llc" class="sub-title" style="margin-top:20px;color:#8a6012">🔀 HDLC vs LLC — 헷갈리는 이유와 차이</div>
+    <div class="highlight" style="border-left-color:#8a6012;background:#f9ede2">
+      <b style="color:#8a6012">한 줄 정리</b> — <b style="color:#1d252d">LLC는 HDLC에서 갈라져 나온 자식</b>이다. 그래서 프레임 종류(I/S/U)와 순서번호 방식이 똑같아 보이지만,
+      <b style="color:#1d252d">HDLC는 데이터링크 계층 전체</b>를 혼자 담당하고 <b style="color:#1d252d">LLC는 데이터링크의 상위 절반</b>만 담당한다.
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
-      <div style="background:#0d2710;border:1px solid #5BAD6F;border-radius:10px;padding:14px 16px;">
-        <div style="font-size:13px;color:#5BAD6F;letter-spacing:1px;font-weight:600;margin-bottom:8px;">ISO 계열 · WAN</div>
-        <div style="font-size:15.5px;font-weight:700;color:#fff;margin-bottom:10px;">데이터링크 = HDLC 하나</div>
-        <div style="border:1px dashed #5BAD6F;border-radius:6px;padding:10px;text-align:center;font-size:14px;color:#5BAD6F;font-weight:600;">
+      <div style="background:#e5f3e5;border:1px solid #267c41;border-radius:10px;padding:14px 16px;">
+        <div style="font-size:13px;color:#267c41;letter-spacing:1px;font-weight:600;margin-bottom:8px;">ISO 계열 · WAN</div>
+        <div style="font-size:15.5px;font-weight:700;color:#1d252d;margin-bottom:10px;">데이터링크 = HDLC 하나</div>
+        <div style="border:1px dashed #267c41;border-radius:6px;padding:10px;text-align:center;font-size:14px;color:#267c41;font-weight:600;">
           HDLC<br><span style="font-size:12px;font-weight:400;color:var(--text2)">주소 · 흐름 · 오류 · 프레이밍 전부</span>
         </div>
       </div>
-      <div style="background:#1a2d45;border:1px solid #5B9BD5;border-radius:10px;padding:14px 16px;">
-        <div style="font-size:13px;color:#5B9BD5;letter-spacing:1px;font-weight:600;margin-bottom:8px;">IEEE 802 계열 · LAN</div>
-        <div style="font-size:15.5px;font-weight:700;color:#fff;margin-bottom:10px;">데이터링크 = LLC + MAC</div>
-        <div style="border:1px solid #5BAD6F;border-radius:6px 6px 0 0;padding:7px;text-align:center;font-size:14px;color:#5BAD6F;font-weight:600;background:#0d2710;">
+      <div style="background:#e1ecfb;border:1px solid #2c6da4;border-radius:10px;padding:14px 16px;">
+        <div style="font-size:13px;color:#2c6da4;letter-spacing:1px;font-weight:600;margin-bottom:8px;">IEEE 802 계열 · LAN</div>
+        <div style="font-size:15.5px;font-weight:700;color:#1d252d;margin-bottom:10px;">데이터링크 = LLC + MAC</div>
+        <div style="border:1px solid #267c41;border-radius:6px 6px 0 0;padding:7px;text-align:center;font-size:14px;color:#267c41;font-weight:600;background:#e5f3e5;">
           LLC (802.2)<br><span style="font-size:12px;font-weight:400;color:var(--text2)">흐름 · 오류 · 상위 프로토콜 식별</span>
         </div>
-        <div style="border:1px solid #4DBFA8;border-top:none;border-radius:0 0 6px 6px;padding:7px;text-align:center;font-size:14px;color:#4DBFA8;font-weight:600;background:#0d2e28;">
+        <div style="border:1px solid #117a68;border-top:none;border-radius:0 0 6px 6px;padding:7px;text-align:center;font-size:14px;color:#117a68;font-weight:600;background:#dff1ed;">
           MAC (802.3 등)<br><span style="font-size:12px;font-weight:400;color:var(--text2)">MAC 주소 · 프레이밍 · FCS · 매체 접근</span>
         </div>
       </div>
     </div>
 
     <table class="tbl">
-      <thead><tr><th style="width:110px">구분</th><th style="color:#5BAD6F">HDLC</th><th style="color:#5B9BD5">LLC (IEEE 802.2)</th></tr></thead>
+      <thead><tr><th style="width:110px">구분</th><th style="color:#267c41">HDLC</th><th style="color:#2c6da4">LLC (IEEE 802.2)</th></tr></thead>
       <tbody>
         <tr><td><b>표준</b></td><td>ISO 3309 / 4335</td><td><b>IEEE 802.2</b> <span class="tag">암기</span></td></tr>
         <tr><td><b>담당 범위</b></td><td><b>데이터링크 계층 전체</b></td><td>데이터링크 <b>상위 서브레이어</b>만</td></tr>
@@ -2803,7 +2803,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       </tbody>
     </table>
 
-    <div class="sub-title" style="margin-top:14px;color:#4DBFA8">✅ 공통점 — 여기가 헷갈림의 원인</div>
+    <div class="sub-title" style="margin-top:14px;color:#117a68">✅ 공통점 — 여기가 헷갈림의 원인</div>
     <table class="tbl">
       <thead><tr><th style="width:150px">공통 요소</th><th>내용</th></tr></thead>
       <tbody>
@@ -2822,14 +2822,14 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <div class="highlight" style="margin-top:10px">
-      <b>📖 한 문장 암기</b> — <b style="color:#fff">HDLC는 WAN에서 혼자 다 하고, LLC는 LAN에서 MAC과 나눠 한다.</b>
+      <b>📖 한 문장 암기</b> — <b style="color:#1d252d">HDLC는 WAN에서 혼자 다 하고, LLC는 LAN에서 MAC과 나눠 한다.</b>
       플래그·비트스터핑·FCS가 있으면 HDLC, DSAP/SSAP가 보이면 LLC.
     </div>
 
     
     <!-- ── 처리 방법 ── -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#5BAD6F">⚙️ 처리 방법 — 이 계층이 하는 일</div>
+    <div class="sub-title" style="color:#267c41">⚙️ 처리 방법 — 이 계층이 하는 일</div>
     <table class="tbl">
       <thead><tr><th>기능</th><th>내용</th></tr></thead>
       <tbody>
@@ -2841,7 +2841,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         <tr><td><b>순서 제어 · 회복</b></td><td>프레임 번호로 순서 유지, 오류 시 재전송</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#5BAD6F">
+    <div class="note" style="border-left-color:#267c41">
       <b>두 개의 서브 계층</b> — 상위 <b>LLC(802.2)</b> 는 흐름·오류 제어와 상위 계층 접속을 맡고,
       하위 <b>MAC(802.3 등)</b> 은 주소와 매체 접근을 맡는다.
     </div>
@@ -2849,25 +2849,25 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
 
     <!-- 전송 제어 방식 -->
     <div class="layer-block">
-    <div id="anchor-bsc" class="sub-title" style="color:#E8A838">📡 전송 제어 방식 3종 — 프레임을 어떻게 구분하는가</div>
+    <div id="anchor-bsc" class="sub-title" style="color:#8a6012">📡 전송 제어 방식 3종 — 프레임을 어떻게 구분하는가</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:660px;">
       <thead><tr><th>방식</th><th>구분 방법</th><th>대표 프로토콜</th><th>투명성 확보</th></tr></thead>
       <tbody>
         <tr>
-          <td><b style="color:#E8A838">문자 위주</b><br><span class="tag">Character-oriented</span></td>
+          <td><b style="color:#8a6012">문자 위주</b><br><span class="tag">Character-oriented</span></td>
           <td><b>전송 제어 문자</b>(STX·ETX 등)로 시작·끝 표시</td>
           <td><b>BSC</b> (Binary Synchronous Communication)</td>
           <td><b>DLE 삽입</b> (Character Stuffing)</td>
         </tr>
         <tr>
-          <td><b style="color:#5BAD6F">비트 위주</b><br><span class="tag">Bit-oriented</span></td>
+          <td><b style="color:#267c41">비트 위주</b><br><span class="tag">Bit-oriented</span></td>
           <td><b>플래그 01111110</b> 으로 시작·끝 표시</td>
           <td><b>HDLC</b> · SDLC · PPP · LAPB</td>
           <td><b>비트 스터핑</b> (1이 5개 연속되면 0 삽입)</td>
         </tr>
         <tr>
-          <td><b style="color:#5B9BD5">바이트 카운트</b><br><span class="tag">Byte-count</span></td>
+          <td><b style="color:#2c6da4">바이트 카운트</b><br><span class="tag">Byte-count</span></td>
           <td>헤더에 <b>데이터 길이</b>를 적어 둠</td>
           <td>DDCMP</td>
           <td>길이 필드로 구분하므로 불필요</td>
@@ -2879,7 +2879,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
 
     <!-- 전송 제어 문자 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#E89050">🔤 전송 제어 문자 (Transmission Control Character)</div>
+    <div class="sub-title" style="color:#9d520f">🔤 전송 제어 문자 (Transmission Control Character)</div>
     <div class="highlight">
       문자 위주 방식(BSC)에서 <b>데이터가 아니라 "제어" 목적으로 끼워 넣는 특수 문자</b>.
       ASCII 코드의 앞부분(0x01~0x17)에 정의되어 있으며, <b>매 회차 출제되는 단골</b>이다.
@@ -2888,10 +2888,10 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     <table class="tbl" style="min-width:660px;">
       <thead><tr><th>문자</th><th>ASCII</th><th>풀네임</th><th>역할</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#4DBFA8">SYN</b></td><td class="mono">0x16</td><td>Synchronous Idle</td><td><b>문자 동기 유지</b> — 보낼 데이터가 없을 때도 동기를 잃지 않게 채워 넣음 <span class="tag">기출 정답</span></td></tr>
-        <tr><td><b style="color:#9B8AE0">SOH</b></td><td class="mono">0x01</td><td>Start Of Heading</td><td><b>헤딩(제어 정보) 시작</b></td></tr>
-        <tr><td><b style="color:#E8A838">STX</b></td><td class="mono">0x02</td><td>Start Of Text</td><td><b>본문 시작</b> — 헤딩의 끝이자 데이터의 시작</td></tr>
-        <tr><td><b style="color:#E06B5A">ETX</b></td><td class="mono">0x03</td><td>End Of Text</td><td><b>본문 끝</b></td></tr>
+        <tr><td><b style="color:#117a68">SYN</b></td><td class="mono">0x16</td><td>Synchronous Idle</td><td><b>문자 동기 유지</b> — 보낼 데이터가 없을 때도 동기를 잃지 않게 채워 넣음 <span class="tag">기출 정답</span></td></tr>
+        <tr><td><b style="color:#6b59aa">SOH</b></td><td class="mono">0x01</td><td>Start Of Heading</td><td><b>헤딩(제어 정보) 시작</b></td></tr>
+        <tr><td><b style="color:#8a6012">STX</b></td><td class="mono">0x02</td><td>Start Of Text</td><td><b>본문 시작</b> — 헤딩의 끝이자 데이터의 시작</td></tr>
+        <tr><td><b style="color:#ae3e30">ETX</b></td><td class="mono">0x03</td><td>End Of Text</td><td><b>본문 끝</b></td></tr>
         <tr><td><b>ETB</b></td><td class="mono">0x17</td><td>End of Transmission Block</td><td>전송 <b>블록의 끝</b> (본문이 여러 블록으로 나뉠 때)</td></tr>
         <tr><td><b>EOT</b></td><td class="mono">0x04</td><td>End Of Transmission</td><td><b>전송 종료</b> · 데이터 링크 해제</td></tr>
         <tr><td><b>ENQ</b></td><td class="mono">0x05</td><td>Enquiry</td><td>상대에게 <b>응답 요구</b> · 데이터 링크 설정 요청</td></tr>
@@ -2910,27 +2910,27 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
 
     <!-- BSC 프레임 흐름 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#5B9BD5">📦 BSC 프레임 구조와 전송 절차</div>
-    <div class="flow"><b style="color:#fff">프레임 구조</b>
+    <div class="sub-title" style="color:#2c6da4">📦 BSC 프레임 구조와 전송 절차</div>
+    <div class="flow"><b style="color:#1d252d">프레임 구조</b>
 
- <span style="color:#4DBFA8">SYN SYN</span> <span style="color:#9B8AE0">SOH</span> ─헤딩─ <span style="color:#E8A838">STX</span> ───── 본문(Text) ───── <span style="color:#E06B5A">ETX</span> <span style="color:#5BAD6F">BCC</span>
+ <span style="color:#117a68">SYN SYN</span> <span style="color:#6b59aa">SOH</span> ─헤딩─ <span style="color:#8a6012">STX</span> ───── 본문(Text) ───── <span style="color:#ae3e30">ETX</span> <span style="color:#267c41">BCC</span>
    │      │           │                        │     │
  동기   제어정보     본문           실제 데이터        끝   오류검사
  유지    시작        시작                          표시  (블록검사문자)
 
 
-<b style="color:#fff">전송 절차 (5단계)</b>
+<b style="color:#1d252d">전송 절차 (5단계)</b>
 
  ① 회선 접속        ─ 물리적 연결
- ② 데이터 링크 설정  ─ <span style="color:#E8A838">ENQ</span> ▶  ◀ <span style="color:#5BAD6F">ACK</span>
- ③ 정보 전송        ─ <span style="color:#E8A838">STX</span>…데이터…<span style="color:#E06B5A">ETX</span> ▶  ◀ <span style="color:#5BAD6F">ACK</span> (오류면 <span style="color:#E06B5A">NAK</span> → 재전송)
- ④ 데이터 링크 해제  ─ <span style="color:#E8A838">EOT</span> ▶
+ ② 데이터 링크 설정  ─ <span style="color:#8a6012">ENQ</span> ▶  ◀ <span style="color:#267c41">ACK</span>
+ ③ 정보 전송        ─ <span style="color:#8a6012">STX</span>…데이터…<span style="color:#ae3e30">ETX</span> ▶  ◀ <span style="color:#267c41">ACK</span> (오류면 <span style="color:#ae3e30">NAK</span> → 재전송)
+ ④ 데이터 링크 해제  ─ <span style="color:#8a6012">EOT</span> ▶
  ⑤ 회선 절단        ─ 물리적 연결 해제</div>
     <div class="highlight">
       <b>📖 기출</b> — 데이터링크 계층 전송제어 프로토콜 절차 순서는?<br>
       → <b>회선 접속 → 데이터 링크 설정 → 정보 전송 → 데이터 링크 해제 → 회선 절단</b>
     </div>
-    <div class="note" style="border-left-color:#9B8AE0">
+    <div class="note" style="border-left-color:#6b59aa">
       <b>투명성(Transparency)이란</b> — 본문 안에 우연히 <b>ETX와 똑같은 비트열</b>이 들어 있으면
       수신 측이 거기서 끊어 버린다. 이를 막기 위해 <b>제어 문자 앞에 DLE를 덧붙여</b> "이건 데이터다"라고 표시한다.
       비트 위주 방식(HDLC)에서는 같은 목적으로 <b>비트 스터핑</b>을 쓴다.
@@ -2939,7 +2939,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
 
     <!-- 계측 -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#E06B5A">📐 계측 — 데이터링크 계층에서 무엇을 보는가</div>
+    <div class="sub-title" style="color:#ae3e30">📐 계측 — 데이터링크 계층에서 무엇을 보는가</div>
     <table class="tbl">
       <thead><tr><th>지표 · 카운터</th><th>의미 · 원인</th></tr></thead>
       <tbody>
@@ -2951,7 +2951,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         <tr><td><b>MAC 테이블 점유율</b></td><td>스위치의 MAC 학습 테이블. 넘치면 <b>플러딩</b> 발생</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#E06B5A">
+    <div class="note" style="border-left-color:#ae3e30">
       💡 <b>현장 진단 감</b> — CRC 오류가 늘면 <b>물리(1계층)</b> 를 의심하고,
       Late Collision이 보이면 <b>듀플렉스 설정</b>을 먼저 확인한다.
     </div>
@@ -2982,9 +2982,9 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
   </div>
 
   <div class="section" id="sec-l1">
-    <h2 class="section-title" style="color:#9090B0">1계층 — 물리 계층 (Physical Layer)</h2>
+    <h2 class="section-title" style="color:#4d5660">1계층 — 물리 계층 (Physical Layer)</h2>
     <div class="osi-nav-slot" data-layer="l1"></div>
-    <div class="note" style="border-color:#9090B0"><b>역할:</b> 0과 1의 비트를 전기·광·무선 신호로 변환하여 물리적으로 전송<br><b>PDU:</b> 비트 (Bit) | <b>장비:</b> 허브, 리피터, 케이블, 커넥터</div>
+    <div class="note" style="border-color:#4d5660"><b>역할:</b> 0과 1의 비트를 전기·광·무선 신호로 변환하여 물리적으로 전송<br><b>PDU:</b> 비트 (Bit) | <b>장비:</b> 허브, 리피터, 케이블, 커넥터</div>
     <div class="two-col">
       <div>
         <div class="sub-title">전송 매체</div>
@@ -3011,11 +3011,11 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         </table>
       </div>
     </div>
-    <div class="note" style="border-color:#9090B0;margin-top:10px"><b>허브 vs 스위치:</b> 허브=1계층(신호 무조건 복사) / 스위치=2계층(MAC 기반 선택 전달) → 스위치가 훨씬 효율적</div>
+    <div class="note" style="border-color:#4d5660;margin-top:10px"><b>허브 vs 스위치:</b> 허브=1계층(신호 무조건 복사) / 스위치=2계층(MAC 기반 선택 전달) → 스위치가 훨씬 효율적</div>
     
     <!-- ── 처리 방법 ── -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#9090B0">⚙️ 처리 방법 — 이 계층이 하는 일</div>
+    <div class="sub-title" style="color:#4d5660">⚙️ 처리 방법 — 이 계층이 하는 일</div>
     <table class="tbl">
       <thead><tr><th>기능</th><th>내용</th></tr></thead>
       <tbody>
@@ -3034,7 +3034,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
 
     <!-- ── 전송 부호 ── -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#5BAD6F">📶 전송 부호 (Line Code)</div>
+    <div class="sub-title" style="color:#267c41">📶 전송 부호 (Line Code)</div>
     <div class="highlight">
       좋은 전송 부호의 조건 — ① <b>대역폭이 좁을 것</b> ② <b>부호가 간단하고 일관성</b> 있을 것
       ③ <b>타이밍(동기) 정보를 포함</b>할 것 ④ <b>DC 성분이 없을 것</b> ⑤ 오류 검출·정정이 쉬울 것 <span class="tag">기출</span>
@@ -3057,7 +3057,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
 
     <!-- ── 물리 규격 / SW ── -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#5B9BD5">📋 물리 계층 규격 · 인터페이스</div>
+    <div class="sub-title" style="color:#2c6da4">📋 물리 계층 규격 · 인터페이스</div>
     <table class="tbl">
       <thead><tr><th>규격</th><th>방식</th><th>특징 / 거리</th></tr></thead>
       <tbody>
@@ -3071,7 +3071,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         <tr><td><b>10GBASE-SR / LR</b></td><td>광</td><td>SR 약 300m · LR 약 10km</td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#5B9BD5">
+    <div class="note" style="border-left-color:#2c6da4">
       <b>표기 읽는 법</b> — <b>1000</b>BASE-<b>T</b> = 속도 1000Mbps · <b>BASE</b>band(기저대역) · 매체 <b>T</b>(Twisted pair).
       S=단파장 광, L=장파장 광, C=동축, X=부호화 방식 있음.
     </div>
@@ -3079,7 +3079,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
 
     <!-- ── 장비 ── -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#E8A838">🔧 장비 상세</div>
+    <div class="sub-title" style="color:#8a6012">🔧 장비 상세</div>
     <table class="tbl">
       <thead><tr><th>장비</th><th>역할</th><th>주의점</th></tr></thead>
       <tbody>
@@ -3099,7 +3099,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
 
     <!-- ── 계측 ── -->
     <div class="layer-block">
-    <div class="sub-title" style="color:#E06B5A">📐 전송 계측 — 물리 계층에서 무엇을 재는가</div>
+    <div class="sub-title" style="color:#ae3e30">📐 전송 계측 — 물리 계층에서 무엇을 재는가</div>
     <div style="overflow-x:auto;">
     <table class="tbl" style="min-width:680px;">
       <thead><tr><th>측정 항목</th><th>무엇을 보는가</th><th>측정 장비 · 방법</th></tr></thead>
@@ -3110,12 +3110,12 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
         <tr><td><b>배선도 (Wire Map)</b></td><td>8가닥이 <b>제대로 짝지어 결선</b>됐는지 (오결선·단선·단락)</td><td>케이블 테스터</td></tr>
         <tr><td><b>광 손실 · 장애점</b></td><td>광선로의 <b>손실 분포와 절단 위치</b></td><td><b>OTDR</b> (광 시간영역 반사계) — 한쪽에서 쏴서 장애 지점 거리를 알아냄</td></tr>
         <tr><td><b>아이 패턴</b><br><span class="tag">Eye Pattern</span></td><td>눈 모양이 <b>크고 뚜렷할수록</b> 양호. <b>지터·잡음 여유</b>를 한눈에 판단</td><td>오실로스코프</td></tr>
-        <tr><td><b>BER</b></td><td>전송한 비트 중 <b>깨진 비율</b></td><td>BER 테스터 → <a onclick="showSection('ber',null)" style="color:#5B9BD5;cursor:pointer;text-decoration:underline">BER 계산 단원</a></td></tr>
+        <tr><td><b>BER</b></td><td>전송한 비트 중 <b>깨진 비율</b></td><td>BER 테스터 → <a onclick="showSection('ber',null)" style="color:#2c6da4;cursor:pointer;text-decoration:underline">BER 계산 단원</a></td></tr>
         <tr><td><b>지터 (Jitter)</b></td><td>신호 <b>타이밍이 떨리는</b> 정도</td><td>오실로스코프 · 지터 분석기</td></tr>
       </tbody>
     </table>
     </div>
-    <div class="note" style="border-left-color:#E06B5A">
+    <div class="note" style="border-left-color:#ae3e30">
       <b>아이 패턴 읽는 법</b> — 눈(eye)이 <b>위아래로 크면 잡음 여유</b>가 크고, <b>좌우로 넓으면 타이밍 여유</b>가 크다.
       눈이 감기면(닫히면) 오류가 급증한다는 뜻.
     </div>
@@ -3151,7 +3151,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
   <div class="section" id="sec-tcp_udp">
     <h2 class="section-title">TCP vs UDP 완전 비교</h2>
     <table class="tbl">
-      <thead><tr><th>항목</th><th style="color:#5B9BD5">TCP</th><th style="color:#E8A838">UDP</th></tr></thead>
+      <thead><tr><th>항목</th><th style="color:#2c6da4">TCP</th><th style="color:#8a6012">UDP</th></tr></thead>
       <tbody>
         <tr><td>풀네임</td><td>Transmission <b>Control</b> Protocol</td><td>User <b>Datagram</b> Protocol</td></tr>
         <tr><td>연결 방식</td><td>연결지향형</td><td>비연결형</td></tr>
