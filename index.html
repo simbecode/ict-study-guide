@@ -194,7 +194,10 @@ svg.ic{width:18px;height:18px;flex-shrink:0;display:block;fill:none;stroke:curre
 .home-title{font-size:34px;line-height:1.25;font-weight:800;letter-spacing:-.8px;}
 .home-meta{font-size:15px;line-height:1.75;color:var(--text2);}
 .home-meta b{color:var(--text);}
-.home-quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:40px;}
+.home-quick{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-bottom:40px;}
+.quick-card{grid-column:span 2;}
+.quick-card.wide{grid-column:span 3;}
+.quick-card.wide b{font-size:17px;}
 .quick-card{display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer;
   text-align:left;transition:border-color .12s,box-shadow .12s;}
 .quick-card:hover{border-color:var(--key-bd);box-shadow:0 4px 16px rgba(20,24,36,.06);}
@@ -394,6 +397,8 @@ svg.ic{width:18px;height:18px;flex-shrink:0;display:block;fill:none;stroke:curre
   .main{padding:20px 16px 64px;}
   .home-title{font-size:26px;}
   .home-quick{grid-template-columns:1fr;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff;margin-bottom:28px;}
+  .quick-card,.quick-card.wide{grid-column:auto;}
+  .quick-card.wide b{font-size:15px;}
   .quick-card{flex-direction:row;align-items:center;gap:12px;border:none;border-radius:0;padding:0 14px;min-height:56px;}
   .quick-card + .quick-card{border-top:1px solid var(--border);}
   .quick-card:hover{box-shadow:none;}
@@ -663,7 +668,7 @@ html,body{max-width:100%;overflow-x:clip;}
   </nav>
   <div class="nav-label">문제 · 암기</div>
   <div class="sub-item nav-top" data-sec="cram" onclick="showSection('cram',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></svg>시험 직전 요약</div>
-  <div class="sub-item nav-top" data-sec="cbt26" onclick="showSection('cbt26',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="2.6"/></svg>2026-4회 CBT 복원<span class="nav-count">54</span></div>
+  <div class="sub-item nav-top" data-sec="cbt26" onclick="showSection('cbt26',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="2.6"/></svg>2026-4 CBT 복원예상문제<span class="nav-count">54</span></div>
   <div class="sub-item nav-top" data-sec="quiz" onclick="showSection('quiz',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12.5h8M8 16.5h5"/></svg>기출문제<span class="nav-count" id="nav-quiz-count">500</span></div>
   <div class="sub-item nav-top" data-card="def" onclick="cdOpen('def',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6.5" width="13" height="14" rx="2"/><path d="M8 3.5h10.5a2 2 0 0 1 2 2v12"/></svg>용어 카드<span class="nav-count" id="nav-def-count">189</span></div>
   <div class="sub-item nav-top" data-card="num" onclick="cdOpen('num',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M9.5 9.5v10"/></svg>암기표<span class="nav-count" id="nav-num-count">82</span></div>
@@ -695,15 +700,20 @@ html,body{max-width:100%;overflow-x:clip;}
       <p class="home-meta"><b>5</b> 과목 · <b>100</b> 문항(과목당 20) · 과목별 <b>40점</b> 이상, 전과목 평균 <b>60점</b> 이상 합격 · 시험 시간 <b>150분</b> · <b>연 3회</b> 시행</p>
     </div>
     <div class="home-quick">
+      <div class="quick-card wide" role="button" tabindex="0" onclick="goQuiz()">
+        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12.5h8M8 16.5h5"/></svg><span class="quick-count" id="home-quiz-count">500문항</span></div>
+        <b>기출문제</b><span class="quick-count-m" data-mirror="home-quiz-count">500문항</span>
+        <p>2022년 1~3회 · 2023년 1~2회. 풀이 모드와 실전 진단 모드</p>
+      </div>
+      <div class="quick-card wide" role="button" tabindex="0" onclick="showSection('cbt26',null)">
+        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="2.6"/></svg><span class="quick-count" id="home-cbt-count">54문항</span></div>
+        <b>2026-4 CBT 복원예상문제</b><span class="quick-count-m" data-mirror="home-cbt-count">54문항</span>
+        <p>응시 후기로 모은 출제 주제를 예상 문제로. 과목별로 바로 풀고 해설 확인</p>
+      </div>
       <div class="quick-card" role="button" tabindex="0" onclick="showSection('cram',null)">
         <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></svg><span class="quick-count" id="home-cram">계산·숫자</span></div>
         <b>시험 직전 요약</b><span class="quick-count-m" data-mirror="home-cram">계산·숫자</span>
         <p>기출에 나온 계산 공식과 설비기준 숫자만 한 페이지에</p>
-      </div>
-      <div class="quick-card" role="button" tabindex="0" onclick="goQuiz()">
-        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12.5h8M8 16.5h5"/></svg><span class="quick-count" id="home-quiz-count">500문항</span></div>
-        <b>기출문제</b><span class="quick-count-m" data-mirror="home-quiz-count">500문항</span>
-        <p>2022년 1~3회 · 2023년 1~2회. 풀이 모드와 실전 진단 모드</p>
       </div>
       <div class="quick-card" role="button" tabindex="0" onclick="cdOpen('def',null)">
         <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6.5" width="13" height="14" rx="2"/><path d="M8 3.5h10.5a2 2 0 0 1 2 2v12"/></svg><span class="quick-count" id="home-def-count">189장</span></div>
@@ -877,7 +887,7 @@ html,body{max-width:100%;overflow-x:clip;}
 
   
   <div class="section" id="sec-cbt26">
-    <h2 class="section-title">2026년 4회 CBT 복원</h2>
+    <h2 class="section-title">2026-4 CBT 복원예상문제</h2>
     <div class="warn"><b>실제 출제 문항이 아닙니다.</b> 응시 후기로 모은 출제 주제를 바탕으로 만든 <b>예상 문제</b>라서, 실제 시험의 문장·보기와 다릅니다. 주제별로 개념을 점검하는 용도로 쓰세요.</div>
 
     <div class="sub-title">출제 주제 목록</div>
@@ -2171,7 +2181,7 @@ function showFinalResult(){
 
 // 사이드바 검색 데이터
 const menuItems = [
-  {label:'2026년 4회 CBT 복원 예상 문제 후기 출제 주제', action:"showSection('cbt26',this)", subj:'2026-4회 CBT 복원'},
+  {label:'2026-4 CBT 복원예상문제 2026년 4회 예상 문제 후기 출제 주제', action:"showSection('cbt26',this)", subj:'2026-4 CBT 복원예상문제'},
   {label:'시험 직전 요약 계산 공식 나이퀴스트 섀넌 샤논 데시벨 dB 오류율 BER 다중화 설비기준 법규 숫자 암기 반복 출제', action:"showSection('cram',this)", subj:'시험 직전 요약'},
   {label:'가산기 감산기 반가산기 전가산기 병렬가산기 리플캐리 캐리예측 CLA BCD가산기 2의보수 누산기 Accumulator', action:"showSection('adder',this)", subj:'5과목'},
   {label:'PCM 표본화 양자화 잡음 압신 델타변조 나이퀴스트 64kbps', action:"showSection('pcm',this)", subj:'1과목'},
