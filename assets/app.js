@@ -1,0 +1,3505 @@
+// 자동 생성: tools/build_pages.py — index.html 의 본문 스크립트 복사본. 직접 수정하지 마세요.
+let quizzes = [];
+
+// ══════════ 과목 콘텐츠 · 기출문제 데이터 로더 ══════════
+// 기출문제가 새로 나오면: data/quiz/ 에 JSON 파일 하나만 추가하고
+// 아래 QUIZ_FILES 배열에 파일명 한 줄만 추가하면 됩니다.
+(function loadAllData(){
+  var SUBJECT_FILES = [
+    '/subjects/1-정보전송일반.html',
+    '/subjects/2-정보통신기기.html',
+    '/subjects/3-정보통신네트워크.html',
+    '/subjects/4-정보시스템운용.html',
+    '/subjects/5-컴퓨터일반및정보설비기준.html'
+  ];
+  var QUIZ_FILES = [
+    '/data/quiz/2022-1.json',
+    '/data/quiz/2022-2.json',
+    '/data/quiz/2022-3.json',
+    '/data/quiz/2023-1.json',
+    '/data/quiz/2023-2.json'
+  ];
+
+  var root = document.getElementById('subject-content-root');
+
+  var subjectsP = Promise.all(SUBJECT_FILES.map(function(f){
+    return fetch(f).then(function(r){
+      if(!r.ok) throw new Error(f+' 로드 실패 (HTTP '+r.status+')');
+      return r.text();
+    });
+  })).then(function(htmls){
+    if(root) root.innerHTML = htmls.join('\n');
+  });
+
+  var quizP = Promise.all(QUIZ_FILES.map(function(f){
+    return fetch(f).then(function(r){
+      if(!r.ok) throw new Error(f+' 로드 실패 (HTTP '+r.status+')');
+      return r.json();
+    });
+  })).then(function(lists){
+    quizzes = [].concat.apply([], lists);
+    currentQuizzes = quizzes; // quizzes는 파싱 시점엔 비어있었으므로 로드 후 다시 연결
+  });
+
+  // 주제별 페이지(/s1/csma/ 등)는 용량을 줄이려고 CBT 섹션을 따로 불러온다
+  var cbtSlot = document.getElementById('cbt-slot');
+  var cbtP = !cbtSlot ? Promise.resolve() : fetch(cbtSlot.getAttribute('data-src')).then(function(r){
+    if(!r.ok) throw new Error('CBT 섹션 로드 실패 (HTTP '+r.status+')');
+    return r.text();
+  }).then(function(h){ cbtSlot.outerHTML = h; cbtInit(); });
+
+  Promise.all([subjectsP, quizP, cbtP]).then(function(){
+    buildQuizFilterUI();
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', bootInit);
+    } else {
+      bootInit();
+    }
+  }).catch(function(err){
+    console.error('콘텐츠 로드 실패:', err);
+    if(root) root.innerHTML = '<div style="padding:60px 20px;text-align:center;color:#ae3e30;font-size:15px;line-height:1.9">콘텐츠를 불러오지 못했습니다.<br>파일을 <b>로컬 서버</b>로 열었는지 확인해 주세요 (예: <code>python3 -m http.server</code> 실행 후 http://localhost:8000/ 로 접속).<br>더블클릭으로 직접 연 파일(file://)에서는 fetch가 차단됩니다.<br><span style="font-size:12px;color:var(--text3)">'+err+'</span></div>';
+  });
+})();
+
+// 기출문제 필터 UI(회차 버튼·전체 문항수)를 데이터 로드 후 동적으로 만든다.
+// 새 회차를 추가해도 이 함수는 그대로 두면 됩니다 — quizzes 배열만 보고 자동 생성합니다.
+function buildQuizFilterUI(){
+  var years = Array.from(new Set(quizzes.map(function(q){ return q.year; }))).sort();
+  var yearFiltersEl = document.getElementById('year-filters');
+  var examBtnsEl = document.getElementById('exam-btns');
+  var totalCountEl = document.getElementById('quiz-count');
+  if(totalCountEl) totalCountEl.textContent = quizzes.length;
+
+  if(yearFiltersEl){
+    var html = '<span class="f-label">회차</span>';
+    html += '<button onclick="filterYear(\'전체\',this)" class="qfbtn active">전체 ('+quizzes.length+')</button>';
+    years.forEach(function(y){
+      var cnt = quizzes.filter(function(q){ return q.year===y; }).length;
+      var label = y.replace('-','년 ') + ' (' + cnt + ')';
+      html += '<button onclick="filterYear(\''+y+'\',this)" class="qfbtn">'+label+'</button>';
+    });
+    yearFiltersEl.innerHTML = html;
+  }
+  if(examBtnsEl){
+    var ehtml = '';
+    years.forEach(function(y){
+      var label = y.replace('-','년 ');
+      ehtml += '<button class="exam-start" onclick="startExam(\''+y+'\')">'+label+'</button>';
+    });
+    examBtnsEl.innerHTML = ehtml;
+  }
+}
+
+let answered=[];
+let results=[];   // 각 문제별 정답여부 추적 (true=정답, false=오답)
+let picked=[];    // 사용자가 실제로 고른 보기 번호 (복원 시 필요)
+let score=0;
+let currentQuizzes=quizzes;
+let currentFilter='전체';
+
+let currentYear='전체';
+
+// 한 페이지에 렌더할 문항 수 (500문항을 한 번에 그리지 않는다)
+const PAGE_SIZE = 50;
+let currentPage = 0;
+
+// ── 진행상황 저장 (localStorage) ────────────────────────────────
+// 파일을 직접 열어 쓰는 환경(file://)이나 시크릿 창에서는 접근이 막힐 수 있으므로
+// 모든 접근을 try/catch로 감싸고, 실패해도 앱 동작에는 영향이 없게 한다.
+const LS_KEY = 'jtq_progress_v1';
+function qid(q){ return q.year+'#'+q.n; }
+
+
+/* ══════════ 실전 진단 모드 ══════════ */
+let examMode = false, examYear = null;
+const EXAM_KEY = 'ict-exam-state-v1';
+
+/* 퀴즈 모드: 'study' = 기출문제 풀이(즉시 해설) / 'exam' = 실전 진단 */
+let quizMode = 'study';
+let examFinished = false;   // 진단을 제출·중단해 결과를 보고 있는 상태
+
+function syncQuizModeUI(){
+  const isExam = (quizMode === 'exam');
+  const ms = document.getElementById('mode-study');
+  const me = document.getElementById('mode-exam');
+  if(ms) ms.classList.toggle('active', !isExam);
+  if(me) me.classList.toggle('active', isExam);
+  const fp = document.getElementById('quiz-filter-panel');
+  if(fp) fp.style.display = isExam ? 'none' : '';
+  const ep = document.getElementById('exam-panel');
+  if(ep) ep.style.display = (isExam && !examMode) ? '' : 'none';
+  const pa = document.getElementById('quiz-play-area');
+  if(pa) pa.style.display = (!isExam || examMode || examFinished) ? '' : 'none';
+}
+
+function setQuizMode(m){
+  if(m === 'exam'){
+    quizMode = 'exam'; examFinished = false;
+    syncQuizModeUI();
+    const ep = document.getElementById('exam-panel');
+    if(ep && ep.style.display !== 'none') ep.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  if(examMode) cancelExam();        // 진행 중 진단은 중단하고 정답·해설 공개
+  quizMode = 'study'; examFinished = false;
+  syncQuizModeUI();
+  renderQuiz();
+}
+
+function updateExamStatus(){
+  const el = document.getElementById('exam-status');
+  if(!el) return;
+  const done = answered.filter(a=>a===true).length;
+  el.textContent = done + ' / ' + currentQuizzes.length + ' 답안 표시';
+}
+function startExam(year){
+  examMode = true; examYear = year;
+  quizMode = 'exam'; examFinished = false;
+  try{ localStorage.setItem(EXAM_KEY, JSON.stringify({year:year})); }catch(e){}
+  currentYear = year; currentFilter = '전체';
+  applyFilters();                     // 해당 회차 100문항으로 교체 + 초기화
+  syncFilterButtons();
+  const bar = document.getElementById('exam-bar');
+  if(bar) bar.classList.add('show');
+  syncQuizModeUI();
+  updateExamStatus();
+  const sec = document.getElementById('quiz-progress-bar');
+  if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function endExamUI(){
+  examMode = false;
+  try{ localStorage.removeItem(EXAM_KEY); }catch(e){}
+  const bar = document.getElementById('exam-bar');
+  if(bar) bar.classList.remove('show');
+  const p = document.getElementById('exam-panel');
+  if(p) p.style.display = '';
+}
+function submitExam(auto){
+  if(!examMode) return;
+  const done = answered.filter(a=>a===true).length;
+  if(!auto && done < currentQuizzes.length){
+    const btn = document.getElementById('exam-status');
+    if(btn && btn.dataset.confirm !== '1'){
+      btn.dataset.confirm = '1';
+      btn.textContent = '미표시 ' + (currentQuizzes.length-done) + '문항 — 한 번 더 누르면 제출';
+      setTimeout(function(){ if(btn){ btn.dataset.confirm=''; updateExamStatus(); } }, 5000);
+      return;
+    }
+  }
+  endExamUI();
+  examFinished = true; syncQuizModeUI();
+  score = results.filter(r=>r===true).length;
+  for(let qi=0; qi<currentQuizzes.length; qi++){
+    if(answered[qi]) paintAnswered(qi);
+  }
+  saveProgress();
+  showFinalResult();
+  const sw = document.getElementById('score-wrap');
+  if(sw) sw.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function cancelExam(){
+  if(!examMode) return;
+  endExamUI();
+  examFinished = true; syncQuizModeUI();
+  for(let qi=0; qi<currentQuizzes.length; qi++){ if(answered[qi]) paintAnswered(qi); }
+}
+function restoreExam(){
+  let st = null;
+  try{ st = JSON.parse(localStorage.getItem(EXAM_KEY) || 'null'); }catch(e){}
+  if(!st || !st.year) { try{ localStorage.removeItem(EXAM_KEY); }catch(e){} return; }
+  examMode = true; examYear = st.year;
+  quizMode = 'exam'; examFinished = false;
+  const bar = document.getElementById('exam-bar');
+  if(bar) bar.classList.add('show');
+  syncQuizModeUI();
+  updateExamStatus(); renderQuiz();
+}
+
+function saveProgress(){
+  try{
+    localStorage.setItem(LS_KEY, JSON.stringify({
+      v:1,
+      year: currentYear,
+      subj: currentFilter,
+      ids: currentQuizzes.map(qid),
+      picked: picked,
+      page: currentPage
+    }));
+  }catch(e){/* 저장 불가 환경 — 무시 */}
+}
+
+function clearProgress(){
+  try{ localStorage.removeItem(LS_KEY); }catch(e){}
+}
+
+// 저장된 진행상황을 복원. 복원해서 이어 풀 게 있으면 true.
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return false;
+    const d = JSON.parse(raw);
+    if(!d || d.v!==1 || !Array.isArray(d.ids) || d.ids.length===0) return false;
+
+    const byId = {};
+    quizzes.forEach(q=>{ byId[qid(q)] = q; });
+    const pool = d.ids.map(id=>byId[id]).filter(Boolean);
+    if(pool.length !== d.ids.length) return false;   // 문제 데이터가 바뀐 경우 폐기
+
+    currentYear   = d.year || '전체';
+    currentFilter = d.subj || '전체';
+    currentQuizzes = pool;
+    answered = new Array(pool.length).fill(false);
+    results  = new Array(pool.length).fill(null);
+    picked   = new Array(pool.length).fill(null);
+    score = 0;
+
+    (d.picked||[]).forEach((p,i)=>{
+      if(p===null || p===undefined || i>=pool.length) return;
+      picked[i]  = p;
+      answered[i]= true;
+      results[i] = (p === pool[i].ans);
+      if(results[i]) score++;
+    });
+
+    currentPage = Math.max(0, d.page|0);
+    return answered.some(a=>a===true);
+  }catch(e){ return false; }
+}
+
+// 복원된 필터 값에 맞춰 필터 버튼 하이라이트를 되돌린다
+function syncFilterButtons(){
+  const mark = (containerId, value)=>{
+    document.querySelectorAll('#'+containerId+' .qfbtn').forEach(b=>{
+      const oc = b.getAttribute('onclick')||'';
+      b.classList.toggle('active', oc.indexOf("'"+value+"'")>=0);
+    });
+  };
+  mark('year-filters', currentYear);
+  mark('subj-filters', currentFilter);
+}
+
+// 과목별 판정 기준 (한 과목 20문항 기준)
+//   · 과락 : 8개 이하  (정답률 40% 이하)
+//   · 합격 : 12개 이상 (정답률 60% 이상)
+//   · 9~11개는 과락은 면했지만 합격선 미달 → '미달'
+// 문항 수가 20개가 아니어도 같은 비율로 판정한다.
+const GWARAK_RATE = 0.4;   // 이 비율 "이하"면 과락
+const PASS_RATE   = 0.6;   // 이 비율 "이상"이면 합격
+const GWARAK_CNT  = 8;     // 20문항 환산 과락 기준
+const PASS_CNT    = 12;    // 20문항 환산 합격 기준
+
+// 부동소수점 오차를 피하려고 정수 비교로 판정한다.
+// 과락: correct/total <= 0.4   →  correct*10 <= total*4
+function isSubjGwarak(st){
+  return !!st && st.total > 0 && (st.correct * 10 <= st.total * 4);
+}
+// 합격: correct/total >= 0.6   →  correct*10 >= total*6
+function isSubjPassing(st){
+  return !!st && st.total > 0 && (st.correct * 10 >= st.total * 6);
+}
+
+// HTML 이스케이프 — 문제/보기/해설에 '<' 같은 문자가 있어도 안전하게 렌더
+function esc(v){
+  return String(v == null ? '' : v)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+// 문항 번호는 회차마다 1~100으로 중복되므로,
+// 여러 회차가 섞인 목록에서는 회차를 함께 표시한다.
+let multiYear = false;
+function updateMultiYear(){
+  multiYear = new Set(currentQuizzes.map(q=>q.year)).size > 1;
+}
+function qLabel(q){
+  return multiYear && q.year ? q.year+' Q'+q.n : 'Q'+q.n;
+}
+
+// 과목별 이름/색 (결과 화면 두 곳에서 공용)
+const SUBJ_NAMES = {
+  '1과목':'정보전송일반','2과목':'정보통신기기',
+  '3과목':'정보통신네트워크','4과목':'정보시스템운용',
+  '5과목':'컴퓨터일반 및 정보설비기준'
+};
+const SUBJ_COLORS = {
+  '1과목':'#6b59aa','2과목':'#2c6da4','3과목':'#8a6012',
+  '4과목':'#ae3e30','5과목':'#117a68'
+};
+
+// 필터 버튼 선택 표시는 .qfbtn.active 클래스로 통일 (인라인 스타일 사용 안 함)
+function setActiveFilterBtn(containerId, btn){
+  document.querySelectorAll('#'+containerId+' .qfbtn').forEach(b=>b.classList.remove('active'));
+  if(btn && btn.classList) btn.classList.add('active');
+}
+
+function filterYear(year,btn){
+  setActiveFilterBtn('year-filters', btn);
+  currentYear=year;
+  applyFilters();
+}
+
+function filterQuiz(subj,btn){
+  setActiveFilterBtn('subj-filters', btn);
+  currentFilter=subj;
+  applyFilters();
+}
+
+function applyFilters(){
+  let pool = quizzes;
+  if(currentYear!=='전체') pool=pool.filter(q=>q.year===currentYear);
+  if(currentFilter!=='전체') pool=pool.filter(q=>q.subj===currentFilter);
+  currentQuizzes=pool;
+  const cnt=document.getElementById('quiz-count');
+  if(cnt) cnt.textContent=pool.length;
+  initQuiz();
+}
+
+function initQuiz(){
+  answered = new Array(currentQuizzes.length).fill(false);
+  results  = new Array(currentQuizzes.length).fill(null);
+  picked   = new Array(currentQuizzes.length).fill(null);
+  score = 0;
+  currentPage = 0;
+  const sw = document.getElementById('score-wrap');
+  if(sw) sw.classList.remove('show');
+  const ov = document.getElementById('mid-result-overlay');
+  if(ov) ov.classList.remove('show');
+  renderQuiz();
+  saveProgress();
+}
+
+function renderQuiz(){
+  const wrap = document.getElementById('quiz-wrap');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  const sw = document.getElementById('score-wrap');
+  if(sw) sw.classList.remove('show');
+  const pb = document.getElementById('quiz-progress-bar');
+  if(pb) pb.classList.toggle('show', currentQuizzes.length>0);
+  updateMultiYear();
+  updateProgress();
+  // 필터 결과가 0건이면 빈 화면 대신 안내를 띄운다
+  if(currentQuizzes.length === 0){
+    wrap.innerHTML = '<div style="text-align:center;color:var(--text3);font-size:15.5px;padding:40px 16px;line-height:1.8;">'
+      + '조건에 맞는 문제가 없습니다.<br><span style="font-size:14px;">위의 회차 · 과목 필터를 다시 선택해 주세요.</span></div>';
+    renderPager();
+    return;
+  }
+
+  // 현재 페이지 구간만 렌더 (인덱스 qi 는 항상 전체 목록 기준)
+  const totalPages = getTotalPages();
+  currentPage = Math.min(Math.max(0, currentPage), totalPages-1);
+  const start = currentPage * PAGE_SIZE;
+  const end   = Math.min(start + PAGE_SIZE, currentQuizzes.length);
+
+  for(let qi = start; qi < end; qi++){
+    const q = currentQuizzes[qi];
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    const labels = ['①','②','③','④'];
+    const opts = q.opts.map((o,oi)=>
+      `<button class="qopt" id="q${qi}o${oi}" onclick="answer(${qi},${oi})">${labels[oi]} ${esc(o)}</button>`
+    ).join('');
+    const subjBadge = `<span style="font-size:12px;padding:2px 7px;border-radius:6px;background:#e1ecfb;color:#2c6da4;margin-left:6px;">${esc(q.subj)}</span>`;
+    card.innerHTML = `<div class="quiz-q">${esc(qLabel(q))}. ${esc(q.q)}${subjBadge}</div><div class="quiz-opts">${opts}</div><div class="quiz-result" id="qr${qi}"></div>`;
+    wrap.appendChild(card);
+  }
+
+  // 이미 푼 문제는 채점 결과를 그대로 복원한다 (새로고침 / 페이지 이동 후)
+  for(let qi = start; qi < end; qi++){
+    if(answered[qi]) paintAnswered(qi);
+  }
+  renderPager();
+}
+
+function getTotalPages(){
+  return Math.max(1, Math.ceil(currentQuizzes.length / PAGE_SIZE));
+}
+
+function goPage(p){
+  const total = getTotalPages();
+  currentPage = Math.min(Math.max(0, p), total-1);
+  renderQuiz();
+  saveProgress();
+  const bar = document.getElementById('quiz-progress-bar') || document.getElementById('sec-quiz');
+  if(bar) bar.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function renderPager(){
+  const el = document.getElementById('quiz-pager');
+  if(!el) return;
+  if(currentQuizzes.length <= PAGE_SIZE){
+    el.style.display='none'; el.innerHTML=''; return;
+  }
+  const total = getTotalPages();
+  let h = `<button class="qfbtn" onclick="goPage(${currentPage-1})" ${currentPage===0?'disabled':''}>← 이전</button>`;
+  for(let p=0; p<total; p++){
+    const s = p*PAGE_SIZE;
+    const e = Math.min(s+PAGE_SIZE, currentQuizzes.length);
+    const doneInPage = answered.slice(s,e).filter(a=>a===true).length;
+    const allDone = doneInPage === (e-s);
+    h += `<button class="qfbtn${p===currentPage?' active':''}" onclick="goPage(${p})" title="${s+1}~${e}번">${p+1}${allDone?' ✓':''}</button>`;
+  }
+  h += `<button class="qfbtn" onclick="goPage(${currentPage+1})" ${currentPage===total-1?'disabled':''}>다음 →</button>`;
+  el.innerHTML = h;
+  el.style.display='flex';
+}
+
+// 채점 결과를 화면에 반영 (최초 응답 시 / 복원 시 공용)
+function paintAnswered(qi){
+  const q = currentQuizzes[qi];
+  if(!q) return;
+  const oi = picked[qi];
+  if(examMode){                       // 진단 중에는 정답/해설을 절대 노출하지 않는다
+    for(let i=0;i<q.opts.length;i++){
+      const b=document.getElementById('q'+qi+'o'+i);
+      if(b){ b.disabled=false; b.classList.remove('correct','wrong'); b.classList.toggle('picked', i===oi); }
+    }
+    const r=document.getElementById('qr'+qi);
+    if(r){ r.className='quiz-result'; r.innerHTML=''; }
+    return;
+  }
+  for(let i=0; i<q.opts.length; i++){
+    const btn = document.getElementById('q'+qi+'o'+i);
+    if(!btn) continue;
+    btn.disabled = true;
+    btn.classList.remove('correct','wrong');
+    if(i === q.ans) btn.classList.add('correct');
+    else if(i === oi) btn.classList.add('wrong');
+  }
+  const res = document.getElementById('qr'+qi);
+  if(res){
+    res.className = 'quiz-result show';
+    res.innerHTML = (results[qi]===true ? '✓ 정답! ' : '✗ 오답. ') + esc(q.ex);
+  }
+}
+
+// 자동 저장 안내 배너
+function updateResumeNote(){
+  const note = document.getElementById('resume-note');
+  const txt  = document.getElementById('resume-text');
+  if(!note || !txt) return;
+  const done = answered.filter(a=>a===true).length;
+  if(done > 0 && done < currentQuizzes.length){
+    txt.textContent = '💾 진행상황이 자동 저장됩니다 — '+done+' / '+currentQuizzes.length+'문항 완료';
+    note.style.display = 'flex';
+  } else {
+    note.style.display = 'none';
+  }
+}
+
+function answer(qi, oi){
+  const q = currentQuizzes[qi];
+  if(!q) return;
+  if(examMode){                       // 실전 진단 — 정답을 감추고 선택만 기록
+    picked[qi]   = oi;
+    answered[qi] = true;
+    results[qi]  = (oi === q.ans);
+    for(let i=0;i<q.opts.length;i++){
+      const b=document.getElementById('q'+qi+'o'+i);
+      if(b) b.classList.toggle('picked', i===oi);
+    }
+    updateProgress(); saveProgress(); updateExamStatus();
+    return;
+  }
+  if(answered[qi]) return;
+  answered[qi] = true;
+  picked[qi]   = oi;                 // 고른 보기를 기억해야 복원할 수 있다
+  results[qi]  = (oi === q.ans);
+  if(results[qi]) score++;
+
+  paintAnswered(qi);
+  updateProgress();
+  saveProgress();
+  maybeFinish();
+}
+
+// 모든 문제를 다 푼 경우에만 최종 결과 화면을 띄운다
+function maybeFinish(){
+  if(examMode) return;                // 제출 버튼을 눌러야 채점
+  if(currentQuizzes.length === 0) return;
+  if(!answered.every(a=>a===true)) return;
+  setTimeout(showFinalResult, 300);
+}
+
+// 최종 결과 화면 — 예전에는 answer() 안의 setTimeout 콜백에 통째로 들어 있었다
+function showFinalResult(){
+      const sw=document.getElementById('score-wrap');
+      sw.classList.add('show');
+
+      const total=currentQuizzes.length;
+      const pct=Math.round(score/total*100);
+
+      // 과목별 점수 계산 (results 배열 사용 — DOM 조회 없음)
+      const subjNames=SUBJ_NAMES, subjColors=SUBJ_COLORS;
+      const subjStats={};
+      currentQuizzes.forEach((q,qi)=>{
+        if(!subjStats[q.subj]) subjStats[q.subj]={correct:0,total:0,wrong:[]};
+        subjStats[q.subj].total++;
+        if(results[qi]===true){
+          subjStats[q.subj].correct++;
+        } else {
+          subjStats[q.subj].wrong.push({n:q.n,q:q.q,ans:q.opts[q.ans]});
+        }
+      });
+
+      // 과락 체크 (20문항 기준 8개 이하를 맞힌 과목)
+      const gwarakSubjs = Object.entries(subjStats)
+        .filter(([_,st])=>isSubjGwarak(st))
+        .map(([s])=>s);
+      const hasGwarak = gwarakSubjs.length > 0;
+      const overallPass = pct>=60 && !hasGwarak;
+
+      // 전체 점수
+      document.getElementById('score-num').textContent=score+' / '+total+' ('+pct+'점)';
+      let msg='';
+      if(hasGwarak){
+        msg=`⚠ ${gwarakSubjs.join(', ')} 과락 — 평균 ${pct}점이라도 불합격`;
+      } else if(pct>=90){
+        msg='✨ 합격권! 훌륭합니다 🎉';
+      } else if(pct>=70){
+        msg='거의 다 왔어요! 조금만 더 💪';
+      } else if(pct>=60){
+        msg='✓ 평균 60점 + 과락 없음 → 합격 기준 충족!';
+      } else {
+        msg='다시 처음부터 복습하세요! 📚';
+      }
+      document.getElementById('score-msg').textContent=msg;
+
+      // 과목별 종합 결과 렌더링
+      const subjEl=document.getElementById('subj-score');
+      const availSubjs=Object.keys(subjStats);
+      if(availSubjs.length>0){
+        // 전체 요약 카드
+        const wrongTotal=currentQuizzes.length-score;
+        let html2=`
+        <div style="font-size:15.5px;font-weight:500;color:var(--text);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border);">📊 종합 결과</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;">
+          <div style="background:var(--bg3);border-radius:8px;padding:12px;text-align:center;">
+            <div style="font-size:26px;font-weight:700;color:#2c6da4;">${score}</div>
+            <div style="font-size:13px;color:var(--text2);margin-top:2px;">✅ 맞은 문제</div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:12px;text-align:center;">
+            <div style="font-size:26px;font-weight:700;color:#ae3e30;">${wrongTotal}</div>
+            <div style="font-size:13px;color:var(--text2);margin-top:2px;">❌ 틀린 문제</div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:12px;text-align:center;">
+            <div style="font-size:26px;font-weight:700;color:${overallPass?'#267c41':'#ae3e30'};">${pct}점</div>
+            <div style="font-size:13px;color:var(--text2);margin-top:2px;">${overallPass?'✓ 합격':hasGwarak?'⚠ 과락 있음':'✗ 평균 미달'}</div>
+          </div>
+        </div>`;
+
+        // 과목별 상세표
+        html2+=`<div style="font-size:15.5px;font-weight:500;color:var(--text);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);">
+          📋 과목별 상세
+          <span style="font-size:13px;font-weight:400;color:var(--text3);margin-left:6px;">— 과목당 <b style="color:#af3c3d">${GWARAK_CNT}개 이하 과락</b> · <b style="color:#267c41">${PASS_CNT}개 이상 합격</b> (20문항 기준)</span>
+        </div>`;
+        html2+=`<table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border);">
+              <th style="text-align:left;padding:6px 8px;color:var(--text2);font-weight:500;">과목</th>
+              <th style="text-align:center;padding:6px 8px;color:#267c41;font-weight:500;">✅ 맞음</th>
+              <th style="text-align:center;padding:6px 8px;color:#ae3e30;font-weight:500;">❌ 틀림</th>
+              <th style="text-align:center;padding:6px 8px;color:var(--text2);font-weight:500;">점수</th>
+              <th style="text-align:center;padding:6px 8px;color:var(--text2);font-weight:500;">결과</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+        const subjOrder=['1과목','2과목','3과목','4과목','5과목'];
+        const orderedSubjs=subjOrder.filter(s=>availSubjs.includes(s));
+        orderedSubjs.forEach(subj=>{
+          const st=subjStats[subj];
+          const sp=Math.round(st.correct/st.total*100);
+          const color=subjColors[subj]||'#2c6da4';
+          const wrong=st.total-st.correct;
+          // 판정: 8개 이하(40% 이하) 과락 / 12개 이상(60% 이상) 합격 / 그 사이는 미달
+          const isSubjGw   = isSubjGwarak(st);
+          const isSubjPass = isSubjPassing(st);
+          const passStyle = isSubjGw
+            ?'background:#feeceb;color:#af3c3d;'
+            :(isSubjPass ? 'background:#e5f3e5;color:#267c41;' : 'background:#f6eddf;color:#8a6012;');
+          const passText = isSubjGw ? '과락' : (isSubjPass ? '합격' : '미달');
+          html2+=`<tr style="border-bottom:0.5px solid var(--bg3);">
+            <td style="padding:9px 8px;">
+              <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${color};margin-right:5px;"></span>
+              <span style="color:var(--text)">${subj}</span>
+              <div style="font-size:12px;color:var(--text3);margin-top:1px;">${subjNames[subj]||''}</div>
+            </td>
+            <td style="text-align:center;padding:9px 8px;font-weight:700;color:#267c41;">${st.correct}개</td>
+            <td style="text-align:center;padding:9px 8px;font-weight:700;color:#ae3e30;">${wrong}개</td>
+            <td style="text-align:center;padding:9px 8px;">
+              <div style="font-weight:700;color:${color}">${sp}점</div>
+              <div style="background:var(--bg3);border-radius:4px;height:4px;margin-top:3px;overflow:hidden;">
+                <div style="width:${sp}%;height:100%;background:${color};border-radius:4px;"></div>
+              </div>
+            </td>
+            <td style="text-align:center;padding:9px 8px;">
+              <span style="font-size:13px;padding:2px 8px;border-radius:4px;${passStyle}">${passText}</span>
+            </td>
+          </tr>`;
+        });
+        html2+=`</tbody></table>`;
+        subjEl.innerHTML=html2;
+      }
+
+      // 틀린 문제 목록
+      const wrongQuizzes=[];
+      currentQuizzes.forEach((q,qi)=>{
+        if(results[qi]!==true) wrongQuizzes.push(q);
+      });
+      const wrongEl=document.getElementById('wrong-list');
+      const retryBtn=document.getElementById('retry-wrong-btn');
+      if(wrongQuizzes.length>0){
+        retryBtn.style.display='inline-block';
+        retryBtn.onclick=()=>{
+          currentQuizzes=wrongQuizzes;
+          const c=document.getElementById('quiz-count');
+          if(c) c.textContent=wrongQuizzes.length;   // 헤더 문항 수도 함께 갱신
+          initQuiz();
+        };
+        let wHtml=`<div style="font-size:15.5px;font-weight:500;color:var(--text);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);">
+          ❌ 틀린 문제 (${wrongQuizzes.length}개)
+          <span style="font-size:13px;color:var(--text3);font-weight:400;margin-left:6px;">— 클릭해서 해설 확인</span>
+        </div>`;
+        // 과목별로 묶어서 표시
+        const bySubj={};
+        wrongQuizzes.forEach(q=>{
+          if(!bySubj[q.subj]) bySubj[q.subj]=[];
+          bySubj[q.subj].push(q);
+        });
+        Object.keys(bySubj).sort().forEach(subj=>{
+          const color=subjColors[subj]||'#2c6da4';
+          wHtml+=`<div style="font-size:13px;font-weight:500;color:${color};margin:10px 0 6px;padding:4px 8px;background:${color}22;border-radius:4px;border-left:3px solid ${color}">
+            ${subj} · ${subjNames[subj]||subj} (${bySubj[subj].length}개 틀림)
+          </div>`;
+          bySubj[subj].forEach(q=>{
+            const shortQ = q.q.length>55 ? q.q.slice(0,55)+'...' : q.q;
+            wHtml+=`<div style="display:flex;align-items:flex-start;gap:8px;padding:7px 6px;border-bottom:0.5px solid var(--bg3);font-size:14px;border-radius:4px;cursor:pointer;"
+              onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+              <span style="background:#feeceb;color:#af3c3d;padding:2px 7px;border-radius:4px;flex-shrink:0;font-size:13px;white-space:nowrap;">${esc(qLabel(q))}</span>
+              <div style="flex:1;">
+                <div style="color:var(--text2);line-height:1.5;">${esc(shortQ)}</div>
+                <div style="color:#267c41;font-size:13px;margin-top:2px;">정답: ${esc(q.opts[q.ans])}</div>
+              </div>
+            </div>
+            <div style="display:none;background:var(--bg3);border-radius:4px;padding:8px 10px;font-size:13px;color:var(--text2);margin-bottom:4px;line-height:1.7;">
+              💡 ${esc(q.ex)}
+            </div>`;
+          });
+        });
+        wrongEl.innerHTML=wHtml;
+      } else {
+        retryBtn.style.display='none';
+        wrongEl.innerHTML='<div style="text-align:center;color:#267c41;font-size:16.5px;padding:16px;">🎉 모든 문제를 맞혔습니다!</div>';
+      }
+
+      sw.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// 사이드바 검색 데이터
+const menuItems = [
+  {label:'2026-4 CBT 복원예상문제 2026년 4회 예상 문제 후기 출제 주제', action:"showSection('cbt26',this)", subj:'2026-4 CBT 복원예상문제'},
+  {label:'시험 직전 요약 계산 공식 나이퀴스트 섀넌 샤논 데시벨 dB 오류율 BER 다중화 설비기준 법규 숫자 암기 반복 출제', action:"showSection('cram',this)", subj:'시험 직전 요약'},
+  {label:'가산기 감산기 반가산기 전가산기 병렬가산기 리플캐리 캐리예측 CLA BCD가산기 2의보수 누산기 Accumulator', action:"showSection('adder',this)", subj:'5과목'},
+  {label:'PCM 표본화 양자화 잡음 압신 델타변조 나이퀴스트 64kbps', action:"showSection('pcm',this)", subj:'1과목'},
+  {label:'광통신 이론 LED LD 레이저다이오드 PIN APD 수광소자 EDFA 광증폭기 WDM DWDM OTDR 파워예산 처프', action:"showSection('optical',this)", subj:'1과목'},
+  {label:'광섬유 개구수 NA 수광각 임계각 모드 단일모드 다중모드 광손실 산란 분산', action:"showSection('fiber',this)", subj:'1과목'},
+  {label:'리피터 허브 브리지 스위치 라우터 게이트웨이 충돌도메인 STP 스패닝트리', action:"showSection('netdev',this)", subj:'3과목'},
+  {label:'라우팅 RIP OSPF BGP 거리벡터 링크상태 다익스트라 벨만포드 홉', action:"showSection('routing',this)", subj:'3과목'},
+  {label:'토폴로지 성형 링형 버스형 망형 트리형 회선수 계산', action:"showSection('topology',this)", subj:'3과목'},
+  {label:'VLAN 802.1Q 무선랜 802.11 WLAN DHCP DORA 트렁크', action:"showSection('lan',this)", subj:'3과목'},
+  {label:'WAN 교환방식 X.25 프레임릴레이 ATM 셀 53바이트 T1 E1 PDH SDH STM', action:"showSection('wan',this)", subj:'3과목'},
+  {label:'자료 표현 코드 체계 BCD 3초과 그레이 자기보수 가중치 ASCII EBCDIC 유니코드 부동소수점 2의보수 범위', action:"showSection('datacode',this)", subj:'5과목'},
+  {label:'논리방정식 진리표 SOP POS 최소항 최대항 논리식 간소화 만능게이트 NAND NOR', action:"showSection('logic',this)", subj:'5과목'},
+  {label:'카르노맵 Karnaugh 논리식 간소화 최소항 최대항 무관항 SOP POS', action:"showSection('logic',this)", subj:'5과목'},
+  {label:'논리회로 불대수 드모르간 게이트 AND OR NAND NOR XOR 반가산기 전가산기 디코더 멀티플렉서 플립플롭', action:"showSection('logic',this)", subj:'5과목'},
+  {label:'운영체제 프로세스 스케줄링 HRN 교착상태 데드락 페이징 스래싱 디스크', action:"showSection('os',this)", subj:'5과목'},
+  {label:'자료구조 스택 큐 트리 순회 전위 중위 후위 정렬 퀵 이진탐색 해싱', action:"showSection('ds',this)", subj:'5과목'},
+  {label:'데이터베이스 스키마 정규화 키 무결성 SQL DDL DML DCL 트랜잭션 ACID 관계대수', action:"showSection('db',this)", subj:'5과목'},
+  {label:'전기통신사업법 보편적역무 기간통신 부가통신 상호접속 용어정의', action:"showSection('law-tel',this)", subj:'5과목'},
+  {label:'정보통신공사업법 감리 도급 하도급 기술자 등급 사용전검사', action:"showSection('law-const',this)", subj:'5과목'},
+  {label:'정보통신설비 기술기준 접지저항 절연저항 분계점 세대단자함 인출구 통신공동구', action:"showSection('facility',this)", subj:'5과목'},
+  {label:'OSI 7계층 전체 비교표', action:"showSection('osi',this)", subj:'3과목'},
+  {label:'OSI 계층 따라가기 흐름 순서 7계층부터 1계층까지 캡슐화 계층별 처리방법 장비 계측', action:"showSection('osi',this)", subj:'3과목'},
+  {label:'전송 제어 문자 STX ETX SOH EOT ENQ ACK NAK DLE SYN BSC 문자위주 투명성 비트스터핑 전송절차', action:"showAndScroll('l2','anchor-bsc',this)", subj:'1과목 / 3과목'},
+  {label:'OSI 확장 비교표', action:"showSection('osi',this)", subj:'3과목'},
+  {label:'퀴즈', action:"showSection('quiz',this)", subj:'전체'},
+  {label:'나이퀴스트 샤논 채널용량 잡음비 공식', action:"showSection('nyquist',this)", subj:'1과목'},
+  {label:'푸리에 급수 푸리에 변환 주파수 스펙트럼', action:"showSection('fourier',this)", subj:'1과목'},
+  {label:'BER 비트에러율 계산법 (오류비트수)', action:"showSection('ber',this)", subj:'1과목'},
+  {label:'아날로그 변조 AM FM PM 진폭 주파수 위상 변조도 카슨의 법칙 측파대 SSB VSB 리미터 스켈치 디엠퍼시스 과변조', action:"showSection('ammod',this)", subj:'1과목'},
+  {label:'디지털 변조 ASK FSK PSK BPSK QPSK 편이변조 성상도 동기검파 비동기검파 디비트 트리비트', action:"showSection('digmod',this)", subj:'1과목'},
+  {label:'QAM OFDM 직교진폭변조 직교주파수분할다중화 부반송파 직교성 PAPR CP 보호구간 SC-FDMA 16QAM 64QAM 256QAM', action:"showSection('qamofdm',this)", subj:'1과목'},
+  {label:'오류 제어 흐름 제어 패리티 CRC 해밍코드 FEC BEC ARQ 정지대기 Go-Back-N 선택적재전송 슬라이딩윈도우 피기백 체크섬 누화 백색잡음', action:"showSection('errctrl',this)", subj:'1과목'},
+  {label:'다중화 FDM TDM CDM WDM 가드밴드 통계적 시분할 다원접속', action:"showSection('mux',this)", subj:'1과목'},
+  {label:'궤환 발진회로 바크하우젠 정궤환 부궤환 하틀리 콜피츠 위상천이 윈브리지 수정발진기', action:"showSection('osc',this)", subj:'1과목'},
+  {label:'전파 파장 람다 c/f 광속 SNR 신호대잡음비 데시벨 dB 10log 20log 전력비 전압비', action:"showSection('calc',this)", subj:'1과목'},
+  {label:'비트전송률 변조속도 보율 baud bps 펄스시간 디비트 트리비트 쿼드비트 QPSK 진수', action:"showSection('bitrate',this)", subj:'1과목'},
+  {label:'진수 변환 빠른 방법 자릿값 8칸 128 64 32 16 8 4 2 1 큰것부터 빼기 4칸씩 끊기 암산 요령 시프트 홀짝 검산', action:"showAndScroll('radix','anchor-fast',this)", subj:'1과목 / 5과목'},
+  {label:'진수 변환 2진수 8진수 10진수 16진수 binary octal hex 이진 십육진 보수 2의보수 1의보수 BCD 그레이코드 ASCII 비트 바이트 변환기 계산기', action:"showSection('radix',this)", subj:'1과목 / 5과목'},
+  {label:'명령어 사이클 인출 fetch 실행 execute PC IR MAR MBR 누산기 레지스터 CPU 클럭', action:"showSection('cpu',this)", subj:'5과목'},
+  {label:'등방성 안테나 전계강도 전파손실 자유공간', action:"showSection('antenna',this)", subj:'1과목'},
+  {label:'주파수 대역 마이크로파 마이크로웨이브 밴드 L S C X Ku K Ka V W 밴드 VLF LF MF HF VHF UHF SHF EHF 단파 전리층 위성통신 상향 하향 강우감쇠 페이딩 다이버시티 자유공간손실', action:"showSection('band',this)", subj:'1과목 / 2과목'},
+  {label:'CSMA/CD vs CA', action:"showSection('csma',this)", subj:'1과목 / 3과목'},
+  {label:'전송 제어 문자 (STX/ETX/SOH)', action:"showSection('flags',this)", subj:'1과목 / 5과목'},
+  {label:'OLT ONT ONU 광통신 장치 PON 백본', action:"showSection('olt',this)", subj:'2과목'},
+  {label:'핸드오버 핸드오프 분류 (Hard/Soft/Softer)', action:"showSection('handoff',this)", subj:'2과목'},
+  {label:'CCTV 폐쇄회로 영상감시 DVR NVR PoE H.264 H.265 IP카메라', action:"showSection('cctv',this)", subj:'2과목'},
+  {label:'PTZ 팬 틸트 줌 스윙 Swing 오토팬 프리셋 투어 크루즈 패턴 트레이스 오토트래킹 광학줌 디지털줌 Pelco-D RS-485 ONVIF 스피드돔 하우징', action:"showAndScroll('cctv','anchor-ptz',this)", subj:'2과목'},
+  {label:'CATV 케이블TV HFC QAM DOCSIS 헤드엔드 동축케이블', action:"showSection('catv',this)", subj:'2과목'},
+  {label:'UTP 케이블 Cat.3 Cat.4 Cat.5 Cat.6 Cat.7 카테고리', action:"showSection('cable',this)", subj:'2과목'},
+  {label:'IEEE 802 표준', action:"showSection('ieee',this)", subj:'2과목'},
+  {label:'계층별 NW 장비', action:"showSection('osi',this)", subj:'2과목'},
+  {label:'7계층 응용 계층', action:"showSection('l7',this)", subj:'3과목'},
+  {label:'6계층 표현 계층 (SSL/TLS/암호화)', action:"showSection('l6',this)", subj:'3과목'},
+  {label:'5계층 세션 계층', action:"showSection('l5',this)", subj:'3과목'},
+  {label:'4계층 전송 계층 (TCP/UDP)', action:"showSection('l4',this)", subj:'3과목'},
+  {label:'3계층 네트워크 계층 (IP/ICMP/ARP)', action:"showSection('l3',this)", subj:'3과목'},
+  {label:'IP 주소 클래스 A B C D E 선두비트 첫옥텟 범위 기본 서브넷마스크 사설IP 공인IP 루프백 127.0.0.1 멀티캐스트 APIPA 169.254 NAT RFC1918 판별기', action:"showSection('ipclass',this)", subj:'3과목'},
+  {label:'실효값 평균값 파고율 파형률 RMS 정현파 반파정현파 구형파 반파구형파 삼각파 톱니파 최댓값 크레스트 폼팩터', action:"showSection('waveval',this)", subj:'1과목'},
+  {label:'TCP 제어비트 플래그 URG ACK PSH RST SYN FIN CWR ECE NS 긴급포인터 UAPRSF 조합 SYNACK', action:"showAndScroll('flags','anchor-ctrlbits',this)", subj:'3과목'},
+  {label:'용어 카드 플래시카드 단어 뜻 맞추기 암기 카드 복습', action:"cdOpen('def',this)", subj:'용어 카드'},
+  {label:'암기표 포트번호 IEEE802 표준 UTP 카테고리 Cat 주파수 대역 마이크로파 밴드 OLT ONU ONT 통암기 표', action:"cdOpen('num',this)", subj:'암기표'},
+  {label:'공식 카드 계산식 암기 공식 암송', action:"cdOpen('calc',this)", subj:'용어 카드'},
+  {label:'기출문제 퀴즈 모의고사 500문항 과락 합격', action:"showSection('quiz',this)", subj:'기출문제'},
+  {label:'ICMP IGMP ping traceroute 에코 Echo Request Reply 시간초과 도달불가 TTL 멀티캐스트 그룹 스누핑 프로토콜번호', action:"showAndScroll('l3','anchor-icmp',this)", subj:'3과목'},
+  {label:'특수주소 루프백 127.0.0.1 ::1 미지정 0.0.0.0 링크로컬 169.254 APIPA fe80 멀티캐스트 ff02 브로드캐스트 ULA fc00 기본경로 default route', action:"showAndScroll('ipclass','anchor-special',this)", subj:'3과목'},
+  {label:'H.264 H.265 AVC HEVC 코덱 영상압축 MPEG GOP I프레임 P프레임 B프레임 CTU 매크로블록 VVC AV1 비트레이트', action:"showAndScroll('cctv','anchor-codec',this)", subj:'2과목'},
+  {label:'T1 E1 북미 유럽 A-law μ-law 87.6 255 13절선 15절선 HDB3 B8ZS AMI 타임슬롯 멀티프레임 193 256 로버드비트', action:"showAndScroll('wan','anchor-t1e1',this)", subj:'3과목'},
+  {label:'집중구내통신실 MDF실 면적 세대수 12 18 22 28 34 디지털방송 3제곱미터 출입문 유효너비 유효높이 방화문 IDF 층단자함 수평배선계', action:"showAndScroll('facility','anchor-mdf',this)", subj:'5과목'},
+  {label:'IPv4 vs IPv6', action:"showAndScroll('l3','anchor-ipv4',this)", subj:'3과목'},
+  {label:'서브넷팅 / CIDR 계산', action:"showAndScroll('ipclass','anchor-subnet',this)", subj:'3과목'},
+  {label:'클래스와 서브넷마스크 차이 1~126 첫옥텟 기본마스크 빌린비트 서브넷수 호스트수 구분', action:"showAndScroll('ipclass','anchor-classvsmask',this)", subj:'3과목'},
+  {label:'ARP / RARP', action:"showAndScroll('l3','anchor-arp',this)", subj:'3과목'},
+  {label:'2계층 데이터링크 (이더넷/토큰링)', action:"showSection('l2',this)", subj:'3과목'},
+  {label:'HDLC 프레임 구조', action:"showAndScroll('l2','anchor-hdlc',this)", subj:'3과목'},
+  {label:'802.2 LLC 논리링크제어', action:"showAndScroll('l2','anchor-llc',this)", subj:'3과목'},
+  {label:'1계층 물리 계층 (전송매체)', action:"showSection('l1',this)", subj:'3과목'},
+  {label:'TCP vs UDP 비교', action:"showSection('tcp_udp',this)", subj:'3과목'},
+  {label:'포트번호 총정리 (TCP/UDP 구분)', action:"showSection('ports',this)", subj:'3과목'},
+  {label:'클라우드 컴퓨팅 IaaS PaaS SaaS BPaaS FaaS 서버리스 DaaS 가상화 하이퍼바이저 컨테이너 도커 퍼블릭 프라이빗 하이브리드 온프레미스 Scale-Out Scale-Up SDN', action:"showSection('cloud',this)", subj:'4과목 / 5과목'},
+  {label:'MTTF MTTR MTBF 가동률 가용도 가용률 Availability 신뢰도 이중화 병렬 직렬 다운타임 RTO RPO SLA FCAPS 유지보수 장애대응 평균고장간격 평균수리시간', action:"showSection('mtbf',this)", subj:'4과목'},
+  {label:'대칭키 비대칭키 공개키 개인키 비밀키 키배송 키 배송 문제 키교환 키 교환 RSA ECC Diffie-Hellman DSA 전자서명 기밀성 부인방지 하이브리드 세션키 블록암호 스트림암호 키 개수', action:"showAndScroll('crypto','anchor-keys',this)", subj:'4과목'},
+  {label:'암호화 AES AES-256 대칭키 비대칭키 공개키 개인키 RSA DES 3DES SEED ARIA HIGHT LEA 라운드 SPN Feistel ECB CBC CTR GCM 해시 SHA-256 MD5 전자서명 기밀성 무결성 가용성 부인방지', action:"showSection('crypto',this)", subj:'4과목'},
+];
+
+function sidebarSearch(val){
+  const input = document.getElementById('sidebar-search-input');
+  const clear = document.getElementById('sidebar-clear');
+  const results = document.getElementById('sidebar-search-results');
+  if(!input||!clear||!results) return;
+  clear.style.display = val ? 'block' : 'none';
+  var tw = document.getElementById('top-search'); if(tw) tw.classList.toggle('has-value', !!val);
+  if(!val.trim()){
+    results.style.display='none';
+    return;
+  }
+  const kw = val.trim().toLowerCase();
+  let matched = menuItems.filter(m => m.label.toLowerCase().includes(kw));
+  if(!matched.length){
+    results.innerHTML='<div class="no-search-result">검색 결과 없음</div>';
+  } else {
+    var seen = {};
+    matched = matched.filter(function(m){ if(seen[m.action]) return false; seen[m.action] = 1; return true; });
+    results.innerHTML = matched.map(m=>menuResultHtml(m, kw)).join('');
+    void matched.map(m=>`
+      <div class="sub-item" style="margin:2px 4px;padding:8px 10px;" onclick="${m.action}" role="button" tabindex="0">
+        <div>
+          <div style="font-size:14px;color:var(--text)">${highlight(m.label,kw)}</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:1px">${esc(m.subj)}</div>
+        </div>
+      </div>`).join('');
+  }
+  results.style.display='block';
+}
+
+function highlight(text, kw){
+  const idx = text.toLowerCase().indexOf(kw);
+  if(idx<0) return esc(text);
+  return esc(text.slice(0,idx))
+    +'<span style="color:#2c6da4;font-weight:700">'+esc(text.slice(idx,idx+kw.length))+'</span>'
+    +esc(text.slice(idx+kw.length));
+}
+
+function clearSidebarSearch(){
+  const inp=document.getElementById('sidebar-search-input');
+  const clr=document.getElementById('sidebar-clear');
+  const res=document.getElementById('sidebar-search-results');
+  if(inp) inp.value='';
+  if(clr) clr.style.display='none';
+  if(res) res.style.display='none';
+  var tw=document.getElementById('top-search'); if(tw) tw.classList.remove('has-value');
+}
+
+// 상단 과목 탭의 드롭다운 패널을 모두 닫는다
+function closeAllPanels(except){
+  document.querySelectorAll('.subj-items.open').forEach(p=>{
+    if(p === except) return;
+    p.classList.remove('open','flip-right');
+    const h = p.parentElement && p.parentElement.querySelector('.subj-head');
+    if(h) h.classList.remove('open');
+  });
+}
+
+function toggleSubj(id, head){
+  const items = document.getElementById(id);
+  if(!items) return;
+  const willOpen = !items.classList.contains('open');
+  closeAllPanels(items);              // 한 번에 하나만 열리도록
+  items.classList.toggle('open', willOpen);
+  head.classList.toggle('open', willOpen);
+  if(willOpen) fitPanel(items);
+}
+
+// 패널이 화면 오른쪽 밖으로 나가면 오른쪽 정렬로 뒤집는다
+function fitPanel(panel){
+  if(document.getElementById('sidebar')) return;   // 사이드바 아코디언은 위치 계산이 필요 없다
+  panel.classList.remove('flip-right');
+  // 좁은 화면은 CSS 가 좌우를 화면 폭에 고정한다
+  if(window.innerWidth <= 820){
+    panel.style.left = ''; panel.style.right = ''; panel.style.top = '';
+    return;
+  }
+  const grp  = panel.parentElement;
+  const head = grp ? grp.querySelector('.subj-head') : null;
+  if(!head) return;
+  const hr = head.getBoundingClientRect();
+  const w  = panel.offsetWidth;
+  let left = hr.left;
+  if(left + w > window.innerWidth - 8) left = window.innerWidth - 8 - w;
+  if(left < 8) left = 8;
+  panel.style.right = 'auto';
+  panel.style.left  = left + 'px';
+  panel.style.top   = (hr.bottom + 7) + 'px';
+}
+
+// 상단바 높이를 CSS 변수로 노출 → 진행바 sticky 위치, 스크롤 여백에 사용
+function syncTopbarHeight(){
+  const tb = document.getElementById('topbar');
+  if(!tb) return;
+  document.documentElement.style.setProperty('--topbar-h', tb.offsetHeight+'px');
+}
+window.addEventListener('resize', function(){
+  syncTopbarHeight();
+  document.querySelectorAll('.subj-items.open').forEach(fitPanel);
+});
+// 탭 줄을 가로로 스크롤하면 열려 있던 패널 위치가 어긋나므로 다시 맞춘다
+document.addEventListener('DOMContentLoaded', function(){
+  const tabs = document.querySelector('.tabs');
+  if(tabs) tabs.addEventListener('scroll', function(){
+    document.querySelectorAll('.subj-items.open').forEach(fitPanel);
+  }, {passive:true});
+});
+
+// 바깥 클릭 / ESC 로 열린 패널과 검색 결과를 닫는다
+document.addEventListener('click', function(e){
+  if(e.target.closest && e.target.closest('.sidebar-search')) return;
+  hideSearchResults();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key !== 'Escape') return;
+  closeNav();
+  hideSearchResults();
+});
+
+// ══════════ C안 레이아웃: 사이드바 · 모바일 메뉴 · 통합 검색 · 목차 ══════════
+var EMOJI_RX = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{2300}-\u{23FF}\u{FE0F}\u{200D}\u{3030}]/gu;
+function isMobileNav(){ return window.matchMedia('(max-width: 959px)').matches; }
+function toggleNav(){ document.body.classList.toggle('nav-open'); document.body.classList.remove('search-open'); }
+function closeNav(){ document.body.classList.remove('nav-open'); }
+function toggleSearch(){
+  var open = !document.body.classList.contains('search-open');
+  document.body.classList.toggle('search-open', open);
+  closeNav();
+  if(open){ var i = document.getElementById('sidebar-search-input'); if(i) setTimeout(function(){ i.focus(); }, 30); }
+  else { clearSidebarSearch(); }
+}
+function focusSearch(){
+  if(isMobileNav()) document.body.classList.add('search-open');
+  var i = document.getElementById('sidebar-search-input');
+  if(i){ i.focus(); i.select(); }
+}
+function hideSearchResults(){
+  var r = document.getElementById('sidebar-search-results');
+  if(r) r.style.display = 'none';
+}
+var SUBJECT_START = {s1:'csma', s2:'ieee', s3:'osi', s4:'netmgmt', s5:'cpu'};
+function openSubject(sid){
+  var p = document.getElementById(sid);
+  if(!p) return;
+  var first = p.querySelector('.sub-item[data-sec="' + (SUBJECT_START[sid] || '') + '"]') || p.querySelector('.sub-item[data-sec]');
+  if(first) first.click();
+}
+function menuResultHtml(m, kw){
+  var sec = (m.action.match(/show(?:Section|AndScroll)\('([^']+)'/) || [])[1];
+  var navEl = sec ? document.querySelector('.sidebar .sub-item[data-sec="' + sec + '"]') : null;
+  var anc = (m.action.match(/showAndScroll\('[^']+'\s*,\s*'([^']+)'/) || [])[1];
+  var childEl = anc ? document.querySelector('.sidebar .sub-item-child[onclick*="\'' + anc + '\'"]') : null;
+  var title = childEl ? childEl.textContent.trim() : (navEl ? navEl.textContent.trim() : '');
+  var words = m.label.split(/\s+/).filter(function(w){ return w.toLowerCase().indexOf(kw) >= 0; });
+  var sub = esc(m.subj) + (title && words.length ? ' · ' + words.slice(0, 3).map(function(w){ return highlight(w, kw); }).join(', ') : '');
+  return '<div class="sub-item sr-item" onclick="' + m.action.replace(/"/g, '&quot;') + '" role="button" tabindex="0"><div>'
+    + '<div class="sr-title">' + highlight(title || m.label, kw) + '</div><div class="sr-sub">' + sub + '</div></div></div>';
+}
+function syncNav(id, el){
+  var side = document.getElementById('sidebar');
+  var crumb = document.getElementById('crumb');
+  if(!side) return;
+  side.querySelectorAll('.active').forEach(function(n){ n.classList.remove('active'); });
+  if(!el || !side.contains(el)) el = side.querySelector('[data-sec="' + id + '"]');
+  var panel = el && el.closest ? el.closest('.subj-items') : null;
+  if(el) el.classList.add('active');
+  if(crumb){ crumb.hidden = true; crumb.innerHTML = ''; }
+  if(panel){
+    closeAllPanels(panel);
+    panel.classList.add('open');
+    var head = panel.parentElement.querySelector('.subj-head');
+    if(head) head.classList.add('open');
+    var grp = null, p = el.previousElementSibling;
+    while(p){ if(p.classList.contains('nav-group')){ grp = p.textContent; break; } p = p.previousElementSibling; }
+    if(crumb && head && id !== 'home'){
+      var name = head.querySelector('.subj-name').textContent.replace(/^(\d)\.\s*/, '$1과목 ');
+      crumb.className = 'crumb ' + (head.className.match(/c-s\d/) || [''])[0];
+      crumb.innerHTML = '<span class="crumb-dot" style="background:var(--sc)"></span><b style="color:var(--sct)">' + esc(name) + '</b>'
+        + (grp ? '<span>/</span><span>' + esc(grp) + '</span>' : '');
+      crumb.hidden = false;
+    }
+    if(!isMobileNav()){
+      var r = el.getBoundingClientRect(), sr = side.getBoundingClientRect();
+      if(r.top < sr.top + 60 || r.bottom > sr.bottom - 20) side.scrollTop += (r.top - sr.top) - sr.height / 3;
+    }
+  }
+  closeNav();
+}
+var _tocHeads = [];
+function buildToc(id){
+  var toc = document.getElementById('page-toc');
+  if(!toc) return;
+  var sec = document.getElementById('sec-' + id);
+  _tocHeads = [];
+  if(!sec || id === 'home' || id === 'quiz' || id === 'cards'){ toc.hidden = true; toc.innerHTML = ''; return; }
+  var heads = Array.prototype.filter.call(sec.querySelectorAll('.sub-title, .relq-head'), function(h){
+    return h.offsetParent !== null && h.textContent.trim();
+  });
+  if(heads.length < 3){ toc.hidden = true; toc.innerHTML = ''; return; }
+  var html = '<div class="toc-label">이 페이지에서</div><div class="toc-list">';
+  heads.forEach(function(h, i){
+    if(!h.id) h.id = 'toc-' + id + '-' + i;
+    var t = h.classList.contains('relq-head') ? '관련 기출문제' : h.textContent.replace(EMOJI_RX, '').replace(/\s+/g, ' ').trim();
+    html += '<a href="#' + h.id + '" data-t="' + h.id + '">' + esc(t) + '</a>';
+  });
+  toc.innerHTML = html + '</div>';
+  toc.hidden = false;
+  _tocHeads = heads;
+  tocSpy();
+}
+function tocSpy(){
+  if(!_tocHeads.length) return;
+  var cur = _tocHeads[0], lim = (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--topbar-h')) || 64) + 40;
+  _tocHeads.forEach(function(h){ if(h.getBoundingClientRect().top <= lim) cur = h; });
+  document.querySelectorAll('#page-toc a').forEach(function(a){ a.classList.toggle('on', a.dataset.t === cur.id); });
+}
+window.addEventListener('scroll', tocSpy, {passive:true});
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('#page-toc a');
+  if(!a) return;
+  e.preventDefault();
+  var t = document.getElementById(a.dataset.t);
+  if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+function secTextCache(){
+  var out = [];
+  document.querySelectorAll('.section').forEach(function(s){
+    if(s.id !== 'sec-home') out.push(s.textContent.toLowerCase());
+  });
+  return out;
+}
+function unifiedSearch(v){
+  var wrap = document.getElementById('top-search');
+  if(wrap) wrap.classList.toggle('has-value', !!v);
+  sidebarSearch(v);
+  var res = document.getElementById('sidebar-search-results');
+  if(!res || !v.trim()) return;
+  var kw = v.trim().toLowerCase();
+  var n = secTextCache().filter(function(t){ return t.indexOf(kw) >= 0; }).length;
+  var none = res.querySelector('.no-search-result');
+  if(none) none.textContent = '메뉴에 일치하는 주제가 없습니다';
+  else res.insertAdjacentHTML('afterbegin', '<div class="sr-label">주제</div>');
+  res.insertAdjacentHTML('beforeend', '<div class="sr-sep"></div>'
+    + '<div class="sub-item sr-full" role="button" tabindex="0" onclick="runFullSearch()">'
+    + '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>'
+    + '<span>본문 전체에서 “' + esc(v.trim()) + '” 찾기</span><span class="nav-count">' + n + '개 섹션</span></div>');
+}
+function runFullSearch(){
+  var i = document.getElementById('sidebar-search-input');
+  var v = i ? i.value : '';
+  if(!v.trim()) return;
+  hideSearchResults();
+  document.querySelectorAll('.sidebar .active').forEach(function(n){ n.classList.remove('active'); });
+  var crumb = document.getElementById('crumb'); if(crumb) crumb.hidden = true;
+  var toc = document.getElementById('page-toc'); if(toc) toc.hidden = true;
+  _tocHeads = [];
+  doSearch(v);
+  if(i) i.blur();
+  document.body.classList.remove('search-open');
+  closeNav();
+  window.scrollTo(0, 0);
+}
+function searchKey(e){
+  var res = document.getElementById('sidebar-search-results');
+  var items = res ? Array.prototype.slice.call(res.querySelectorAll('.sub-item')) : [];
+  var cur = items.findIndex(function(x){ return x.classList.contains('kb'); });
+  if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+    if(!items.length) return;
+    e.preventDefault();
+    if(cur >= 0) items[cur].classList.remove('kb');
+    cur = e.key === 'ArrowDown' ? (cur + 1) % items.length : (cur <= 0 ? items.length - 1 : cur - 1);
+    items[cur].classList.add('kb');
+    items[cur].scrollIntoView({block:'nearest'});
+  } else if(e.key === 'Enter'){
+    e.preventDefault();
+    if(cur >= 0) items[cur].click(); else runFullSearch();
+  } else if(e.key === 'Escape'){
+    clearSidebarSearch();
+    e.target.blur();
+    document.body.classList.remove('search-open');
+  }
+}
+document.addEventListener('keydown', function(e){
+  var t = (e.target && e.target.tagName) || '';
+  var typing = t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT' || (e.target && e.target.isContentEditable);
+  if(((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) || (e.key === '/' && !typing)){
+    e.preventDefault();
+    focusSearch();
+  }
+});
+window.addEventListener('resize', function(){ if(!isMobileNav()){ closeNav(); document.body.classList.remove('search-open'); } });
+function syncNavCounts(){
+  try{
+    var set = function(id, v){ document.querySelectorAll('#' + id + ', [data-mirror="' + id + '"]').forEach(function(e){ e.textContent = v; }); };
+    var q = (typeof quizzes !== 'undefined') ? quizzes.length : 0;
+    var d = CARD_DATA.filter(function(c){ return (c.k || 'def') !== 'num'; }).length;
+    var n = CARD_DATA.filter(function(c){ return c.k === 'num'; }).length;
+    set('nav-quiz-count', q); set('nav-def-count', d); set('nav-num-count', n);
+    set('home-quiz-count', q + '문항'); set('home-def-count', d + '장'); set('home-num-count', n + '장');
+  }catch(e){}
+}
+
+// ══════════ 2026년 4회 CBT 복원 문제 ══════════
+var cbtMode = 'study', cbtSubject = 'all', cbtReviewIds = [];
+function cbtCards(){ return Array.from(document.querySelectorAll('#sec-cbt26 .cbt-card')); }
+function cbtVisibleCards(){ return cbtCards().filter(function(c){ return !c.hidden; }); }
+function cbtScore(){
+  var all = cbtCards(), cards = cbtVisibleCards();
+  var done = cards.filter(function(c){ return c.dataset.done; }).length;
+  var ok = cards.filter(function(c){ return c.dataset.done === 'ok'; }).length;
+  document.getElementById('cbt-score').textContent = done + ' / ' + cards.length + ' 풀이 · 정답 ' + ok + ' · 오답 ' + (done - ok);
+  document.getElementById('cbt-wrong-count').textContent = cbtMode === 'review' ? cbtReviewIds.length : all.filter(function(c){ return c.dataset.done === 'ng'; }).length;
+  document.getElementById('cbt-reset').disabled = !done;
+  var progress = document.querySelector('#cbt-bar .cbt-progress');
+  progress.setAttribute('aria-valuemax', cards.length || 1);
+  progress.setAttribute('aria-valuenow', done);
+  document.getElementById('cbt-progress-fill').style.width = (cards.length ? done / cards.length * 100 : 0) + '%';
+  all.forEach(function(c){
+    var result = c.dataset.done || '';
+    c.querySelector('.cbt-answer-state').textContent = result === 'ok' ? '정답' : result === 'ng' ? '오답 · 복습 필요' : '미풀이';
+    var a = document.querySelector('#sec-cbt26 .cbt-topic[data-q="' + c.id.replace('cbt-q', '') + '"]');
+    if(a){ a.dataset.result = result; a.setAttribute('aria-label', c.querySelector('.cbt-topic-name').textContent + (result === 'ok' ? ' · 정답' : result === 'ng' ? ' · 오답' : ' · 미풀이')); }
+  });
+}
+function cbtPick(btn){
+  var card = btn.closest('.cbt-card');
+  if(!card || card.dataset.done) return;
+  var ans = card.dataset.ans, pick = btn.dataset.i;
+  card.querySelectorAll(':scope > .quiz-opts .qopt').forEach(function(b){
+    b.disabled = true;
+    if(b.dataset.i === ans) b.classList.add('correct');
+    b.setAttribute('aria-pressed', String(b === btn));
+  });
+  if(pick !== ans) btn.classList.add('wrong');
+  card.dataset.done = pick === ans ? 'ok' : 'ng';
+  card.querySelector('.cbt-ex').classList.add('show');
+  card.querySelector('.cbt-extra').hidden = false;
+  if(cbtMode === 'review' && pick !== ans) card.querySelector('.cbt-concept').open = true;
+  cbtScore();
+}
+function cbtClearCard(card){
+  delete card.dataset.done;
+  card.querySelectorAll(':scope > .quiz-opts .qopt').forEach(function(b){ b.disabled = false; b.classList.remove('correct','wrong'); b.setAttribute('aria-pressed','false'); });
+  card.querySelector('.cbt-ex').classList.remove('show');
+  card.querySelector('.cbt-extra').hidden = true;
+  card.querySelector('.cbt-variant').hidden = true;
+  card.querySelector('.cbt-extra-start').setAttribute('aria-expanded','false');
+  card.querySelector('.cbt-extra-start').textContent = '변형 문제 1개 더 풀기';
+  card.querySelector('.cbt-recall-answer').open = false;
+  if(cbtMode !== 'study') card.querySelector('.cbt-concept').open = false;
+}
+function cbtRetryOne(btn){
+  var card = btn.closest('.cbt-card');
+  cbtClearCard(card); cbtScore();
+  card.querySelector(':scope > .quiz-opts .qopt').focus({preventScroll:true});
+}
+function cbtReset(){
+  cbtVisibleCards().forEach(cbtClearCard);
+  cbtScore();
+}
+function cbtSetMode(mode){
+  if(mode === 'review' && cbtMode === 'review') return;
+  // Capture wrong answers once; keep the retry list stable as answers change.
+  if(mode === 'review'){
+    cbtReviewIds = cbtCards().filter(function(c){ return c.dataset.done === 'ng'; }).map(function(c){ return c.id; });
+    cbtCards().filter(function(c){ return cbtReviewIds.includes(c.id); }).forEach(cbtClearCard);
+  }
+  cbtMode = mode;
+  document.getElementById('sec-cbt26').dataset.mode = mode;
+  document.querySelectorAll('.cbt-modes button').forEach(function(b){
+    var on = b.dataset.mode === mode; b.classList.toggle('active',on); b.setAttribute('aria-pressed',String(on));
+  });
+  document.querySelectorAll('#sec-cbt26 .cbt-compare').forEach(function(d){ d.open = mode === 'study'; });
+  cbtCards().forEach(function(c){ c.querySelector('.cbt-concept').open = mode === 'study'; c.querySelector('.cbt-recall-answer').open = false; });
+  document.getElementById('cbt-mode-help').textContent = mode === 'study'
+    ? '비교표 → 핵심 개념 → 10초 회상 → 확인 문제 순서로 학습하세요. 답을 고르면 해설과 변형 문제가 열립니다.'
+    : mode === 'review' ? '오답을 모아 선택한 답을 지웠습니다. 다시 틀리면 핵심 개념을 자동으로 펼칩니다. 복습 중에는 목록이 유지됩니다.'
+    : '비교표와 개념을 접고 먼저 풀어 보세요. 답을 고르면 해설과 추가 연습 버튼이 나타납니다.';
+  cbtFilter(cbtSubject);
+}
+function cbtFilter(k){
+  cbtSubject = k;
+  document.querySelectorAll('#cbt-bar .qfbtn').forEach(function(b){
+    var on = b.dataset.f === k; b.classList.toggle('active',on); b.setAttribute('aria-pressed',String(on));
+  });
+  cbtCards().forEach(function(c){ c.hidden = !(k === 'all' || c.dataset.subj === k) || (cbtMode === 'review' && !cbtReviewIds.includes(c.id)); });
+  document.querySelectorAll('#sec-cbt26 .cbt-subj').forEach(function(h){
+    var subject = h.dataset.subj || (h.className.match(/c-s(\d)/) || [])[1];
+    var count = cbtVisibleCards().filter(function(c){ return c.dataset.subj === subject; }).length;
+    h.hidden = !count;
+    h.querySelector('.cbt-cnt').textContent = count + '문항';
+  });
+  document.querySelectorAll('#sec-cbt26 .cbt-compare').forEach(function(d){ d.hidden = !cbtVisibleCards().some(function(c){ return c.dataset.subj === d.dataset.subj; }); });
+  var empty = document.getElementById('cbt-empty');
+  empty.hidden = cbtVisibleCards().length > 0;
+  empty.querySelector('b').textContent = cbtReviewIds.length ? '이 과목에는 복습할 문제가 없습니다.' : '아직 오답이 없습니다.';
+  empty.querySelector('p').textContent = cbtReviewIds.length ? '다른 과목을 선택하거나 전체 문제로 돌아가세요.' : '문제를 푼 뒤 오답을 모아 다시 풀 수 있습니다.';
+  cbtScore(); cbtVariantScore();
+  if(document.getElementById('sec-cbt26').classList.contains('visible')) buildToc('cbt26');
+}
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('#sec-cbt26 .cbt-topic');
+  if(!a) return;
+  e.preventDefault();
+  cbtSubject = 'all';
+  cbtSetMode('study');
+  var t = document.getElementById('cbt-q' + a.dataset.q);
+  if(t){
+    t.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'});
+    t.focus({preventScroll:true}); t.classList.add('cbt-flash');
+    setTimeout(function(){ t.classList.remove('cbt-flash'); },1400);
+  }
+});
+function cbtInit(){
+  var bar = document.getElementById('cbt-bar');
+  if(!bar) return;   // CBT 섹션이 아직 없으면(지연 로드 전) 건너뜀
+  if(typeof ResizeObserver !== 'undefined'){
+    new ResizeObserver(function(entries){
+      document.documentElement.style.setProperty('--cbt-bar-h', entries[0].target.offsetHeight + 'px');
+    }).observe(bar);
+  }
+  cbtFilter('all');
+}
+cbtInit();
+
+function cbtVariantScore(){
+  var list = cbtVisibleCards().map(function(c){ return c.querySelector('.cbt-variant'); });
+  var done = list.filter(function(v){ return v.dataset.done; }).length;
+  var ok = list.filter(function(v){ return v.dataset.done === 'ok'; }).length;
+  document.getElementById('cbt-extra-score').textContent = '추가 연습 ' + done + ' / ' + list.length + ' 풀이 · 정답 ' + ok + ' · 오답 ' + (done-ok);
+  document.getElementById('cbt-extra-reset').disabled = !done;
+}
+function cbtToggleVariant(btn){
+  var v = document.getElementById(btn.getAttribute('aria-controls'));
+  v.hidden = !v.hidden;
+  btn.setAttribute('aria-expanded',String(!v.hidden));
+  btn.textContent = v.hidden ? '변형 문제 1개 더 풀기' : '변형 문제 접기';
+}
+function cbtPickVariant(btn){
+  var v = btn.closest('.cbt-variant');
+  if(v.dataset.done) return;
+  var correct = btn.dataset.i === v.dataset.ans;
+  v.querySelectorAll('.qopt').forEach(function(b){ b.disabled=true; b.classList.toggle('correct',b.dataset.i===v.dataset.ans); b.setAttribute('aria-pressed',String(b===btn)); });
+  if(!correct) btn.classList.add('wrong');
+  v.dataset.done = correct ? 'ok' : 'ng';
+  v.querySelector('.cbt-variant-state').textContent = correct ? '정답' : '오답 · 개념 다시 확인';
+  v.querySelector('.cbt-variant-result').hidden=false;
+  if(!correct && cbtMode === 'review') v.closest('.cbt-card').querySelector('.cbt-concept').open=true;
+  cbtVariantScore();
+}
+function cbtClearVariant(v){
+  delete v.dataset.done;
+  v.querySelectorAll('.qopt').forEach(function(b){ b.disabled=false; b.classList.remove('correct','wrong'); b.setAttribute('aria-pressed','false'); });
+  v.querySelector('.cbt-variant-state').textContent='미풀이';
+  v.querySelector('.cbt-variant-result').hidden=true;
+}
+function cbtRetryVariant(btn){
+  var v = btn.closest('.cbt-variant'); cbtClearVariant(v); cbtVariantScore();
+  v.querySelector('.qopt').focus({preventScroll:true});
+}
+function cbtResetVariants(){
+  cbtVisibleCards().forEach(function(c){ cbtClearVariant(c.querySelector('.cbt-variant')); });
+  cbtVariantScore();
+}
+
+function showAndScroll(id, anchorId, el){
+  showSection(id, el);
+  setTimeout(()=>{
+    const anchor = document.getElementById(anchorId);
+    if(anchor){
+      anchor.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }, 50);
+}
+
+
+// ══════════ 섹션별 관련 기출 자동 표시 ══════════
+// 섹션 id → 기출에서 찾을 키워드(정규식). quizzes 배열을 그대로 재사용한다.
+const REL_KW = {
+  // 1과목
+  'csma':     'CSMA|충돌|이더넷 접근|다원접속|다중접속',
+  'ammod':    '\\bAM\\b|\\bFM\\b|진폭 ?변조|주파수 ?변조|위상 ?변조|변조지수|프리엠파시스|디엠파시스',
+  'digmod':   'ASK|FSK|PSK|QPSK|디지털 ?변조|편이 ?변조',
+  'qamofdm':  'QAM|OFDM|OFDMA|직교|부반송파|PAPR|SC-FDMA',
+  'pcm':      'PCM|표본화|양자화|부호화|압신|A-law|μ-law|표본화 ?주기|나이퀴스트 ?표본',
+  'flags':    'SYN|ACK|FIN|RST|플래그|제어 ?비트|제어 ?문자|전송 ?제어|긴급|ENQ|NAK|ETX|STX',
+  'radix':    '진수|2진|8진|16진|10진|보수|변환한 값',
+  'datacode':'ASCII|BCD|EBCDIC|그레이|해밍|패리티|코드 ?체계|자료 ?표현',
+  'logic':    '논리식|불대수|게이트|부울|플립플롭|Flip-Flop|카르노',
+  'adder':    '가산기|감산기|반가산|전가산|반감산',
+  'ber':      '비트 ?에러|에러율|오류율|BER|오류 ?비트',
+  'band':     '주파수 ?대역|마이크로파|밴드|페이딩|다이버시티|전리층|HF|VHF|UHF|도플러|파장|전파',
+  'antenna':  '안테나|전계 ?강도|이득|등방성|지향성|빔포밍|급전선|개구',
+  'waveval':  '실효값|평균값|파고율|파형률|구형파|정현파|삼각파|rms',
+  'calc':     '데시벨|\\[dB\\]|dBm|SNR|신호대 ?잡음|잡음지수|파장|손실',
+  'bitrate':  '비트율|전송률|보오율|baud|변조속도|bps|전송 ?속도',
+  'mux':      '다중화|FDM|TDM|CDM|WDM|다중 ?전송|타임슬롯|Guard Band|통계적 ?시분할',
+  'optical':  '광통신|광원|수광|LED|LD|APD|PIN|광증폭|EDFA',
+  'fiber':    '광섬유|광케이블|개구수|단일 ?모드|다중 ?모드|분산|코어|클래딩',
+  'errctrl':  '오류 ?제어|흐름 ?제어|ARQ|재전송|검출|정정|슬라이딩|Piggyback|해밍|CRC',
+  'osc':      '발진|궤환|바크하우젠|콜피츠|하틀리|증폭기 ?이득|클리핑',
+  'nyquist':  '나이퀴스트|샤논|채널 ?용량|대역폭.*용량',
+  'fourier':  '푸리에|스펙트럼|주파수 ?영역|고조파',
+  // 2과목
+  'ieee':     'IEEE ?802|무선 ?LAN 표준|802\\.1|802\\.3|802\\.11|802\\.15',
+  'osi':      'OSI|계층|참조 ?모델|프로토콜 ?계층',
+  'cable':    'UTP|STP|동축|Cat\\.|카테고리|케이블|트위스트',
+  'switch':   '교환 ?방식|축적 ?교환|회선 ?교환|데이터그램|가상 ?회선|패킷 ?교환|메시지 ?교환|교환기|PBX|VoIP|SIP|H\\.323|얼랑|호량|중계선|DSU|모뎀|집중화|다중화 ?설비|신호 ?방식',
+  'handoff':  '핸드오프|핸드오버|Handoff|Handover|섹터',
+  'mobile':   '이동통신|기지국|HLR|VLR|LTE|5G|CDMA|WCDMA|세대.*기술|위성|블루투스|지그비|NFC|RFID|WAVE|전력 ?제어|IoT|셀',
+  'olt':      'OLT|ONT|ONU|PON|FTTH|광가입자',
+  'cctv':     'CCTV|카메라|영상|감시|DVR|NVR|PTZ|H\\.26|코덱|하우징|해상도|HD-SDI',
+  'catv':     'CATV|케이블 ?TV|HFC|방송|DTV|HDTV|IPTV|OTT|셋탑|지상파|8-VSB',
+  // 3과목
+  'l7':       '응용 ?계층|HTTP|FTP|SMTP|DNS|Telnet|SNMP|DHCP',
+  'l6':       '표현 ?계층|암호화|압축|인코딩|JPEG|MPEG|ASCII 변환',
+  'l5':       '세션 ?계층|동기점|대화 ?제어|세션',
+  'l4':       '전송 ?계층|TCP|UDP|세그먼트|포트|3-way|흐름 ?제어|윈도우',
+  'l3':       '네트워크 ?계층|IPv[46]|IP ?주소|IP ?헤더|라우팅|ARP|RARP|ICMP|IGMP|서브넷|\\bTTL\\b',
+  'ipclass':  '클래스|서브넷|CIDR|IP ?주소|호스트 수|네트워크 ?주소|마스크|루프백|사설',
+  'l2':       '데이터링크|프레임|MAC|HDLC|LLC|802\\.2|브리지|스위치|오류 ?제어',
+  'l1':       '물리 ?계층|리피터|허브|전송 ?매체|비트|커넥터',
+  'tcp_udp':  'TCP|UDP|세그먼트|데이터그램|포트|연결형|비연결',
+  'ports':    '포트 ?번호|well.?known|21|23|25|53|80|161|162|443',
+  'routing':  '라우팅|\\bRIP\\b|OSPF|\\bBGP\\b|EIGRP|거리 ?벡터|링크 ?상태|플러딩|홉 ?수|경로 ?설정|자율 ?시스템',
+  'wan':      '교환 ?방식|축적 ?교환|데이터그램|가상 ?회선|X\\.25|프레임 ?릴레이|ATM|셀|\\bT1\\b|\\bE1\\b|SDH|SONET|PDH|STM|전용 ?회선|MPLS|B-ISDN',
+  'lan':      'LAN|VLAN|무선랜|WLAN|DHCP|이더넷|802\\.11|802\\.1Q|브로드캐스트 ?도메인',
+  'netdev':   '리피터|허브|브리지|스위치|라우터|게이트웨이|장비|계층.*장비',
+  'topology': '토폴로지|성형|링형|버스형|망형|Mesh|Star|Ring|링크 ?수',
+  // 4과목
+  'crypto':   '암호|공개키|비밀키|대칭|비대칭|RSA|AES|DES|전자 ?서명|해시|기밀성|무결성',
+  'netmgmt':  'SNMP|MIB|NMS|망 ?관리|네트워크 ?관리|에이전트|Trap|RMON|SMI',
+  'sysops':   '운용|유지보수|장애|시스템 ?분석|설계|운영 ?계획|루프백|보수 ?시험|생명주기',
+  'backup':   '백업|RAID|이중화|신뢰도|재해|복구|RTO|RPO|가동률|MTBF|MTTR',
+  'secthreat':'공격|위협|해킹|스니핑|스푸핑|DDoS|DoS|악성|바이러스|웜|변조|가로채기|하이재킹|Smurf|Watering',
+  'secdev':   '방화벽|Firewall|IDS|IPS|VPN|IPsec|UTM|접근 ?통제|인증|ISMS|망분리|생체',
+  'cloud':    '클라우드|IaaS|PaaS|SaaS|가상화|SDN|하둡|빅데이터',
+  'mtbf':     'MTBF|MTTR|MTTF|가동률|가용|신뢰도|고장|병렬.*신뢰|평균 ?고장',
+  // 5과목
+  'cpu':      'CPU|프로세서|레지스터|명령어|인터럽트|클럭|버스|마이크로|주소 ?지정|캐시|메모리',
+  'os':       '운영체제|OS|커널|리눅스|Linux|프로세스|스케줄링|교착|가상 ?기억|파일 ?구조',
+  'ds':       '자료구조|스택|큐|트리|정렬|탐색|알고리즘|리스트',
+  'db':       '데이터베이스|DB|SQL|DDL|DML|DCL|트랜잭션|정규화|스키마',
+  'law-tel':  '전기통신사업|기간통신|부가통신|과학기술정보통신부장관|허가|신고|전기통신번호',
+  'law-const':'공사업법|감리|감리원|공사|착공|준공|설계도서|용역업자|시공',
+  'facility': '기술기준|접지|절연|맨홀|핸드홀|구내|단자함|인출구|배선|집중구내통신실|MDF|IDF|홈네트워크|설비'
+};
+
+// 섹션이 주로 속한 과목 — 같은 과목 문제를 앞에 보여 준다
+const REL_SUBJ = {
+  'csma':['1과목','3과목'],'ammod':['1과목'],'digmod':['1과목'],'qamofdm':['1과목'],'pcm':['1과목'],
+  'flags':['1과목','3과목'],'radix':['5과목','1과목'],'datacode':['1과목','5과목'],'logic':['1과목','5과목'],
+  'adder':['1과목','5과목'],'ber':['1과목'],'band':['1과목'],'antenna':['1과목'],'waveval':['1과목'],
+  'calc':['1과목'],'bitrate':['1과목'],'mux':['1과목','2과목'],'optical':['1과목'],'fiber':['1과목'],
+  'errctrl':['1과목'],'osc':['1과목'],'nyquist':['1과목'],'fourier':['1과목'],
+  'ieee':['2과목','3과목'],'osi':['3과목','2과목'],'cable':['2과목'],'switch':['2과목'],
+  'handoff':['2과목','3과목'],'mobile':['2과목'],'olt':['2과목'],'cctv':['2과목'],'catv':['2과목'],
+  'l7':['3과목'],'l6':['3과목'],'l5':['3과목'],'l4':['3과목'],'l3':['3과목'],'ipclass':['3과목','5과목'],
+  'l2':['3과목'],'l1':['3과목'],'tcp_udp':['3과목'],'ports':['3과목'],'routing':['3과목'],
+  'wan':['3과목'],'lan':['3과목'],'netdev':['3과목','4과목'],'topology':['3과목','2과목'],
+  'crypto':['4과목'],'netmgmt':['4과목'],'sysops':['4과목'],'backup':['4과목'],'secthreat':['4과목'],
+  'secdev':['4과목'],'cloud':['5과목','4과목'],'mtbf':['4과목'],
+  'cpu':['5과목'],'os':['5과목'],'ds':['5과목'],'db':['5과목'],
+  'law-tel':['5과목'],'law-const':['5과목'],'facility':['5과목']
+};
+
+function relQuizRender(id){
+  const sec = document.getElementById('sec-' + id);
+  if(!sec || typeof quizzes === 'undefined') return;
+  let box = sec.querySelector('.relq');
+  const kw = REL_KW[id];
+  if(!kw){ if(box) box.remove(); return; }
+  let re;
+  try{ re = new RegExp(kw, 'i'); }catch(e){ return; }
+  const subjs = REL_SUBJ[id] || [];
+  const hits = quizzes.filter(function(q){
+    return re.test(q.q + ' ' + (q.ex || '') + ' ' + ((q.opts || []).join(' ')));
+  }).map(function(q){
+    // 관련도 점수 — 같은 과목 > 문제 본문에 등장 > 보기/해설에만 등장
+    var sc = 0;
+    var i = subjs.indexOf(q.subj);
+    if(i === 0) sc += 12; else if(i > 0) sc += 6;
+    if(re.test(q.q)) sc += 4;
+    if(re.test((q.opts || []).join(' '))) sc += 2;
+    if(re.test(q.ex || '')) sc += 1;
+    return { q: q, sc: sc };
+  }).sort(function(a, b){ return b.sc - a.sc; }).map(function(x){ return x.q; });
+  if(!hits.length){ if(box) box.remove(); return; }
+  if(!box){ box = document.createElement('div'); box.className = 'relq'; sec.appendChild(box); }
+  if(box.dataset.built === id) return;      // 같은 섹션이면 다시 그리지 않는다
+  box.dataset.built = id;
+
+  const MAX = 8;
+  const show = hits.slice(0, MAX);
+  let html = '<div class="relq-head">📝 관련 기출문제'
+           + '<span class="relq-n">' + hits.length + '문항 중 ' + show.length + '개</span></div>'
+           + '<div class="relq-sub">문제를 누르면 정답과 해설이 나옵니다.</div>';
+  show.forEach(function(q){
+    const ans = (q.opts && q.opts[q.ans] != null) ? q.opts[q.ans] : '-';
+    html += '<div class="relq-item" onclick="this.classList.toggle(\'open\')" role="button" tabindex="0">'
+         +    '<div class="relq-q"><span class="relq-y">' + esc(q.year) + ' ' + esc(q.subj) + '</span>' + esc(q.q) + '</div>'
+         +    '<div class="relq-hint">눌러서 정답 보기</div>'
+         +    '<div class="relq-a"><b style="color:#267c41">정답</b> ' + esc(ans)
+         +      (q.ex ? '<br><b style="color:#8a6012">해설</b> ' + esc(q.ex) : '') + '</div>'
+         +  '</div>';
+  });
+  if(hits.length > MAX){
+    html += '<div style="margin-top:10px;"><button class="qfbtn" onclick="showSection(\'quiz\',null)">'
+         +  '나머지 ' + (hits.length - MAX) + '문항은 기출문제 퀴즈에서 →</button></div>';
+  }
+  box.innerHTML = html;
+}
+
+function showSection(id,el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('visible'));
+  const ieeeQB=document.getElementById('ieee-quiz-block');
+  if(ieeeQB) ieeeQB.style.display=(id==='ieee')?'block':'none';
+  const sec=document.getElementById('sec-'+id);
+  if(sec) sec.classList.add('visible');
+  // 선택 표시는 .active 클래스로만 처리한다.
+  // (예전에는 style.color=''로 지워서, "(예정)" 항목과 그룹 헤더의
+  //  인라인 흐린 색까지 함께 날아가는 버그가 있었다)
+  document.querySelectorAll('.nav-item,.sub-item,.sub-item-child,.subj-head').forEach(n=>{
+    n.classList.remove('active');
+  });
+  if(el && el.classList){
+    el.classList.add('active');
+    // 드롭다운 패널 안의 항목을 골랐으면 해당 과목 탭도 선택 표시
+    const panel = el.closest ? el.closest('.subj-items') : null;
+    if(panel && panel.parentElement){
+      const head = panel.parentElement.querySelector('.subj-head');
+      if(head) head.classList.add('active');
+    }
+  }
+  syncNav(id, el);    // 사이드바 선택 표시 · 과목 펼치기 · 위치 표시
+  const s=document.getElementById('search');
+  if(s) s.value='';
+  const hint=document.getElementById('search-hint');
+  if(hint) hint.style.display='none';
+  clearSidebarSearch();
+  try{ relQuizRender(id); }catch(e){}
+  window.scrollTo(0,0);
+  try{ buildToc(id); }catch(e){}
+  try{ navSyncUrl(id); }catch(e){}
+}
+
+// ══════════ 주소(URL) 동기화 — 주제마다 고유 주소 (/s1/csma/ 등) ══════════
+// 경로 목록은 tools/build_pages.py 가 assets/routes.js 로 만든다.
+var _navReplace = false, _navPop = false;
+function navSyncUrl(id){
+  if(_navPop || !window.history || !history.pushState) return;
+  var R = window.__ROUTES__ || {};
+  var home = ['/', R.home ? R.home[1] : document.title];
+  var r = id === 'home' ? home : (R[id] || home);   // 주소가 없는 화면(용어 카드 등)은 홈 주소로
+  if(r[1]) document.title = r[1];
+  if(location.pathname === r[0]) return;
+  history[_navReplace ? 'replaceState' : 'pushState']({sec:id}, '', r[0]);
+}
+function navGo(e, id, el){
+  if(e && (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button === 1)) return true;  // 새 탭 열기는 그대로
+  if(e) e.preventDefault();
+  if(id === 'home') showSection('home', el); else showSection(id, el);
+  return false;
+}
+window.addEventListener('popstate', function(){
+  var R = window.__ROUTES__ || {}, path = location.pathname, id = null;
+  if(path === '/' || path === '/index.html') id = 'home';
+  else for(var k in R){ if(R[k][0] === path){ id = k; break; } }
+  if(!id || (id !== 'home' && !document.getElementById('sec-' + id))){ location.reload(); return; }
+  _navPop = true;
+  try{ showSection(id, null); if(R[id] && R[id][1]) document.title = R[id][1]; } finally { _navPop = false; }
+});
+
+function doSearch(v){
+  const hint=document.getElementById('search-hint');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('visible'));
+
+  // 검색어를 비우면 홈으로 복원 (예전에는 직전 검색 결과가 그대로 남아 있었음)
+  if(!v.trim()){
+    const home=document.getElementById('sec-home');
+    if(home) home.classList.add('visible');
+    if(hint) hint.style.display='none';
+    window.scrollTo(0,0);
+    return;
+  }
+
+  const kw=v.trim().toLowerCase();
+  document.querySelectorAll('.section').forEach(s=>{
+    if(s.id!=='sec-home' && s.textContent.toLowerCase().includes(kw))s.classList.add('visible');
+  });
+  const hitCount=document.querySelectorAll('.section.visible').length;
+  if(hitCount===0){
+    const ov=document.getElementById('sec-overview');
+    if(ov) ov.classList.add('visible');
+    if(hint){
+      hint.style.display='block';
+      hint.textContent='"'+v.trim()+'" 검색 결과가 없습니다 — OSI 전체 비교표를 대신 표시합니다.';
+    }
+  } else if(hint){
+    hint.style.display='block';
+    hint.textContent='"'+v.trim()+'" 포함 섹션 '+hitCount+'개';
+  }
+}
+
+// "전체 다시 풀기" — 오답 재도전으로 좁혀진 목록이 아니라
+// 현재 선택된 회차·과목 필터의 전체 문제로 되돌린다.
+function restartAll(){
+  applyFilters();
+}
+
+function goQuiz(){
+  showSection('quiz', null);
+  // 이미 풀던 문제가 있으면 초기화하지 않는다 (진행상황 보존).
+  // 아직 아무것도 안 푼 상태에서만 새로 시작.
+  const started = answered.some(a=>a===true);
+  if(!started) initQuiz();
+}
+
+function updateProgress(){
+  const done = answered.filter(a=>a===true).length;
+  const total = currentQuizzes.length;
+  const pct = total>0 ? Math.round(done/total*100) : 0;
+  const txt = document.getElementById('progress-txt');
+  const fg  = document.getElementById('progress-fg');
+  if(txt) txt.textContent = done+' / '+total+' 완료';
+  if(fg)  fg.style.width  = pct+'%';
+  updateResumeNote();
+  renderPager();
+}
+
+function showMidResult(){
+  const done = answered.filter(a=>a===true).length;
+  if(done===0){
+    alert('아직 풀은 문제가 없습니다!');
+    return;
+  }
+  const correctSoFar = results.filter(r=>r===true).length;
+  const wrongSoFar   = results.filter(r=>r===false).length;
+  const unansweredSoFar = currentQuizzes.length - done;
+  const pct = done>0 ? Math.round(correctSoFar/done*100) : 0;
+
+  // 과목별 집계
+  const subjNames=SUBJ_NAMES, subjColors=SUBJ_COLORS;
+  const stats={};
+  currentQuizzes.forEach((q,qi)=>{
+    if(answered[qi]!==true) return; // 미풀이 제외
+    if(!stats[q.subj]) stats[q.subj]={correct:0,wrong:0,total:0};
+    stats[q.subj].total++;
+    if(results[qi]===true) stats[q.subj].correct++;
+    else stats[q.subj].wrong++;
+  });
+
+  let html3=`
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px;">
+    <div style="background:var(--bg3);border-radius:8px;padding:10px 6px;text-align:center;">
+      <div style="font-size:21px;font-weight:700;color:#267c41;">${correctSoFar}</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:2px;">✅ 맞음</div>
+    </div>
+    <div style="background:var(--bg3);border-radius:8px;padding:10px 6px;text-align:center;">
+      <div style="font-size:21px;font-weight:700;color:#ae3e30;">${wrongSoFar}</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:2px;">❌ 틀림</div>
+    </div>
+    <div style="background:var(--bg3);border-radius:8px;padding:10px 6px;text-align:center;">
+      <div style="font-size:21px;font-weight:700;color:#8a6012;">${unansweredSoFar}</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:2px;">⏭ 안 푼</div>
+    </div>
+    <div style="background:var(--bg3);border-radius:8px;padding:10px 6px;text-align:center;">
+      <div style="font-size:21px;font-weight:700;color:${pct>=60?'#2c6da4':'#ae3e30'};">${pct}점</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:2px;">정답률</div>
+    </div>
+  </div>
+  <div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);">
+    과목별 현황
+    <span style="font-size:12px;font-weight:400;color:var(--text3);margin-left:4px;">— 푼 문제 기준 ${Math.round(GWARAK_RATE*100)}% 이하 과락 위험 · ${Math.round(PASS_RATE*100)}% 이상 양호</span>
+  </div>
+  <table style="width:100%;border-collapse:collapse;font-size:14px;">
+    <thead><tr style="border-bottom:1px solid var(--border);">
+      <th style="text-align:left;padding:5px 6px;color:var(--text2);font-weight:500;">과목</th>
+      <th style="text-align:center;padding:5px 6px;color:#267c41;font-weight:500;">✅</th>
+      <th style="text-align:center;padding:5px 6px;color:#ae3e30;font-weight:500;">❌</th>
+      <th style="text-align:center;padding:5px 6px;color:#8a6012;font-weight:500;">⏭</th>
+      <th style="text-align:center;padding:5px 6px;color:var(--text2);font-weight:500;">정답률</th>
+      <th style="text-align:center;padding:5px 6px;color:var(--text2);font-weight:500;">상태</th>
+    </tr></thead>
+    <tbody>`;
+
+  ['1과목','2과목','3과목','4과목','5과목'].forEach(subj=>{
+    const subPool = currentQuizzes.filter(q=>q.subj===subj);
+    if(subPool.length===0) return;
+    const st = stats[subj]||{correct:0,wrong:0,total:0};
+    const notDone = subPool.length - st.total;
+    const rate = st.total>0 ? Math.round(st.correct/st.total*100) : '-';
+    const color = subjColors[subj]||'#2c6da4';
+    // 중간 집계는 "푼 문제"만 대상이므로, 아직 한 문제도 안 푼 과목은 과락이 아니라 '미응시'
+    const notStarted = st.total === 0;
+    const isSubjGw   = isSubjGwarak(st);
+    const isSubjPass = isSubjPassing(st);
+    const correctColor = notStarted ? 'var(--text3)' : (isSubjGw ? '#af3c3d' : (isSubjPass ? '#267c41' : '#8a6012'));
+    const statusBadge = notStarted
+      ? '<span style="font-size:12px;padding:2px 6px;border-radius:3px;background:var(--bg3);color:var(--text3);">미응시</span>'
+      : (isSubjGw
+        ? '<span style="font-size:12px;padding:2px 6px;border-radius:3px;background:#feeceb;color:#af3c3d;">과락 위험</span>'
+        : (isSubjPass
+          ? '<span style="font-size:12px;padding:2px 6px;border-radius:3px;background:#e5f3e5;color:#267c41;">양호</span>'
+          : '<span style="font-size:12px;padding:2px 6px;border-radius:3px;background:#f6eddf;color:#8a6012;">주의</span>'));
+    html3+=`<tr style="border-bottom:0.5px solid var(--bg3);">
+      <td style="padding:8px 6px;">
+        <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${color};margin-right:4px;"></span>
+        <span style="color:var(--text)">${subj}</span>
+      </td>
+      <td style="text-align:center;padding:8px 6px;color:${correctColor};font-weight:700;">${st.correct}</td>
+      <td style="text-align:center;padding:8px 6px;color:#ae3e30;font-weight:700;">${st.wrong}</td>
+      <td style="text-align:center;padding:8px 6px;color:#8a6012;font-weight:700;">${notDone}</td>
+      <td style="text-align:center;padding:8px 6px;">
+        ${st.total>0?`<span style="color:${color};font-weight:700;">${rate}%</span>`:'<span style="color:var(--text3)">-</span>'}
+      </td>
+      <td style="text-align:center;padding:8px 6px;">${statusBadge}</td>
+    </tr>`;
+  });
+  html3+=`</tbody></table>`;
+
+  // 복습 대상 (틀린 + 안 푼) 목록
+  const wrongList = [];
+  const unansweredList = [];
+  currentQuizzes.forEach((q,qi)=>{
+    if(answered[qi]!==true) unansweredList.push(q);
+    else if(results[qi]===false) wrongList.push(q);
+  });
+  const reviewTotal = wrongList.length + unansweredList.length;
+
+  if(reviewTotal > 0){
+    // 과목별로 묶어 표시
+    const reviewBySubj = {};
+    wrongList.forEach(q=>{
+      if(!reviewBySubj[q.subj]) reviewBySubj[q.subj]={wrong:[],unanswered:[]};
+      reviewBySubj[q.subj].wrong.push(q);
+    });
+    unansweredList.forEach(q=>{
+      if(!reviewBySubj[q.subj]) reviewBySubj[q.subj]={wrong:[],unanswered:[]};
+      reviewBySubj[q.subj].unanswered.push(q);
+    });
+
+    html3 += `
+      <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">
+        <div style="font-size:15.5px;font-weight:500;color:var(--text);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+          <span>🎯 복습 대상
+            <span style="color:#ae3e30;font-weight:700;">틀림 ${wrongList.length}</span> +
+            <span style="color:#8a6012;font-weight:700;">안 푼 ${unansweredList.length}</span> =
+            <span style="color:#2c6da4;font-weight:700;">${reviewTotal}개</span>
+          </span>
+          <button onclick="document.getElementById('mid-review-list').classList.toggle('show-list');this.textContent=document.getElementById('mid-review-list').classList.contains('show-list')?'▲ 접기':'▼ 목록 보기';"
+            style="background:none;border:1px solid var(--border);color:var(--text2);font-size:13px;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:inherit;">▼ 목록 보기</button>
+        </div>
+        <div id="mid-review-list" style="max-height:0;overflow:hidden;transition:max-height 0.2s;">
+          <div style="max-height:260px;overflow-y:auto;background:var(--bg3);border-radius:6px;padding:8px;margin-bottom:10px;">`;
+
+    const subjOrder = ['1과목','2과목','3과목','4과목','5과목'];
+    subjOrder.forEach(subj=>{
+      const group = reviewBySubj[subj];
+      if(!group) return;
+      const color = subjColors[subj]||'#2c6da4';
+      const groupCount = group.wrong.length + group.unanswered.length;
+      html3 += `<div style="font-size:12px;font-weight:500;color:${color};margin:8px 0 4px;padding:3px 6px;background:${color}22;border-radius:3px;border-left:2px solid ${color};">
+        ${subj} · ${subjNames[subj]||subj} (${groupCount}개)
+      </div>`;
+      // 틀린 문제
+      group.wrong.forEach(q=>{
+        const shortQ = q.q.length>45 ? q.q.slice(0,45)+'...' : q.q;
+        html3 += `<div style="display:flex;align-items:flex-start;gap:6px;padding:5px 4px;font-size:13px;border-bottom:0.5px solid var(--border);">
+          <span style="background:#feeceb;color:#af3c3d;padding:2px 6px;border-radius:3px;flex-shrink:0;font-size:12px;white-space:nowrap;">❌ ${esc(qLabel(q))}</span>
+          <span style="color:var(--text2);line-height:1.5;flex:1;">${esc(shortQ)}</span>
+        </div>`;
+      });
+      // 안 푼 문제
+      group.unanswered.forEach(q=>{
+        const shortQ = q.q.length>45 ? q.q.slice(0,45)+'...' : q.q;
+        html3 += `<div style="display:flex;align-items:flex-start;gap:6px;padding:5px 4px;font-size:13px;border-bottom:0.5px solid var(--border);">
+          <span style="background:#eaeff4;color:#8a6012;padding:2px 6px;border-radius:3px;flex-shrink:0;font-size:12px;white-space:nowrap;">⏭ ${esc(qLabel(q))}</span>
+          <span style="color:var(--text2);line-height:1.5;flex:1;">${esc(shortQ)}</span>
+        </div>`;
+      });
+    });
+
+    html3 += `
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:10px;">
+          <button onclick="retryWrongAndUnanswered()"
+            style="padding:10px 20px;border-radius:20px;border:1px solid #ae3e30;font-size:15.5px;cursor:pointer;background:#feeceb;color:#ae4024;font-family:inherit;font-weight:600;">
+            🎯 틀린·안 푼 문제만 다시 풀기 (${reviewTotal}개)
+          </button>
+        </div>
+      </div>`;
+  } else {
+    html3 += `
+      <div style="margin-top:18px;padding:14px;background:#e5f3e5;border:1px solid #267c4144;border-radius:8px;text-align:center;color:#267c41;font-size:15.5px;">
+        🎉 지금까지 모두 정답! 계속 풀어보세요.
+      </div>`;
+  }
+
+  const mc = document.getElementById('mid-result-content');
+  if(mc) mc.innerHTML=html3;
+  const ov = document.getElementById('mid-result-overlay');
+  if(ov) ov.classList.add('show');
+}
+
+// 틀린 문제 + 안 푼 문제만 다시 풀기
+function retryWrongAndUnanswered(){
+  const filtered = [];
+  currentQuizzes.forEach((q,qi)=>{
+    if(answered[qi]!==true || results[qi]===false){
+      filtered.push(q);
+    }
+  });
+  if(filtered.length===0) return;
+  // 팝업 닫기
+  const ov = document.getElementById('mid-result-overlay');
+  if(ov) ov.classList.remove('show');
+  // 필터된 문제로 재시작
+  currentQuizzes = filtered;
+  const cnt = document.getElementById('quiz-count');
+  if(cnt) cnt.textContent = filtered.length;
+  initQuiz();
+  // 퀴즈 섹션 상단으로 스크롤
+  setTimeout(()=>{
+    const sec = document.getElementById('sec-quiz');
+    if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
+  }, 100);
+}
+
+function closeMidResult(e){
+  // 오버레이 바깥(배경) 클릭일 때만 닫는다. 인자 없이 호출하면 무조건 닫힘.
+  if(e && e.target !== document.getElementById('mid-result-overlay')) return;
+  const ov = document.getElementById('mid-result-overlay');
+  if(ov) ov.classList.remove('show');
+}
+// 사이드바 항목은 div 라서 기본 키보드 동작이 없다.
+// role="button" 이 붙은 항목에서 Enter / Space 를 클릭으로 처리한다.
+document.addEventListener('keydown', function(e){
+  if(e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+  const t = e.target;
+  if(!t || !t.getAttribute || t.getAttribute('role') !== 'button') return;
+  if(e.key !== 'Enter'){ var cs = document.getElementById('sec-cards'); if(cs && cs.classList.contains('visible')) return; }   // 카드 화면의 Space 는 뒤집기 전용
+  e.preventDefault();
+  t.click();
+});
+
+
+// ══════════════════════════════════════════════════════════
+//  진수 변환기 (2 / 8 / 10 / 16)
+//  정수부는 BigInt 로 처리해 자릿수 제한이 없고,
+//  소수부는 최대 12자리까지 반복 곱셈/나눗셈으로 변환한다.
+// ══════════════════════════════════════════════════════════
+const RADIX_DIGITS = '0123456789ABCDEF';
+const FRAC_LIMIT = 12;              // 소수부 최대 자릿수
+const RADIX_NAME = {2:'2진수', 8:'8진수', 10:'10진수', 16:'16진수'};
+
+// 문자열(base 진수) → BigInt
+function radixToBig(str, base){
+  const B = BigInt(base);
+  let v = 0n;
+  for(const ch of str){
+    v = v * B + BigInt(RADIX_DIGITS.indexOf(ch));
+  }
+  return v;
+}
+// BigInt → 문자열(base 진수)
+function bigToRadix(v, base){
+  if(v === 0n) return '0';
+  const B = BigInt(base);
+  let s = '';
+  while(v > 0n){
+    s = RADIX_DIGITS[Number(v % B)] + s;
+    v = v / B;
+  }
+  return s;
+}
+// 소수부 문자열(base 진수) → 실수
+function fracToNumber(str, base){
+  let v = 0, p = 1/base;
+  for(const ch of str){ v += RADIX_DIGITS.indexOf(ch) * p; p /= base; }
+  return v;
+}
+// 실수(0~1) → 소수부 문자열(base 진수)
+function numberToFrac(v, base){
+  let s = '', guard = 0;
+  while(v > 1e-12 && guard < FRAC_LIMIT){
+    v *= base;
+    const d = Math.floor(v + 1e-12);
+    s += RADIX_DIGITS[d];
+    v -= d;
+    guard++;
+  }
+  return s;
+}
+
+function radixSample(base, value){
+  const f = document.getElementById('radix-from');
+  const i = document.getElementById('radix-input');
+  if(f) f.value = base;
+  if(i) i.value = value;
+  radixConvert();
+  const st = document.getElementById('radix-steps');
+  if(st && st.style.display === 'none') toggleRadixSteps();
+}
+
+function toggleRadixSteps(){
+  const st  = document.getElementById('radix-steps');
+  const btn = document.getElementById('radix-steps-btn');
+  if(!st) return;
+  const open = st.style.display === 'none';
+  st.style.display = open ? 'block' : 'none';
+  if(btn) btn.textContent = open ? '▲ 풀이 과정 접기' : '▼ 풀이 과정 보기';
+}
+
+function radixConvert(){
+  const inp = document.getElementById('radix-input');
+  const sel = document.getElementById('radix-from');
+  const errEl = document.getElementById('radix-error');
+  if(!inp || !sel) return;
+
+  const base = parseInt(sel.value, 10);
+  const raw  = inp.value.trim().toUpperCase().replace(/[\s,_]/g,'');
+  const set = (id, v)=>{ const e = document.getElementById(id); if(e) e.textContent = v; };
+  const showErr = msg=>{
+    if(!errEl) return;
+    if(msg){ errEl.style.display='block'; errEl.innerHTML = '⚠ '+esc(msg); }
+    else   { errEl.style.display='none';  errEl.innerHTML = ''; }
+  };
+
+  if(raw === ''){
+    ['radix-out2','radix-out8','radix-out10','radix-out16'].forEach(id=>set(id,'—'));
+    const st = document.getElementById('radix-steps'); if(st) st.innerHTML='';
+    showErr(''); return;
+  }
+
+  // 부호 · 소수점 분리
+  let s = raw, neg = false;
+  if(s[0] === '-'){ neg = true; s = s.slice(1); }
+  const dot = s.indexOf('.');
+  const intStr  = (dot < 0 ? s : s.slice(0, dot)) || '0';
+  const fracStr = dot < 0 ? '' : s.slice(dot+1);
+
+  // 유효성 검사
+  const allowed = RADIX_DIGITS.slice(0, base);
+  const bad = (intStr + fracStr).split('').find(c => allowed.indexOf(c) < 0);
+  if(bad !== undefined || s.indexOf('.') !== s.lastIndexOf('.')){
+    ['radix-out2','radix-out8','radix-out10','radix-out16'].forEach(id=>set(id,'—'));
+    const st = document.getElementById('radix-steps'); if(st) st.innerHTML='';
+    showErr(RADIX_NAME[base]+'에는 '+allowed.split('').join(', ')+' 만 쓸 수 있습니다. ("'+(bad===undefined?'.':bad)+'" 는 사용 불가)');
+    return;
+  }
+  showErr('');
+
+  const bigVal  = radixToBig(intStr, base);
+  const fracVal = fracStr ? fracToNumber(fracStr, base) : 0;
+  const sign = neg ? '-' : '';
+
+  const result = {};
+  [2,8,10,16].forEach(b=>{
+    let t = bigToRadix(bigVal, b);
+    if(fracStr){
+      const f = numberToFrac(fracVal, b);
+      if(f) t += '.' + f;
+    }
+    result[b] = sign + t;
+    set('radix-out'+b, result[b]);
+  });
+
+  renderRadixSteps(base, intStr, fracStr, bigVal, fracVal, result, neg);
+}
+
+function renderRadixSteps(base, intStr, fracStr, bigVal, fracVal, result, neg){
+  const el = document.getElementById('radix-steps');
+  if(!el) return;
+
+  const box = (color, title, body)=>
+    '<div style="background:var(--bg2);border:1px solid var(--border);border-left:3px solid '+color+
+    ';border-radius:9px;padding:12px 14px;margin-bottom:10px;">'+
+    '<div style="font-size:14px;font-weight:700;color:'+color+';margin-bottom:7px;">'+title+'</div>'+body+'</div>';
+  const pre = t => '<div class="flow" style="margin-top:0;white-space:pre-wrap;">'+t+'</div>';
+
+  let html = '';
+
+  // ① 입력 → 10진수 (자릿값 전개)
+  if(base !== 10){
+    const d = intStr.split('');
+    const n = d.length;
+    let terms = [], calc = [];
+    d.forEach((ch,i)=>{
+      const p = n-1-i, v = RADIX_DIGITS.indexOf(ch);
+      terms.push(esc(ch)+'×'+base+(p?'<sup>'+p+'</sup>':'⁰'));
+      calc.push(String(v * Math.pow(base,p)));
+    });
+    html += box('#2c6da4','① 입력값 → 10진수 &nbsp;<span style="font-weight:400;color:var(--text3)">자릿값을 전개해 더한다</span>',
+      pre(esc(intStr)+'<sub>('+base+')</sub>\n= '+terms.join(' + ')+'\n= '+calc.join(' + ')+
+          '\n= <b style="color:#1d252d">'+bigVal.toString()+'</b>'+
+          (fracStr ? '\n\n소수부 0.'+esc(fracStr)+'<sub>('+base+')</sub> = <b style="color:#1d252d">'+
+            Number(fracVal.toFixed(10))+'</b>' : '')));
+  }
+
+  // ② 10진수 → 2진수 (나눗셈)
+  let lines = [], v = bigVal, rem = [];
+  if(v === 0n){ lines.push('0 ÷ 2 = 0 … <span style="color:#8a6012">0</span>'); rem.push('0'); }
+  let guard = 0;
+  while(v > 0n && guard < 80){
+    const q = v / 2n, r = v % 2n;
+    lines.push(String(v).padStart(6,' ')+' ÷ 2 = '+String(q).padStart(6,' ')+' … <span style="color:#8a6012">'+r+'</span>');
+    rem.push(String(r)); v = q; guard++;
+  }
+  const binInt = bigToRadix(bigVal, 2);
+  html += box('#267c41','② 10진수 → 2진수 &nbsp;<span style="font-weight:400;color:var(--text3)">2로 나눈 나머지를 아래에서 위로 읽는다</span>',
+    pre(lines.join('\n')+'\n\n나머지를 거꾸로 → <b style="color:#1d252d">'+binInt+'<sub>(2)</sub></b>'));
+
+  // ③ 2진수 → 8진수 (3비트) / ④ → 16진수 (4비트)
+  const groupBox = (bits, color, label)=>{
+    let pad = binInt;
+    while(pad.length % bits !== 0) pad = '0' + pad;
+    const gs = pad.match(new RegExp('.{'+bits+'}','g')) || ['0'.repeat(bits)];
+    const digits = gs.map(g => RADIX_DIGITS[parseInt(g,2)]);
+    return box(color, (bits===3?'③':'④')+' 2진수 → '+label+
+      ' &nbsp;<span style="font-weight:400;color:var(--text3)">오른쪽부터 '+bits+'비트씩 묶는다</span>',
+      pre(binInt+'<sub>(2)</sub>\n↓ 왼쪽에 0을 채워 '+bits+'비트 단위로 맞춘다\n'+
+          gs.join(' ')+'\n'+gs.map((g,i)=>digits[i].padStart(bits,' ')).join(' ')+
+          '\n→ <b style="color:#1d252d">'+digits.join('')+'</b>'));
+  };
+  html += groupBox(3, '#8a6012', '8진수');
+  html += groupBox(4, '#6b59aa', '16진수');
+
+  // ⑤ 소수부
+  if(fracStr){
+    let f = fracVal, fl = [], g2 = 0, out = '';
+    while(f > 1e-12 && g2 < 8){
+      const m = f * 2, d2 = Math.floor(m + 1e-12);
+      fl.push('0.'+String(Number(f.toFixed(8))).split('.')[1]+' × 2 = '+Number(m.toFixed(8))+
+              ' → 정수부 <span style="color:#8a6012">'+d2+'</span>');
+      out += d2; f = m - d2; g2++;
+    }
+    html += box('#117a68','⑤ 소수부 → 2진수 &nbsp;<span style="font-weight:400;color:var(--text3)">2를 곱해 정수부를 위에서 아래로 읽는다</span>',
+      pre(fl.join('\n')+'\n\n→ 0.<b style="color:#1d252d">'+out+'</b><sub>(2)</sub>'+
+          (g2>=8?'\n(8자리에서 끊음 — 딱 떨어지지 않는 값)':'')));
+  }
+
+  // 결과 요약
+  html += '<div style="background:#e1f3ee;border:1px solid #117a68;border-radius:9px;padding:12px 14px;font-size:14px;color:var(--text2);line-height:2;">'+
+    '<b style="color:#117a68">최종 결과</b><br>'+
+    [2,8,10,16].map(b=>RADIX_NAME[b]+' : <b class="mono" style="color:#1d252d;font-size:15.5px">'+esc(result[b])+'</b>').join('&nbsp; · &nbsp;')+
+    (neg ? '<br><span style="color:#8a6012">음수는 부호만 붙여 표시했습니다. 컴퓨터 내부에서는 2의 보수로 저장됩니다.</span>' : '')+
+    '</div>';
+
+  el.innerHTML = html;
+}
+
+
+// ══════════════════════════════════════════════════════════
+//  IP 주소 클래스 판별기
+// ══════════════════════════════════════════════════════════
+const IP_CLASS_INFO = {
+  A:{color:'#267c41', bits:'0',    netBits:8,  mask:'255.0.0.0',     range:'1 ~ 126'},
+  B:{color:'#2c6da4', bits:'10',   netBits:16, mask:'255.255.0.0',   range:'128 ~ 191'},
+  C:{color:'#8a6012', bits:'110',  netBits:24, mask:'255.255.255.0', range:'192 ~ 223'},
+  D:{color:'#6b59aa', bits:'1110', netBits:0,  mask:'—',             range:'224 ~ 239'},
+  E:{color:'#ae3e30', bits:'1111', netBits:0,  mask:'—',             range:'240 ~ 255'}
+};
+
+function ipSample(v){
+  const i = document.getElementById('ipclass-input');
+  if(i) i.value = v;
+  ipClassify();
+}
+
+function ipClassOf(first){
+  if(first < 128) return 'A';
+  if(first < 192) return 'B';
+  if(first < 224) return 'C';
+  if(first < 240) return 'D';
+  return 'E';
+}
+
+// 사설 / 특수 주소 판정 → [{type,text}]
+function ipSpecialNotes(o){
+  const notes = [];
+  const s = o.join('.');
+  if(o[0] === 10) notes.push({t:'private', m:'사설 IP — A 클래스 대역 (10.0.0.0/8). 인터넷에 직접 나갈 수 없고 NAT가 필요하다.'});
+  else if(o[0] === 172 && o[1] >= 16 && o[1] <= 31) notes.push({t:'private', m:'사설 IP — B 클래스 대역 (172.16.0.0/12). 172.16 ~ 172.31 만 사설이다.'});
+  else if(o[0] === 192 && o[1] === 168) notes.push({t:'private', m:'사설 IP — C 클래스 대역 (192.168.0.0/16). 가정용 공유기에서 가장 흔하다.'});
+  else if(o[0] === 172) notes.push({t:'warn', m:'172 로 시작하지만 두 번째 옥텟이 '+o[1]+' 이라 사설이 아니다. 사설은 172.16 ~ 172.31 뿐이다.'});
+
+  if(o[0] === 127) notes.push({t:'special', m:'루프백(Loopback) 주소 — 자기 자신을 가리킨다. 127.0.0.1 = localhost. 이 대역 때문에 A 클래스 실사용 범위가 1~126 이다.'});
+  if(o[0] === 0) notes.push({t:'special', m:'0.0.0.0/8 은 예약 대역 — "이 네트워크" 를 뜻하며 호스트에 할당하지 않는다.'});
+  if(o[0] === 169 && o[1] === 254) notes.push({t:'warn', m:'APIPA(링크 로컬) 주소 — DHCP 서버를 찾지 못했을 때 자동으로 붙는 주소다. 실제 통신은 같은 링크 안에서만 된다.'});
+  if(s === '255.255.255.255') notes.push({t:'special', m:'제한적 브로드캐스트 주소 — 같은 네트워크 전체에 전송되며 라우터를 넘지 못한다.'});
+  return notes;
+}
+
+function ipClassify(){
+  const inp = document.getElementById('ipclass-input');
+  const errEl = document.getElementById('ipclass-error');
+  const out = document.getElementById('ipclass-result');
+  if(!inp || !out) return;
+
+  const raw = inp.value.trim();
+  const showErr = m=>{
+    if(!errEl) return;
+    if(m){ errEl.style.display='block'; errEl.innerHTML='⚠ '+esc(m); out.innerHTML=''; }
+    else { errEl.style.display='none'; errEl.innerHTML=''; }
+  };
+
+  if(raw === ''){ showErr(''); out.innerHTML=''; return; }
+
+  const parts = raw.split('.');
+  if(parts.length !== 4 || parts.some(p=>p==='' || !/^\d{1,3}$/.test(p))){
+    showErr('IPv4 주소는 0~255 사이의 숫자 4개를 점으로 구분해 씁니다. (예: 192.168.1.100)'); return;
+  }
+  const o = parts.map(Number);
+  const over = o.find(v=>v>255);
+  if(over !== undefined){ showErr('각 옥텟은 0 ~ 255 범위여야 합니다. ('+over+' 는 범위를 벗어남)'); return; }
+  showErr('');
+
+  const cls = ipClassOf(o[0]);
+  const info = IP_CLASS_INFO[cls];
+  const bin = o.map(v=>v.toString(2).padStart(8,'0'));
+
+  // 첫 옥텟에서 클래스 결정 비트 강조
+  const lead = info.bits.length;
+  const firstBin = '<b style="color:'+info.color+'">'+bin[0].slice(0,lead)+'</b>'+bin[0].slice(lead);
+
+  const card = (label, value, color)=>
+    '<div style="background:var(--bg3);border-radius:9px;padding:11px 13px;border-left:3px solid '+(color||'#117a68')+';">'+
+    '<div style="font-size:13px;color:'+(color||'#117a68')+';font-weight:600;margin-bottom:4px;">'+label+'</div>'+
+    '<div class="mono" style="font-size:16.5px;color:#1d252d;word-break:break-all;">'+value+'</div></div>';
+
+  let html =
+    '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;">'+
+      '<div style="font-size:40px;font-weight:700;color:'+info.color+';line-height:1;">'+cls+'</div>'+
+      '<div>'+
+        '<div style="font-size:15.5px;color:#1d252d;font-weight:600;">'+cls+' 클래스</div>'+
+        '<div style="font-size:13px;color:var(--text3);">선두 비트 '+info.bits+' · 첫 옥텟 '+info.range+'</div>'+
+      '</div>'+
+    '</div>';
+
+  html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px;">';
+  html += card('입력 주소', esc(o.join('.')), '#2c6da4');
+  html += card('2진수 표기',
+    '<span style="font-size:14px">'+firstBin+' . '+bin[1]+'<br>. '+bin[2]+' . '+bin[3]+'</span>', info.color);
+
+  if(cls === 'D'){
+    html += card('용도', '멀티캐스트 (1:다 전송)', '#6b59aa');
+    html += card('마스크', '없음 — 네트워크/호스트 구분 없음', '#6b59aa');
+  } else if(cls === 'E'){
+    html += card('용도', '연구 · 예약 (실험용)', '#ae3e30');
+    html += card('마스크', '없음 — 할당되지 않는 대역', '#ae3e30');
+  } else {
+    const nb = info.netBits, hb = 32 - nb;
+    const netO = o.map((v,i)=> i < nb/8 ? v : 0);
+    const bcO  = o.map((v,i)=> i < nb/8 ? v : 255);
+    const hosts = Math.pow(2, hb) - 2;
+    html += card('기본 서브넷 마스크', info.mask + ' &nbsp;(/'+nb+')', info.color);
+    html += card('네트워크 : 호스트 비트', nb + ' : ' + hb + ' bit', info.color);
+    html += card('네트워크 주소', netO.join('.'), '#267c41');
+    html += card('브로드캐스트 주소', bcO.join('.'), '#ae3e30');
+    html += card('사용 가능 호스트 수',
+      '2<sup>'+hb+'</sup> − 2 = <b>'+hosts.toLocaleString()+'</b>', '#8a6012');
+    html += card('호스트 범위',
+      '<span style="font-size:14px">'+netO.slice(0,-1).concat([netO[3]+1]).join('.')+
+      ' ~<br>'+bcO.slice(0,-1).concat([bcO[3]-1]).join('.')+'</span>', '#117a68');
+  }
+  html += '</div>';
+
+  const notes = ipSpecialNotes(o);
+  const isPrivate = notes.some(n=>n.t==='private');
+  const isSpecial = notes.some(n=>n.t==='special');
+
+  if(cls !== 'D' && cls !== 'E'){
+    html += '<div style="margin-top:10px;display:flex;gap:7px;flex-wrap:wrap;">'+
+      '<span class="badge '+(isSpecial?'b-gray':(isPrivate?'b-both':'b-tcp'))+'" style="font-size:13px;padding:4px 10px;">'+
+      (isSpecial ? '특수 목적 주소' : (isPrivate ? '🏠 사설 IP (NAT 필요)' : '🌐 공인 IP'))+'</span></div>';
+  }
+
+  notes.forEach(n=>{
+    const cl = n.t === 'private' ? 'highlight' : (n.t === 'warn' ? 'warn' : 'note');
+    const extra = n.t === 'special' ? ' style="border-left-color:#6b59aa"' : '';
+    html += '<div class="'+cl+'"'+extra+'>'+esc(n.m)+'</div>';
+  });
+
+  out.innerHTML = html;
+}
+
+
+// ══════════════════════════════════════════════════════════
+//  가동률(가용도) 계산기 — MTBF / MTTR
+// ══════════════════════════════════════════════════════════
+const MTBF_UNIT_H = {h:1, m:1/60, d:24};   // 입력 단위 → 시간 환산
+const YEAR_HOURS = 8760;                    // 365일
+
+function mtbfSample(bf, tr){
+  const a = document.getElementById('mtbf-input');
+  const b = document.getElementById('mttr-input');
+  const u = document.getElementById('mtbf-unit');
+  if(u) u.value = 'h';
+  if(a) a.value = bf;
+  if(b) b.value = tr;
+  calcAvailability();
+}
+
+// 시간(h) → 사람이 읽는 문자열
+function fmtDuration(h){
+  if(h >= 24) return (h/24).toFixed(2).replace(/\.?0+$/,'') + '일';
+  if(h >= 1)  return h.toFixed(2).replace(/\.?0+$/,'') + '시간';
+  const m = h*60;
+  if(m >= 1)  return m.toFixed(2).replace(/\.?0+$/,'') + '분';
+  return (m*60).toFixed(1).replace(/\.?0+$/,'') + '초';
+}
+
+// 가용도 → "9의 개수" 라벨
+function ninesLabel(a){
+  const pct = a*100;
+  if(pct >= 99.9999) return {n:'9가 6개 이상 · six nines', c:'#117a68'};
+  if(pct >= 99.999)  return {n:'9가 5개 · five nines',     c:'#117a68'};
+  if(pct >= 99.99)   return {n:'9가 4개 · four nines',     c:'#267c41'};
+  if(pct >= 99.9)    return {n:'9가 3개 · three nines',    c:'#2c6da4'};
+  if(pct >= 99)      return {n:'9가 2개 · two nines',      c:'#8a6012'};
+  if(pct >= 90)      return {n:'9가 1개 · one nine',       c:'#9d520f'};
+  return {n:'90% 미만 — 9 없음', c:'#ae3e30'};
+}
+
+function calcAvailability(){
+  const aEl = document.getElementById('mtbf-input');
+  const bEl = document.getElementById('mttr-input');
+  const uEl = document.getElementById('mtbf-unit');
+  const errEl = document.getElementById('mtbf-error');
+  const out = document.getElementById('mtbf-result');
+  if(!aEl || !bEl || !out) return;
+
+  const showErr = m=>{
+    if(!errEl) return;
+    if(m){ errEl.style.display='block'; errEl.innerHTML='⚠ '+esc(m); out.innerHTML=''; }
+    else { errEl.style.display='none'; errEl.innerHTML=''; }
+  };
+
+  const rawA = aEl.value.trim(), rawB = bEl.value.trim();
+  if(rawA === '' || rawB === ''){ showErr(''); out.innerHTML=''; return; }
+
+  const mtbf = Number(rawA), mttr = Number(rawB);
+  if(!isFinite(mtbf) || !isFinite(mttr)){ showErr('숫자를 입력해 주세요.'); return; }
+  if(mtbf <= 0){ showErr('MTBF는 0보다 커야 합니다.'); return; }
+  if(mttr < 0){ showErr('MTTR은 0 이상이어야 합니다.'); return; }
+  showErr('');
+
+  const unit = (uEl && uEl.value) || 'h';
+  const unitName = {h:'시간', m:'분', d:'일'}[unit];
+  const k = MTBF_UNIT_H[unit];
+
+  const avail   = mtbf / (mtbf + mttr);          // 시험 공식
+  const unavail = 1 - avail;
+  const pct     = avail * 100;
+  const downYear = unavail * YEAR_HOURS;          // 연간 다운타임(시간)
+  const mttf    = mtbf - mttr;                    // 정의상 MTTF = MTBF − MTTR
+  const nines   = ninesLabel(avail);
+
+  const card = (label, value, color, sub)=>
+    '<div style="background:var(--bg3);border-radius:9px;padding:12px 14px;border-left:3px solid '+color+';">'+
+    '<div style="font-size:13px;color:'+color+';font-weight:600;margin-bottom:4px;">'+label+'</div>'+
+    '<div style="font-size:20px;color:#1d252d;font-weight:700;">'+value+'</div>'+
+    (sub ? '<div style="font-size:13px;color:var(--text3);margin-top:3px;">'+sub+'</div>' : '')+
+    '</div>';
+
+  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:9px;">';
+  html += card('가동률 (가용도)', pct.toFixed(2)+' %', '#267c41',
+    avail.toFixed(4) + ' · ' + nines.n);
+  html += card('불가동률', (unavail*100).toFixed(2)+' %', '#ae3e30', (1-avail).toFixed(4));
+  html += card('MTTF (정의상)', (mttf >= 0 ? mttf : 0) + ' ' + unitName, '#2c6da4',
+    'MTBF − MTTR = ' + mtbf + ' − ' + mttr);
+  html += card('연간 다운타임', fmtDuration(downYear), '#8a6012', '1년 = 8,760시간 기준');
+  html += '</div>';
+
+  // 계산 과정
+  html += '<div class="flow" style="margin-top:12px;">'+
+    '가동률 = MTBF / (MTBF + MTTR)\n'+
+    '     = ' + mtbf + ' / (' + mtbf + ' + ' + mttr + ')\n'+
+    '     = ' + mtbf + ' / ' + (mtbf + mttr) + '\n'+
+    '     = <b style="color:#1d252d">' + avail.toFixed(4) + '</b>  →  <b style="color:#267c41">' + pct.toFixed(2) + ' [%]</b></div>';
+
+  // 가용도 수준 배지
+  html += '<div style="margin-top:10px;display:flex;gap:7px;flex-wrap:wrap;align-items:center;">'+
+    '<span class="badge" style="background:'+nines.c+'22;color:'+nines.c+';font-size:13px;padding:4px 10px;">가용도 수준 · '+nines.n+'</span>'+
+    '<span style="font-size:13px;color:var(--text3);">통신망 표준은 보통 five nines(99.999%)</span></div>';
+
+  if(mttf < 0){
+    html += '<div class="warn">MTTR이 MTBF보다 큽니다. 실제 시스템에서는 나올 수 없는 값이니 입력을 확인해 주세요.</div>';
+  }
+
+  out.innerHTML = html;
+}
+
+
+// ══════════════════════════════════════════════════════════
+//  클라우드 서비스 모델 — 책임 범위 스택 비교
+// ══════════════════════════════════════════════════════════
+const CLOUD_LAYERS = [
+  '애플리케이션', '데이터', '런타임', '미들웨어',
+  '운영체제 (O/S)', '가상화', '서버', '스토리지', '네트워크'
+];
+// providerFrom : 이 인덱스부터 아래는 제공자가 관리 (9 = 전부 사용자 관리)
+const CLOUD_MODELS = {
+  onprem:{label:'🏠 온프레미스', color:'#4d5660', providerFrom:9,
+    desc:'네트워크부터 애플리케이션까지 <b>전부 직접</b> 구축·운영한다. 자유도는 최대지만 초기 비용과 관리 부담이 가장 크다.',
+    ex:'자체 서버실, 사내 데이터센터'},
+  iaas:{label:'🧊 IaaS', color:'#267c41', providerFrom:5,
+    desc:'제공자는 <b>가상화·서버·스토리지·네트워크</b>까지 책임진다. 사용자는 <b>OS를 직접 설치·관리</b>하고 그 위를 모두 다룬다.',
+    ex:'AWS EC2 · S3, Azure VM, GCP Compute Engine'},
+  paas:{label:'🛵 PaaS', color:'#2c6da4', providerFrom:2,
+    desc:'제공자가 <b>OS·미들웨어·런타임</b>까지 준비해 준다. 사용자는 <b>데이터와 애플리케이션(코드)만</b> 신경 쓰면 된다.',
+    ex:'Heroku, AWS Elastic Beanstalk, Google App Engine'},
+  saas:{label:'🍽️ SaaS', color:'#6b59aa', providerFrom:0,
+    desc:'애플리케이션까지 <b>전부 제공자가 관리</b>한다. 사용자는 로그인해서 <b>쓰기만</b> 하고, 설정과 자기 데이터만 다룬다.',
+    ex:'Gmail, Office 365, Salesforce, Dropbox'}
+};
+let cloudModel = 'iaas';
+
+function showCloudModel(key){
+  if(!CLOUD_MODELS[key]) return;
+  cloudModel = key;
+  const m = CLOUD_MODELS[key];
+
+  // 버튼 활성 표시
+  Object.keys(CLOUD_MODELS).forEach(k=>{
+    const b = document.getElementById('cloud-btn-'+k);
+    if(b) b.classList.toggle('active', k === key);
+  });
+
+  const stack = document.getElementById('cloud-stack');
+  if(stack){
+    stack.innerHTML = CLOUD_LAYERS.map((name, i)=>{
+      const byProvider = i >= m.providerFrom;
+      const bg   = byProvider ? '#e0f2ee' : '#f4edde';
+      const bd   = byProvider ? '#117a68' : '#8a6012';
+      const who  = byProvider ? '제공자 관리' : '내가 관리';
+      return '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;'+
+        'background:'+bg+';border:1px solid '+bd+'55;border-left:4px solid '+bd+';'+
+        'border-radius:7px;padding:8px 13px;transition:all .15s;">'+
+        '<span style="font-size:15px;color:#1d252d;font-weight:500;">'+esc(name)+'</span>'+
+        '<span style="font-size:12.5px;color:'+bd+';font-weight:600;white-space:nowrap;">'+who+'</span>'+
+        '</div>';
+    }).join('');
+  }
+
+  const sum = document.getElementById('cloud-summary');
+  if(sum){
+    const mine = m.providerFrom;                       // 사용자가 관리하는 계층 수
+    const theirs = CLOUD_LAYERS.length - mine;
+    sum.innerHTML =
+      '<div style="background:var(--bg2);border:1px solid '+m.color+'66;border-left:3px solid '+m.color+
+      ';border-radius:9px;padding:12px 14px;">'+
+        '<div style="font-size:15.5px;font-weight:700;color:'+m.color+';margin-bottom:6px;">'+m.label+
+        ' &nbsp;<span style="font-size:13px;font-weight:400;color:var(--text3);">'+
+        '내가 관리 '+mine+'개 · 제공자 관리 '+theirs+'개 계층</span></div>'+
+        '<div style="font-size:14px;color:var(--text2);line-height:1.9;">'+m.desc+'</div>'+
+        '<div style="font-size:13px;color:var(--text3);margin-top:7px;">대표 서비스 — '+esc(m.ex)+'</div>'+
+      '</div>';
+  }
+}
+
+
+// ══════════════════════════════════════════════════════════
+//  CCTV PTZ 자동 감시 동작 도해
+// ══════════════════════════════════════════════════════════
+const PTZ_MODES = {
+  swing:{title:'↔ 스윙 (Swing)', color:'#2c6da4', alias:'= 오토 팬(Auto Pan) · 스캔(Scan)',
+    body:'미리 정해 둔 <b>시작점과 종료점 사이를 자동으로 왕복</b>한다. 두 지점의 각도와 회전 속도만 설정하면 되는 가장 기본적인 자동 감시 동작이다.',
+    use:'복도 · 담장 · 주차장 통로처럼 <b>좌우로 길게 뻗은 구역</b>', showPreset:false, showLimit:true},
+  tour:{title:'🔢 투어 (Tour)', color:'#8a6012', alias:'= 크루즈(Cruise) · 시퀀스(Sequence)',
+    body:'저장해 둔 <b>프리셋 지점들을 번호 순서대로 순회</b>한다. 지점마다 머무는 시간을 따로 정할 수 있어, 중요한 곳을 오래 볼 수 있다.',
+    use:'출입구 · 금고 · 계산대처럼 <b>봐야 할 곳이 정해진</b> 경우', showPreset:true, showLimit:false},
+  pattern:{title:'✍ 패턴 (Pattern)', color:'#6b59aa', alias:'= 트레이스(Trace)',
+    body:'운영자가 조이스틱으로 움직인 <b>경로를 그대로 기록했다가 재생</b>한다. 팬·틸트뿐 아니라 <b>줌 조작까지</b> 함께 저장된다.',
+    use:'단순 왕복이나 점 이동으로는 안 되는 <b>복잡한 감시 경로</b>', showPreset:false, showLimit:false},
+  stop:{title:'⏹ 정지', color:'var(--text2)', alias:'= 수동 조작 / 홈 포지션',
+    body:'자동 동작을 멈춘 상태. 운영자가 직접 조작하거나, 일정 시간 조작이 없으면 <b>홈 포지션으로 복귀</b>해 다시 자동 동작을 시작하도록 설정할 수 있다.',
+    use:'사건 발생 시 <b>수동 추적</b>', showPreset:false, showLimit:false}
+};
+
+function showPtzMode(key){
+  const m = PTZ_MODES[key];
+  if(!m) return;
+
+  Object.keys(PTZ_MODES).forEach(k=>{
+    const b = document.getElementById('ptz-btn-'+k);
+    if(b) b.classList.toggle('active', k === key);
+  });
+
+  const cone = document.getElementById('ptz-cone');
+  if(cone) cone.setAttribute('class', 'ptz-'+key);
+
+  // 프리셋 점 · 좌우 한계선 표시 여부
+  const pre = document.getElementById('ptz-presets');
+  if(pre) pre.style.opacity = m.showPreset ? '1' : '0.18';
+  ['ptz-limit-l','ptz-limit-r','ptz-limit-lt','ptz-limit-rt'].forEach(id=>{
+    const e = document.getElementById(id);
+    if(e) e.style.opacity = m.showLimit ? '1' : '0';
+  });
+
+  const d = document.getElementById('ptz-desc');
+  if(d){
+    d.innerHTML =
+      '<div style="font-size:16.5px;font-weight:700;color:'+m.color+';">'+m.title+'</div>'+
+      '<div style="font-size:13px;color:var(--text3);margin:2px 0 9px;">'+m.alias+'</div>'+
+      '<div style="font-size:15px;color:var(--text2);line-height:1.9;">'+m.body+'</div>'+
+      '<div style="font-size:14px;color:var(--text2);line-height:1.9;margin-top:9px;padding-top:9px;border-top:1px solid var(--border);">'+
+      '<b style="color:'+m.color+'">주 사용처</b> — '+m.use+'</div>';
+  }
+}
+
+
+// ══════════════════════════════════════════════════════════
+//  AES 키 길이 비교
+// ══════════════════════════════════════════════════════════
+const AES_SPEC = {
+  128:{rounds:10, color:'#2c6da4', level:'표준 등급',
+       note:'가장 널리 쓰이는 기본 설정. 일반적인 상업용 데이터에 충분하다.'},
+  192:{rounds:12, color:'#8a6012', level:'상위 등급',
+       note:'128과 256 사이. 실제로는 잘 쓰이지 않고 128 또는 256을 고르는 편이다.'},
+  256:{rounds:14, color:'#117a68', level:'최고 등급',
+       note:'미국 정부의 <b>1급 기밀(Top Secret)</b> 등급 정보에도 승인된 설정. 양자 컴퓨터를 고려해도 여유가 있어 장기 보관 데이터에 권장된다.'}
+};
+
+// 2^n 을 10진수 자릿수와 근삿값으로 표현
+function pow2Approx(n){
+  const digits = Math.floor(n * Math.log10(2)) + 1;
+  const mant = Math.pow(10, n * Math.log10(2) - Math.floor(n * Math.log10(2)));
+  return {digits: digits, text: mant.toFixed(2) + ' × 10<sup>' + (digits-1) + '</sup>'};
+}
+
+function showAes(bits){
+  const sp = AES_SPEC[bits];
+  if(!sp) return;
+
+  [128,192,256].forEach(k=>{
+    const b = document.getElementById('aes-btn-'+k);
+    if(b) b.classList.toggle('active', k === bits);
+  });
+
+  const out = document.getElementById('aes-result');
+  if(!out) return;
+
+  const key = pow2Approx(bits);
+  const card = (label, value, color, sub)=>
+    '<div style="background:var(--bg3);border-radius:9px;padding:12px 14px;border-left:3px solid '+color+';">'+
+    '<div style="font-size:13px;color:'+color+';font-weight:600;margin-bottom:4px;">'+label+'</div>'+
+    '<div style="font-size:20px;color:#1d252d;font-weight:700;">'+value+'</div>'+
+    (sub ? '<div style="font-size:13px;color:var(--text3);margin-top:3px;">'+sub+'</div>' : '')+'</div>';
+
+  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px;">';
+  html += card('키 길이', bits + ' 비트', sp.color, (bits/8) + ' 바이트');
+  html += card('라운드 수', sp.rounds + ' 회', sp.color, '라운드 키는 ' + (sp.rounds+1) + '개');
+  html += card('블록 크기', '128 비트', '#2c6da4', '키 길이와 무관하게 항상 동일');
+  html += card('키 경우의 수', '2<sup>' + bits + '</sup>', '#6b59aa', '약 ' + key.text + ' (' + key.digits + '자리 수)');
+  html += '</div>';
+
+  html += '<div class="flow" style="margin-top:12px;">'+
+    'AES-' + bits + ' 처리 흐름\n' +
+    '평문 128비트 → [AddRoundKey]\n' +
+    '  → [SubBytes → ShiftRows → MixColumns → AddRoundKey] × ' + (sp.rounds - 1) + '회\n' +
+    '  → [SubBytes → ShiftRows → <span style="color:#ae3e30">MixColumns 생략</span> → AddRoundKey]  ← 마지막 라운드\n' +
+    '→ 암호문 128비트</div>';
+
+  html += '<div style="margin-top:10px;background:var(--bg2);border:1px solid '+sp.color+'55;border-left:3px solid '+sp.color+
+    ';border-radius:9px;padding:12px 14px;">'+
+    '<div style="font-size:15px;font-weight:700;color:'+sp.color+';margin-bottom:5px;">AES-'+bits+' · '+sp.level+'</div>'+
+    '<div style="font-size:14px;color:var(--text2);line-height:1.9;">'+sp.note+'</div></div>';
+
+  if(bits === 256){
+    html += '<div class="note" style="border-left-color:#117a68;">'+
+      '💡 <b>키가 2배라고 2배 안전한 게 아니다</b> — 128비트에서 256비트로 늘리면 경우의 수는 '+
+      '<b>2<sup>128</sup>배</b>(약 3.4 × 10<sup>38</sup>배)로 늘어난다. 대신 라운드가 10 → 14회로 늘어 '+
+      '<b>암·복호화 속도는 약 30~40% 느려진다.</b></div>';
+  }
+
+  out.innerHTML = html;
+}
+
+
+// ══════════════════════════════════════════════════════════
+//  대칭키 / 비대칭키 동작 흐름 · 키 개수 계산
+// ══════════════════════════════════════════════════════════
+const KEY_FLOWS = {
+  sym:{title:'🔑 대칭키 (비밀키) 방식', color:'#267c41',
+    flow:
+'  A (송신)                                    B (수신)\n'+
+'  ┌───────────┐                              ┌───────────┐\n'+
+'  │  평문     │                              │  평문     │\n'+
+'  └─────┬─────┘                              └─────▲─────┘\n'+
+'        │ <span style="color:#267c41">같은 비밀키 K</span>로 암호화              <span style="color:#267c41">같은 비밀키 K</span>로 복호화\n'+
+'        ▼                                          │\n'+
+'  ┌───────────┐   ─── 네트워크 전송 ──▶      ┌─────┴─────┐\n'+
+'  │  암호문   │                              │  암호문   │\n'+
+'  └───────────┘                              └───────────┘\n\n'+
+'  <span style="color:#ae3e30">⚠ 문제: 비밀키 K를 상대에게 어떻게 안전하게 전달하지?  → 키 배송 문제</span>',
+    pros:'빠르다 · 대용량 데이터에 적합', cons:'키 배송 문제 · 사람이 늘면 키가 폭발적으로 증가',
+    algo:'AES · DES · 3DES · IDEA · SEED · ARIA · RC4'},
+
+  conf:{title:'🔒 비대칭키 — 기밀성 (비밀 전송)', color:'#2c6da4',
+    flow:
+'  A (송신)                                    B (수신)\n'+
+'  ┌───────────┐                              ┌───────────┐\n'+
+'  │  평문     │                              │  평문     │\n'+
+'  └─────┬─────┘                              └─────▲─────┘\n'+
+'        │ <span style="color:#2c6da4">B의 공개키</span>로 암호화                  <span style="color:#8a6012">B의 개인키</span>로 복호화\n'+
+'        ▼   (누구나 가질 수 있음)                   │   (B만 가지고 있음)\n'+
+'  ┌───────────┐   ─── 네트워크 전송 ──▶      ┌─────┴─────┐\n'+
+'  │  암호문   │                              │  암호문   │\n'+
+'  └───────────┘                              └───────────┘\n\n'+
+'  <span style="color:#267c41">✔ B의 개인키를 가진 B만 열 수 있다 → 기밀성 확보</span>\n'+
+'  <span style="color:#ae3e30">✘ 누가 보냈는지는 증명되지 않는다 (아무나 B의 공개키로 암호화 가능)</span>',
+    pros:'키 배송 문제 없음 · 상대만 열 수 있음', cons:'느리다 · 송신자 확인은 안 됨',
+    algo:'RSA · ECC · ElGamal'},
+
+  sign:{title:'✍ 비대칭키 — 전자서명 (인증 · 부인방지)', color:'#8a6012',
+    flow:
+'  A (송신)                                    B (수신)\n'+
+'  ┌───────────┐                              ┌───────────┐\n'+
+'  │  평문     │──▶ 해시 ──▶ 요약값           │  평문     │──▶ 해시 ──▶ 요약값\n'+
+'  └───────────┘              │               └───────────┘              │\n'+
+'                             │ <span style="color:#8a6012">A의 개인키</span>로 서명                        ▼\n'+
+'                             ▼   (A만 가지고 있음)                    <span style="color:#117a68">비교</span>\n'+
+'                       ┌───────────┐  ── 전송 ──▶  <span style="color:#2c6da4">A의 공개키</span>로 검증 ──▲\n'+
+'                       │  서명값   │                (누구나 검증 가능)\n'+
+'                       └───────────┘\n\n'+
+'  <span style="color:#267c41">✔ A의 개인키는 A만 가지므로 → 인증 · 부인방지 · 무결성</span>\n'+
+'  <span style="color:#ae3e30">✘ 내용은 가려지지 않는다 (기밀성 없음)</span>',
+    pros:'보낸 사람 증명 · 위변조 확인', cons:'내용은 감춰지지 않음 · 기밀성이 필요하면 암호화를 추가',
+    algo:'RSA · DSA · ECDSA'},
+
+  hybrid:{title:'🤝 하이브리드 — 실제 HTTPS/TLS가 쓰는 방식', color:'#117a68',
+    flow:
+'  ① 서버 인증서로 <span style="color:#2c6da4">서버의 공개키</span>를 받는다\n'+
+'                     │\n'+
+'  ② 세션키(대칭키)를 만들어 <span style="color:#2c6da4">서버 공개키</span>로 암호화해 보낸다\n'+
+'     (또는 Diffie-Hellman으로 양쪽이 같은 세션키를 만들어 낸다)\n'+
+'                     │\n'+
+'  ③ 서버가 <span style="color:#8a6012">자기 개인키</span>로 열어 세션키를 얻는다\n'+
+'                     │\n'+
+'  ④ 이후 모든 데이터는 <span style="color:#267c41">세션키(AES)</span>로 빠르게 주고받는다\n\n'+
+'  <span style="color:#117a68">비대칭 = 키를 안전하게 나누는 데만 (느리지만 잠깐)</span>\n'+
+'  <span style="color:#117a68">대칭   = 실제 데이터 암호화에 (빠르고 계속)</span>',
+    pros:'비대칭의 안전한 키 교환 + 대칭의 속도', cons:'구현이 복잡 · 인증서(PKI) 체계가 필요',
+    algo:'TLS = RSA/ECDHE(키 교환) + AES-GCM(데이터)'}
+};
+
+function showKeyFlow(key){
+  const f = KEY_FLOWS[key];
+  if(!f) return;
+  Object.keys(KEY_FLOWS).forEach(k=>{
+    const b = document.getElementById('key-btn-'+k);
+    if(b) b.classList.toggle('active', k === key);
+  });
+  const el = document.getElementById('key-flow');
+  if(!el) return;
+  el.innerHTML =
+    '<div style="font-size:16.5px;font-weight:700;color:'+f.color+';margin-bottom:8px;">'+f.title+'</div>'+
+    '<div class="flow" style="margin-top:0;font-size:13.5px;line-height:1.75;overflow-x:auto;">'+f.flow+'</div>'+
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:9px;margin-top:11px;">'+
+      '<div style="background:var(--bg3);border-left:3px solid #267c41;border-radius:8px;padding:10px 12px;">'+
+        '<div style="font-size:13px;color:#267c41;font-weight:600;margin-bottom:3px;">장점</div>'+
+        '<div style="font-size:14px;color:var(--text2);">'+esc(f.pros)+'</div></div>'+
+      '<div style="background:var(--bg3);border-left:3px solid #ae3e30;border-radius:8px;padding:10px 12px;">'+
+        '<div style="font-size:13px;color:#ae3e30;font-weight:600;margin-bottom:3px;">단점</div>'+
+        '<div style="font-size:14px;color:var(--text2);">'+esc(f.cons)+'</div></div>'+
+      '<div style="background:var(--bg3);border-left:3px solid '+f.color+';border-radius:8px;padding:10px 12px;">'+
+        '<div style="font-size:13px;color:'+f.color+';font-weight:600;margin-bottom:3px;">대표 알고리즘</div>'+
+        '<div style="font-size:14px;color:var(--text2);">'+esc(f.algo)+'</div></div>'+
+    '</div>';
+}
+
+function keyCountSample(n){
+  const i = document.getElementById('keycount-input');
+  if(i) i.value = n;
+  calcKeyCount();
+}
+
+function calcKeyCount(){
+  const inp = document.getElementById('keycount-input');
+  const errEl = document.getElementById('keycount-error');
+  const out = document.getElementById('keycount-result');
+  if(!inp || !out) return;
+
+  const showErr = m=>{
+    if(!errEl) return;
+    if(m){ errEl.style.display='block'; errEl.innerHTML='⚠ '+esc(m); out.innerHTML=''; }
+    else { errEl.style.display='none'; errEl.innerHTML=''; }
+  };
+
+  const raw = inp.value.trim();
+  if(raw === ''){ showErr(''); out.innerHTML=''; return; }
+  if(!/^\d+$/.test(raw)){ showErr('사람 수는 자연수로 입력해 주세요.'); return; }
+  const n = parseInt(raw, 10);
+  if(n < 2){ showErr('2명 이상이어야 통신이 성립합니다.'); return; }
+  if(n > 100000){ showErr('100,000명 이하로 입력해 주세요.'); return; }
+  showErr('');
+
+  const sym = n*(n-1)/2;
+  const asym = 2*n;
+  const ratio = (sym/asym);
+
+  const card = (label, value, color, sub)=>
+    '<div style="background:var(--bg3);border-radius:9px;padding:12px 14px;border-left:3px solid '+color+';">'+
+    '<div style="font-size:13px;color:'+color+';font-weight:600;margin-bottom:4px;">'+label+'</div>'+
+    '<div style="font-size:22.5px;color:#1d252d;font-weight:700;">'+value+'</div>'+
+    (sub?'<div style="font-size:13px;color:var(--text3);margin-top:3px;">'+sub+'</div>':'')+'</div>';
+
+  out.innerHTML =
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px;">'+
+      card('대칭키 방식', sym.toLocaleString()+' 개', '#267c41', 'n(n−1)/2 = '+n+'×'+(n-1)+'/2')+
+      card('비대칭키 방식', asym.toLocaleString()+' 개', '#6b59aa', '2n = 2×'+n+' (각자 공개키+개인키)')+
+      card('차이', (ratio>=1? ratio.toFixed(1)+' 배' : '1/'+(1/ratio).toFixed(1)+' 배'), '#8a6012',
+           ratio>=1 ? '대칭키가 그만큼 더 많이 필요' : '이 규모에서는 대칭키가 더 적음')+
+    '</div>'+
+    '<div class="flow" style="margin-top:11px;">'+
+      '대칭키  : 두 사람마다 서로 다른 키가 1개씩 필요\n'+
+      '          '+n+'명 중 2명을 뽑는 경우의 수 = <b style="color:#267c41">'+sym.toLocaleString()+'개</b>\n\n'+
+      '비대칭키 : 각자 공개키 1개 + 개인키 1개만 있으면 된다\n'+
+      '          '+n+'명 × 2 = <b style="color:#6b59aa">'+asym.toLocaleString()+'개</b></div>'+
+    (n>=100 ? '<div class="note" style="border-left-color:#8a6012">💡 사람이 늘수록 대칭키는 <b>제곱에 비례</b>해 늘어난다. '+
+      '비대칭키는 사람 수에 <b>비례</b>할 뿐이라, 규모가 커질수록 격차가 급격히 벌어진다.</div>' : '');
+}
+
+
+// ══════════════════════════════════════════════════════════
+//  OSI 7계층 흐름 네비게이션
+//  각 계층 섹션 상단의 위치 스택 + 하단의 이전/다음 계층
+// ══════════════════════════════════════════════════════════
+const OSI_LAYERS = [
+  {n:7, id:'l7', name:'응용',       en:'Application',  pdu:'데이터',  color:'#6b59aa', dev:'게이트웨이·L7스위치'},
+  {n:6, id:'l6', name:'표현',       en:'Presentation', pdu:'데이터',  color:'#117a68', dev:'없음 (SW)'},
+  {n:5, id:'l5', name:'세션',       en:'Session',      pdu:'데이터',  color:'#2c6da4', dev:'없음 (SW)'},
+  {n:4, id:'l4', name:'전송',       en:'Transport',    pdu:'세그먼트', color:'#8a6012', dev:'L4스위치·로드밸런서'},
+  {n:3, id:'l3', name:'네트워크',   en:'Network',      pdu:'패킷',    color:'#9d520f', dev:'라우터·L3스위치'},
+  {n:2, id:'l2', name:'데이터링크', en:'Data Link',    pdu:'프레임',  color:'#267c41', dev:'스위치·브리지'},
+  {n:1, id:'l1', name:'물리',       en:'Physical',     pdu:'비트',    color:'#4d5660', dev:'허브·리피터'}
+];
+
+function osiIndex(id){ return OSI_LAYERS.findIndex(l=>l.id===id); }
+
+// 상단 위치 스택 — 현재 계층을 강조하고, 클릭하면 그 계층으로 이동
+function buildOsiStack(cur){
+  const me = OSI_LAYERS[osiIndex(cur)];
+  let h = '<div class="osi-stack-wrap">'+
+    '<div class="osi-stack-label">OSI 7계층 흐름 <span>— 상위에서 하위로 내려가며 캡슐화됩니다</span></div>'+
+    '<div class="osi-stack">';
+  OSI_LAYERS.forEach(l=>{
+    const on = l.id === cur;
+    h += '<button class="osi-step'+(on?' on':'')+'" onclick="showSection(\''+l.id+'\',null)" '+
+      'style="--c:'+l.color+'" title="'+l.n+'계층 '+l.name+' ('+l.en+')">'+
+      '<span class="osi-step-n">'+l.n+'</span>'+
+      '<span class="osi-step-name">'+l.name+'</span></button>';
+  });
+  h += '</div>'+
+    '<div class="osi-stack-meta">'+
+      '<span><b style="color:'+me.color+'">'+me.n+'계층 '+me.name+'</b> · '+me.en+'</span>'+
+      '<span>PDU <b>'+me.pdu+'</b></span>'+
+      '<span>장비 <b>'+me.dev+'</b></span>'+
+    '</div></div>';
+  return h;
+}
+
+// 하단 이전(상위) / 다음(하위) 계층
+function buildOsiPrevNext(cur){
+  const i = osiIndex(cur);
+  const up = OSI_LAYERS[i-1];     // 한 단계 위 계층
+  const dn = OSI_LAYERS[i+1];     // 한 단계 아래 계층
+  const btn = (l, dir)=>{
+    if(!l) return '<span></span>';
+    return '<button class="osi-move" onclick="showSection(\''+l.id+'\',null)" style="--c:'+l.color+'">'+
+      '<span class="osi-move-dir">'+dir+'</span>'+
+      '<span class="osi-move-name">'+l.n+'계층 · '+l.name+'</span></button>';
+  };
+  return '<div class="osi-prevnext">'+
+    btn(up, '▲ 위 계층') +
+    '<button class="osi-move osi-move-mid" onclick="showSection(\'overview\',null)">'+
+      '<span class="osi-move-dir">■ 전체 비교표</span><span class="osi-move-name">7계층 한눈에</span></button>'+
+    btn(dn, '▼ 아래 계층') +
+    '</div>';
+}
+
+// 각 계층 섹션의 자리표시자를 채운다
+function renderOsiNav(){
+  document.querySelectorAll('.osi-nav-slot').forEach(el=>{
+    const id = el.getAttribute('data-layer');
+    if(osiIndex(id) < 0) return;
+    el.innerHTML = buildOsiStack(id);
+  });
+  document.querySelectorAll('.osi-move-slot').forEach(el=>{
+    const id = el.getAttribute('data-layer');
+    if(osiIndex(id) < 0) return;
+    el.innerHTML = buildOsiPrevNext(id);
+  });
+}
+
+
+// ══════════════════════════════════════════════════════════
+//  주파수 대역 판별기 (ITU 대역 + 마이크로파 밴드 + 파장)
+// ══════════════════════════════════════════════════════════
+const ITU_BANDS = [
+  {lo:3e3,   hi:3e4,  name:'VLF', kr:'초장파', color:'#4d5660', prop:'지표파 · 해수 침투',     use:'잠수함 통신, 표준 시보'},
+  {lo:3e4,   hi:3e5,  name:'LF',  kr:'장파',   color:'#4d5660', prop:'지표파',                 use:'장거리 항행(LORAN)'},
+  {lo:3e5,   hi:3e6,  name:'MF',  kr:'중파',   color:'#6b59aa', prop:'지표파 (야간 전리층)',    use:'AM 라디오, 선박'},
+  {lo:3e6,   hi:3e7,  name:'HF',  kr:'단파',   color:'#8a6012', prop:'전리층 반사(공간파)',     use:'원거리 국제방송, 아마추어'},
+  {lo:3e7,   hi:3e8,  name:'VHF', kr:'초단파', color:'#2c6da4', prop:'직접파 (가시선)',         use:'FM 라디오, TV, 항공 관제'},
+  {lo:3e8,   hi:3e9,  name:'UHF', kr:'극초단파',color:'#267c41',prop:'직접파',                 use:'이동통신, Wi-Fi, GPS, DTV'},
+  {lo:3e9,   hi:3e10, name:'SHF', kr:'센티미터파',color:'#117a68',prop:'강한 직진성',          use:'위성통신, 레이더, 마이크로파 중계'},
+  {lo:3e10,  hi:3e11, name:'EHF', kr:'밀리미터파',color:'#ae3e30',prop:'직진 · 감쇠 큼',       use:'5G mmWave, 차량 레이더'}
+];
+const MW_BANDS = [
+  {lo:1e9,    hi:2e9,    name:'L',  color:'#267c41', use:'GPS, 이동위성, 항공 관제 레이더'},
+  {lo:2e9,    hi:4e9,    name:'S',  color:'#267c41', use:'Wi-Fi 2.4G, 블루투스, 전자레인지, 기상 레이더'},
+  {lo:4e9,    hi:8e9,    name:'C',  color:'#8a6012', use:'위성통신 (하향 4 / 상향 6 GHz)'},
+  {lo:8e9,    hi:1.2e10, name:'X',  color:'#8a6012', use:'군용·기상·해상 레이더'},
+  {lo:1.2e10, hi:1.8e10, name:'Ku', color:'#9d520f', use:'위성방송(DBS), VSAT (하향 12 / 상향 14 GHz)'},
+  {lo:1.8e10, hi:2.7e10, name:'K',  color:'#ae3e30', use:'22.2GHz 수증기 흡수 — 통신용 기피'},
+  {lo:2.7e10, hi:4e10,   name:'Ka', color:'#6b59aa', use:'고속 위성 (하향 20 / 상향 30), 5G mmWave 28GHz'},
+  {lo:4e10,   hi:7.5e10, name:'V',  color:'#6b59aa', use:'WiGig 60GHz — 산소 흡수로 근거리 전용'},
+  {lo:7.5e10, hi:1.1e11, name:'W',  color:'#4d5660', use:'차량 레이더 77GHz, 전파 천문'}
+];
+
+function bandSample(v, unit){
+  const i = document.getElementById('band-input');
+  const u = document.getElementById('band-unit');
+  if(u) u.value = unit;
+  if(i) i.value = v;
+  classifyBand();
+}
+
+// 파장(m) → 사람이 읽는 문자열
+function fmtWavelength(m){
+  if(m >= 1000) return (m/1000).toFixed(2).replace(/\.?0+$/,'') + ' km';
+  if(m >= 1)    return m.toFixed(3).replace(/\.?0+$/,'') + ' m';
+  if(m >= 0.01) return (m*100).toFixed(2).replace(/\.?0+$/,'') + ' cm';
+  return (m*1000).toFixed(2).replace(/\.?0+$/,'') + ' mm';
+}
+
+function classifyBand(){
+  const inp = document.getElementById('band-input');
+  const uEl = document.getElementById('band-unit');
+  const errEl = document.getElementById('band-error');
+  const out = document.getElementById('band-result');
+  if(!inp || !out) return;
+
+  const showErr = m=>{
+    if(!errEl) return;
+    if(m){ errEl.style.display='block'; errEl.innerHTML='⚠ '+esc(m); out.innerHTML=''; }
+    else { errEl.style.display='none'; errEl.innerHTML=''; }
+  };
+
+  const raw = inp.value.trim();
+  if(raw === ''){ showErr(''); out.innerHTML=''; return; }
+  const v = Number(raw);
+  if(!isFinite(v) || v <= 0){ showErr('0보다 큰 숫자를 입력해 주세요.'); return; }
+  showErr('');
+
+  const f = v * Number((uEl && uEl.value) || 1e9);   // Hz
+  const lam = 3e8 / f;                               // m
+  const itu = ITU_BANDS.find(b => f >= b.lo && f < b.hi);
+  const mw  = MW_BANDS.find(b => f >= b.lo && f < b.hi);
+  const isMicro = f >= 3e8 && f < 3e10;              // 300MHz ~ 30GHz
+
+  const card = (label, value, color, sub)=>
+    '<div style="background:var(--bg3);border-radius:9px;padding:12px 14px;border-left:3px solid '+color+';">'+
+    '<div style="font-size:13px;color:'+color+';font-weight:600;margin-bottom:4px;">'+label+'</div>'+
+    '<div style="font-size:20px;color:#1d252d;font-weight:700;">'+value+'</div>'+
+    (sub?'<div style="font-size:13px;color:var(--text3);margin-top:3px;">'+sub+'</div>':'')+'</div>';
+
+  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:9px;">';
+  html += card('ITU 대역',
+    itu ? itu.name + ' <span style="font-size:14px;font-weight:400">('+itu.kr+')</span>' : '규정 범위 밖',
+    itu ? itu.color : '#4d5660',
+    itu ? itu.prop : '3kHz ~ 300GHz 범위를 벗어남');
+  html += card('마이크로파 밴드',
+    mw ? mw.name + ' 밴드' : (isMicro ? '밴드 구분 없음' : '해당 없음'),
+    mw ? mw.color : '#4d5660',
+    mw ? mw.use : (isMicro ? '마이크로파 범위이지만 IEEE 밴드 구분 밖(1GHz 미만)' : '마이크로파(300MHz~30GHz)가 아님'));
+  html += card('파장 λ', fmtWavelength(lam), '#117a68', 'λ = c / f = 3×10⁸ / ' + f.toExponential(2));
+  html += card('마이크로파 여부',
+    isMicro ? '✔ 마이크로파' : '✘ 아님', isMicro ? '#117a68' : '#ae3e30',
+    '기준 300MHz ~ 30GHz');
+  html += '</div>';
+
+  if(itu){
+    html += '<div class="flow" style="margin-top:11px;">'+
+      'ITU 대역 : <b style="color:'+itu.color+'">'+itu.name+' ('+itu.kr+')</b>  '+
+      (itu.lo/1e6 >= 1 ? (itu.lo/1e6)+' MHz' : (itu.lo/1e3)+' kHz') + ' ~ ' +
+      (itu.hi/1e9 >= 1 ? (itu.hi/1e9)+' GHz' : (itu.hi/1e6)+' MHz') + '\n' +
+      '전파 방식 : ' + itu.prop + '\n' +
+      '주요 용도 : ' + itu.use +
+      (mw ? '\n\n마이크로파 밴드 : <b style="color:'+mw.color+'">'+mw.name+'</b>  '+
+        (mw.lo/1e9)+' ~ '+(mw.hi/1e9)+' GHz\n           '+mw.use : '') +
+      '</div>';
+  }
+
+  // 감쇠 주의 안내
+  if(f >= 1e10){
+    html += '<div class="warn">이 주파수는 <b>10GHz 이상</b>이라 <b>강우 감쇠</b>가 뚜렷하다.'+
+      (Math.abs(f-2.22e10) < 2e9 ? ' 특히 <b>22.2GHz 부근은 수증기 흡수</b>가 최대다.' : '')+
+      (Math.abs(f-6e10) < 5e9 ? ' <b>60GHz 부근은 산소 흡수</b>가 최대라 근거리만 가능하다.' : '')+
+      '</div>';
+  }
+
+  out.innerHTML = html;
+}
+
+
+// ══════════════════════════════════════════════════════════
+//  자릿값 8칸 위젯 — 클릭으로 비트를 켜고 끄면 값이 바뀐다
+// ══════════════════════════════════════════════════════════
+const BIT_WEIGHTS = [128, 64, 32, 16, 8, 4, 2, 1];
+let bitState = [1,1,0,0,1,0,0,0];   // 기본값 200
+
+function toggleBit(i){
+  bitState[i] = bitState[i] ? 0 : 1;
+  renderBits();
+}
+
+function setBits(v){
+  v = Math.max(0, Math.min(255, v|0));
+  BIT_WEIGHTS.forEach((w,i)=>{ bitState[i] = (v & w) ? 1 : 0; });
+  renderBits();
+}
+
+function renderBits(){
+  const wrap = document.getElementById('bitcells');
+  const out  = document.getElementById('bit-out');
+  if(!wrap) return;
+
+  wrap.innerHTML = BIT_WEIGHTS.map((w,i)=>{
+    const on = bitState[i] === 1;
+    const c  = i < 4 ? '#6b59aa' : '#117a68';   // 상위 4비트 / 하위 4비트 색 구분
+    return '<button onclick="toggleBit('+i+')" style="display:flex;flex-direction:column;align-items:center;gap:3px;'+
+      'padding:9px 2px;border-radius:8px;cursor:pointer;font-family:inherit;transition:all .12s;'+
+      'background:'+(on ? c+'26' : 'var(--bg3)')+';border:1px solid '+(on ? c : 'transparent')+';">'+
+      '<span style="font-size:12px;color:'+(on ? c : 'var(--text3)')+';">'+w+'</span>'+
+      '<span style="font-size:22.5px;font-weight:700;line-height:1;color:'+(on ? '#1d252d' : 'var(--text3)')+';">'+bitState[i]+'</span>'+
+      '</button>';
+  }).join('');
+
+  if(!out) return;
+  const dec  = BIT_WEIGHTS.reduce((a,w,i)=> a + (bitState[i] ? w : 0), 0);
+  const bin  = bitState.join('');
+  const hi   = parseInt(bin.slice(0,4), 2);
+  const lo   = parseInt(bin.slice(4), 2);
+  const hex  = RADIX_DIGITS[hi] + RADIX_DIGITS[lo];
+  const ones = BIT_WEIGHTS.filter((w,i)=>bitState[i]);
+  const sum  = ones.length ? ones.join(' + ') + ' = ' + dec : '0 (전부 꺼짐)';
+
+  const card = (label, value, color, sub)=>
+    '<div style="background:var(--bg3);border-radius:9px;padding:11px 13px;border-left:3px solid '+color+';">'+
+    '<div style="font-size:13px;color:'+color+';font-weight:600;margin-bottom:3px;">'+label+'</div>'+
+    '<div class="mono" style="font-size:21px;color:#1d252d;font-weight:700;">'+value+'</div>'+
+    (sub?'<div style="font-size:13px;color:var(--text3);margin-top:3px;">'+sub+'</div>':'')+'</div>';
+
+  out.innerHTML =
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;">'+
+      card('10진수', dec, '#2c6da4', '1인 자리만 더한 값')+
+      card('2진수', bin, '#267c41', '8비트')+
+      card('16진수', hex, '#8a6012',
+        '<span style="color:#6b59aa">'+bin.slice(0,4)+'</span>='+hi+'('+RADIX_DIGITS[hi]+')'+
+        ' · <span style="color:#117a68">'+bin.slice(4)+'</span>='+lo+'('+RADIX_DIGITS[lo]+')')+
+      card('8진수', dec.toString(8), '#9d520f', '3비트씩 묶음')+
+    '</div>'+
+    '<div class="flow" style="margin-top:10px;">1인 자리만 더하기 :  '+sum+
+      '\n16진 4+4로 자르기 :  '+bin.slice(0,4)+' '+bin.slice(4)+
+      '  →  '+RADIX_DIGITS[hi]+' '+RADIX_DIGITS[lo]+'  =  <b style="color:#1d252d">'+hex+'</b>'+
+      '\n검산 (끝자리) :      '+bitState[7]+' → <b style="color:#1d252d">'+(bitState[7] ? '홀수' : '짝수')+'</b></div>';
+}
+
+function bootInit(){
+  // 홈 화면 강제 표시
+  var pg = window.__PAGE__ || null;
+  var home = document.getElementById('sec-home');
+  if(pg && pg.sec && document.getElementById('sec-' + pg.sec)){
+    _navReplace = true;
+    showSection(pg.sec, null);
+    _navReplace = false;
+  } else if(pg && pg.hub){
+    try{ syncNav('', document.querySelector('.subj-head[data-sid="' + pg.hub + '"]')); toggleSubj(pg.hub, document.querySelector('.subj-head[data-sid="' + pg.hub + '"]')); }catch(e){}
+  } else if(home){
+    home.classList.add('visible');
+  }
+  syncTopbarHeight();
+  syncNavCounts();
+  try{ wrapWideTables(); }catch(e){}
+  // 폰트 로드 후 높이가 바뀔 수 있으므로 한 번 더
+  setTimeout(syncTopbarHeight, 300);
+  // 퀴즈 초기화 (비동기 처리로 UI 블로킹 방지)
+  renderAdder();            // 가산기 위젯 초기 표시
+  calcRipple();             // 4비트 병렬가산기 초기 표시
+  showCloudModel('iaas');   // 클라우드 책임범위 스택 초기 표시
+  showPtzMode('swing');     // PTZ 동작 도해 초기 표시
+  renderOsiNav();           // OSI 계층 흐름 네비 생성
+  classifyBand();           // 주파수 대역 판별기 초기 표시
+  mwNext();                 // 마이크로파 밴드 플래시카드 첫 문제
+  oscDraw();                // Aβ 발진 시뮬레이터 초기 표시
+  renderBits();             // 자릿값 8칸 위젯 초기 표시
+  showAes(256);             // AES 키 길이 비교 초기 표시
+  showKeyFlow('sym');       // 대칭/비대칭 흐름 초기 표시
+  calcKeyCount();           // 키 개수 계산기 초기 표시
+  setTimeout(function(){
+    // 저장된 진행상황이 있으면 이어서, 없으면 새로 시작
+    if(loadProgress()){
+      syncFilterButtons();
+      const c = document.getElementById('quiz-count');
+      if(c) c.textContent = currentQuizzes.length;
+      renderQuiz();
+    } else {
+      initQuiz();
+    }
+    restoreExam();
+    syncQuizModeUI();
+  }, 50);
+}
+
+// ── Aβ 발진 시뮬레이터 ────────────────────────────────────────
+function oscSet(v){
+  const sl = document.getElementById('osc-slider');
+  if(sl){ sl.value = v; oscDraw(); }
+}
+function oscDraw(){
+  const c = document.getElementById('osc-canvas');
+  const sl = document.getElementById('osc-slider');
+  if(!c || !sl || !c.getContext) return;
+  const v = parseFloat(sl.value);
+  const vEl = document.getElementById('osc-val');
+  if(vEl) vEl.textContent = v.toFixed(2);
+
+  const ctx = c.getContext('2d'), W = c.width, H = c.height, mid = H/2;
+  ctx.clearRect(0,0,W,H);
+
+  // 클리핑 한계선
+  const limit = H*0.40, cycles = 24;
+  // 시작 진폭은 임의(회로 잡음 수준)이므로, 각 구간에서 거동이 가장 잘 보이도록 잡는다
+  const a0 = v > 1.005 ? H*0.050 : (v < 0.995 ? H*0.340 : H*0.220);
+  ctx.strokeStyle = 'rgba(20,24,36,0.10)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(0,mid); ctx.lineTo(W,mid); ctx.stroke();
+  ctx.setLineDash([4,5]); ctx.strokeStyle = 'rgba(174,64,36,0.35)';
+  ctx.beginPath(); ctx.moveTo(0,mid-limit); ctx.lineTo(W,mid-limit);
+  ctx.moveTo(0,mid+limit); ctx.lineTo(W,mid+limit); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = 'rgba(174,64,36,0.55)'; ctx.font = '11px sans-serif';
+  ctx.fillText('포화 한계', 6, mid-limit-5);
+
+  // 파형 — 루프 한 바퀴(= 1주기)마다 진폭에 Aβ 가 곱해진다
+  let clipped = false;
+  ctx.beginPath();
+  for(let x=0; x<=W; x++){
+    const n = (x/W)*cycles;
+    let amp = a0 * Math.pow(v, n);
+    let y = amp * Math.sin(2*Math.PI*n);
+    if(y >  limit){ y =  limit; clipped = true; }
+    if(y < -limit){ y = -limit; clipped = true; }
+    if(x===0) ctx.moveTo(x, mid-y); else ctx.lineTo(x, mid-y);
+  }
+  const col = v > 1.005 ? '#ae4024' : (v < 0.995 ? '#4d5660' : '#267c41');
+  ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.stroke();
+
+  const msg = document.getElementById('osc-msg');
+  if(msg){
+    if(v > 1.005){
+      msg.innerHTML = '<b style="color:#ae4024">Aβ &gt; 1 — 진폭이 한 바퀴마다 커진다.</b> '
+        + '결국 전원 전압에 막혀 <b>꼭대기가 잘린다 = 클리핑(포화)</b>. 발진이 <b>시작</b>되는 과도 상태다.'
+        + (clipped ? ' <span style="color:var(--text3)">(위 그래프에서 이미 잘리고 있다)</span>' : '');
+    } else if(v < 0.995){
+      msg.innerHTML = '<b style="color:#4d5660">Aβ &lt; 1 — 진폭이 한 바퀴마다 줄어든다.</b> '
+        + '돌 때마다 작아지므로 <b>감쇠하다 소멸</b>한다. 발진이 <b>유지되지 못한다</b>.';
+    } else {
+      msg.innerHTML = '<b style="color:#267c41">Aβ = 1 — 크기가 그대로 돌아온다.</b> '
+        + '진폭이 일정한 <b>안정적 정현파</b> = <b>지속 발진</b>. 여기에 <b>∠Aβ = 0°</b> 까지 맞으면 바크하우젠 조건 완성.';
+    }
+  }
+}
+
+// ── 마이크로파 밴드 플래시카드 ────────────────────────────────
+const MW_CARDS = [
+  {b:'L',  f:'1 ~ 2 GHz',    w:'30 ~ 15 cm',    a:'1.575', use:'GPS · 이동위성(Inmarsat) · 항공 관제 레이더', key:'GPS'},
+  {b:'S',  f:'2 ~ 4 GHz',    w:'15 ~ 7.5 cm',   a:'2.45',  use:'Wi-Fi 2.4G · 블루투스 · 전자레인지 · 기상 레이더', key:'전자레인지(2.45GHz)'},
+  {b:'C',  f:'4 ~ 8 GHz',    w:'7.5 ~ 3.75 cm', a:'6',     use:'위성통신 하향 4 / 상향 6 · 마이크로파 중계', key:'강우 감쇠가 적은 위성 대역'},
+  {b:'X',  f:'8 ~ 12 GHz',   w:'3.75 ~ 2.5 cm', a:'10',    use:'군용 레이더 · 기상/해상 레이더 · 군 위성', key:'군용 레이더'},
+  {b:'Ku', f:'12 ~ 18 GHz',  w:'2.5 ~ 1.7 cm',  a:'14',    use:'위성방송(DBS) · VSAT — 하향 12 / 상향 14', key:'위성방송(DBS)'},
+  {b:'K',  f:'18 ~ 27 GHz',  w:'1.7 ~ 1.1 cm',  a:'22.2',  use:'수증기 흡수로 통신용 기피', key:'22.2GHz 수증기 흡수'},
+  {b:'Ka', f:'27 ~ 40 GHz',  w:'1.1 cm ~ 7.5 mm', a:'28',  use:'고속 위성 하향 20 / 상향 30 · 5G mmWave 28GHz', key:'5G mmWave(28GHz)'},
+  {b:'V',  f:'40 ~ 75 GHz',  w:'7.5 ~ 4 mm',    a:'60',    use:'WiGig(802.11ad) 60GHz · 근거리 초고속', key:'60GHz 산소 흡수'},
+  {b:'W',  f:'75 ~ 110 GHz', w:'4 ~ 2.7 mm',    a:'77',    use:'차량용 레이더 77GHz · 전파 천문', key:'차량용 레이더(77GHz)'}
+];
+let mwCur = null, mwKind = 0;
+function mwNext(){
+  const qEl = document.getElementById('mw-q'), aEl = document.getElementById('mw-a');
+  if(!qEl || !aEl) return;
+  let pick, guard = 0;
+  do { pick = MW_CARDS[Math.floor(Math.random()*MW_CARDS.length)]; guard++; }
+  while(mwCur && pick.b === mwCur.b && guard < 12);
+  mwCur = pick; mwKind = Math.floor(Math.random()*3);
+  let q;
+  if(mwKind === 0)      q = '<span style="color:#2c6da4">' + pick.b + ' 밴드</span> 의 주파수 범위는?';
+  else if(mwKind === 1) q = '<span style="color:#2c6da4">' + pick.a + ' GHz</span> 는 어느 밴드?';
+  else                  q = '<span style="color:#2c6da4">' + pick.key + '</span> &nbsp;→&nbsp; 어느 밴드?';
+  qEl.innerHTML = q;
+  aEl.style.display = 'none';
+  aEl.innerHTML = '<b style="color:#1d252d;font-size:19px;">' + pick.b + ' 밴드 &nbsp;·&nbsp; ' + pick.f + '</b><br>'
+    + '<span style="font-size:14px;color:var(--text3);">파장 ' + pick.w + '</span><br>' + pick.use;
+}
+function mwReveal(){
+  const aEl = document.getElementById('mw-a');
+  if(aEl) aEl.style.display = aEl.style.display === 'none' ? 'block' : 'none';
+}
+
+// ── 가산기 위젯 ───────────────────────────────────────────────
+let adderBits = {A:0, B:0, C:0};
+function adderToggle(k){
+  adderBits[k] = adderBits[k] ? 0 : 1;
+  renderAdder();
+}
+function renderAdder(){
+  const {A,B,C} = adderBits;
+  const labels = {A:'A', B:'B', C:'C<sub>in</sub>'};
+  ['A','B','C'].forEach(k=>{
+    const el = document.getElementById('adder-'+k);
+    if(!el) return;
+    el.innerHTML = labels[k] + ' = ' + adderBits[k];
+    el.classList.toggle('on', adderBits[k]===1);
+  });
+  const haS = A ^ B, haC = A & B;
+  const faS = A ^ B ^ C, faC = (A & B) | (C & (A ^ B));
+  const ho = document.getElementById('ha-out');
+  if(ho) ho.innerHTML = 'S = <span style="color:#8a6012">'+haS+'</span> &nbsp; C = <span style="color:#8a6012">'+haC+'</span>'
+                      + ' <span style="font-size:13px;font-weight:400;color:var(--text3)">('+A+'+'+B+' = '+(A+B)+')</span>';
+  const fo = document.getElementById('fa-out');
+  if(fo) fo.innerHTML = 'S = <span style="color:#8a6012">'+faS+'</span> &nbsp; C<sub>out</sub> = <span style="color:#8a6012">'+faC+'</span>'
+                      + ' <span style="font-size:13px;font-weight:400;color:var(--text3)">('+A+'+'+B+'+'+C+' = '+(A+B+C)+')</span>';
+  const tb = document.getElementById('fa-tbody');
+  if(tb){
+    let html='';
+    for(let i=0;i<8;i++){
+      const a=(i>>2)&1, b=(i>>1)&1, c=i&1;
+      const sS=a^b^c, sC=(a&b)|(c&(a^b));
+      const on = (a===A && b===B && c===C);
+      html += '<tr class="'+(on?'fa-row-active':'')+'">'
+            + '<td class="mono">'+a+'</td><td class="mono">'+b+'</td><td class="mono">'+c+'</td>'
+            + '<td class="mono"><b>'+sS+'</b></td><td class="mono"><b>'+sC+'</b></td>'
+            + '<td style="color:var(--text3)">'+a+'+'+b+'+'+c+' = '+(a+b+c)+'</td></tr>';
+    }
+    tb.innerHTML = html;
+  }
+}
+
+// ── 4비트 리플 캐리 가산기 ────────────────────────────────────
+function calcRipple(){
+  const out = document.getElementById('rc-out');
+  if(!out) return;
+  const clean = v => (v||'').replace(/[^01]/g,'').slice(0,4).padStart(4,'0');
+  const rawA = document.getElementById('rc-a').value;
+  const rawB = document.getElementById('rc-b').value;
+  if(/[^01]/.test(rawA) || /[^01]/.test(rawB)){
+    out.innerHTML = '<span style="color:#ae3e30">0 과 1 만 입력하세요</span>';
+    return;
+  }
+  const a = clean(rawA), b = clean(rawB);
+  let carry = 0, sum = '', steps = [];
+  for(let i=3;i>=0;i--){
+    const ai = +a[i], bi = +b[i], ci = carry;
+    const si = ai ^ bi ^ ci;
+    const co = (ai & bi) | (ci & (ai ^ bi));
+    sum = si + sum;
+    steps.unshift('   FA'+(3-i)+' : A='+ai+' B='+bi+' C_in='+ci+'  →  S='+si+'  C_out='+co);
+    carry = co;
+  }
+  const dec = parseInt(a,2) + parseInt(b,2);
+  out.innerHTML =
+    '     ' + a + '   (' + parseInt(a,2) + ')\n'
+  + '   + ' + b + '   (' + parseInt(b,2) + ')\n'
+  + '   ────────\n'
+  + '   ' + (carry ? '<b>1</b>' : ' ') + ' ' + sum + '   (' + dec + ')'
+  + (carry ? '   ← <b>오버플로 자리올림 1</b>' : '') + '\n\n'
+  + '   자리올림 전파 (최하위 → 최상위)\n'
+  + steps.join('\n');
+}
+
+
+// ── 용어 카드 데이터 (기출 500문항에서 뽑은 정의형 용어) ──────────
+// t=용어, d=뜻(기출 문제의 정의 문장), s=과목, y=출처 회차
+const CARD_DATA = [
+ // ═══ 1과목 정보전송일반 ═══
+ {t:'단기 페이딩 (Short-term Fading)', d:'이동통신에서 고층 건물·철탑 등 인공구조물의 반사(다중경로)로 발생하며, 페이딩 주기가 짧고 도심에서 주로 나타나는 페이딩', s:'1과목', y:'2022-1·3회'},
+ {t:'시간 다이버시티', d:'다중 경로로 페이딩이 발생했을 때 동일한 정보를 일정 시간 간격을 두어 반복 전송해 막는 방식', s:'1과목', y:'2023-1회'},
+ {t:'각도 다이버시티 (Angle Diversity)', d:'전파의 경로별 도래각이 다른 점을 이용해, 빔 각도가 다른 복수 안테나의 수신 전력을 합성하여 페이딩을 보상하는 방법', s:'1과목', y:'2023-2회'},
+ {t:'빔포밍 (Beamforming)', d:'다수의 안테나를 일정 간격으로 배열하고 각 안테나 신호의 진폭과 위상을 변화시켜 특정 방향으로 빔을 만드는 기술', s:'1과목', y:'2023-1회'},
+ {t:'누화 (Crosstalk)', d:'서로 다른 전송 선로상의 신호가 정전 결합·전자 결합 등 전기적 결합에 의해 다른 회선에 영향을 주는 현상', s:'1과목', y:'2023-2회'},
+ {t:'변조속도 (보오율)', d:'신호 레벨이 변하는 속도로, 매초 전송할 수 있는 부호(심볼)의 수. 단위는 [baud]', s:'1과목', y:'2023-2회'},
+ {t:'개구수 (NA)', d:'광섬유 케이블에서 빛을 집광하는 능력. 최대 수광각 범위 내로 입사시키기 위한 광학 척도', s:'1과목', y:'2023-1회'},
+ {t:'도플러 현상', d:'인공위성이나 우주 비행체처럼 매우 빠르게 운동할 때, 전파 발진원의 이동에 따라 수신 주파수가 변하는 현상', s:'1과목', y:'2023-1회'},
+ {t:'HF대 (단파)', d:'전리층을 이용한 통신에 가장 많이 사용되는 주파수대', s:'1과목', y:'2022-1회'},
+ {t:'마이크로파', d:'레이더·위성통신에 이용되며 L · X · Ku · K · Ka 밴드 등을 사용하는 파', s:'1과목', y:'2022-2회'},
+ {t:'주파수 도약 (FH)', d:'반송파를 여러 개 사용해 일정한 주기마다 바꾸며 신호를 대역확산하여 전송하는 기술', s:'1과목', y:'2022-2회'},
+ {t:'SC-FDMA', d:'LTE의 상향링크 전송방식. 여러 주파수가 섞여 하나로 보이며 통화자들이 전체 부반송파를 나누어 사용 (PAPR 개선)', s:'1과목', y:'2022-3회'},
+ {t:'다중화', d:'효율적인 전송을 위해 하나의 전송로에 여러 신호를 동시에 전송하는 기술', s:'1과목', y:'2022-2회'},
+ {t:'선 스펙트럼', d:'주기 신호의 주파수 스펙트럼 형태 (비주기 신호는 연속 스펙트럼)', s:'1과목', y:'2022-2회'},
+ {t:'바크하우젠 조건 (βA = 1)', d:'궤환에 의한 발진회로에서 증폭기 이득 A, 궤환율 β일 때 발진이 지속되기 위한 조건', s:'1과목', y:'2023-1회'},
+ {t:'D 플립플롭', d:'정보를 유지하기 위한 래치(Latch) 회로나 시프트 레지스터에 주로 사용되는 플립플롭', s:'1과목', y:'2022-2회'},
+ {t:'반감산기', d:'A·B 두 입력과 차(Difference)·빌림(Borrow) 두 출력을 가지는 회로', s:'1과목', y:'2023-1회'},
+ {t:'2B/1Q', d:'2비트 데이터를 4준위 신호 중 하나에 속하는 1개 신호 요소로 부호화하는 회선 부호화 방식', s:'1과목', y:'2023-1회'},
+ {t:'연속송출 방식', d:'동일한 데이터를 2회 송출하여 수신 측에서 비교 체크함으로써 에러를 검출하는 방식', s:'1과목', y:'2023-1회'},
+ {t:'에코 (Echo)', d:'전송로의 동적 불완전성이 원인으로 발생하는 에러', s:'1과목', y:'2022-2회'},
+
+ // ═══ 2과목 정보통신기기 ═══
+ {t:'지능형 단말장치', d:'단말기에 마이크로프로세서를 내장하여 분산처리 방식에 적절한 단말장치', s:'2과목', y:'2022-1회'},
+ {t:'통계적 시분할 다중화 (STDM)', d:'송수신할 데이터가 있는 단말기에만 타임슬롯을 할당하는 다중화 방식', s:'2과목', y:'2022-1회'},
+ {t:'OFDM', d:'고속의 송신 신호를 다수의 직교하는 협대역 반송파로 다중화시키는 변조방식', s:'2과목', y:'2022-1회'},
+ {t:'HD-SDI', d:'기존 아날로그 카메라에 설치된 동축케이블을 그대로 활용해 고화질 영상 전송이 가능한 디지털 신호 전송방식', s:'2과목', y:'2022-1회'},
+ {t:'멀티포트 모뎀', d:'일반 모뎀 기능에 멀티플렉서가 혼합된 형태로, 4개 이하의 채널을 다중화할 때 사용하는 모뎀', s:'2과목', y:'2022-1회'},
+ {t:'셋톱박스', d:'IPTV 서비스 구성요소 중 디지털 콘텐츠를 TV로 볼 수 있게 해주는 장치', s:'2과목', y:'2022-2회'},
+ {t:'단말계', d:'CATV 구성요소 중 가입자 설비. 컨버터·홈 터미널·TV 수상기 등으로 구성', s:'2과목', y:'2022-2회'},
+ {t:'OTT', d:'기존 통신·방송 사업자와 더불어 제3사업자들이 인터넷을 통해 미디어 콘텐츠를 제공하는 서비스', s:'2과목', y:'2022-2회'},
+ {t:'가입자선 신호방식', d:'전화기와 교환기 사이에서 접속 제어 정보를 전달하는 신호방식', s:'2과목', y:'2022-2회'},
+ {t:'CPS (사이버 물리 시스템)', d:'스마트공장에서 물리적 실제 시스템과 사이버 공간의 소프트웨어·환경을 실시간 통합하고 상호 피드백하는 시스템', s:'2과목', y:'2022-3회'},
+ {t:'DSU', d:'가입자선에 위치해 단말기와 디지털 네트워크 사이 인터페이스를 제공하며, 단극성(유니폴라)을 쌍극성(바이폴라)으로 변환하는 장치', s:'2과목', y:'2022-3회'},
+ {t:'WAVE', d:'ITS 중 차량 간 통신(V2V) 및 차량과 인프라 간 통신(V2I)에 활용되는 기술', s:'2과목', y:'2022-3회'},
+ {t:'소프트 핸드오프 (Soft Handoff)', d:'이동교환기 내에서 동일한 주파수를 사용하는 다른 기지국으로 이동할 때의 핸드오프', s:'2과목', y:'2022-3회'},
+ {t:'홈게이트웨이', d:'세대망과 단지망 혹은 기간망을 상호 접속하는 장치', s:'2과목', y:'2023-1회'},
+ {t:'VAN (부가가치통신망)', d:'회선을 보유하거나 임차하여 정보의 축적·가공·변환을 통해 광범위한 서비스를 제공하는 것', s:'2과목', y:'2023-1회'},
+ {t:'가드 밴드 (Guard Band)', d:'FDM 다중화 방식에서 서브 채널 간 상호 간섭을 방지하기 위한 완충 대역', s:'2과목', y:'2023-1회'},
+ {t:'VCS (화상회의 시스템)', d:'다른 장소에서 회의하면서 TV 화면으로 음성과 화상을 동시에 주고받아 한 사무실에 있는 것 같은 효과를 내는 장치', s:'2과목', y:'2023-1회'},
+ {t:'스마트 사이니지', d:'인터넷·네트워크 기반 양방향 맞춤형 서비스가 가능하며, 특정 시간·장소·청중의 행동에 따라 정보를 표시하는 미디어', s:'2과목', y:'2023-2회'},
+ {t:'혼합현실 (MR)', d:'가상 정보를 현실에 덧입히는 데서 더 나아가, 현실과 가상이 자연스럽게 결합되어 두 환경이 공존하는 기술', s:'2과목', y:'2023-2회'},
+ {t:'폐루프 전력제어', d:'통화 중 이동국 출력을 기지국이 수신 가능한 최소 전력으로 낮춰 통화용량을 최대화하고 배터리 수명을 늘리는 제어', s:'2과목', y:'2023-2회'},
+
+ // ═══ 3과목 정보통신네트워크 ═══
+ {t:'데이터링크 계층', d:'물리적 연결을 이용해 신뢰성 있는 정보를 전송하려고 동기화·오류제어·흐름제어 역할을 하는 OSI 계층', s:'3과목', y:'2022-1·3회'},
+ {t:'데이터그램 방식', d:'패킷 경로를 동적으로 설정하며 패킷 단위로 분할 전달하고, 목적지 노드에서 재순서화와 조립 과정이 필요한 방식', s:'3과목', y:'2022-1회'},
+ {t:'ATM 셀', d:'B-ISDN 전송의 기본 단위. 전체 53바이트 = 헤더 5바이트 + 사용자 데이터 48바이트', s:'3과목', y:'2022-1회·2023-2회'},
+ {t:'QoS', d:'캐리어 이더넷이 기존 이더넷 기술의 단점을 보완하기 위해 최우선적으로 고려한 사항', s:'3과목', y:'2022-1회'},
+ {t:'소프터 핸드오프 (Softer Handoff)', d:'이동통신 기지국의 섹터 간 전파가 겹치는 지역에서 통화 전환이 이루어질 때의 핸드오프', s:'3과목', y:'2022-1회'},
+ {t:'IEEE 802.1Q', d:'이더넷 네트워크에서 VLAN 태깅 표준', s:'3과목', y:'2022-1회'},
+ {t:'라우터 (Router)', d:'LAN 장비 중 네트워크 계층(3계층)의 연결 장비', s:'3과목', y:'2022-2회'},
+ {t:'게이트웨이', d:'프로토콜이 서로 다른 네트워크 사이를 결합하는 장비', s:'3과목', y:'2022-2회'},
+ {t:'SONET', d:'범세계적·융통성 있는 전송 네트워크. OC-1 기본 전송속도 51.84[Mbps], 광케이블 WAN 시스템', s:'3과목', y:'2022-2회'},
+ {t:'에이전트 (Agent)', d:'SNMP에서 네트워크 장치의 상태를 감시하는 요소 (장비에 탑재된 쪽)', s:'3과목', y:'2022-2회'},
+ {t:'HLR', d:'이동통신 시스템에서 전체 가입자의 관리를 책임지는 데이터베이스', s:'3과목', y:'2022-2회'},
+ {t:'UDP 162', d:'SNMP에서 이벤트를 보고하는 TRAP 메시지가 사용하는 포트번호', s:'3과목', y:'2022-3회'},
+ {t:'R-ALOHA', d:'데이터 버스트를 송신하려 할 때 사전에 시간대역의 사용을 요구하여 지정된 시간대역으로 송신하는 방식', s:'3과목', y:'2022-3회'},
+ {t:'트랜스페어런트 모드', d:'받은 VLAN 정보를 자신의 것과 동기화하지 않고 다른 스위치로 중계만 하는 VTP 모드', s:'3과목', y:'2022-3회'},
+ {t:'컷 스루 (Cut-through)', d:'스위치 전송 방식 중 목적지 주소만 확인하고 곧바로 전송을 진행하는 방식', s:'3과목', y:'2022-3회'},
+ {t:'LLC 계층', d:'IEEE 802.2 표준으로 정의되며, 다양한 MAC 부계층과 상위 계층 간의 접속을 담당하는 계층', s:'3과목', y:'2023-1회'},
+ {t:'브로드캐스트 주소', d:'MAC 주소의 모든 필드가 FF:FF:FF:FF:FF:FF로 채워져 있을 때 해당하는 주소', s:'3과목', y:'2023-1회'},
+ {t:'TTL (Time To Live)', d:'Trace 명령이 목적지까지 경로를 하나씩 분석할 때, 값을 1씩 증가시키며 보내 경로를 알아내는 필드', s:'3과목', y:'2023-2회'},
+ {t:'플러딩 (Flooding)', d:'OSPF에서 갱신 정보를 인접 라우터에 전송하고, 인접 라우터가 다시 자신의 인접 라우터로 즉시 전달해 전역으로 퍼뜨리는 것', s:'3과목', y:'2023-2회'},
+ {t:'임대 시간 (Lease Time)', d:'DHCP에서 IP를 일정 시간 동안만 부여하고 시간이 끝나면 회수할 때 설정하는 항목', s:'3과목', y:'2023-1회'},
+
+ // ═══ 4과목 정보시스템운용 ═══
+ {t:'SNMP', d:'네트워크 관리 및 네트워크 장치와 그 동작을 감시·관리하는 프로토콜', s:'4과목', y:'2022-1회·2023-1회'},
+ {t:'NMS', d:'네트워크를 모니터링하고 관리하는 데 사용되는 하드웨어와 소프트웨어의 조합으로 구성되는 망관리 시스템', s:'4과목', y:'2022-3회'},
+ {t:'MTTR', d:'시스템의 평균 수리 소요시간을 의미하는 지표', s:'4과목', y:'2022-1회'},
+ {t:'MTBF', d:'수리가 가능한 시스템이 고장난 후부터 다음 고장이 날 때까지의 평균 시간', s:'4과목', y:'2022-2회'},
+ {t:'Availability (가용도)', d:'시스템의 총 운용 시간 중 정상적으로 가동된 시간의 비율. MTBF ÷ (MTBF+MTTR)', s:'4과목', y:'2022-1회'},
+ {t:'무결성 (Integrity)', d:'시스템 내의 정보를 인가된 사용자만 수정할 수 있고, 전송 중에도 수정되지 않고 전달되는 보안 요건', s:'4과목', y:'2022-1회'},
+ {t:'기밀성 (Confidentiality)', d:'비대칭 암호화에서 수신자의 공개키로 암호화하여 이메일을 전송할 때 얻을 수 있는 기능', s:'4과목', y:'2023-2회'},
+ {t:'A의 비밀키 → B의 공개키', d:'A가 B에게 디지털 서명과 암호화를 함께 하여 전송할 때의 암호화 순서', s:'4과목', y:'2022-1회'},
+ {t:'장애 대응 절차', d:'장애발생 신고접수 → 장애처리 → 결과보고 → 장애이력관리', s:'4과목', y:'2022-1회'},
+ {t:'시스템 유지보수 단계', d:'성능 평가, 사용자 피드백, 문제에 대한 개선 및 보안, 시스템의 개량개선 검토를 수행하는 단계', s:'4과목', y:'2022-1회'},
+ {t:'보수시험 프로그램', d:'시스템을 구성하는 각 장비의 기능에 따라 정상 상태를 시험할 목적으로 사용하는 프로그램', s:'4과목', y:'2022-1회'},
+ {t:'하이재킹 (Hijacking)', d:'공격자가 두 객체 사이의 세션을 통제하고, 객체 중 하나인 것처럼 가장하여 상대를 속이는 해킹 기법', s:'4과목', y:'2023-2회'},
+ {t:'방화벽 (Firewall)', d:'내부 네트워크와 외부 네트워크 사이에 위치하며 하드웨어와 소프트웨어로 구성되는 보안 시스템', s:'4과목', y:'2022-3회'},
+ {t:'상태 비저장 방화벽', d:'방화벽을 통과하는 트래픽의 흐름 상태를 추적하지 않는 방화벽 (Stateless Inspection)', s:'4과목', y:'2023-1회'},
+ {t:'독립접지', d:'정보통신공사에서 접지를 개별적으로 시공하여 다른 접지로부터 영향을 받지 않고 장비·시설을 보호하는 접지 방식', s:'4과목', y:'2022-2회'},
+ {t:'트랜잭션 (Transaction)', d:'데이터베이스의 상태를 변화시키는 하나의 논리적 기능을 수행하기 위한 작업 단위. 한꺼번에 모두 수행되어야 할 연산들', s:'4과목', y:'2023-1회'},
+ {t:'케이블 트레이', d:'다량의 케이블 다발을 수용할 수 있도록 벽·바닥·천정 등에 고정되는, 통신 케이블 보호용 고정 구조물', s:'4과목', y:'2023-1회'},
+ {t:'급전선', d:'전파 에너지를 전송하기 위하여 송신장치 또는 수신장치와 안테나 사이를 연결하는 선', s:'4과목', y:'2023-1회'},
+ {t:'광전식 감지기', d:'건물 화재감지 방식 중 연기가 빛을 차단하거나 반사하는 원리를 이용한 연기 감지 센서', s:'4과목', y:'2023-2회'},
+ {t:'ARP 스푸핑 = 2계층', d:'ARP(주소 결정 프로토콜) 스푸핑 공격이 해당하는 OSI 계층', s:'4과목', y:'2022-2회'},
+
+ // ═══ 5과목 컴퓨터일반 및 정보설비기준 ═══
+ {t:'목적 프로그램', d:'원시프로그램(source program)을 컴파일하여 얻어지는 프로그램', s:'5과목', y:'2022-1회'},
+ {t:'연관기억장치', d:'기억된 내용의 일부를 이용하여 기억되어 있는 데이터에 직접 접근해 정보를 읽어내는 장치', s:'5과목', y:'2022-1회'},
+ {t:'Write-through', d:'캐시 메모리의 쓰기 정책 중, 쓰기 동작이 이루어질 때마다 캐시와 주기억장치의 내용을 동시에 갱신하는 방식', s:'5과목', y:'2022-2회'},
+ {t:'프로그램 계수기 (PC)', d:'다음에 실행할 명령의 주소를 기억하여, 제어장치가 올바른 순서로 프로그램을 수행하게 하는 레지스터', s:'5과목', y:'2022-3회'},
+ {t:'제어신호 (Control Signal)', d:'중앙처리장치에서 마이크로 동작이 순서적으로 일어나게 하기 위해 필요한 것', s:'5과목', y:'2023-1회'},
+ {t:'순차 파일', d:'저장공간의 효율성이 가장 높은 파일 구조', s:'5과목', y:'2022-2회'},
+ {t:'커널 (Kernel)', d:'운영체제에서 CPU·메모리·입출력장치 등 물리적 장치와 파일 같은 논리적 자원이 고유 기능을 효율적으로 수행하도록 관리하는 핵심', s:'5과목', y:'2023-2회'},
+ {t:'실시간 운영체제', d:'특정한 짧은 시간 안에 이벤트나 데이터 처리를 보증하고, 정해진 기간 안에 수행이 끝나야 하는 응용을 위한 운영체제', s:'5과목', y:'2022-3회'},
+ {t:'일괄처리 (Batch Processing)', d:'운영체제 방식 중 가장 먼저 사용된 방식 (발달 순서: 일괄처리 → 다중 프로그램 → 대화식 → 분산처리)', s:'5과목', y:'2022-2회'},
+ {t:'클라우드 컴퓨팅', d:'컴퓨터 데이터를 별도 장소로 옮겨 놓고 네트워크로 연결해, 다양한 단말기로 언제 어디서나 이용하는 방식', s:'5과목', y:'2023-1회'},
+ {t:'SDN (소프트웨어 정의 네트워크)', d:'네트워크 가상화 기술 중 소프트웨어 프로그래밍을 통해 네트워크를 제어하는 차세대 네트워킹 기술', s:'5과목', y:'2023-1회'},
+ {t:'플러딩 (Flooding) — 라우팅', d:'수신되는 링크를 제외한 나머지 모든 링크로 패킷을 복사·전송하는 라우팅 알고리즘', s:'5과목', y:'2022-2회'},
+ {t:'워터링 홀 (Watering Hole)', d:'공격 대상이 방문할 만한 합법적 웹사이트를 미리 감염시키고 잠복하다가, 대상이 방문하면 악성코드를 감염시키는 공격', s:'5과목', y:'2022-2회'},
+ {t:'침입탐지시스템 (IDS)', d:'외부 침입자가 권한 없이 자원을 사용하려는 시도나 내부 사용자의 권한 오·남용 시도를 탐지하는 시스템', s:'5과목', y:'2023-2회'},
+ {t:'서브넷 마스크', d:'네트워크에서 IP 주소의 네트워크 주소와 호스트 주소를 구분해 주는 것', s:'5과목', y:'2023-2회'},
+ {t:'100[Ω] 이하', d:'국선 수용 회선이 100회선 이하인 주배선반의 접지저항 허용범위 (100회선 초과는 10Ω 이하)', s:'5과목', y:'2022-1회'},
+ {t:'과학기술정보통신부장관', d:'기간통신사업을 경영하려는 자가 허가를 받아야 하는 대상 (부가통신사업은 신고)', s:'5과목', y:'2022-1회'},
+ {t:'공사중지 명령', d:'감리원이 공사업자가 설계도서 및 관련 규정에 적합하지 않게 시공할 때, 발주자의 동의를 얻어 취할 수 있는 조치', s:'5과목', y:'2022-2·3회'},
+ {t:'준공 후 5년간', d:'정보통신공사를 설계한 용역업자가 설계도서를 보관해야 하는 기간', s:'5과목', y:'2023-2회'},
+ {t:'특급감리원', d:'총 공사금액 70억원 이상 100억원 미만인 정보통신공사의 감리원 배치기준', s:'5과목', y:'2023-1회'},
+
+ // ═══ 1과목 추가 ═══
+ {t:'ISO/IEC 11801', d:'구내통신선로설비 기술기준에 대한 국제표준', s:'1과목', y:'2022-2회'},
+ {t:'TDM', d:'공통선 신호방식에서 사용되는 다중화 방식', s:'1과목', y:'2022-2회'},
+ {t:'멀티플렉서 (MUX)', d:'여러 개의 입력 중 선택신호(S1·S2 등)로 지정된 하나를 골라 출력하는 조합 논리회로', s:'1과목', y:'2023-1회'},
+ {t:'MIMO 안테나의 목표', d:'송신측은 채널용량 증대, 수신측은 공간간섭 제거', s:'1과목', y:'2022-1회'},
+ {t:'상호변조왜곡 방지 대책', d:'송수신 장치를 선형영역에서 동작시킨다', s:'1과목', y:'2022-1회'},
+ {t:'정궤환에서 βA > 1', d:'출력 파형의 진폭에 클리핑(포화)이 일어난다', s:'1과목', y:'2022-1회'},
+ {t:'단일모드 광섬유', d:'코어 지름이 매우 작아 하나의 모드만 전파. 분산이 적어 장거리·고속에 유리 (다중모드와 분류 기준이 다름)', s:'1과목', y:'2022-3회'},
+ {t:'다원 베이스밴드 전송의 효과', d:'비트율이 고정된 상태에서 심볼당 비트 수를 늘리면 전송 대역폭을 줄일 수 있다', s:'1과목', y:'2023-2회'},
+ {t:'해밍 코드', d:'패리티 비트를 여러 개 삽입해 단일 비트 오류의 위치를 찾아 정정할 수 있는 오류 정정 부호(ECC)', s:'1과목', y:'2022-1회'},
+ {t:'전송 제어문자 SYN', d:'Synchronous Idle. 문자 동기를 유지하기 위한 제어문자 (ACK=수신확인, NAK=재전송요청, ENQ=응답요청)', s:'1과목', y:'2022-1회'},
+
+ // ═══ 2과목 추가 ═══
+ {t:'주파수 체배기', d:'무선송신기에서 수정발진자의 주파수보다 더 높은 주파수를 얻기 위해 사용하는 회로', s:'2과목', y:'2022-1회'},
+ {t:'H.323', d:'멀티미디어 화상회의 데이터를 TCP/IP 같은 패킷망으로 전송하기 위한 ITU-T 표준', s:'2과목', y:'2023-1회'},
+ {t:'ONT', d:'PON 구성에서 ONU 다음, 가입자 댁내에 설치되는 광 종단 장치', s:'2과목', y:'2023-1회'},
+ {t:'서브폰 (Sub-phone)', d:'욕실폰·안방폰·주방폰 등, 월패드의 기능 일부 또는 전부가 적용된 홈네트워크 기기', s:'2과목', y:'2023-1회'},
+ {t:'RF 카드', d:'내부에 IC 회로가 내장된 무전지 타입으로, 공동현관기 연동·디지털 도어록에 사용되는 카드', s:'2과목', y:'2023-2회'},
+ {t:'IoT (사물인터넷)', d:'각종 사물에 컴퓨터 칩과 통신 기능을 내장하여 인터넷에 연결하는 기술', s:'2과목', y:'2023-2회'},
+ {t:'DPI', d:'프린터의 인쇄 이미지 해상도나 선명도를 표시하는 방식 (Dots Per Inch)', s:'2과목', y:'2023-2회'},
+ {t:'DTV의 고품질화', d:'잡음에 강하고 전송 에러를 자동 교정하며 고스트(Ghost)가 감소하는 디지털 TV의 특징', s:'2과목', y:'2022-2회'},
+ {t:'PCM 송신 과정', d:'표본화 → 양자화 → 부호화 → 펄스발생기 → 통신채널', s:'2과목', y:'2023-2회'},
+ {t:'홈네트워크 월패드', d:'세대 내 홈네트워크 기기를 통합 제어하는 단말. 기능 일부를 떼어낸 것이 서브폰', s:'2과목', y:'2023-1회'},
+
+ // ═══ 3과목 추가 ═══
+ {t:'핵(Kernel) 기능단위', d:'세션 서비스에서 세션 접속의 설정 및 해제에 필요한 절차의 기본 프로토콜 요소를 제공하는 것', s:'3과목', y:'2022-1회'},
+ {t:'ROADM', d:'재구성 가능 광분기결합 다중화기. OXC와 달리 파장 단위로 회선을 원격에서 동적으로 분기/결합할 수 있다', s:'3과목', y:'2022-1회'},
+ {t:'허브 (HUB)', d:'근거리 통신망(LAN)과 단말 장치를 접속하는 1계층 장치. 받은 신호를 모든 포트로 전달', s:'3과목', y:'2022-2회'},
+ {t:'10Base-5', d:'전송 속도 10[Mbps], 베이스밴드, 최대 세그먼트 500m의 이더넷 규격 (Thick 동축)', s:'3과목', y:'2022-2회'},
+ {t:'증강현실 (AR)', d:'실제 환경에 가상의 객체를 혼합하여 사용자가 실제 환경에서 더 실감나는 부가정보를 제공받는 기술', s:'3과목', y:'2022-3회'},
+ {t:'PAMS (선지성 대체 종속동기방식)', d:'국내 공중통신망에서 총괄국 아래 계위의 디지털 교환기들이 사용하는 망동기 방식', s:'3과목', y:'2022-3회'},
+ {t:'X.25', d:'ITU-T가 제정한 표준으로, 패킷 교환망에서 패킷형 단말과 패킷 교환기 간의 인터페이스를 규정하는 프로토콜', s:'3과목', y:'2023-1회'},
+ {t:'L2 스위치', d:'VLAN으로 네트워크를 분리하는 일이 이루어지는 네트워크 장치 (2계층)', s:'3과목', y:'2023-2회'},
+ {t:'위치등록', d:'이동국이 자신의 위치와 상태를 교환기에 수시로 알려 시스템 부하를 줄이고 착신호 처리를 돕는 절차', s:'3과목', y:'2023-2회'},
+ {t:'OXC', d:'광 회선 분배기. 파장 단위 동적 분기·결합이 어려워 ROADM으로 대체되었다', s:'3과목', y:'2022-1회'},
+
+ // ═══ 4과목 추가 ═══
+ {t:'물리 계층 (1계층)', d:'리피터(Repeater)가 동작하는 OSI 계층', s:'4과목', y:'2022-1회'},
+ {t:'대역폭 (B)', d:'샤논 정리와 나이퀴스트 정리에서 채널용량과 전송률을 높이기 위한 공통 요소', s:'4과목', y:'2022-1회'},
+ {t:'IEEE 802.11n', d:'WLAN 규격 중 최대 600[Mbps]로 가장 빠른 규격 (11b 11 / 11a·g 54 / 11n 600)', s:'4과목', y:'2022-1회'},
+ {t:'라우터 (경로 결정)', d:'네트워크상 트래픽을 제어하며 경로 설정 정보를 가지고 최적 경로를 결정하는 장비', s:'4과목', y:'2022-1회'},
+ {t:'CSMA/CA', d:'무선 LAN(WLAN)의 MAC 알고리즘. 충돌을 감지하는 대신 미리 회피한다', s:'4과목', y:'2022-3회'},
+ {t:'IEEE 802.11', d:'IEEE에서 제정한 무선 LAN의 표준', s:'4과목', y:'2023-1회'},
+ {t:'하우징 (Housing)', d:'감시카메라의 상단 덮개가 돌출되어 눈·비로부터 카메라를 보호하고, 실외 설치 시 물 침투를 막는 부품', s:'4과목', y:'2023-1회'},
+ {t:'통신부 (출입보안시스템)', d:'제어부가 분석한 감지신호를 유·무선 네트워크로 관제센터에 전달하는 구성요소', s:'4과목', y:'2022-3회'},
+ {t:'인터넷망 가상화', d:'가상화된 인터넷 환경을 제공해 악성코드 감염을 최소화하고, 감염·해킹되어도 업무 환경은 안전하게 유지하는 망분리 방식', s:'4과목', y:'2023-2회'},
+ {t:'네트워크 관리', d:'네트워크 자원들의 상태를 모니터링하고 제어하여 안정적인 네트워크 서비스를 제공하는 것', s:'4과목', y:'2023-2회'},
+ {t:'ISMS 점검 단계', d:'프로세스의 측정과 이행을 모니터링하고, 수집된 정보를 정량·정성 분석하며, 분석 결과를 평가하는 단계', s:'4과목', y:'2022-3회'},
+ {t:'tar (Tape Archive)', d:'리눅스에서 여러 파일을 아카이브라는 하나의 파일로 묶거나 다시 풀어내는 명령', s:'4과목', y:'2023-1회'},
+ {t:'bunzip2', d:'버로우스-윌러 블록 정렬 텍스트 압축 알고리즘과 허프만 코딩을 사용하는 리눅스 압축 해제 유틸리티', s:'4과목', y:'2022-2회'},
+ {t:'bdflush', d:'리눅스 커널의 가상 메모리(VM) 하위 시스템과 밀접한, 파일 시스템 성능 조정용 커널 파라미터', s:'4과목', y:'2022-2회'},
+ {t:'taper', d:'테이프 드라이브에 파일 백업·복구 기능을 제공하며 하드디스크에도 백업할 수 있는 리눅스 유틸리티', s:'4과목', y:'2022-3회'},
+ {t:'Openwall 커널 패치', d:'리눅스 커널의 보안 관련 패치 집합체로, 해킹 공격 방어에 효과적인 방법', s:'4과목', y:'2023-1회'},
+
+ // ═══ 5과목 추가 ═══
+ {t:'Linux', d:'오픈소스로 개방되어 사용자가 소스를 변경할 수 있는 운영체제 (GNU GPL)', s:'5과목', y:'2022-1회'},
+ {t:'UTM', d:'다양한 보안 솔루션을 하나로 묶어 비용을 절감하고 관리 복잡성을 최소화하며 복합 위협을 방어하는 통합 보안 장비', s:'5과목', y:'2022-2회'},
+ {t:'리피터 (Repeater)', d:'OSI 7계층 중 물리계층(1계층) 관련 장비. 감쇠한 신호를 증폭·재생', s:'5과목', y:'2022-2회'},
+ {t:'모뎀 (Modem)', d:'아날로그 신호를 디지털로, 디지털 신호를 아날로그로 전환해 주는 장치 (변조·복조)', s:'5과목', y:'2022-3회'},
+ {t:'패킷 (Packet)', d:'네트워크 계층에서 전달되는 데이터 전송 단위 (2계층은 프레임, 4계층 TCP는 세그먼트)', s:'5과목', y:'2022-3회'},
+ {t:'B 클래스', d:'IP 주소 128.216.198.45가 속하는 클래스 (첫 옥텟 128~191)', s:'5과목', y:'2022-3회'},
+ {t:'실행 사이클 (Execute)', d:'명령어 사이클에서 인출(Fetch) → 간접(Indirect) → ( ) → 인터럽트 순서의 빈칸에 들어가는 단계', s:'5과목', y:'2023-1회'},
+ {t:'IPv4 32 / IPv6 128 [bit]', d:'IPv4와 IPv6의 주소 체계 비트 수', s:'5과목', y:'2023-1회'},
+ {t:'정보통신설비', d:'유선·무선·광선이나 그 밖의 전자적 방식으로 부호·문자·음향·영상 등의 정보를 저장·제어·처리하거나 송수신하기 위한 기계·기구·선로', s:'5과목', y:'2023-1회'},
+ {t:'RAID 1 (미러링)', d:'하드디스크 오류 발생 시 재구성 없이 복사본으로 대체하여 데이터를 복구할 수 있는 RAID 레벨', s:'5과목', y:'2023-2회'},
+ {t:'수평 배선계', d:'업무용 건축물 구내통신설비에서 Voice MDF·Data MDF와 IDF 사이에 위치하는 배선계', s:'5과목', y:'2023-2회'},
+ {t:'전기통신설비 공동구축 대상', d:'기간통신사업자와 다른 기간통신사업자 사이', s:'5과목', y:'2023-1회'},
+ {t:'운영체제의 목적', d:'사용자의 편리성과 자원의 효율적 이용', s:'5과목', y:'2022-3회'},
+ {t:'60일 이상', d:'어린이집 영상정보처리기기의 촬영영상을 의무적으로 보관해야 하는 기간', s:'5과목', y:'2023-1회'},
+
+ // ═══ 공식 · 계산 카드 ═══
+ {t:'자유공간 손실', d:'L = 32.44 + 20 log d[km] + 20 log f[MHz]　　(= 20 log<span class=\"fr\"><span>4πd</span><span>λ</span></span>)', s:'1과목', y:'2022-1회', k:'calc'},
+ {t:'샤논 채널용량', d:'C = B · log₂(1 + S/N)　　잡음이 있을 때의 이론 최대 전송률', s:'1과목', y:'2022-1회', k:'calc'},
+ {t:'나이퀴스트 채널용량', d:'C = 2B · log₂M　　잡음이 없을 때의 이론 최대 전송률', s:'1과목', y:'2022-1회', k:'calc'},
+ {t:'비트율 ↔ 보율', d:'비트율[bps] = 보율[baud] × log₂M　　(M = 신호 준위 수)', s:'1과목', y:'2023-1회', k:'calc'},
+ {t:'비트 에러율 (BER)', d:'BER = <span class=\"fr\"><span>오류 비트 수</span><span>전체 전송 비트 수</span></span>', s:'1과목', y:'2022-2회', k:'calc'},
+ {t:'파장', d:'λ = <span class=\"fr\"><span>c</span><span>f</span></span>　　(c = 3 × 10⁸ [m/s])　　예) 2GHz → 15cm', s:'1과목', y:'2023-1회', k:'calc'},
+ {t:'SNR [dB]', d:'전압비는 20 log<span class=\"fr\"><span>Vs</span><span>Vn</span></span>, 전력비는 10 log<span class=\"fr\"><span>Ps</span><span>Pn</span></span>　　예) <span class=\"fr\"><span>25V</span><span>0.0025V</span></span> → 80dB', s:'1과목', y:'2022-3회', k:'calc'},
+ {t:'표본화 주파수', d:'fs ≥ 2 fm　　표본화 주기 T = <span class=\"fr\"><span>1</span><span>fs</span></span>　　예) 5kHz 음성 → T = 100[μs]', s:'1과목', y:'2022-1회', k:'calc'},
+ {t:'PCM 전송률', d:'전송률 = 표본화 주파수 × 양자화 비트 수　　예) 4kHz → 8kHz × 8bit = 64[kbps]', s:'1과목', y:'2022-3회', k:'calc'},
+ {t:'PN 부호 주기', d:'n단 귀환 시프트 레지스터의 출력 주기 = 2ⁿ − 1　　예) 5단 → 31', s:'1과목', y:'2022-3회', k:'calc'},
+ {t:'해밍 검사비트 수', d:'2ᵏ ≥ m + k + 1　　예) 데이터 32비트 → 검사비트 6개', s:'1과목', y:'2023-2회', k:'calc'},
+ {t:'정현파 실효값·평균값', d:'실효값 = <span class=\"fr\"><span>Vm</span><span>√2</span></span> (0.707), 평균값 = <span class=\"fr\"><span>2Vm</span><span>π</span></span> (0.637)　　구형파는 둘 다 Vm', s:'1과목', y:'2022-2회', k:'calc'},
+ {t:'파고율 · 파형률', d:'파고율 = <span class=\"fr\"><span>최댓값</span><span>실효값</span></span> (정현파 √2), 파형률 = <span class=\"fr\"><span>실효값</span><span>평균값</span></span> (정현파 1.111)', s:'1과목', y:'2022-2회', k:'calc'},
+ {t:'잡음지수', d:'출력 SNR[dB] = 입력 SNR[dB] − 잡음지수[dB]　　예) 15dB, NF=10(=10dB) → 5dB', s:'1과목', y:'2023-2회', k:'calc'},
+ {t:'호량 (트래픽량)', d:'호량[erl] = 호수 × 평균 보류시간　　보류시간은 반드시 시간 단위로 환산', s:'2과목', y:'2022-3회', k:'calc'},
+ {t:'중계선 효율', d:'효율 = <span class=\"fr\"><span>호량[erl]</span><span>회선 수</span></span> × 100　　예) 20회선에 5erl → 25[%]', s:'2과목', y:'2022-3회', k:'calc'},
+ {t:'대역폭 효율', d:'대역폭 효율 = <span class=\"fr\"><span>전송속도</span><span>대역폭</span></span>　　예) 19.39Mbps ÷ 6MHz ≈ 3.23', s:'2과목', y:'2022-2회', k:'calc'},
+ {t:'메시(그물)형 링크 수', d:'링크 수 = <span class=\"fr\"><span>n(n−1)</span><span>2</span></span>　　예) 노드 10개 → 45개', s:'2과목', y:'2023-1회', k:'calc'},
+ {t:'코드 효율', d:'효율 = <span class=\"fr\"><span>데이터 비트</span><span>데이터 + 오버헤드</span></span> × 100　　예) <span class=\"fr\"><span>100</span><span>100+20</span></span> ≈ 83[%]', s:'3과목', y:'2022-1회', k:'calc'},
+ {t:'유효 호스트 수', d:'2ⁿ − 2　　(n = 호스트 비트 = 32 − CIDR)　　−2는 네트워크·브로드캐스트 주소', s:'3과목', y:'2023-1회', k:'calc'},
+ {t:'서브넷 수 · 블록 크기', d:'서브넷 수 = 2^(빌린 비트)　　블록 크기 = 256 − 마지막 마스크 옥텟　　둘의 곱 = 256', s:'3과목', y:'2023-2회', k:'calc'},
+ {t:'가동률 (가용도)', d:'A = <span class=\"fr\"><span>MTBF</span><span>MTBF + MTTR</span></span>　　예) <span class=\"fr\"><span>22h</span><span>(22+2)h</span></span> ≈ 0.92', s:'4과목', y:'2022-1회', k:'calc'},
+ {t:'병렬(이중화) 신뢰도', d:'R = 1 − (1 − R₁)(1 − R₂)…　　직렬은 R₁ × R₂ × …　　병렬 먼저 묶고 직렬로 곱한다', s:'4과목', y:'2022-1회', k:'calc'},
+ {t:'클럭 주기', d:'T = <span class=\"fr\"><span>1</span><span>f</span></span>　　예) 1[GHz] → 1[ns]', s:'5과목', y:'2022-3회', k:'calc'},
+ {t:'기억장치 대역폭', d:'대역폭 = 버스 폭[byte] × 클럭 주파수　　예) 32bit(4byte) × 1,000MHz = 4,000[MB/s]', s:'5과목', y:'2023-1회', k:'calc'},
+ {t:'IGMP', d:'라우터가 멀티캐스트 통신 기능을 갖춘 PC에 멀티캐스트 패킷을 분배하는 데 사용하는 프로토콜', s:'3과목', y:'2022-3회'},
+ {t:'IP 헤더 Protocol 필드', d:'1 = ICMP, 2 = IGMP, 6 = TCP, 17 = UDP　　예) 값이 6이면 TCP', s:'3과목', y:'2023-1회'},
+ {t:'Smurf vs Fraggle', d:'Smurf는 ICMP 기반, Fraggle은 UDP 기반. 둘 다 브로드캐스트로 응답을 증폭시키는 DoS 공격', s:'4과목', y:'2023-1회'},
+ {t:'ICMP', d:'IP가 배달에 실패한 이유를 알리고 상태를 진단하는 3계층 프로토콜. ping·traceroute가 이것을 쓴다', s:'3과목', y:'2023-1회'},
+
+ // ═══ 📋 암기표 카드 (포트·IEEE802·UTP·주파수·밴드·광통신 장치) ═══
+ {t:'포트 20 / 21', d:'FTP — 20=데이터, 21=제어. 둘 다 TCP', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 22', d:'SSH — 암호화 원격접속 (TCP)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 23', d:'Telnet — 비암호화 원격접속 (TCP)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 25', d:'SMTP — 이메일 발송 (TCP)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 53', d:'DNS — 도메인↔IP 변환. 기본 UDP, 512 byte 초과 시 TCP로 전환', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 67 / 68', d:'DHCP — 67=서버, 68=클라이언트. 둘 다 UDP (⚠ TCP 아님)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 69', d:'TFTP — 단순 파일전송 (UDP). FTP=TCP 와 혼동 주의', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 80', d:'HTTP — 비암호화 웹 (TCP)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 110', d:'POP3 — 이메일 수신, 받으면 서버에서 삭제 (TCP)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 143', d:'IMAP — 이메일 수신, 서버에 보관 (TCP)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 161 / 162', d:'SNMP — 161=매니저→에이전트 폴링, 162=트랩 수신. 둘 다 UDP', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 179', d:'BGP — AS 간 경로벡터 라우팅. ⚠ 라우팅 프로토콜인데 TCP!', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 443', d:'HTTPS — SSL/TLS 암호화 웹 (TCP)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 465', d:'SMTPS — 암호화 이메일 발송 (TCP)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 520', d:'RIP — 거리벡터 라우팅 (UDP). 최대 홉 수 15', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 993 / 995', d:'993 = IMAPS, 995 = POP3S — 암호화 메일 수신 (둘 다 TCP)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 5004', d:'RTP — 실시간 음성·영상 전송 (UDP)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'UDP를 쓰는 포트 (통암기)', d:'"다 동 티 스 립 알" — DNS(53) · DHCP(67,68) · TFTP(69) · SNMP(161) · RIP(520) · RTP(5004). 나머지는 대부분 TCP', s:'3과목', k:'num', g:'포트번호'},
+ {t:'포트 번호 3구간', d:'0~1023 Well-known(잘 알려진) / 1024~49151 Registered(등록) / 49152~65535 Dynamic(동적·사설)', s:'3과목', k:'num', g:'포트번호'},
+ {t:'IEEE 802.1', d:'상위 계층 인터페이스·브리지 — 802.1D=STP, 802.1Q=VLAN 태깅, 802.1X=포트 기반 인증', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.2', d:'LLC (논리 링크 제어) — 데이터링크 계층의 상위 부계층', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.3', d:'CSMA/CD 이더넷 — 유선 LAN', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.4', d:'토큰 버스 — 물리적으로 버스형, 논리적으로 링. 공장 자동화(MAP)', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.5', d:'토큰 링 — 링형 토폴로지. 속도 4 Mbps / 16 Mbps', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.6', d:'DQDB — MAN(도시권 통신망) 표준', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.9', d:'IsoEthernet — 음성·데이터 통합 서비스', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.10', d:'LAN/MAN 보안 (SILS)', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.11 (분류)', d:'무선 LAN (Wi-Fi) — 접속 방식은 CSMA/CA', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.12', d:'100VG-AnyLAN — 요구 우선순위(Demand Priority) 방식', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.15', d:'WPAN(무선 개인 통신망) — 802.15.1 블루투스, 802.15.4 지그비', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.16', d:'WiMAX — 광대역 무선 MAN (BWA)', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.17', d:'RPR (Resilient Packet Ring) — 탄력적 패킷 링', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.20', d:'MBWA — 이동 광대역 무선 접속', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'IEEE 802.22', d:'WRAN — TV 유휴대역(화이트스페이스)을 쓰는 무선 지역망', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'802.11i / e / f / h', d:'i = 보안(WPA2·AES-CCMP) / e = QoS / f = IAPP(AP 간 로밍) / h = DFS·TPC(5GHz 간섭 회피)', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'802.11 세대 속도 순서', d:'802.11(2M) &lt; b(11M) &lt; a·g(54M) &lt; n(600M) &lt; ac(6.9G) &lt; ax(9.6G) &lt; be(46G)', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'802.3u / z / ab / ae', d:'u = Fast Ethernet 100M / z = 기가비트(광) / ab = 기가비트(UTP Cat5e) / ae = 10기가비트(광)', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'802.3af / at / bt', d:'PoE — 랜선으로 전원 공급. af 15W, at 30W, bt 90W', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'CSMA/CD vs CSMA/CA', d:'CD = 유선 이더넷(802.3), 충돌 검출 / CA = 무선랜(802.11), 충돌 회피', s:'2과목', k:'num', g:'IEEE 802'},
+ {t:'Cat.3', d:'16 MHz / 10 Mbps — 10BASE-T, 전화선', s:'2과목', k:'num', g:'UTP 케이블'},
+ {t:'Cat.4', d:'20 MHz / 20 Mbps — 토큰링(16 Mbps)용', s:'2과목', k:'num', g:'UTP 케이블'},
+ {t:'Cat.5', d:'100 MHz / 100 Mbps — 100BASE-TX (Fast Ethernet)', s:'2과목', k:'num', g:'UTP 케이블'},
+ {t:'Cat.5e', d:'100 MHz / 1 Gbps — 1000BASE-T. 대역폭은 Cat.5와 같지만 크로스토크 개선으로 속도 10배', s:'2과목', k:'num', g:'UTP 케이블'},
+ {t:'Cat.6', d:'250 MHz / 1 Gbps — 10GBASE-T는 최대 55 m 까지만', s:'2과목', k:'num', g:'UTP 케이블'},
+ {t:'Cat.6a', d:'500 MHz / 10 Gbps — 10GBASE-T 를 100 m 완전 지원', s:'2과목', k:'num', g:'UTP 케이블'},
+ {t:'Cat.7', d:'600 MHz / 10 Gbps — STP 차폐 필수 (S/FTP)', s:'2과목', k:'num', g:'UTP 케이블'},
+ {t:'10기가비트 이더넷에 필요한 UTP 등급', d:'Cat.6a 이상 (Cat.3/4/5 로는 불가). Cat.6 는 55 m 까지만 ⚠ 2022-3회 기출', s:'2과목', k:'num', g:'UTP 케이블'},
+ {t:'UTP vs STP', d:'UTP = 비차폐, 저렴·설치 용이, EMI 약함(Cat.3~6a) / STP = 차폐, 고가·접지 필요, EMI 강함(Cat.7 이상). 최대 거리는 둘 다 100 m', s:'2과목', k:'num', g:'UTP 케이블'},
+ {t:'UTP 케이블 구성과 최대 거리', d:'8가닥(4쌍) 꼬임쌍선, 최대 전송거리 100 m', s:'2과목', k:'num', g:'UTP 케이블'},
+ {t:'VLF (초장파)', d:'3 ~ 30 kHz / 100 ~ 10 km — 지표파·해수 침투. 잠수함 통신, 표준 시보', s:'1과목', k:'num', g:'주파수 대역'},
+ {t:'LF (장파)', d:'30 ~ 300 kHz / 10 ~ 1 km — 지표파. 장거리 항행(LORAN)', s:'1과목', k:'num', g:'주파수 대역'},
+ {t:'MF (중파)', d:'300 kHz ~ 3 MHz / 1 km ~ 100 m — 지표파(야간 전리층). AM 라디오, 선박 통신', s:'1과목', k:'num', g:'주파수 대역'},
+ {t:'HF (단파)', d:'3 ~ 30 MHz / 100 ~ 10 m — 전리층 반사(공간파). 원거리 국제방송, 아마추어 무선', s:'1과목', k:'num', g:'주파수 대역'},
+ {t:'VHF (초단파)', d:'30 ~ 300 MHz / 10 ~ 1 m — 직접파(가시선). FM 라디오, 지상파 TV, 항공 관제', s:'1과목', k:'num', g:'주파수 대역'},
+ {t:'UHF (극초단파)', d:'300 MHz ~ 3 GHz / 1 m ~ 10 cm — 직접파. 이동통신, WiFi, GPS. 여기서 마이크로파 시작', s:'1과목', k:'num', g:'주파수 대역'},
+ {t:'SHF (센티미터파)', d:'3 ~ 30 GHz / 10 ~ 1 cm — 강한 직진성. 위성·레이더·마이크로파 중계', s:'1과목', k:'num', g:'주파수 대역'},
+ {t:'EHF (밀리미터파)', d:'30 ~ 300 GHz / 10 ~ 1 mm — 직진·감쇠 큼. 5G mmWave, 차량 레이더', s:'1과목', k:'num', g:'주파수 대역'},
+ {t:'마이크로파의 주파수 범위', d:'시험 기준 300 MHz ~ 30 GHz (UHF 일부 + SHF). 그 위 30 ~ 300 GHz 는 밀리미터파(EHF)', s:'1과목', k:'num', g:'주파수 대역'},
+ {t:'주파수를 올리면 생기는 변화', d:'파장 ↓ · 안테나 ↓ · 직진성 ↑ · 대역폭 ↑ · 감쇠 ↑ · 회절 ↓ → "속도는 얻고 거리는 잃는다"', s:'1과목', k:'num', g:'주파수 대역'},
+ {t:'전파의 법적 정의', d:'인공적인 유도 없이 공간에 퍼져 나가는 3,000 GHz(3 THz) 이하의 전자파 (전파법·ITU)', s:'1과목', k:'num', g:'주파수 대역'},
+ {t:'L 밴드', d:'1 ~ 2 GHz / 30 ~ 15 cm — GPS(1.575 GHz), 이동위성, 항공 레이더', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'S 밴드', d:'2 ~ 4 GHz / 15 ~ 7.5 cm — WiFi 2.4G, 블루투스, 전자레인지 2.45 GHz', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'C 밴드', d:'4 ~ 8 GHz / 7.5 ~ 3.75 cm — 위성 4/6 GHz. 강우 감쇠가 적다', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'X 밴드', d:'8 ~ 12 GHz / 3.75 ~ 2.5 cm — 군용 레이더', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'Ku 밴드', d:'12 ~ 18 GHz / 2.5 ~ 1.7 cm — 위성 12/14 GHz, 위성방송. K보다 아래(under)라서 Ku', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'K 밴드', d:'18 ~ 27 GHz / 1.7 ~ 1.1 cm — 22.2 GHz 수증기 흡수 때문에 기피 대역', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'Ka 밴드', d:'27 ~ 40 GHz / 1.1 cm ~ 7.5 mm — 위성 20/30 GHz, 5G 28 GHz', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'V 밴드', d:'40 ~ 75 GHz / 7.5 ~ 4 mm — WiGig 60 GHz. 60 GHz 산소 흡수', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'W 밴드', d:'75 ~ 110 GHz / 4 ~ 2.7 mm — 차량 레이더 77 GHz', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'마이크로파 밴드 순서', d:'L → S → C → X → Ku → K → Ka → V → W  ⚠ Ku가 K보다 낮은 주파수인 것이 최대 함정', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'위성통신 주파수 3쌍', d:'C 4/6 GHz → Ku 12/14 GHz → Ka 20/30 GHz. 앞이 하향(다운링크), 뒤가 상향(업링크) — 상향이 항상 더 높다', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'주요 흡수·감쇠 주파수', d:'10 GHz 이상 강우 감쇠 급증 / 22.2 GHz 수증기 흡수 / 60 GHz 산소 흡수', s:'1과목', k:'num', g:'마이크로파 밴드'},
+ {t:'OLT (Optical Line Terminal)', d:'국사(교환국)에 설치되는 광가입자망 헤드엔드. 여러 ONU/ONT 제어·관리, 백본 연결, 데이터 집선·대역폭 할당', s:'2과목', k:'num', g:'광통신 장치'},
+ {t:'ONU (Optical Network Unit)', d:'집합 건물 외부·공동 밀집지역에 설치. 광↔전기 변환 후 여러 가입자가 공유하는 단말', s:'2과목', k:'num', g:'광통신 장치'},
+ {t:'ONT (Optical Network Terminal)', d:'가입자 댁내에 설치되는 1가구 전용 광 종단 장치. 광↔이더넷/전화/TV 변환. ONU의 가정용 버전', s:'2과목', k:'num', g:'광통신 장치'},
+ {t:'PON (Passive Optical Network)', d:'OLT ↔ 광분배기(Splitter) ↔ ONU/ONT 로 구성되는 수동형 광가입자망. 중간에 능동소자가 없어 전원이 필요 없다', s:'2과목', k:'num', g:'광통신 장치'},
+ {t:'PON의 수동소자(Passive)는?', d:'광분배기(Optical Splitter). 전원 공급이 필요 없어 유지보수 비용이 저렴하다', s:'2과목', k:'num', g:'광통신 장치'},
+ {t:'광분배기 분기 수', d:'단일 광섬유를 최대 32 ~ 64 분기하여 각 가입자에게 전달', s:'2과목', k:'num', g:'광통신 장치'},
+ {t:'PON의 단점 (기출 함정)', d:'광분배기로 신호를 공유하므로 보안성이 취약하다. "보안성이 우수하다"는 틀린 지문 ⚠ 2023-1회', s:'2과목', k:'num', g:'광통신 장치'},
+ {t:'OLT / ONU / ONT 3초 구분법', d:'OLT = Line(선로의 시작 = 국사) / ONU = Unit(공유 단위 = 건물) / ONT = Terminal(종단 = 댁내)', s:'2과목', k:'num', g:'광통신 장치'},
+ {t:'광가입자망 3계층', d:'① 백본망(ISP 핵심, DWDM·코어라우터) → ② 집선망(Metro, 국사 연결) → ③ 가입자망(OLT → 광분배기 → ONU/ONT)', s:'2과목', k:'num', g:'광통신 장치'},
+ {t:'백본(Backbone) 네트워크', d:'하위 네트워크들을 연결하는 고속·대용량 핵심 전송망. 10 Gbps ~ 수백 Gbps, 단일모드 광케이블, Ring/Mesh 이중화', s:'2과목', k:'num', g:'광통신 장치'},
+
+];
+
+// ══════════ 모바일: 잘리는 표를 가로 스크롤로 감싸기 ══════════
+// html,body 에 overflow-x:hidden 이 걸려 있어 화면보다 넓은 표는 오른쪽이 잘린다.
+// 이미 overflow-x 컨테이너 안에 있는 표는 건드리지 않는다.
+function wrapWideTables(){
+  document.querySelectorAll('table').forEach(function(t){
+    if(t.dataset.wrapped) return;
+    t.dataset.wrapped = '1';
+    var a = t.parentElement, inScroller = false;
+    while(a && a !== document.body){
+      var ov = getComputedStyle(a).overflowX;
+      if(ov === 'auto' || ov === 'scroll'){ inScroller = true; break; }
+      a = a.parentElement;
+    }
+    if(inScroller){ if(a.children.length === 1) a.classList.add('tbl-scroll'); return; }
+    var w = document.createElement('div');
+    w.className = 'tbl-scroll';
+    t.parentNode.insertBefore(w, t);
+    w.appendChild(t);
+  });
+}
+try{ wrapWideTables(); }catch(e){}
+
+// ══════════ 용어 카드 ══════════
+const CD_KEY = 'jtq_cards_v1';
+const CD_DESC_DEFAULT =
+  '<b>2022~2023년 기출 500문항</b>에서 뽑은 <b>용어 카드 164장 + 공식 카드 25장</b>입니다. ' +
+  '뜻은 실제 문제에 나온 문장 그대로이고, 카드마다 <b>출처 회차</b>가 표시됩니다.<br>' +
+  '용어를 보고 <b>머릿속으로 뜻을 말한 뒤</b> 카드를 눌러 확인하세요. ' +
+  '상단 <b>유형</b>에서 「용어」와 「공식 🧮」을 따로 돌릴 수 있습니다.<br>' +
+  '<b style="color:#ae4024">모르겠다</b>로 넘긴 카드는 <b>한 바퀴 뒤 다시</b> 나오고, ' +
+  '브라우저에 기억돼서 <b>다음에 열 때 그것부터</b> 시작합니다.';
+let cdDeck = [], cdIdx = 0, cdWrong = [], cdKnown = 0, cdFlipped = false;
+let cdSubj = '전체', cdMode = 't2d', cdRound = 1, cdHardMode = false, cdKindF = '전체', cdGrpF = '전체';
+let cdHard = {};   // {용어: true} — 모르겠다 한 카드 기억
+
+function cdLoadHard(){ try{ cdHard = JSON.parse(localStorage.getItem(CD_KEY) || '{}') || {}; }catch(e){ cdHard = {}; } }
+function cdSaveHard(){ try{ localStorage.setItem(CD_KEY, JSON.stringify(cdHard)); }catch(e){} }
+
+function cdPool(){
+  let p = CARD_DATA.filter(c => cdSubj === '전체' || c.s === cdSubj);
+  if(cdKindF !== '전체') p = p.filter(c => (c.k || 'def') === cdKindF);
+  if(cdKindF === 'num' && cdGrpF !== '전체') p = p.filter(c => c.g === cdGrpF);
+  if(cdHardMode) p = p.filter(c => cdHard[c.t]);
+  return p;
+}
+function cdShuffleArr(a){
+  for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function cdBuild(shuffle){
+  cdDeck = cdPool().slice();
+  if(shuffle !== false) cdShuffleArr(cdDeck);
+  cdIdx = 0; cdWrong = []; cdKnown = 0; cdRound = 1; cdFlipped = false;
+  cdRender();
+}
+function cdRender(){
+  const card = document.getElementById('cd-card');
+  const done = document.getElementById('cd-done');
+  const ctl  = document.getElementById('cd-controls');
+  if(!card) return;
+  const total = cdDeck.length;
+
+  const hb = document.getElementById('cd-hard-btn');
+  if(hb){ hb.classList.toggle('on', cdHardMode); hb.textContent = '어려운 것만 (' + Object.keys(cdHard).length + ')'; }
+
+  if(total === 0){
+    card.style.display = 'none'; ctl.style.display = 'none'; done.style.display = 'block';
+    document.getElementById('cd-done-msg').textContent =
+      cdHardMode ? '표시해 둔 어려운 카드가 없습니다. 먼저 한 바퀴 돌려 보세요.' : '이 조건에 해당하는 카드가 없습니다.';
+    document.getElementById('cd-status').textContent = '';
+    document.getElementById('cd-score').textContent = '';
+    return;
+  }
+  if(cdIdx >= total){
+    card.style.display = 'none'; ctl.style.display = 'none'; done.style.display = 'block';
+    document.getElementById('cd-done-msg').innerHTML =
+      cdRound + '회차 · ' + total + '장 중 <b style="color:#267c41">' + cdKnown + '장</b> 맞춤' +
+      (cdWrong.length ? ' · <b style="color:#ae4024">' + cdWrong.length + '장</b> 남음' : ' · 전부 맞췄습니다!');
+    document.getElementById('cd-fill').style.width = '100%';
+    document.getElementById('cd-status').textContent = '완료';
+    document.getElementById('cd-score').textContent = '';
+    return;
+  }
+  card.style.display = 'flex'; ctl.style.display = 'flex'; done.style.display = 'none';
+
+  const c = cdDeck[cdIdx];
+  card.classList.toggle('flipped', cdFlipped);
+  document.getElementById('cd-subj').textContent = c.s;
+  const ye = document.getElementById('cd-year');
+  if(ye){ ye.textContent = c.y ? '기출 ' + c.y : ''; ye.style.display = c.y ? '' : 'none'; }
+  document.getElementById('cd-num').textContent = (cdIdx + 1) + ' / ' + total + (cdRound > 1 ? ' · ' + cdRound + '회차' : '');
+  const KIND_LABEL = { calc:'🧮 공식', num:'📋 암기표' };
+  const kl = KIND_LABEL[c.k] || '';
+  const ke = document.getElementById('cd-kind');
+  if(ke){ ke.textContent = kl; ke.style.display = kl ? '' : 'none'; }
+  const fe = document.getElementById('cd-face'), be = document.getElementById('cd-back');
+  if(cdMode === 't2d'){ fe.innerHTML = c.t; be.innerHTML = c.d; }
+  else { fe.innerHTML = c.d; be.innerHTML = c.t; }
+  // 공식은 길어서 조금 작게, 등폭으로
+  be.style.fontFamily = (c.k === 'calc') ? "'Courier New',monospace" : 'inherit';
+  fe.style.fontSize = ((fe.textContent||'').length > 34 ? '18px' : '23px');
+  document.getElementById('cd-fill').style.width = (cdIdx / total * 100) + '%';
+  document.getElementById('cd-status').textContent = (cdIdx + 1) + ' / ' + total + '장';
+  document.getElementById('cd-score').textContent = '✓ ' + cdKnown + '　✗ ' + cdWrong.length;
+}
+function cdFlip(){ cdFlipped = !cdFlipped; cdRender(); }
+function cdMark(known){
+  if(cdIdx >= cdDeck.length) return;
+  const c = cdDeck[cdIdx];
+  if(known){ cdKnown++; if(cdHard[c.t]){ delete cdHard[c.t]; cdSaveHard(); } }
+  else { cdWrong.push(c); cdHard[c.t] = true; cdSaveHard(); }
+  cdIdx++; cdFlipped = false; cdRender();
+}
+function cdPrev(){ if(cdIdx > 0){ cdIdx--; cdFlipped = false; cdRender(); } }
+function cdRetryWrong(){
+  if(!cdWrong.length) return;
+  cdDeck = cdShuffleArr(cdWrong.slice());
+  cdWrong = []; cdKnown = 0; cdIdx = 0; cdRound++; cdFlipped = false; cdRender();
+}
+function cdRestart(){ cdHardMode = false; cdBuild(true); }
+function cdShuffle(){ cdShuffleArr(cdDeck); cdIdx = 0; cdFlipped = false; cdRender(); }
+function cdHardOnly(){ cdHardMode = !cdHardMode; cdBuild(true); }
+function cdFilter(s, el){
+  cdSubj = s;
+  document.querySelectorAll('.cd-filter[data-f]').forEach(b => b.classList.toggle('on', b === el));
+  cdBuild(true);
+}
+function cdKind(k, el){
+  cdKindF = k;
+  document.querySelectorAll('.cd-filter[data-k]').forEach(b => b.classList.toggle('on', b === el));
+  cdApplyMode();
+  cdBuild(true);
+}
+function cdGrp(g, el){
+  cdGrpF = g;
+  document.querySelectorAll('.cd-filter[data-g]').forEach(b => b.classList.toggle('on', b === el));
+  cdBuild(true);
+}
+// 유형에 따라 제목·설명·분류줄을 바꾼다
+function cdApplyMode(){
+  const t = document.getElementById('cd-title');
+  const g = document.getElementById('cd-grp-row');
+  const d = document.getElementById('cd-desc');
+  const isNum = (cdKindF === 'num');
+  if(g) g.style.display = isNum ? 'flex' : 'none';
+  if(!isNum) cdGrpF = '전체';
+  if(!isNum){
+    document.querySelectorAll('.cd-filter[data-g]').forEach(b => b.classList.toggle('on', b.dataset.g === '전체'));
+  }
+  if(t) t.innerHTML = isNum
+    ? '암기표 — 통째로 외우는 항목'
+    : (cdKindF === 'calc' ? '공식 카드 — 계산식 암기' : '용어 카드 — 뜻 맞추기');
+  if(d) d.innerHTML = isNum
+    ? '<b style="color:#117a68">포트번호 · IEEE 802 표준 · UTP 카테고리 · 주파수 대역 · 마이크로파 밴드 · OLT/ONU/ONT</b> — ' +
+      '표로 통째로 외워야 하는 82장입니다. 위 <b>분류</b>에서 한 덩어리씩 끊어 돌리세요.<br>' +
+      '<b style="color:#ae4024">모르겠다</b>로 넘긴 카드는 <b>한 바퀴 뒤 다시</b> 나오고, 브라우저에 기억돼서 <b>다음에 열 때 그것부터</b> 시작합니다.'
+    : CD_DESC_DEFAULT;
+}
+// 메뉴에서 바로 해당 유형으로 진입
+function cdOpen(kind, el){
+  showSection('cards', el);
+  var ce = document.querySelector('.sidebar [data-card="' + kind + '"]');
+  if(ce){ ce.classList.add('active'); }
+  cdKindF = kind;
+  document.querySelectorAll('.cd-filter[data-k]').forEach(b => b.classList.toggle('on', b.dataset.k === kind));
+  cdApplyMode();
+  cdBuild(true);
+}
+function cdDir(m){
+  cdMode = m;
+  const t = document.getElementById('cd-dir-t'), d = document.getElementById('cd-dir-d');
+  if(t) t.classList.toggle('on', m === 't2d');
+  if(d) d.classList.toggle('on', m === 'd2t');
+  cdFlipped = false; cdRender();
+}
+document.addEventListener('keydown', function(e){
+  const sec = document.getElementById('sec-cards');
+  if(!sec || !sec.classList.contains('visible')) return;
+  const t = (e.target && e.target.tagName) || '';
+  if(t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT') return;
+  if(e.key === ' ' || e.key === 'Spacebar'){
+    e.preventDefault();
+    if(e.repeat) return;
+    var ae = document.activeElement;
+    if(ae && ae !== document.body && ae.blur) ae.blur();   // 포커스된 버튼이 Space 로 눌리지 않게
+    cdFlip();
+  }
+  else if(e.key === '1'){ cdMark(false); }
+  else if(e.key === '2'){ cdMark(true); }
+  else if(e.key === 'ArrowLeft'){ cdPrev(); }
+  else if(e.key === 'ArrowRight'){ cdFlipped = false; if(cdIdx < cdDeck.length) cdIdx++; cdRender(); }
+});
+cdLoadHard();
+try{ cdApplyMode(); }catch(e){}
+cdBuild(true);
+
+// ══════════ 방문자 수 위젯 (홈 화면 맨 아래) ══════════
+// countapi.xyz 라는 무료 공용 카운터 서비스를 사용 — 회원가입/서버 없이 그냥
+// GET 요청 하나로 숫자를 올리고 읽어올 수 있음. 정밀한 통계는 GA4가 담당하고,
+// 이건 방문자가 홈 화면에서 바로 보는 "체감용" 숫자.
+// 같은 브라우저에서 하루에 여러 번 새로고침해도 "오늘 방문"은 1회만 올라가도록
+// localStorage로 날짜를 기억해서 중복 카운트를 막는다.
+(function visitCounter(){
+  var todayEl = document.getElementById('vc-today');
+  var totalEl = document.getElementById('vc-total');
+  if(!todayEl || !totalEl) return;
+
+  var NS = 'ict-study-guide-simbecode-9f3k2m'; // 다른 사이트와 안 겹치게 고유한 이름
+  var today = new Date(Date.now() + 9*3600*1000).toISOString().slice(0,10); // 한국시간(KST) 자정 기준           // 'YYYY-MM-DD'
+  var todayKey = 'daily-' + today.replace(/-/g,'');
+  var LS_KEY = 'jtq_last_visit_date';
+  // countapi.xyz 서비스 종료(2026-09)로 대체 서비스로 전환. 네임스페이스 개념이 없어
+  // NS와 key를 합쳐서 하나의 고유 키로 사용함 (기존 누적 카운트는 이관 불가, 0부터 재시작)
+  var base = 'https://countapi.mileshilliard.com/api/v1';
+
+  function fmt(n){ return (typeof n === 'number') ? n.toLocaleString() : '–'; }
+  function show(t, tot){ todayEl.textContent = fmt(t); totalEl.textContent = fmt(tot); }
+
+  var alreadyToday = false;
+  try{ alreadyToday = (localStorage.getItem(LS_KEY) === today); }catch(e){}
+
+  var op = alreadyToday ? 'get' : 'hit';
+
+  Promise.all([
+    fetch(base + '/' + op + '/' + NS + '-' + todayKey).then(function(r){ return r.json(); }),
+    fetch(base + '/' + op + '/' + NS + '-total').then(function(r){ return r.json(); })
+  ]).then(function(res){
+    show(res[0] && res[0].value, res[1] && res[1].value);
+    if(!alreadyToday){ try{ localStorage.setItem(LS_KEY, today); }catch(e){} }
+  }).catch(function(){
+    // 카운터 서비스가 응답 없을 때도 사이트 동작에는 전혀 영향 없이 '–'로 표시만 됨
+    show(null, null);
+  });
+})();
