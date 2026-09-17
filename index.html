@@ -5109,7 +5109,7 @@ cdBuild(true);
   if(!todayEl || !totalEl) return;
 
   var NS = 'ict-study-guide-simbecode-9f3k2m'; // 다른 사이트와 안 겹치게 고유한 이름
-  var today = new Date().toISOString().slice(0,10);           // 'YYYY-MM-DD'
+  var today = new Date(Date.now() + 9*3600*1000).toISOString().slice(0,10); // 한국시간(KST) 자정 기준           // 'YYYY-MM-DD'
   var todayKey = 'daily-' + today.replace(/-/g,'');
   var LS_KEY = 'jtq_last_visit_date';
   // countapi.xyz 서비스 종료(2026-09)로 대체 서비스로 전환. 네임스페이스 개념이 없어
