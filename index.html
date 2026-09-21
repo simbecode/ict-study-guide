@@ -577,6 +577,7 @@ html,body{max-width:100%;overflow-x:clip;}
 .cbt-extra-progress small{flex-basis:100%;color:var(--text3);}
 @media(max-width:480px){.cbt-compare-body{padding:10px;}.cbt-table-scroll .tbl td,.cbt-table-scroll .tbl th{padding:8px;font-size:12px;}.cbt-extra-progress{font-size:12px;}.cbt-recall{padding:12px;}}
 .layer-menu-copy{display:flex;flex-direction:column;padding:5px 0;gap:2px;min-width:0}.layer-menu-copy b{font-size:13px;font-weight:600}.layer-menu-copy small{font-size:10.5px;color:var(--text3);line-height:1.5;font-weight:400}
+.cbt-poll{border:1px solid var(--key-bd);border-radius:var(--radius);background:var(--key-bg);padding:18px 20px;margin:0 0 22px}.cbt-poll-label{font-size:11px;font-weight:700;color:var(--key)}.cbt-poll h2{font-size:17px;margin:5px 0 7px;line-height:1.5}.cbt-poll p{font-size:12px;color:var(--text2);margin:0}.cbt-poll-actions{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0 10px}.cbt-poll-actions button{border:1px solid var(--key-bd);background:white;color:var(--key);border-radius:7px;padding:10px 15px;font:inherit;font-size:13px;cursor:pointer;min-height:44px}.cbt-poll-actions button[aria-pressed="true"]{background:var(--key);color:white}.cbt-poll-actions button:disabled{cursor:default;opacity:.7}.cbt-poll-actions span{font-weight:700;margin-left:8px}.cbt-poll-actions button:focus-visible{outline:3px solid var(--key);outline-offset:3px}#cbt-poll-status{font-size:11px}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-N0XWRMVEX0"></script>
@@ -773,6 +774,11 @@ html,body{max-width:100%;overflow-x:clip;}
       <h1 class="home-title">정보통신기사 필기 학습 가이드</h1>
       <p class="home-meta"><b>5</b> 과목 · <b>100</b> 문항(과목당 20) · 과목별 <b>40점</b> 이상, 전과목 평균 <b>60점</b> 이상 합격 · 시험 시간 <b>150분</b> · <b>연 3회</b> 시행</p>
     </div>
+    <aside class="cbt-poll" aria-labelledby="cbt-poll-title">
+      <div><span class="cbt-poll-label">여러분의 의견을 들려주세요</span><h2 id="cbt-poll-title">앞으로도 CBT 문제를 꾸준히 업데이트할까요?</h2><p>이 사이트가 학습에 도움이 된다면 ‘좋아요’를 눌러주세요.</p></div>
+      <div class="cbt-poll-actions"><button type="button" data-vote="yes">👍 좋아요 <span id="cbt-vote-yes">–</span></button><button type="button" data-vote="no">아니요 <span id="cbt-vote-no">–</span></button></div>
+      <p id="cbt-poll-status" role="status" aria-live="polite">로그인 없이 참여 · 이 브라우저에서 한 번 응답할 수 있어요.</p>
+    </aside>
     <div class="home-quick">
       <div class="quick-card wide" role="button" tabindex="0" onclick="goQuiz()">
         <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12.5h8M8 16.5h5"/></svg><span class="quick-count" id="home-quiz-count">500문항</span></div>
@@ -5190,6 +5196,44 @@ cdBuild(true);
   });
 })();
 
+
+// Anonymous, advisory poll: public counts; browser-local duplicate suppression.
+(function initCbtPoll(){
+  var buttons=Array.from(document.querySelectorAll('[data-vote]'));
+  var status=document.getElementById('cbt-poll-status');
+  if(!status || !buttons.length) return;
+  var base='https://countapi.mileshilliard.com/api/v1/';
+  var prefix='ict-study-guide-simbecode-9f3k2m-cbt-updates-20260921-';
+  var storageKey='ict_cbt_update_vote_v1';
+  var busy=false, saved=null;
+  try{saved=localStorage.getItem(storageKey);}catch(e){}
+  function lock(value){buttons.forEach(function(b){b.disabled=true;b.setAttribute('aria-pressed',String(b.dataset.vote===value));});}
+  if(saved==='yes'||saved==='no'){lock(saved);status.textContent='의견 감사합니다. 이 브라우저에서 이미 참여하셨습니다.';}
+  if(saved==='pending'){lock('');status.textContent='이전 응답의 전송 결과를 확인할 수 없어 중복 제출을 막고 있습니다.';}
+  async function request(op,choice){
+    var controller=new AbortController();var timer=setTimeout(function(){controller.abort();},10000);
+    try{var r=await fetch(base+op+'/'+prefix+choice,{cache:'no-store',signal:controller.signal,referrerPolicy:'no-referrer'});
+      if(op==='get' && r.status===404) return 0;
+      if(!r.ok) throw new Error('request failed');
+      var data=await r.json();var count=Number(data.value);
+      if(data.value==null || !Number.isFinite(count)||count<0) throw new Error('invalid count');
+      return count;
+    }finally{clearTimeout(timer);}
+  }
+  function display(choice,n){document.getElementById('cbt-vote-'+choice).textContent=n.toLocaleString();}
+  Promise.all(['yes','no'].map(async function(choice){try{display(choice,await request('get',choice));}catch(e){document.getElementById('cbt-vote-'+choice).textContent='조회 불가';}}));
+  buttons.forEach(function(button){button.setAttribute('aria-pressed',String(saved===button.dataset.vote));button.addEventListener('click',async function(){
+    if(busy||saved) return;
+    busy=true;var choice=button.dataset.vote;lock(choice);
+    // Persist before sending: a timeout may still have incremented the remote counter.
+    try{localStorage.setItem(storageKey,'pending');}catch(e){}
+    status.textContent='의견을 보내고 있습니다…';
+    try{var count=await request('hit',choice);display(choice,count);saved=choice;
+      try{localStorage.setItem(storageKey,choice);}catch(e){}
+      status.textContent='의견 감사합니다! 앞으로의 CBT 업데이트에 참고하겠습니다.';
+    }catch(e){saved='pending';status.textContent='전송 결과를 확인하지 못했습니다. 중복 집계를 막기 위해 다시 전송하지 않습니다.';}
+  });});
+})();
 </script>
 </body>
 </html>

@@ -3503,3 +3503,42 @@ cdBuild(true);
     show(null, null);
   });
 })();
+
+
+// Anonymous, advisory poll: public counts; browser-local duplicate suppression.
+(function initCbtPoll(){
+  var buttons=Array.from(document.querySelectorAll('[data-vote]'));
+  var status=document.getElementById('cbt-poll-status');
+  if(!status || !buttons.length) return;
+  var base='https://countapi.mileshilliard.com/api/v1/';
+  var prefix='ict-study-guide-simbecode-9f3k2m-cbt-updates-20260921-';
+  var storageKey='ict_cbt_update_vote_v1';
+  var busy=false, saved=null;
+  try{saved=localStorage.getItem(storageKey);}catch(e){}
+  function lock(value){buttons.forEach(function(b){b.disabled=true;b.setAttribute('aria-pressed',String(b.dataset.vote===value));});}
+  if(saved==='yes'||saved==='no'){lock(saved);status.textContent='의견 감사합니다. 이 브라우저에서 이미 참여하셨습니다.';}
+  if(saved==='pending'){lock('');status.textContent='이전 응답의 전송 결과를 확인할 수 없어 중복 제출을 막고 있습니다.';}
+  async function request(op,choice){
+    var controller=new AbortController();var timer=setTimeout(function(){controller.abort();},10000);
+    try{var r=await fetch(base+op+'/'+prefix+choice,{cache:'no-store',signal:controller.signal,referrerPolicy:'no-referrer'});
+      if(op==='get' && r.status===404) return 0;
+      if(!r.ok) throw new Error('request failed');
+      var data=await r.json();var count=Number(data.value);
+      if(data.value==null || !Number.isFinite(count)||count<0) throw new Error('invalid count');
+      return count;
+    }finally{clearTimeout(timer);}
+  }
+  function display(choice,n){document.getElementById('cbt-vote-'+choice).textContent=n.toLocaleString();}
+  Promise.all(['yes','no'].map(async function(choice){try{display(choice,await request('get',choice));}catch(e){document.getElementById('cbt-vote-'+choice).textContent='조회 불가';}}));
+  buttons.forEach(function(button){button.setAttribute('aria-pressed',String(saved===button.dataset.vote));button.addEventListener('click',async function(){
+    if(busy||saved) return;
+    busy=true;var choice=button.dataset.vote;lock(choice);
+    // Persist before sending: a timeout may still have incremented the remote counter.
+    try{localStorage.setItem(storageKey,'pending');}catch(e){}
+    status.textContent='의견을 보내고 있습니다…';
+    try{var count=await request('hit',choice);display(choice,count);saved=choice;
+      try{localStorage.setItem(storageKey,choice);}catch(e){}
+      status.textContent='의견 감사합니다! 앞으로의 CBT 업데이트에 참고하겠습니다.';
+    }catch(e){saved='pending';status.textContent='전송 결과를 확인하지 못했습니다. 중복 집계를 막기 위해 다시 전송하지 않습니다.';}
+  });});
+})();
