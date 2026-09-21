@@ -148,6 +148,7 @@
     <div class="subj-items" id="s2">
       <div class="nav-group">표준 / 장비</div>
       <a class="sub-item" href="/s2/ieee/" data-sec="ieee" onclick="return navGo(event,'ieee',this)">IEEE 802 표준</a>
+      <a class="sub-item" href="/overview/">OSI 7계층 한눈에</a>
       <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">계층별 NW 장비</a>
       <a class="sub-item" href="/s2/cable/" data-sec="cable" onclick="return navGo(event,'cable',this)">UTP 케이블 Cat.3~Cat.7</a>
       <a class="sub-item" href="/s2/switch/" data-sec="switch" onclick="return navGo(event,'switch',this)">교환기 · 전송장비 · VoIP</a>
@@ -171,13 +172,13 @@
       <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">OSI 7계층 전체 비교표</a>
       <!-- 상위 계층 -->
       <div class="nav-group">상위 계층 (5~7)</div>
-      <a class="sub-item" href="/s3/l7/" data-sec="l7" onclick="return navGo(event,'l7',this)">7계층 — 응용</a>
-      <a class="sub-item active" aria-current="page" href="/s3/l6/" data-sec="l6" onclick="return navGo(event,'l6',this)">6계층 — 표현</a>
-      <a class="sub-item" href="/s3/l5/" data-sec="l5" onclick="return navGo(event,'l5',this)">5계층 — 세션</a>
+      <a class="sub-item" href="/s3/l7/" data-sec="l7" onclick="return navGo(event,'l7',this)"><span class="layer-menu-copy"><b>7계층 · 응용</b><small>웹·메일 등 통신 서비스 이용하기</small></span></a>
+      <a class="sub-item active" aria-current="page" href="/s3/l6/" data-sec="l6" onclick="return navGo(event,'l6',this)"><span class="layer-menu-copy"><b>6계층 · 표현</b><small>데이터 형식 바꾸기</small></span></a>
+      <a class="sub-item" href="/s3/l5/" data-sec="l5" onclick="return navGo(event,'l5',this)"><span class="layer-menu-copy"><b>5계층 · 세션</b><small>대화의 시작과 끝 관리하기</small></span></a>
       <!-- 하위 계층 -->
       <div class="nav-group">하위 계층 (1~4)</div>
-      <a class="sub-item" href="/s3/l4/" data-sec="l4" onclick="return navGo(event,'l4',this)">4계층 — 전송</a>
-      <a class="sub-item" href="/s3/l3/" data-sec="l3" onclick="return navGo(event,'l3',this)">3계층 — 네트워크</a>
+      <a class="sub-item" href="/s3/l4/" data-sec="l4" onclick="return navGo(event,'l4',this)"><span class="layer-menu-copy"><b>4계층 · 전송</b><small>받을 프로그램으로 전달하기</small></span></a>
+      <a class="sub-item" href="/s3/l3/" data-sec="l3" onclick="return navGo(event,'l3',this)"><span class="layer-menu-copy"><b>3계층 · 네트워크</b><small>목적지까지 경로 찾기</small></span></a>
       <a class="sub-item" href="/s3/ipclass/" data-sec="ipclass" onclick="return navGo(event,'ipclass',this)">IP 클래스 · 서브넷마스크 · CIDR</a>
       <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-ipv4',this)">IPv4 vs IPv6</div>
       <div class="sub-item-child" data-sec="ipclass" onclick="showAndScroll('ipclass','anchor-classvsmask',this)">클래스 vs 마스크 비트 차이</div>
@@ -185,11 +186,11 @@
       <div class="sub-item-child" data-sec="ipclass" onclick="showAndScroll('ipclass','anchor-subnet',this)">서브넷팅 / CIDR 계산</div>
       <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-arp',this)">ARP / RARP</div>
       <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-icmp',this)">ICMP / IGMP</div>
-      <a class="sub-item" href="/s3/l2/" data-sec="l2" onclick="return navGo(event,'l2',this)">2계층 — 데이터링크</a>
+      <a class="sub-item" href="/s3/l2/" data-sec="l2" onclick="return navGo(event,'l2',this)"><span class="layer-menu-copy"><b>2계층 · 데이터링크</b><small>연결된 구간에서 프레임 전달하기</small></span></a>
       <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-hdlc',this)">HDLC</div>
       <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-llc',this)">802.2 LLC</div>
       <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-hdlc-llc',this)">HDLC vs LLC</div>
-      <a class="sub-item" href="/s3/l1/" data-sec="l1" onclick="return navGo(event,'l1',this)">1계층 — 물리</a>
+      <a class="sub-item" href="/s3/l1/" data-sec="l1" onclick="return navGo(event,'l1',this)"><span class="layer-menu-copy"><b>1계층 · 물리</b><small>비트를 신호로 보내기</small></span></a>
       <!-- 프로토콜 -->
       <div class="nav-group">프로토콜 / 포트</div>
       <a class="sub-item" href="/s3/tcp_udp/" data-sec="tcp_udp" onclick="return navGo(event,'tcp_udp',this)">TCP vs UDP</a>
@@ -346,6 +347,15 @@
     <h1 class="section-title" style="color:#117a68">6계층 — 표현 계층 (Presentation Layer)</h1>
     <div class="osi-nav-slot" data-layer="l6"></div>
     <div class="note" style="border-color:#117a68"><b>역할:</b> 데이터 형식 변환·암호화·압축. 서로 다른 형식의 데이터를 통일된 형식으로 변환<br><b>PDU:</b> 데이터 (Data) | <b>장비:</b> 전용 장비 없음 (소프트웨어 처리)</div>
+    <aside id="l6-memory-tip" aria-label="6 → 육성 → 표현을 바꾸기 암기 팁" style="margin:18px 0;padding:18px 20px;border:1px solid #c2daf9;border-radius:9px;background:#f4f8ff;">
+      <div style="font-size:13px;font-weight:800;color:#2769b7;margin-bottom:8px;">TIP · 6 → 육성 → 표현을 바꾸기</div>
+      <p style="font-size:15px;margin:0 0 18px;"><b>육성으로 녹음한 말을, 형식을 바꾸고 압축하고 암호화해 보낸다.</b></p>
+      <div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;"><div style="background:white;border:1px solid #c2daf9;border-radius:8px;padding:16px 12px;text-align:center;flex:1 1 130px;"><span style="font-size:12px;color:#6d767f;">육성으로 녹음한 말</span><br><b style="font-size:22px;color:#2769b7;">형식 변환</b><br><span style="font-size:12px;color:#4d5660;">서로 이해할 수 있는 표현으로</span></div><div style="background:white;border:1px solid #c2daf9;border-radius:8px;padding:16px 12px;text-align:center;flex:1 1 130px;"><span style="font-size:12px;color:#6d767f;">파일 크기를 줄여서</span><br><b style="font-size:22px;color:#2769b7;">압축</b><br><span style="font-size:12px;color:#4d5660;">데이터를 효율적으로 표현</span></div><div style="background:white;border:1px solid #c2daf9;border-radius:8px;padding:16px 12px;text-align:center;flex:1 1 130px;"><span style="font-size:12px;color:#6d767f;">내용을 알아보지 못하게</span><br><b style="font-size:22px;color:#2769b7;">암호화</b><br><span style="font-size:12px;color:#4d5660;">데이터를 보호하는 표현으로</span></div></div><p style="font-size:14px;color:#2769b7;margin:16px 0 0;"><b>6 → 육성 → 표현 계층 → 형식 변환·압축·암호화</b></p>
+      <p style="font-size:13px;margin:8px 0 0;">목소리 자체가 6계층이라는 뜻은 아니에요. 녹음한 데이터의 표현을 바꾸는 장면으로 세 기능을 기억하세요.</p>
+      <p style="font-size:13px;margin:8px 0 0;"><b>5계층은 대화를 관리하고, 6계층은 데이터의 표현을 다룹니다. 데이터 단위는 데이터(Data)입니다.</b></p>
+      <p style="font-size:11px;color:#6d767f;margin:7px 0 0;">OSI의 기능 분류를 위한 연상 암기법입니다. 실제 암호화·압축 기능은 여러 계층에서 구현될 수 있어요.</p>
+    </aside>
+
     <table class="tbl">
       <thead><tr><th>기술/프로토콜</th><th>역할</th><th>특징</th></tr></thead>
       <tbody>
@@ -864,6 +874,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js"></script>
+<script src="/assets/app.js?v=eeccd74ad02f"></script>
 </body>
 </html>

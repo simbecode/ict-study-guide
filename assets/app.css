@@ -527,3 +527,4 @@ html,body{max-width:100%;overflow-x:clip;}
 .cbt-extra-progress{display:flex;gap:8px 14px;align-items:center;flex-wrap:wrap;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin:12px 0 20px;font-size:13px;}
 .cbt-extra-progress small{flex-basis:100%;color:var(--text3);}
 @media(max-width:480px){.cbt-compare-body{padding:10px;}.cbt-table-scroll .tbl td,.cbt-table-scroll .tbl th{padding:8px;font-size:12px;}.cbt-extra-progress{font-size:12px;}.cbt-recall{padding:12px;}}
+.layer-menu-copy{display:flex;flex-direction:column;padding:5px 0;gap:2px;min-width:0}.layer-menu-copy b{font-size:13px;font-weight:600}.layer-menu-copy small{font-size:10.5px;color:var(--text3);line-height:1.5;font-weight:400}

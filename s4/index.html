@@ -142,6 +142,7 @@
     <div class="subj-items" id="s2">
       <div class="nav-group">표준 / 장비</div>
       <a class="sub-item" href="/s2/ieee/" data-sec="ieee" onclick="return navGo(event,'ieee',this)">IEEE 802 표준</a>
+      <a class="sub-item" href="/overview/">OSI 7계층 한눈에</a>
       <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">계층별 NW 장비</a>
       <a class="sub-item" href="/s2/cable/" data-sec="cable" onclick="return navGo(event,'cable',this)">UTP 케이블 Cat.3~Cat.7</a>
       <a class="sub-item" href="/s2/switch/" data-sec="switch" onclick="return navGo(event,'switch',this)">교환기 · 전송장비 · VoIP</a>
@@ -165,13 +166,13 @@
       <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">OSI 7계층 전체 비교표</a>
       <!-- 상위 계층 -->
       <div class="nav-group">상위 계층 (5~7)</div>
-      <a class="sub-item" href="/s3/l7/" data-sec="l7" onclick="return navGo(event,'l7',this)">7계층 — 응용</a>
-      <a class="sub-item" href="/s3/l6/" data-sec="l6" onclick="return navGo(event,'l6',this)">6계층 — 표현</a>
-      <a class="sub-item" href="/s3/l5/" data-sec="l5" onclick="return navGo(event,'l5',this)">5계층 — 세션</a>
+      <a class="sub-item" href="/s3/l7/" data-sec="l7" onclick="return navGo(event,'l7',this)"><span class="layer-menu-copy"><b>7계층 · 응용</b><small>웹·메일 등 통신 서비스 이용하기</small></span></a>
+      <a class="sub-item" href="/s3/l6/" data-sec="l6" onclick="return navGo(event,'l6',this)"><span class="layer-menu-copy"><b>6계층 · 표현</b><small>데이터 형식 바꾸기</small></span></a>
+      <a class="sub-item" href="/s3/l5/" data-sec="l5" onclick="return navGo(event,'l5',this)"><span class="layer-menu-copy"><b>5계층 · 세션</b><small>대화의 시작과 끝 관리하기</small></span></a>
       <!-- 하위 계층 -->
       <div class="nav-group">하위 계층 (1~4)</div>
-      <a class="sub-item" href="/s3/l4/" data-sec="l4" onclick="return navGo(event,'l4',this)">4계층 — 전송</a>
-      <a class="sub-item" href="/s3/l3/" data-sec="l3" onclick="return navGo(event,'l3',this)">3계층 — 네트워크</a>
+      <a class="sub-item" href="/s3/l4/" data-sec="l4" onclick="return navGo(event,'l4',this)"><span class="layer-menu-copy"><b>4계층 · 전송</b><small>받을 프로그램으로 전달하기</small></span></a>
+      <a class="sub-item" href="/s3/l3/" data-sec="l3" onclick="return navGo(event,'l3',this)"><span class="layer-menu-copy"><b>3계층 · 네트워크</b><small>목적지까지 경로 찾기</small></span></a>
       <a class="sub-item" href="/s3/ipclass/" data-sec="ipclass" onclick="return navGo(event,'ipclass',this)">IP 클래스 · 서브넷마스크 · CIDR</a>
       <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-ipv4',this)">IPv4 vs IPv6</div>
       <div class="sub-item-child" data-sec="ipclass" onclick="showAndScroll('ipclass','anchor-classvsmask',this)">클래스 vs 마스크 비트 차이</div>
@@ -179,11 +180,11 @@
       <div class="sub-item-child" data-sec="ipclass" onclick="showAndScroll('ipclass','anchor-subnet',this)">서브넷팅 / CIDR 계산</div>
       <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-arp',this)">ARP / RARP</div>
       <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-icmp',this)">ICMP / IGMP</div>
-      <a class="sub-item" href="/s3/l2/" data-sec="l2" onclick="return navGo(event,'l2',this)">2계층 — 데이터링크</a>
+      <a class="sub-item" href="/s3/l2/" data-sec="l2" onclick="return navGo(event,'l2',this)"><span class="layer-menu-copy"><b>2계층 · 데이터링크</b><small>연결된 구간에서 프레임 전달하기</small></span></a>
       <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-hdlc',this)">HDLC</div>
       <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-llc',this)">802.2 LLC</div>
       <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-hdlc-llc',this)">HDLC vs LLC</div>
-      <a class="sub-item" href="/s3/l1/" data-sec="l1" onclick="return navGo(event,'l1',this)">1계층 — 물리</a>
+      <a class="sub-item" href="/s3/l1/" data-sec="l1" onclick="return navGo(event,'l1',this)"><span class="layer-menu-copy"><b>1계층 · 물리</b><small>비트를 신호로 보내기</small></span></a>
       <!-- 프로토콜 -->
       <div class="nav-group">프로토콜 / 포트</div>
       <a class="sub-item" href="/s3/tcp_udp/" data-sec="tcp_udp" onclick="return navGo(event,'tcp_udp',this)">TCP vs UDP</a>
@@ -336,7 +337,7 @@
       <div id="visit-counter">오늘 방문 <b id="vc-today">–</b> · 누적 방문 <b id="vc-total">–</b></div>
     </div>
   </div>
-  <div class="section visible" id="sec-hub-s4"><style>.hub-lead{font-size:15px;color:var(--text2);margin:-6px 0 22px;line-height:1.7}.hub-group{margin:26px 0 8px;font-size:13px;font-weight:700;color:var(--text3)}.hub-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.hub-list a{display:block;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);text-decoration:none;color:var(--text)}.hub-list a:hover{border-color:var(--key-bd);background:var(--key-bg)}.hub-list b{display:block;font-size:15px;margin-bottom:3px}.hub-list span{display:block;font-size:13px;color:var(--text3);line-height:1.55}</style><h1 class="section-title">4과목 정보시스템운용</h1><p class="hub-lead">정보통신기사 필기 4과목 <b>정보시스템운용</b>의 핵심 주제 10개입니다. 주제를 누르면 정리 페이지로 이동합니다.</p><ul class="hub-list"><li><a href="/s3/l6/" onclick="return navGo(event,'l6',this)"><b>보안·암호화 (6계층)</b><span>역할: 데이터 형식 변환·암호화·압축. 서로 다른 형식의 데이터를 통일된 형식으로 변환 PDU: 데이터 (Data) | 장비: 전용 장비 없음 (소프트웨어…</span></a></li><li><a href="/s3/l4/" onclick="return navGo(event,'l4',this)"><b>TCP 연결·흐름제어</b><span>역할: 종단 간(End-to-End) 신뢰성 있는 데이터 전송. 포트번호로 프로세스 구분 PDU: 세그먼트(TCP) / 데이터그램(UDP) | 장비:…</span></a></li><li><a href="/s4/crypto/" onclick="return navGo(event,'crypto',this)"><b>암호화 · AES-256</b><span>정보보안 3대 요소 (CIA) 요소 의미 깨지면 기밀성 Confidentiality 인가된 사람만 정보를 볼 수 있음 도청 · 유출 무결성 Integrity…</span></a></li><li><a href="/s4/netmgmt/" onclick="return navGo(event,'netmgmt',this)"><b>네트워크 관리 SNMP · MIB</b><span>4과목에서 매 회차 2~3문항 이 이 한 주제에서 나온다. 구조는 단순하다 — 관리자(Manager) 가 에이전트(Agent) 에게 물어보고, 에이전트는 MIB…</span></a></li><li><a href="/s4/sysops/" onclick="return navGo(event,'sysops',this)"><b>운용관리 · 장애대응 · 루프백</b><span>이 주제는 계산도 공식도 없다. 대신 &quot;순서&quot;와 &quot;어느 단계 일인가&quot; 만 묻는다. 4과목에서 가장 싸게 먹는 점수 이므로, 아래 표 세 개는 통째로 외운다…</span></a></li><li><a href="/s4/backup/" onclick="return navGo(event,'backup',this)"><b>백업 · RAID · 재해복구</b><span>운용 파트에서 &quot;가용성을 어떻게 지키는가&quot; 를 묻는 묶음이다. 백업은 데이터를 되살리는 장치, RAID·이중화는 안 죽게 만드는 장치, 재해복구는 건물째…</span></a></li><li><a href="/s4/secthreat/" onclick="return navGo(event,'secthreat',this)"><b>보안 위협 · 공격 기법</b><span>출제의 뼈대는 딱 하나 — 「어떤 보안 요건을 깨뜨리는 공격인가」 . 기밀성·무결성·가용성·인증 네 기둥에 공격 하나씩을 붙여 외우면 대부분의 문제가 풀린다…</span></a></li><li><a href="/s4/secdev/" onclick="return navGo(event,'secdev',this)"><b>보안장비 · 인증 · 접근통제</b><span>앞 섹션이 &quot;어떻게 공격하는가&quot; 였다면, 여기는 &quot;무엇으로 막는가&quot; 다. 장비는 놓이는 위치 와 보는 계층 으로, 인증은 무엇으로 증명하는가 로 갈린다…</span></a></li><li><a href="/s4/cloud/" onclick="return navGo(event,'cloud',this)"><b>클라우드 IaaS / PaaS / SaaS</b><span>클라우드 컴퓨팅 이란 컴퓨터 데이터와 소프트웨어를 별도 장소(데이터센터) 에 두고 네트워크를 통해 다양한 단말기로 언제 어디서나 이용하는 환경. 기출 정의…</span></a></li><li><a href="/s4/mtbf/" onclick="return navGo(event,'mtbf',this)"><b>MTTF · MTTR · MTBF · 가동률</b><span>시스템이 얼마나 오래 잘 버티는가(MTTF) , 고장 나면 얼마나 빨리 고치는가(MTTR) , 그리고 고장과 고장 사이가 얼마나 되는가(MTBF) — 이 세…</span></a></li></ul></div><div id="subject-content-root"><div style="padding:60px 20px;text-align:center;color:var(--text3);font-size:14px;">불러오는 중…</div></div>
+  <div class="section visible" id="sec-hub-s4"><style>.hub-lead{font-size:15px;color:var(--text2);margin:-6px 0 22px;line-height:1.7}.hub-group{margin:26px 0 8px;font-size:13px;font-weight:700;color:var(--text3)}.hub-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.hub-list a{display:block;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);text-decoration:none;color:var(--text)}.hub-list a:hover{border-color:var(--key-bd);background:var(--key-bg)}.hub-list b{display:block;font-size:15px;margin-bottom:3px}.hub-list span{display:block;font-size:13px;color:var(--text3);line-height:1.55}</style><h1 class="section-title">4과목 정보시스템운용</h1><p class="hub-lead">정보통신기사 필기 4과목 <b>정보시스템운용</b>의 핵심 주제 10개입니다. 주제를 누르면 정리 페이지로 이동합니다.</p><ul class="hub-list"><li><a href="/s3/l6/" onclick="return navGo(event,'l6',this)"><b>보안·암호화 (6계층)</b><span>역할: 데이터 형식 변환·암호화·압축. 서로 다른 형식의 데이터를 통일된 형식으로 변환 PDU: 데이터 (Data) | 장비: 전용 장비 없음 (소프트웨어…</span></a></li><li><a href="/s3/l4/" onclick="return navGo(event,'l4',this)"><b>TCP 연결·흐름제어</b><span>역할: 종단 간(End-to-End) 프로세스 간 데이터 전송. 포트번호로 프로세스 구분 (신뢰성 제공 여부는 프로토콜에 따라 다름) PDU: 세그먼트(TCP)…</span></a></li><li><a href="/s4/crypto/" onclick="return navGo(event,'crypto',this)"><b>암호화 · AES-256</b><span>정보보안 3대 요소 (CIA) 요소 의미 깨지면 기밀성 Confidentiality 인가된 사람만 정보를 볼 수 있음 도청 · 유출 무결성 Integrity…</span></a></li><li><a href="/s4/netmgmt/" onclick="return navGo(event,'netmgmt',this)"><b>네트워크 관리 SNMP · MIB</b><span>4과목에서 매 회차 2~3문항 이 이 한 주제에서 나온다. 구조는 단순하다 — 관리자(Manager) 가 에이전트(Agent) 에게 물어보고, 에이전트는 MIB…</span></a></li><li><a href="/s4/sysops/" onclick="return navGo(event,'sysops',this)"><b>운용관리 · 장애대응 · 루프백</b><span>이 주제는 계산도 공식도 없다. 대신 &quot;순서&quot;와 &quot;어느 단계 일인가&quot; 만 묻는다. 4과목에서 가장 싸게 먹는 점수 이므로, 아래 표 세 개는 통째로 외운다…</span></a></li><li><a href="/s4/backup/" onclick="return navGo(event,'backup',this)"><b>백업 · RAID · 재해복구</b><span>운용 파트에서 &quot;가용성을 어떻게 지키는가&quot; 를 묻는 묶음이다. 백업은 데이터를 되살리는 장치, RAID·이중화는 안 죽게 만드는 장치, 재해복구는 건물째…</span></a></li><li><a href="/s4/secthreat/" onclick="return navGo(event,'secthreat',this)"><b>보안 위협 · 공격 기법</b><span>출제의 뼈대는 딱 하나 — 「어떤 보안 요건을 깨뜨리는 공격인가」 . 기밀성·무결성·가용성·인증 네 기둥에 공격 하나씩을 붙여 외우면 대부분의 문제가 풀린다…</span></a></li><li><a href="/s4/secdev/" onclick="return navGo(event,'secdev',this)"><b>보안장비 · 인증 · 접근통제</b><span>앞 섹션이 &quot;어떻게 공격하는가&quot; 였다면, 여기는 &quot;무엇으로 막는가&quot; 다. 장비는 놓이는 위치 와 보는 계층 으로, 인증은 무엇으로 증명하는가 로 갈린다…</span></a></li><li><a href="/s4/cloud/" onclick="return navGo(event,'cloud',this)"><b>클라우드 IaaS / PaaS / SaaS</b><span>클라우드 컴퓨팅 이란 컴퓨터 데이터와 소프트웨어를 별도 장소(데이터센터) 에 두고 네트워크를 통해 다양한 단말기로 언제 어디서나 이용하는 환경. 기출 정의…</span></a></li><li><a href="/s4/mtbf/" onclick="return navGo(event,'mtbf',this)"><b>MTTF · MTTR · MTBF · 가동률</b><span>시스템이 얼마나 오래 잘 버티는가(MTTF) , 고장 나면 얼마나 빨리 고치는가(MTTR) , 그리고 고장과 고장 사이가 얼마나 되는가(MTBF) — 이 세…</span></a></li></ul></div><div id="subject-content-root"><div style="padding:60px 20px;text-align:center;color:var(--text3);font-size:14px;">불러오는 중…</div></div>
 
   
   <div class="section" id="sec-cram">
@@ -714,6 +715,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js"></script>
+<script src="/assets/app.js?v=eeccd74ad02f"></script>
 </body>
 </html>

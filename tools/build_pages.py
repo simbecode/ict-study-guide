@@ -21,6 +21,7 @@
   index.html 이나 subjects/ 를 고쳤다면 커밋 전에 이 스크립트를 한 번 실행하세요.
 """
 import datetime
+import hashlib
 import html
 import json
 import os
@@ -217,7 +218,8 @@ def main():
     # ── 페이지 틀 ────────────────────────────────────────────
     tpl = index
     tpl = tpl.replace(css_m.group(0), '<link rel="stylesheet" href="/assets/app.css">', 1)
-    tpl = tpl.replace(js_m.group(0), '<script src="/assets/app.js"></script>', 1)
+    js_version = hashlib.sha256(js_m.group(1).encode('utf-8')).hexdigest()[:12]
+    tpl = tpl.replace(js_m.group(0), '<script src="/assets/app.js?v=' + js_version + '"></script>', 1)
     tpl = tpl.replace('<div class="section visible" id="sec-home">', '<div class="section" id="sec-home">', 1)
     tpl = tpl.replace('<h1 class="home-title">', '<p class="home-title">', 1)
     tpl = re.sub(r'(<p class="home-title">[^<]*)</h1>', r'\1</p>', tpl, count=1)

@@ -23,7 +23,7 @@ let quizzes = [];
   var root = document.getElementById('subject-content-root');
 
   var subjectsP = Promise.all(SUBJECT_FILES.map(function(f){
-    return fetch(f).then(function(r){
+    return fetch(f, {cache: 'no-cache'}).then(function(r){
       if(!r.ok) throw new Error(f+' 로드 실패 (HTTP '+r.status+')');
       return r.text();
     });

@@ -148,6 +148,7 @@
     <div class="subj-items" id="s2">
       <div class="nav-group">표준 / 장비</div>
       <a class="sub-item" href="/s2/ieee/" data-sec="ieee" onclick="return navGo(event,'ieee',this)">IEEE 802 표준</a>
+      <a class="sub-item" href="/overview/">OSI 7계층 한눈에</a>
       <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">계층별 NW 장비</a>
       <a class="sub-item" href="/s2/cable/" data-sec="cable" onclick="return navGo(event,'cable',this)">UTP 케이블 Cat.3~Cat.7</a>
       <a class="sub-item" href="/s2/switch/" data-sec="switch" onclick="return navGo(event,'switch',this)">교환기 · 전송장비 · VoIP</a>
@@ -171,13 +172,13 @@
       <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">OSI 7계층 전체 비교표</a>
       <!-- 상위 계층 -->
       <div class="nav-group">상위 계층 (5~7)</div>
-      <a class="sub-item" href="/s3/l7/" data-sec="l7" onclick="return navGo(event,'l7',this)">7계층 — 응용</a>
-      <a class="sub-item" href="/s3/l6/" data-sec="l6" onclick="return navGo(event,'l6',this)">6계층 — 표현</a>
-      <a class="sub-item" href="/s3/l5/" data-sec="l5" onclick="return navGo(event,'l5',this)">5계층 — 세션</a>
+      <a class="sub-item" href="/s3/l7/" data-sec="l7" onclick="return navGo(event,'l7',this)"><span class="layer-menu-copy"><b>7계층 · 응용</b><small>웹·메일 등 통신 서비스 이용하기</small></span></a>
+      <a class="sub-item" href="/s3/l6/" data-sec="l6" onclick="return navGo(event,'l6',this)"><span class="layer-menu-copy"><b>6계층 · 표현</b><small>데이터 형식 바꾸기</small></span></a>
+      <a class="sub-item" href="/s3/l5/" data-sec="l5" onclick="return navGo(event,'l5',this)"><span class="layer-menu-copy"><b>5계층 · 세션</b><small>대화의 시작과 끝 관리하기</small></span></a>
       <!-- 하위 계층 -->
       <div class="nav-group">하위 계층 (1~4)</div>
-      <a class="sub-item" href="/s3/l4/" data-sec="l4" onclick="return navGo(event,'l4',this)">4계층 — 전송</a>
-      <a class="sub-item" href="/s3/l3/" data-sec="l3" onclick="return navGo(event,'l3',this)">3계층 — 네트워크</a>
+      <a class="sub-item" href="/s3/l4/" data-sec="l4" onclick="return navGo(event,'l4',this)"><span class="layer-menu-copy"><b>4계층 · 전송</b><small>받을 프로그램으로 전달하기</small></span></a>
+      <a class="sub-item" href="/s3/l3/" data-sec="l3" onclick="return navGo(event,'l3',this)"><span class="layer-menu-copy"><b>3계층 · 네트워크</b><small>목적지까지 경로 찾기</small></span></a>
       <a class="sub-item" href="/s3/ipclass/" data-sec="ipclass" onclick="return navGo(event,'ipclass',this)">IP 클래스 · 서브넷마스크 · CIDR</a>
       <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-ipv4',this)">IPv4 vs IPv6</div>
       <div class="sub-item-child" data-sec="ipclass" onclick="showAndScroll('ipclass','anchor-classvsmask',this)">클래스 vs 마스크 비트 차이</div>
@@ -185,11 +186,11 @@
       <div class="sub-item-child" data-sec="ipclass" onclick="showAndScroll('ipclass','anchor-subnet',this)">서브넷팅 / CIDR 계산</div>
       <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-arp',this)">ARP / RARP</div>
       <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-icmp',this)">ICMP / IGMP</div>
-      <a class="sub-item" href="/s3/l2/" data-sec="l2" onclick="return navGo(event,'l2',this)">2계층 — 데이터링크</a>
+      <a class="sub-item" href="/s3/l2/" data-sec="l2" onclick="return navGo(event,'l2',this)"><span class="layer-menu-copy"><b>2계층 · 데이터링크</b><small>연결된 구간에서 프레임 전달하기</small></span></a>
       <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-hdlc',this)">HDLC</div>
       <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-llc',this)">802.2 LLC</div>
       <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-hdlc-llc',this)">HDLC vs LLC</div>
-      <a class="sub-item" href="/s3/l1/" data-sec="l1" onclick="return navGo(event,'l1',this)">1계층 — 물리</a>
+      <a class="sub-item" href="/s3/l1/" data-sec="l1" onclick="return navGo(event,'l1',this)"><span class="layer-menu-copy"><b>1계층 · 물리</b><small>비트를 신호로 보내기</small></span></a>
       <!-- 프로토콜 -->
       <div class="nav-group">프로토콜 / 포트</div>
       <a class="sub-item" href="/s3/tcp_udp/" data-sec="tcp_udp" onclick="return navGo(event,'tcp_udp',this)">TCP vs UDP</a>
@@ -886,6 +887,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js"></script>
+<script src="/assets/app.js?v=eeccd74ad02f"></script>
 </body>
 </html>
