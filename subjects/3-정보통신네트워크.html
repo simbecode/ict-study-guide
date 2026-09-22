@@ -1,4 +1,4 @@
-  <!-- 7계층 -->  <div class="section" id="sec-l7">
+  <!-- 7계층 -->  <div class="section" id="sec-l7" data-desc="OSI 7계층 응용 계층 — HTTP·SMTP·FTP·DNS·SNMP 등 TCP/UDP 프로토콜 구분과 게이트웨이·L7 스위치를 암기 팁과 함께 정리.">
     <h2 class="section-title" style="color:#6b59aa">7계층 — 응용 계층 (Application Layer)</h2>
     <div class="osi-nav-slot" data-layer="l7"></div>
 
@@ -140,7 +140,7 @@
   <div class="osi-move-slot" data-layer="l7"></div>
   </div>
 
-  <div class="section" id="sec-l6">
+  <div class="section" id="sec-l6" data-desc="OSI 6계층 표현 계층 — 데이터 형식 변환, 무손실·손실 압축, SSL/TLS 암호화. 문자 표현 표준과 계층 암기 팁을 정리했습니다.">
     <h2 class="section-title" style="color:#117a68">6계층 — 표현 계층 (Presentation Layer)</h2>
     <div class="osi-nav-slot" data-layer="l6"></div>
     <div class="note" style="border-color:#117a68"><b>역할:</b> 데이터 형식 변환·암호화·압축. 서로 다른 형식의 데이터를 통일된 형식으로 변환<br><b>PDU:</b> 데이터 (Data) | <b>장비:</b> 전용 장비 없음 (소프트웨어 처리)</div>
@@ -296,7 +296,7 @@
   <div class="osi-move-slot" data-layer="l6"></div>
   </div>
 
-  <div class="section" id="sec-l5">
+  <div class="section" id="sec-l5" data-desc="OSI 5계층 세션 계층 — 세션 설정·유지·동기화·종료와 핵심 개념인 동기점(Synchronization Point). 관련 프로토콜과 암기 팁까지.">
     <h2 class="section-title" style="color:#2c6da4">5계층 — 세션 계층 (Session Layer)</h2>
     <div class="osi-nav-slot" data-layer="l5"></div>
     <div class="note" style="border-color:#2c6da4"><b>역할:</b> 응용 프로그램 간 논리적 연결(세션)의 시작·유지·동기화·종료 관리<br><b>PDU:</b> 데이터 (Data) | <b>장비:</b> 전용 장비 없음 (소프트웨어 처리)</div>
@@ -451,7 +451,7 @@
   <div class="osi-move-slot" data-layer="l5"></div>
   </div>
 
-  <div class="section" id="sec-l4">
+  <div class="section" id="sec-l4" data-desc="OSI 4계층 전송 계층 — TCP 6가지 플래그, 3-way 핸드셰이크, 혼잡 제어 4단계, TIME_WAIT 상태 전이, 포트 분류와 MSS까지 정리.">
     <h2 class="section-title" style="color:#8a6012">4계층 — 전송 계층 (Transport Layer)</h2>
     <div class="osi-nav-slot" data-layer="l4"></div>
     <div class="note" style="border-color:#8a6012"><b>역할:</b> 종단 간(End-to-End) 프로세스 간 데이터 전송. 포트번호로 프로세스 구분 (신뢰성 제공 여부는 프로토콜에 따라 다름)<br><b>PDU:</b> 세그먼트(TCP) / 데이터그램(UDP) | <b>장비:</b> L4스위치, 로드밸런서</div>
@@ -771,7 +771,7 @@
   <div class="osi-move-slot" data-layer="l4"></div>
   </div>
 
-  <div class="section" id="sec-l3">
+  <div class="section" id="sec-l3" data-desc="OSI 3계층 네트워크 계층 — IP 주소 클래스, IPv6 표기 규칙과 주소 유형, ARP vs RARP 동작 원리와 패킷 구조를 기출 중심으로 정리.">
     <h2 class="section-title" style="color:#9d520f">3계층 — 네트워크 계층 (Network Layer)</h2>
     <div class="osi-nav-slot" data-layer="l3"></div>
     <div class="note" style="border-color:#9d520f"><b>역할:</b> IP 주소 기반 경로 결정(라우팅)과 패킷 전달<br><b>PDU:</b> 패킷 (Packet) | <b>장비:</b> 라우터, L3스위치, IP공유기</div>
@@ -1221,7 +1221,7 @@ RARP 서버 → 요청 장치
   <div class="osi-move-slot" data-layer="l3"></div>
   </div>
 
-  <div class="section" id="sec-netdev">
+  <div class="section" id="sec-netdev" data-title="네트워크 장비 — 허브·스위치·라우터 비교" data-desc="리피터·허브·브리지·스위치·라우터가 몇 계층에서 무엇을 보고 판단하는지. 충돌·브로드캐스트 도메인, L2~L7 스위치, STP까지.">
     <h2 class="section-title" style="color:#267c41">🔧 네트워크 장비 — 리피터 · 허브 · 브리지 · 스위치 · 라우터</h2>
 
     <div class="highlight">
@@ -1299,7 +1299,7 @@ RARP 서버 → 요청 장치
     </div>
   </div>
 
-  <div class="section" id="sec-routing">
+  <div class="section" id="sec-routing" data-desc="RIP·OSPF·BGP 라우팅 프로토콜 비교. 거리벡터(벨만-포드) vs 링크상태(다익스트라) 원리와 무한 카운트 문제 대책까지 정리.">
     <h2 class="section-title" style="color:#9d520f">🧭 라우팅 프로토콜 — RIP · OSPF · BGP</h2>
 
     <div class="flow">
@@ -1371,7 +1371,7 @@ RARP 서버 → 요청 장치
     </div>
   </div>
 
-  <div class="section" id="sec-topology">
+  <div class="section" id="sec-topology" data-desc="성형·링형·버스형·트리형·망형 토폴로지 구조와 장단점, 고장 시 영향 비교. 망형 회선 수 n(n-1)/2 계산까지 정리했습니다.">
     <h2 class="section-title" style="color:#117a68">🕸️ 통신망 토폴로지 (Topology)</h2>
 
     <div class="flow">
@@ -1442,7 +1442,7 @@ RARP 서버 → 요청 장치
     </div>
   </div>
 
-  <div class="section" id="sec-lan">
+  <div class="section" id="sec-lan" data-desc="VLAN 분류 방식과 IEEE 802.1Q 태깅(VID 12비트·4094개), 트렁크/액세스 포트, 무선랜과 DHCP 동작을 함께 정리했습니다.">
     <h2 class="section-title" style="color:#2c6da4">🏢 LAN — VLAN · 무선랜 · DHCP</h2>
 
     <!-- VLAN -->
@@ -1589,7 +1589,7 @@ RARP 서버 → 요청 장치
     </div>
   </div>
 
-  <div class="section" id="sec-wan">
+  <div class="section" id="sec-wan" data-title="WAN 교환방식 — X.25·프레임릴레이·ATM" data-desc="WAN 교환 방식 3가지(회선·메시지·패킷)와 X.25·프레임릴레이·ATM·T1/E1 회선 비교. 데이터그램과 가상회선 차이까지 정리.">
     <h2 class="section-title" style="color:#ae3e30">🌍 WAN — 교환방식 · X.25 · 프레임릴레이 · ATM · T1/E1</h2>
 
     <div class="sub-title" style="color:#2c6da4">🔀 교환 방식 3가지</div>
@@ -1789,7 +1789,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
   </div>
 
-  <div class="section" id="sec-ipclass">
+  <div class="section" id="sec-ipclass" data-desc="IP 주소 클래스 A~E 판별법(맨 앞 비트)과 서브넷 마스크·CIDR. 사설 IP 대역, 특수 주소, 서브넷팅 계산을 판별기와 함께 정리.">
     <h2 class="section-title" style="color:#9d520f">🏷️ IP 주소 클래스 · 서브넷 마스크 · CIDR</h2>
 
     <div class="highlight">
@@ -2458,7 +2458,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
   </div>
 
-  <div class="section" id="sec-l2">
+  <div class="section" id="sec-l2" data-desc="OSI 2계층 데이터링크 계층 — 매체 접근 방식 3가지, 토큰 패싱, HDLC 프레임 구조와 동작 모드, 비트 스터핑을 정리했습니다.">
     <h2 class="section-title" style="color:#267c41">2계층 — 데이터링크 계층 (Data Link Layer)</h2>
     <div class="osi-nav-slot" data-layer="l2"></div>
     <div class="note" style="border-color:#267c41"><b>역할:</b> MAC 주소 기반 인접 노드 간 데이터 전송. 오류 검출<br><b>PDU:</b> 프레임 (Frame) | <b>장비:</b> 스위치, 브리지, AP</div>
@@ -3067,7 +3067,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
   <div class="osi-move-slot" data-layer="l2"></div>
   </div>
 
-  <div class="section" id="sec-l1">
+  <div class="section" id="sec-l1" data-desc="OSI 1계층 물리 계층 — 전송 매체(UTP·동축·광), 리피터·허브 장비, NRZ·맨체스터 전송 부호와 물리 인터페이스 규격을 정리.">
     <h2 class="section-title" style="color:#4d5660">1계층 — 물리 계층 (Physical Layer)</h2>
     <div class="osi-nav-slot" data-layer="l1"></div>
     <div class="note" style="border-color:#4d5660"><b>역할:</b> 0과 1의 비트를 전기·광·무선 신호로 변환하여 물리적으로 전송<br><b>PDU:</b> 비트 (Bit) | <b>장비:</b> 허브, 리피터, 케이블, 커넥터</div>
@@ -3249,7 +3249,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
   <div class="osi-move-slot" data-layer="l1"></div>
   </div>
 
-  <div class="section" id="sec-tcp_udp">
+  <div class="section" id="sec-tcp_udp" data-desc="TCP와 UDP 완전 비교 — 연결 방식, 3-way/4-way 핸드셰이크, 신뢰성과 순서 보장, 헤더 크기(20/8바이트), 사용 프로토콜 예시.">
     <h2 class="section-title">TCP vs UDP 완전 비교</h2>
     <table class="tbl">
       <thead><tr><th>항목</th><th style="color:#2c6da4">TCP</th><th style="color:#8a6012">UDP</th></tr></thead>
@@ -3272,7 +3272,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     <div class="highlight" style="margin-top:12px"><b>핵심 차이 한 줄:</b><br>TCP = 보내고 "받았어?" 확인 (등기 택배)<br>UDP = 보내고 끝 (일반 우편)</div>
   </div>
 
-  <div class="section" id="sec-ports">
+  <div class="section" id="sec-ports" data-desc="포트번호 총정리 — FTP 20/21, SSH 22, SMTP 25, DNS 53, DHCP 67/68, HTTP 80 등 TCP/UDP 구분과 혼동 포인트.">
     <h2 class="section-title">포트번호 + TCP/UDP 구분 총정리</h2>
     <table class="tbl">
       <thead><tr><th>포트</th><th>프로토콜</th><th>TCP/UDP</th><th>역할</th><th>주의</th></tr></thead>

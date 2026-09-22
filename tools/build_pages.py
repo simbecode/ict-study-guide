@@ -38,14 +38,29 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = 'https://ict.kyufind.com'
 GEN_LIST = os.path.join(ROOT, 'tools', 'generated-files.txt')
 
+# ── 검색결과에 보이는 문구 ────────────────────────────────
+# 제목: 구글 한국어 검색결과는 약 30자에서 잘린다. 주제명을 앞에 두고 접미사는 짧게 유지한다.
+# 설명: 약 80자까지만 노출된다. 80자를 넘기면 뒤가 잘리므로 DESC_MAX 안에서 끝낸다.
+TITLE_SUFFIX = ' | 정보통신기사 필기'
+DESC_MAX = 88
+
 # 과목 외 단독 페이지: 섹션 id → (주소, 검색 설명, 페이지 제목)
 EXTRA_PAGES = {
-    'cram': ('/cram/', '정보통신기사 필기 시험 직전 요약 — 기출에 나온 나이퀴스트·섀넌·데시벨·BER·다중화 계산 공식과 설비기준·법규 숫자, 두 번 이상 나온 문제를 한 페이지에 모았습니다.',
-             '정보통신기사 필기 시험 직전 요약 — 계산 공식·법규 숫자·반복 기출'),
-    'cbt26': ('/cbt-2026-4/', '정보통신기사 필기 2026년 4회 CBT 복원 예상문제 — 응시 후기로 모은 출제 주제를 바탕으로 만든 개념 정리와 확인 문제, 변형 문제, 오답 복습.',
-              '2026년 4회 정보통신기사 필기 CBT 복원 예상문제 | 정보통신기사 필기'),
-    'quiz': ('/quiz/', '정보통신기사 필기 기출문제 500제 — 2022~2023년 회차별·과목별로 골라 풀고 해설과 과목별 점수, 틀린 문제를 확인하는 무료 CBT 연습.',
-             '정보통신기사 필기 기출문제 500제 — 회차별·과목별 CBT 풀이'),
+    'cram': ('/cram/', '기출에 나온 나이퀴스트·섀넌·데시벨·BER·다중화 계산 공식과 설비기준·법규 숫자, 두 번 이상 나온 문제를 한 페이지에 모았습니다.',
+             '시험 직전 요약 — 계산 공식·법규 숫자' + TITLE_SUFFIX),
+    'cbt26': ('/cbt-2026-4/', '2026년 4회 응시 후기로 모은 출제 주제를 바탕으로 만든 개념 정리와 확인 문제, 변형 문제, 오답 복습을 제공합니다.',
+              '2026년 4회 CBT 복원 예상문제' + TITLE_SUFFIX),
+    'quiz': ('/quiz/', '2022~2023년 기출 500문항을 회차별·과목별로 골라 풀고, 해설과 과목별 점수·틀린 문제를 확인하는 무료 CBT 연습.',
+             '기출문제 500제 — 회차별 CBT 풀이' + TITLE_SUFFIX),
+}
+
+# 과목 모음 페이지(/s1/ 등)의 검색 설명 — 주제 이름을 그대로 나열하면 80자를 금방 넘겨 잘린다.
+HUB_DESC = {
+    's1': '정보전송일반 핵심 주제 23개 — 변조, 다중화, PCM, 광통신, 오류 제어와 나이퀴스트·BER 계산 공식을 주제별로 정리.',
+    's2': '정보통신기기 핵심 주제 — UTP 케이블, OSI 전체 지도, 광가입자망, 이동통신 1G~5G, CCTV·CATV, 교환기를 주제별로 정리.',
+    's3': '정보통신네트워크 핵심 주제 15개 — OSI 7계층 상세, TCP/UDP, 서브넷팅, 라우팅 프로토콜, 포트번호, 토폴로지를 정리.',
+    's4': '정보시스템운용 핵심 주제 — 암호화, 클라우드, MTBF 가동률, SNMP 망관리, 백업·RAID, 보안 위협과 보안 장비를 정리.',
+    's5': '컴퓨터일반 및 정보설비기준 핵심 주제 — CPU와 운영체제, 자료구조, 데이터베이스, 전기통신사업법·공사업법·기술기준.',
 }
 
 EMOJI_RX = re.compile('[\U0001F000-\U0001FAFF\u2600-\u27BF\u2B00-\u2BFF\u2300-\u23FF\uFE0F\u200D\u3030]')
@@ -105,6 +120,30 @@ def clip(t, n):
     return (cut[:sp] if sp > n * 0.6 else cut).rstrip(' ,·.—-') + '…'
 
 
+def clip_sentence(t, n=DESC_MAX):
+    """문장 경계에서 끊어 검색결과에 잘리지 않는 설명문을 만든다.
+
+    data-desc 가 없는 섹션의 폴백이다. 예전에는 본문 앞부분을 글자 수로만 잘라
+    "…처리하느냐 에 따라 CD와…" 처럼 조사 앞에서 끊기는 문장이 나왔다.
+    """
+    t = re.sub(r'\s+', ' ', t).strip()
+    if len(t) <= n:
+        return t
+    parts = re.split(r'(?<=[.!?。])\s+|(?<=다)\.\s*', t)
+    out = ''
+    for p in parts:
+        p = p.strip()
+        if not p:
+            continue
+        cand = (out + ' ' + p).strip() if out else p
+        if len(cand) > n:
+            break
+        out = cand
+    if not out:                       # 첫 문장부터 길면 글자 수로 자른다
+        return clip(t, n)
+    return out if out.endswith(('.', '!', '?')) else out + '.'
+
+
 def git_date(*paths):
     best = ''
     for p in paths:
@@ -161,7 +200,15 @@ def main():
             h = re.search(r'<h2[^>]*>(.*?)</h2>', block, re.S)
             title = clean_title(h.group(1)) if h else side_label.get(sec, sec)
             body = text_of(block[h.end():] if h else block)
-            sections[sec] = dict(id=sec, sid=sid, file='subjects/' + fn, html=block, title=title, body=body)
+            # subjects/*.html 의 data-desc 가 검색결과 설명문이다(없으면 본문에서 자동 생성)
+            open_tag = re.match(r'<div[^>]*>', block).group(0)
+            dm = re.search(r'\sdata-desc="([^"]*)"', open_tag)
+            desc = html.unescape(dm.group(1)).strip() if dm else ''
+            # data-title 은 검색결과용 짧은 제목(화면의 h1 은 그대로 둔다)
+            tm = re.search(r'\sdata-title="([^"]*)"', open_tag)
+            seo_title = html.unescape(tm.group(1)).strip() if tm else ''
+            sections[sec] = dict(id=sec, sid=sid, file='subjects/' + fn, html=block,
+                                 title=title, body=body, desc=desc, seo_title=seo_title)
 
     missing = [k for k in side_label if k not in sections and k not in EXTRA_PAGES and k != 'home']
     if missing:
@@ -172,11 +219,11 @@ def main():
     routes = {'home': ['/', home_title]}
     for sid in sorted(subj_names):
         n = sid[1:]
-        routes['hub-' + sid] = ['/%s/' % sid, '%s과목 %s 핵심정리 — 주제 모음 | 정보통신기사 필기' % (n, subj_names[sid])]
+        routes['hub-' + sid] = ['/%s/' % sid, '%s과목 %s 핵심정리%s' % (n, subj_names[sid], TITLE_SUFFIX)]
     for sec, d in sections.items():
         n = d['sid'][1:]
         d['url'] = '/%s/%s/' % (d['sid'], sec)
-        d['page_title'] = '%s | 정보통신기사 필기 %s과목 %s' % (d['title'], n, subj_names.get(d['sid'], ''))
+        d['page_title'] = (d['seo_title'] or d['title']) + TITLE_SUFFIX
         routes[sec] = [d['url'], d['page_title']]
     extra = {}
     for sec, (url, desc, ptitle) in EXTRA_PAGES.items():
@@ -301,7 +348,7 @@ def main():
     for sec, d in sections.items():
         n = d['sid'][1:]
         sname = subj_names.get(d['sid'], '')
-        desc = clip('정보통신기사 필기 %s과목 %s — %s. %s' % (n, sname, d['title'], d['body']), 150)
+        desc = d['desc'] or clip_sentence('정보통신기사 필기 %s과목 %s — %s. %s' % (n, sname, d['title'], d['body']))
         t = set_meta(tpl, d['page_title'], desc, d['url'],
                      [home_crumb, ('%s과목 %s' % (n, sname), '/%s/' % d['sid']), (d['title'], d['url'])],
                      d['title'])
@@ -343,8 +390,10 @@ def main():
                 '<p class="hub-lead">정보통신기사 필기 %s과목 <b>%s</b>의 핵심 주제 %d개입니다. 주제를 누르면 정리 페이지로 이동합니다.</p>'
                 '<ul class="hub-list">%s</ul></div>') % (sid, hub_css, hub_crumb, n, esc(sname), n, esc(sname), count, ''.join(lis))
         body = body.replace('<ul class="hub-list"></ul>', '')
-        titles = ', '.join(sections[a]['title'] for k, a, _ in side_items.get(sid, []) if k == 'item' and a in sections)
-        desc = clip('정보통신기사 필기 %s과목 %s 핵심정리 주제 모음 — %s' % (n, sname, titles), 150)
+        desc = HUB_DESC.get(sid)
+        if not desc:
+            titles = ', '.join(sections[a]['title'] for k, a, _ in side_items.get(sid, []) if k == 'item' and a in sections)
+            desc = clip_sentence('정보통신기사 필기 %s과목 %s 핵심정리 주제 모음 — %s' % (n, sname, titles))
         t = set_meta(tpl, routes['hub-' + sid][1], desc, url,
                      [home_crumb, ('%s과목 %s' % (n, sname), url)], '%s과목 %s 핵심정리' % (n, sname))
         t = t.replace('<script src="/assets/routes.js"></script>', page_script({'hub': sid}), 1)
