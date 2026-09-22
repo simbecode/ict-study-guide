@@ -211,10 +211,6 @@ def main():
     wr('assets/app.js', '// 자동 생성: tools/build_pages.py — index.html 의 본문 스크립트 복사본. 직접 수정하지 마세요.\n' + js_m.group(1).strip() + '\n', gen)
     wr('assets/routes.js', '// 자동 생성: tools/build_pages.py — 주제별 주소 목록\nwindow.__ROUTES__ = ' + json.dumps(routes, ensure_ascii=False, indent=0) + ';\n', gen)
 
-    cbt_block = extra['cbt26']['html'] if 'cbt26' in extra else None
-    if cbt_block:
-        wr('sections/cbt26.html', cbt_block + '\n', gen)
-
     # ── 페이지 틀 ────────────────────────────────────────────
     tpl = index
     tpl = tpl.replace(css_m.group(0), '<link rel="stylesheet" href="/assets/app.css">', 1)
@@ -223,10 +219,40 @@ def main():
     tpl = tpl.replace('<div class="section visible" id="sec-home">', '<div class="section" id="sec-home">', 1)
     tpl = tpl.replace('<h1 class="home-title">', '<p class="home-title">', 1)
     tpl = re.sub(r'(<p class="home-title">[^<]*)</h1>', r'\1</p>', tpl, count=1)
-    if cbt_block:
-        tpl = tpl.replace(cbt_block, '<div id="cbt-slot" data-src="/sections/cbt26.html"></div>', 1)
+
+    # ── 공용 섹션 분리 ───────────────────────────────────────
+    # 홈·시험직전요약·CBT·용어카드·기출 은 어느 페이지에서나 똑같은 내용이다.
+    # 이걸 71개 페이지 HTML 에 그대로 넣으면 주제 페이지 본문의 절반 이상이 중복돼
+    # 검색엔진이 "이 페이지가 무엇에 대한 페이지인지" 판단할 근거가 흐려진다.
+    # 그래서 sections/*.html 로 빼고, 해당 내용이 주인공인 페이지에서만 본문에 넣는다.
+    # 나머지 페이지는 슬롯만 두고 app.js 가 화면 표시 뒤에 불러온다.
+    SLOT_SECTIONS = ['home', 'cram', 'cbt26', 'cards', 'quiz']
+    slot_div = {}
+    for name in SLOT_SECTIONS:
+        m = re.search(r'<div class="section[^"]*" id="sec-%s"' % re.escape(name), tpl)
+        if not m:
+            print('주의: 공용 섹션 sec-%s 를 찾지 못해 건너뜁니다' % name)
+            continue
+        block = balanced_div(tpl, m.start())
+        wr('sections/%s.html' % name, block + '\n', gen)
+        slot_div[name] = '<div data-section-src="/sections/%s.html"></div>' % name
+        tpl = tpl.replace(block, slot_div[name], 1)
+
     root_m = re.search(r'<div id="subject-content-root">.*?</div></div>', tpl)
     assert root_m, 'subject-content-root 를 찾지 못했습니다.'
+
+    # ── 빵부스러기(경로 표시) ────────────────────────────────
+    # 기존 #crumb 는 JS 가 채우는 빈 div 라서 검색엔진이 따라갈 링크가 없었다.
+    # 과목 모음 페이지(/s1/ 등)로 가는 실제 <a> 를 HTML 에 미리 넣는다.
+    CRUMB_EMPTY = '<div id="crumb" class="crumb" hidden></div>'
+    assert CRUMB_EMPTY in tpl, '#crumb 를 찾지 못했습니다.'
+
+    def crumb_links(sid, label, url, tag='div', attrs=' id="crumb"'):
+        return ('<%s%s class="crumb c-%s" aria-label="경로">'
+                '<a class="crumb-link" href="/">홈</a><span class="crumb-sep">/</span>'
+                '<span class="crumb-dot" style="background:var(--sc)"></span>'
+                '<a class="crumb-link" href="%s" style="color:var(--sct)"><b>%s</b></a>'
+                '</%s>') % (tag, attrs, sid, url, esc(label), tag)
 
     def set_meta(t, title, desc, url, crumbs, lr_name):
         t = re.sub(r'<title>.*?</title>', lambda m: '<title>%s</title>' % esc(title), t, count=1, flags=re.S)
@@ -281,6 +307,7 @@ def main():
                      d['title'])
         t = t.replace('<script src="/assets/routes.js"></script>', page_script({'sec': sec}), 1)
         t = t.replace(root_m.group(0), '<div id="subject-content-root">' + as_visible(d['html']) + '</div>', 1)
+        t = t.replace(CRUMB_EMPTY, crumb_links(d['sid'], '%s과목 %s' % (n, sname), '/%s/' % d['sid']), 1)
         t = mark_active(t, sec)
         written += wr('%s/%s/index.html' % (d['sid'], sec), t, gen)
 
@@ -307,9 +334,14 @@ def main():
             count += 1
             lis.append('<li><a href="%s" onclick="return navGo(event,\'%s\',this)"><b>%s</b><span>%s</span></a></li>'
                        % (d['url'], a, esc(b or d['title']), esc(clip(d['body'], 90))))
-        body = ('<div class="section visible" id="sec-hub-%s">%s<h1 class="section-title">%s과목 %s</h1>'
+        # #crumb 는 JS(syncNav)가 과목 모음 페이지에서 비워버리므로, 본문 안에 따로 넣는다
+        hub_crumb = ('<nav class="crumb c-%s" aria-label="경로">'
+                     '<a class="crumb-link" href="/">홈</a><span class="crumb-sep">/</span>'
+                     '<span class="crumb-dot" style="background:var(--sc)"></span>'
+                     '<b style="color:var(--sct)">%s과목 %s</b></nav>') % (sid, n, esc(sname))
+        body = ('<div class="section visible" id="sec-hub-%s">%s%s<h1 class="section-title">%s과목 %s</h1>'
                 '<p class="hub-lead">정보통신기사 필기 %s과목 <b>%s</b>의 핵심 주제 %d개입니다. 주제를 누르면 정리 페이지로 이동합니다.</p>'
-                '<ul class="hub-list">%s</ul></div>') % (sid, hub_css, n, esc(sname), n, esc(sname), count, ''.join(lis))
+                '<ul class="hub-list">%s</ul></div>') % (sid, hub_css, hub_crumb, n, esc(sname), n, esc(sname), count, ''.join(lis))
         body = body.replace('<ul class="hub-list"></ul>', '')
         titles = ', '.join(sections[a]['title'] for k, a, _ in side_items.get(sid, []) if k == 'item' and a in sections)
         desc = clip('정보통신기사 필기 %s과목 %s 핵심정리 주제 모음 — %s' % (n, sname, titles), 150)
@@ -323,10 +355,9 @@ def main():
     for sec, d in extra.items():
         t = set_meta(tpl, d['page_title'], d['desc'], d['url'], [home_crumb, (d['title'], d['url'])], d['title'])
         t = t.replace('<script src="/assets/routes.js"></script>', page_script({'sec': sec}), 1)
-        if sec == 'cbt26':
-            t = t.replace('<div id="cbt-slot" data-src="/sections/cbt26.html"></div>', as_visible(d['html']), 1)
-        else:
-            t = t.replace(d['html'], as_visible(d['html']), 1)
+        # 이 페이지가 주인공인 섹션만 본문에 넣는다 (나머지는 슬롯 그대로 두고 app.js 가 불러옴)
+        assert sec in slot_div, 'sec-%s 슬롯을 찾지 못했습니다.' % sec
+        t = t.replace(slot_div[sec], as_visible(d['html']), 1)
         t = mark_active(t, sec)
         written += wr(d['url'].strip('/') + '/index.html', t, gen)
 
