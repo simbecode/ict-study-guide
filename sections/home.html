@@ -1,0 +1,75 @@
+<div class="section" id="sec-home">
+    <div class="home-head">
+      <p class="home-title">정보통신기사 필기 학습 가이드</p>
+      <p class="home-meta"><b>5</b> 과목 · <b>100</b> 문항(과목당 20) · 과목별 <b>40점</b> 이상, 전과목 평균 <b>60점</b> 이상 합격 · 시험 시간 <b>150분</b> · <b>연 3회</b> 시행</p>
+    </div>
+    <aside class="cbt-poll" aria-labelledby="cbt-poll-title">
+      <div><span class="cbt-poll-label">여러분의 의견을 들려주세요</span><h2 id="cbt-poll-title">앞으로도 CBT 문제를 꾸준히 업데이트할까요?</h2><p>이 사이트가 학습에 도움이 된다면 ‘좋아요’를 눌러주세요.</p></div>
+      <div class="cbt-poll-actions"><button type="button" data-vote="yes">👍 좋아요 <span id="cbt-vote-yes">–</span></button><button type="button" data-vote="no">아니요 <span id="cbt-vote-no">–</span></button></div>
+      <p id="cbt-poll-status" role="status" aria-live="polite">로그인 없이 참여 · 이 브라우저에서 한 번 응답할 수 있어요.</p>
+    </aside>
+    <div class="home-quick">
+      <div class="quick-card wide" role="button" tabindex="0" onclick="goQuiz()">
+        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12.5h8M8 16.5h5"/></svg><span class="quick-count" id="home-quiz-count">500문항</span></div>
+        <b>기출문제</b><span class="quick-count-m" data-mirror="home-quiz-count">500문항</span>
+        <p>2022년 1~3회 · 2023년 1~2회. 풀이 모드와 실전 진단 모드</p>
+      </div>
+      <div class="quick-card wide" role="button" tabindex="0" onclick="showSection('cbt26',null)">
+        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="2.6"/></svg><span class="quick-count" id="home-cbt-count">54문항</span></div>
+        <b>2026-4 CBT 복원예상문제</b><span class="quick-count-m" data-mirror="home-cbt-count">54문항</span>
+        <p>54개 주제의 핵심 개념과 확인 문제. 개념 학습부터 오답 재풀이까지</p>
+      </div>
+      <div class="quick-card" role="button" tabindex="0" onclick="showSection('cram',null)">
+        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></svg><span class="quick-count" id="home-cram">계산·숫자</span></div>
+        <b>시험 직전 요약</b><span class="quick-count-m" data-mirror="home-cram">계산·숫자</span>
+        <p>기출에 나온 계산 공식과 설비기준 숫자만 한 페이지에</p>
+      </div>
+      <div class="quick-card" role="button" tabindex="0" onclick="cdOpen('def',null)">
+        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6.5" width="13" height="14" rx="2"/><path d="M8 3.5h10.5a2 2 0 0 1 2 2v12"/></svg><span class="quick-count" id="home-def-count">189장</span></div>
+        <b>용어 카드</b><span class="quick-count-m" data-mirror="home-def-count">189장</span>
+        <p>기출에서 뽑은 용어와 공식 카드. 모르는 카드만 다시</p>
+      </div>
+      <div class="quick-card" role="button" tabindex="0" onclick="cdOpen('num',null)">
+        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M9.5 9.5v10"/></svg><span class="quick-count" id="home-num-count">82장</span></div>
+        <b>암기표</b><span class="quick-count-m" data-mirror="home-num-count">82장</span>
+        <p>포트번호·IEEE 802·주파수 대역처럼 표로 외울 것</p>
+      </div>
+    </div>
+    <h2 class="home-h2">과목</h2>
+    <div class="subject-list">
+      <div class="subject-row c-s1" role="button" tabindex="0" onclick="openSubject('s1')">
+        <span class="subject-num">1</span>
+        <span class="subject-name">정보전송일반</span>
+        <span class="subject-tags"><span>AM·FM·PM</span><span>ASK·FSK·PSK</span><span>QAM·OFDM</span><span>PCM</span><span>다중화</span><span>광섬유</span></span>
+        <span class="subject-count">23개 주제</span>
+      </div>
+      <div class="subject-row c-s2" role="button" tabindex="0" onclick="openSubject('s2')">
+        <span class="subject-num">2</span>
+        <span class="subject-name">정보통신기기</span>
+        <span class="subject-tags"><span>IEEE 802</span><span>UTP 케이블</span><span>VoIP</span><span>이동통신</span><span>OLT·ONU</span><span>CCTV</span></span>
+        <span class="subject-count">10개 주제</span>
+      </div>
+      <div class="subject-row c-s3" role="button" tabindex="0" onclick="openSubject('s3')">
+        <span class="subject-num">3</span>
+        <span class="subject-name">정보통신네트워크</span>
+        <span class="subject-tags"><span>OSI 7계층</span><span>TCP·UDP</span><span>서브넷팅</span><span>라우팅</span><span>LAN·WAN</span><span>포트번호</span></span>
+        <span class="subject-count">17개 주제</span>
+      </div>
+      <div class="subject-row c-s4" role="button" tabindex="0" onclick="openSubject('s4')">
+        <span class="subject-num">4</span>
+        <span class="subject-name">정보시스템운용</span>
+        <span class="subject-tags"><span>SNMP·MIB</span><span>RAID·백업</span><span>보안 위협</span><span>방화벽·IDS</span><span>암호화</span></span>
+        <span class="subject-count">10개 주제</span>
+      </div>
+      <div class="subject-row c-s5" role="button" tabindex="0" onclick="openSubject('s5')">
+        <span class="subject-num">5</span>
+        <span class="subject-name">컴퓨터일반 및 정보설비기준</span>
+        <span class="subject-tags"><span>CPU</span><span>운영체제</span><span>자료구조</span><span>DB</span><span>전기통신사업법</span><span>설비기준</span></span>
+        <span class="subject-count">13개 주제</span>
+      </div>
+    </div>
+    <div class="home-foot">
+      <button class="link-btn" type="button" onclick="showSection('osi',null)">OSI 7계층 전체 비교표 보기 →</button>
+      <div id="visit-counter">오늘 방문 <b id="vc-today">–</b> · 누적 방문 <b id="vc-total">–</b></div>
+    </div>
+  </div>

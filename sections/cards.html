@@ -1,0 +1,119 @@
+<div class="section" id="sec-cards">
+    <h2 class="section-title" style="color:#117a68" id="cd-title">용어 카드 — 뜻 맞추기</h2>
+    <style>
+      #cd-wrap{--cd:var(--key);}
+      #cd-card{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 1px 2px rgba(20,24,36,.05),0 8px 24px rgba(20,24,36,.06);
+        padding:36px 32px;margin-top:16px;cursor:pointer;user-select:none;min-height:260px;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:border-color .15s,transform .08s;}
+      #cd-card:hover,#cd-card.flipped{border-color:var(--key-bd);}
+      #cd-card:active{transform:scale(.995);}
+      #cd-face{font-size:28px;font-weight:800;letter-spacing:-.5px;color:var(--text);line-height:1.45;word-break:keep-all;}
+      #cd-back{display:none;margin-top:18px;padding-top:18px;border-top:1px solid var(--border);
+        font-size:17px;color:var(--text2);line-height:1.8;word-break:keep-all;max-width:640px;}
+      #cd-card.flipped #cd-back{display:block;}
+      #cd-hint{margin-top:16px;font-size:13px;color:var(--text3);}
+      #cd-card.flipped #cd-hint{display:none;}
+      .cd-meta{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
+      .cd-chip{font-size:12px;padding:3px 8px;border-radius:5px;background:var(--bg3);color:var(--text2);}
+      .cd-chip:empty{display:none;}
+      #cd-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-top:16px;}
+      #cd-fill{height:100%;width:0;background:var(--key);border-radius:3px;transition:width .2s;}
+      #cd-controls,#cd-done > div:last-child{display:grid !important;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px !important;}
+      #cd-done > div:last-child{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .cd-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;background:#fff;border:1px solid var(--border);color:var(--text);
+        border-radius:9px;padding:0 14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s;}
+      .cd-btn:hover{border-color:var(--border2);background:var(--surface);}
+      .cd-btn.know{border-color:var(--ok-bd);color:var(--ok);} .cd-btn.know:hover{background:var(--ok-bg);}
+      .cd-btn.dunno{border-color:var(--warn-bd);color:var(--warn);} .cd-btn.dunno:hover{background:var(--warn-bg);}
+      .cd-btn .mono{font-size:11px !important;padding:1px 5px;border:1px solid currentColor;border-radius:4px;opacity:.7;font-weight:500;}
+      .cd-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center;}
+      .f-label{width:40px;flex-shrink:0;font-size:12.5px;font-weight:700;color:var(--text3);}
+      .cd-filter-push{margin-left:auto;}
+      #cd-done{display:none;background:#fff;border:1px solid var(--ok-bd);border-radius:14px;padding:28px;margin-top:16px;text-align:center;}
+      @media(max-width:959px){
+        .cd-filter-push{margin-left:0;}
+        #cd-card{padding:28px 20px;min-height:300px;}
+        #cd-face{font-size:24px;}
+        #cd-back{font-size:16px;}
+        .cd-btn .mono{display:none;}
+        .cd-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:10px -16px 0;padding:0 16px 2px;scrollbar-width:none;}
+        .cd-row::-webkit-scrollbar{display:none;}
+      }
+    </style>
+
+    <div class="highlight" id="cd-desc"></div>
+
+    <div id="cd-wrap">
+      <!-- 필터 -->
+      <div class="cd-row">
+        <span class="f-label">과목</span>
+        <button class="cd-filter on" data-f="전체" onclick="cdFilter('전체',this)">전체</button>
+        <button class="cd-filter" data-f="1과목" onclick="cdFilter('1과목',this)">1과목</button>
+        <button class="cd-filter" data-f="2과목" onclick="cdFilter('2과목',this)">2과목</button>
+        <button class="cd-filter" data-f="3과목" onclick="cdFilter('3과목',this)">3과목</button>
+        <button class="cd-filter" data-f="4과목" onclick="cdFilter('4과목',this)">4과목</button>
+        <button class="cd-filter" data-f="5과목" onclick="cdFilter('5과목',this)">5과목</button>
+      </div>
+      <div class="cd-row">
+        <span class="f-label">방향</span>
+        <button class="cd-filter on" id="cd-dir-t" onclick="cdDir('t2d')">용어 → 뜻</button>
+        <button class="cd-filter" id="cd-dir-d" onclick="cdDir('d2t')">뜻 → 용어</button>
+        </div>
+      <div class="cd-row">
+        <span class="f-label">유형</span>
+        <button class="cd-filter on" data-k="전체" onclick="cdKind('전체',this)">전체</button>
+        <button class="cd-filter" data-k="def" onclick="cdKind('def',this)">용어</button>
+        <button class="cd-filter" data-k="calc" onclick="cdKind('calc',this)">공식</button>
+        <button class="cd-filter" data-k="num" onclick="cdKind('num',this)">암기표</button>
+        <button class="cd-filter cd-filter-push" onclick="cdShuffle()">섞기</button>
+        <button class="cd-filter" onclick="cdRestart()">처음부터</button>
+        <button class="cd-filter" id="cd-hard-btn" onclick="cdHardOnly()">어려운 것만</button>
+      </div>
+      <div id="cd-grp-row" class="cd-row" style="display:none;">
+        <span class="f-label">분류</span>
+        <button class="cd-filter on" data-g="전체" onclick="cdGrp('전체',this)">전체</button>
+        <button class="cd-filter" data-g="포트번호" onclick="cdGrp('포트번호',this)">포트번호</button>
+        <button class="cd-filter" data-g="IEEE 802" onclick="cdGrp('IEEE 802',this)">IEEE 802</button>
+        <button class="cd-filter" data-g="UTP 케이블" onclick="cdGrp('UTP 케이블',this)">UTP 케이블</button>
+        <button class="cd-filter" data-g="주파수 대역" onclick="cdGrp('주파수 대역',this)">주파수 대역</button>
+        <button class="cd-filter" data-g="마이크로파 밴드" onclick="cdGrp('마이크로파 밴드',this)">마이크로파 밴드</button>
+        <button class="cd-filter" data-g="광통신 장치" onclick="cdGrp('광통신 장치',this)">광통신 장치</button>
+      </div>
+
+      <!-- 카드 -->
+      <div id="cd-card" onclick="cdFlip()" role="button" tabindex="0">
+        <div class="cd-meta"><span class="cd-chip" id="cd-subj"></span><span class="cd-chip" id="cd-kind" style="background:#f6eddf;color:#8a6012;"></span><span class="cd-chip" id="cd-year"></span><span class="cd-chip" id="cd-num"></span></div>
+        <div id="cd-face"></div>
+        <div id="cd-back"></div>
+        <div id="cd-hint">카드를 눌러 정답 보기　·　<span class="mono">Space</span></div>
+      </div>
+
+      <!-- 완료 화면 -->
+      <div id="cd-done">
+        <div style="font-size:21px;font-weight:700;color:#267c41;">이 묶음 끝</div>
+        <div id="cd-done-msg" style="font-size:15px;color:var(--text2);margin-top:8px;line-height:1.8;"></div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px;">
+          <button class="cd-btn dunno" onclick="cdRetryWrong()">모르는 것만 다시</button>
+          <button class="cd-btn" onclick="cdRestart()">처음부터</button>
+        </div>
+      </div>
+
+      <!-- 조작 -->
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px;" id="cd-controls">
+        <button class="cd-btn dunno" onclick="cdMark(false)">모르겠다 <span class="mono">1</span></button>
+        <button class="cd-btn" onclick="cdFlip()">뒤집기 <span class="mono">Space</span></button>
+        <button class="cd-btn know" onclick="cdMark(true)">안다 <span class="mono">2</span></button>
+      </div>
+
+      <div id="cd-bar"><div id="cd-fill"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:7px;font-size:13px;color:var(--text3);">
+        <span id="cd-status"></span>
+        <span id="cd-score"></span>
+      </div>
+    </div>
+
+    <div class="note" style="border-left-color:#117a68;">
+      <b>키보드</b> — <span class="mono">Space</span> 뒤집기 ·
+      <span class="mono">1</span> 모르겠다 · <span class="mono">2</span> 안다 · <span class="mono">←</span> 이전 카드
+    </div>
+  </div>

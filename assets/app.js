@@ -29,6 +29,19 @@ let quizzes = [];
     });
   })).then(function(htmls){
     if(root) root.innerHTML = htmls.join('\n');
+    // 주제 페이지의 HTML 에는 그 주제의 제목이 h1 로 들어 있는데, 위에서 본문을 통째로 갈아끼우면
+    // 원본(subjects/*.html)의 h2 로 되돌아간다. 검색엔진이 렌더링한 화면에서도 h1 이 남도록 되살린다.
+    var pgi = window.__PAGE__;
+    if(root && pgi && pgi.sec){
+      var sc = document.getElementById('sec-' + pgi.sec);
+      var h2 = sc ? sc.querySelector('h2.section-title') : null;
+      if(h2){
+        var h1 = document.createElement('h1');
+        for(var i = 0; i < h2.attributes.length; i++) h1.setAttribute(h2.attributes[i].name, h2.attributes[i].value);
+        h1.innerHTML = h2.innerHTML;
+        h2.parentNode.replaceChild(h1, h2);
+      }
+    }
   });
 
   var quizP = Promise.all(QUIZ_FILES.map(function(f){
@@ -41,14 +54,21 @@ let quizzes = [];
     currentQuizzes = quizzes; // quizzes는 파싱 시점엔 비어있었으므로 로드 후 다시 연결
   });
 
-  // 주제별 페이지(/s1/csma/ 등)는 용량을 줄이려고 CBT 섹션을 따로 불러온다
-  var cbtSlot = document.getElementById('cbt-slot');
-  var cbtP = !cbtSlot ? Promise.resolve() : fetch(cbtSlot.getAttribute('data-src')).then(function(r){
-    if(!r.ok) throw new Error('CBT 섹션 로드 실패 (HTTP '+r.status+')');
-    return r.text();
-  }).then(function(h){ cbtSlot.outerHTML = h; cbtInit(); });
+  // 생성된 페이지(/s1/csma/ 등)는 공용 섹션(홈·시험직전요약·CBT·용어카드·기출)을 HTML 에 넣지 않고
+  // 여기서 따로 불러온다 — 같은 내용이 71개 페이지에 중복돼 검색엔진이 페이지 주제를 흐리게 보는 것을 막는다.
+  // 슬롯은 tools/build_pages.py 가 <div data-section-src="/sections/xxx.html"></div> 형태로 넣는다.
+  var slots = Array.prototype.slice.call(document.querySelectorAll('[data-section-src]'));
+  var slotP = Promise.all(slots.map(function(slot){
+    var src = slot.getAttribute('data-section-src');
+    return fetch(src).then(function(r){
+      if(!r.ok) throw new Error(src + ' 로드 실패 (HTTP ' + r.status + ')');
+      return r.text();
+    }).then(function(h){ slot.outerHTML = h; });
+  })).then(function(){
+    if(slots.length) cbtInit();   // CBT 섹션이 뒤늦게 들어왔으면 초기화
+  });
 
-  Promise.all([subjectsP, quizP, cbtP]).then(function(){
+  Promise.all([subjectsP, quizP, slotP]).then(function(){
     buildQuizFilterUI();
     if(document.readyState === 'loading'){
       document.addEventListener('DOMContentLoaded', bootInit);
@@ -960,9 +980,15 @@ function syncNav(id, el){
     while(p){ if(p.classList.contains('nav-group')){ grp = p.textContent; break; } p = p.previousElementSibling; }
     if(crumb && head && id !== 'home'){
       var name = head.querySelector('.subj-name').textContent.replace(/^(\d)\.\s*/, '$1과목 ');
+      // 과목 모음 페이지(/s1/ 등)로 가는 실제 링크를 넣는다 — 검색엔진이 따라갈 수 있어야 한다
+      var sid = head.getAttribute('data-sid') || '';
+      var R = window.__ROUTES__ || {};
+      var hubUrl = (R['hub-' + sid] || ['/' + sid + '/'])[0];
       crumb.className = 'crumb ' + (head.className.match(/c-s\d/) || [''])[0];
-      crumb.innerHTML = '<span class="crumb-dot" style="background:var(--sc)"></span><b style="color:var(--sct)">' + esc(name) + '</b>'
-        + (grp ? '<span>/</span><span>' + esc(grp) + '</span>' : '');
+      crumb.innerHTML = '<a class="crumb-link" href="/">홈</a><span class="crumb-sep">/</span>'
+        + '<span class="crumb-dot" style="background:var(--sc)"></span>'
+        + '<a class="crumb-link" href="' + hubUrl + '" style="color:var(--sct)"><b>' + esc(name) + '</b></a>'
+        + (grp ? '<span class="crumb-sep">/</span><span>' + esc(grp) + '</span>' : '');
       crumb.hidden = false;
     }
     if(!isMobileNav()){

@@ -112,6 +112,7 @@
   <div class="subj-group">
     <div class="subj-head c-s1" data-sid="s1" onclick="toggleSubj('s1',this)" role="button" tabindex="0" aria-controls="s1"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">1. 정보전송일반</span><span class="nav-count">23</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
     <div class="subj-items" id="s1">
+      <a class="hub-item" href="/s1/">1과목 전체 주제 한눈에 보기</a>
       <div class="nav-group">신호 및 변조</div>
       <a class="sub-item" href="/s1/csma/" data-sec="csma" onclick="return navGo(event,'csma',this)">CSMA/CD vs CA</a>
       <a class="sub-item" href="/s1/ammod/" data-sec="ammod" onclick="return navGo(event,'ammod',this)">아날로그 변조 AM / FM / PM</a>
@@ -148,6 +149,7 @@
   <div class="subj-group">
     <div class="subj-head c-s2" data-sid="s2" onclick="toggleSubj('s2',this)" role="button" tabindex="0" aria-controls="s2"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">2. 정보통신기기</span><span class="nav-count">10</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
     <div class="subj-items" id="s2">
+      <a class="hub-item" href="/s2/">2과목 전체 주제 한눈에 보기</a>
       <div class="nav-group">표준 / 장비</div>
       <a class="sub-item" href="/s2/ieee/" data-sec="ieee" onclick="return navGo(event,'ieee',this)">IEEE 802 표준</a>
       <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">계층별 NW 장비</a>
@@ -168,6 +170,7 @@
   <div class="subj-group">
     <div class="subj-head c-s3" data-sid="s3" onclick="toggleSubj('s3',this)" role="button" tabindex="0" aria-controls="s3"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">3. 정보통신네트워크</span><span class="nav-count">17</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
     <div class="subj-items" id="s3">
+      <a class="hub-item" href="/s3/">3과목 전체 주제 한눈에 보기</a>
       <!-- OSI 개요 -->
       <div class="nav-group">OSI 개요</div>
       <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">OSI 7계층 전체 비교표</a>
@@ -212,6 +215,7 @@
   <div class="subj-group">
     <div class="subj-head c-s4" data-sid="s4" onclick="toggleSubj('s4',this)" role="button" tabindex="0" aria-controls="s4"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">4. 정보시스템운용</span><span class="nav-count">10</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
     <div class="subj-items" id="s4">
+      <a class="hub-item" href="/s4/">4과목 전체 주제 한눈에 보기</a>
       <a class="sub-item" href="/s3/l6/" data-sec="l6" onclick="return navGo(event,'l6',this)">보안·암호화 (6계층)</a>
       <a class="sub-item" href="/s3/l4/" data-sec="l4" onclick="return navGo(event,'l4',this)">TCP 연결·흐름제어</a>
       <a class="sub-item" href="/s4/crypto/" data-sec="crypto" onclick="return navGo(event,'crypto',this)">암호화 · AES-256</a>
@@ -227,6 +231,7 @@
   <div class="subj-group">
     <div class="subj-head c-s5" data-sid="s5" onclick="toggleSubj('s5',this)" role="button" tabindex="0" aria-controls="s5"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">5. 컴퓨터일반 및 정보설비기준</span><span class="nav-count">13</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
     <div class="subj-items" id="s5">
+      <a class="hub-item" href="/s5/">5과목 전체 주제 한눈에 보기</a>
       <div class="nav-group">컴퓨터일반</div>
       <a class="sub-item" href="/s4/cloud/" data-sec="cloud" onclick="return navGo(event,'cloud',this)">클라우드 IaaS / PaaS / SaaS</a>
       <a class="sub-item" href="/s1/radix/" data-sec="radix" onclick="return navGo(event,'radix',this)">진수 변환 (2·8·10·16)</a>
@@ -270,85 +275,11 @@
     <button class="icon-btn" type="button" onclick="toggleSearch()" aria-label="검색 열기"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
   </header>
 <main class="main" id="main-content"><div class="main-inner"><div class="content">
-  <div id="crumb" class="crumb" hidden></div>
+  <div id="crumb" class="crumb c-s5" aria-label="경로"><a class="crumb-link" href="/">홈</a><span class="crumb-sep">/</span><span class="crumb-dot" style="background:var(--sc)"></span><a class="crumb-link" href="/s5/" style="color:var(--sct)"><b>5과목 컴퓨터일반 및 정보설비기준</b></a></div>
   <div id="search-hint" class="search-hint" style="display:none;"></div>
 
   <!-- 홈 화면 -->
-  <div class="section" id="sec-home">
-    <div class="home-head">
-      <p class="home-title">정보통신기사 필기 학습 가이드</p>
-      <p class="home-meta"><b>5</b> 과목 · <b>100</b> 문항(과목당 20) · 과목별 <b>40점</b> 이상, 전과목 평균 <b>60점</b> 이상 합격 · 시험 시간 <b>150분</b> · <b>연 3회</b> 시행</p>
-    </div>
-    <aside class="cbt-poll" aria-labelledby="cbt-poll-title">
-      <div><span class="cbt-poll-label">여러분의 의견을 들려주세요</span><h2 id="cbt-poll-title">앞으로도 CBT 문제를 꾸준히 업데이트할까요?</h2><p>이 사이트가 학습에 도움이 된다면 ‘좋아요’를 눌러주세요.</p></div>
-      <div class="cbt-poll-actions"><button type="button" data-vote="yes">👍 좋아요 <span id="cbt-vote-yes">–</span></button><button type="button" data-vote="no">아니요 <span id="cbt-vote-no">–</span></button></div>
-      <p id="cbt-poll-status" role="status" aria-live="polite">로그인 없이 참여 · 이 브라우저에서 한 번 응답할 수 있어요.</p>
-    </aside>
-    <div class="home-quick">
-      <div class="quick-card wide" role="button" tabindex="0" onclick="goQuiz()">
-        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12.5h8M8 16.5h5"/></svg><span class="quick-count" id="home-quiz-count">500문항</span></div>
-        <b>기출문제</b><span class="quick-count-m" data-mirror="home-quiz-count">500문항</span>
-        <p>2022년 1~3회 · 2023년 1~2회. 풀이 모드와 실전 진단 모드</p>
-      </div>
-      <div class="quick-card wide" role="button" tabindex="0" onclick="showSection('cbt26',null)">
-        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="2.6"/></svg><span class="quick-count" id="home-cbt-count">54문항</span></div>
-        <b>2026-4 CBT 복원예상문제</b><span class="quick-count-m" data-mirror="home-cbt-count">54문항</span>
-        <p>54개 주제의 핵심 개념과 확인 문제. 개념 학습부터 오답 재풀이까지</p>
-      </div>
-      <div class="quick-card" role="button" tabindex="0" onclick="showSection('cram',null)">
-        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></svg><span class="quick-count" id="home-cram">계산·숫자</span></div>
-        <b>시험 직전 요약</b><span class="quick-count-m" data-mirror="home-cram">계산·숫자</span>
-        <p>기출에 나온 계산 공식과 설비기준 숫자만 한 페이지에</p>
-      </div>
-      <div class="quick-card" role="button" tabindex="0" onclick="cdOpen('def',null)">
-        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6.5" width="13" height="14" rx="2"/><path d="M8 3.5h10.5a2 2 0 0 1 2 2v12"/></svg><span class="quick-count" id="home-def-count">189장</span></div>
-        <b>용어 카드</b><span class="quick-count-m" data-mirror="home-def-count">189장</span>
-        <p>기출에서 뽑은 용어와 공식 카드. 모르는 카드만 다시</p>
-      </div>
-      <div class="quick-card" role="button" tabindex="0" onclick="cdOpen('num',null)">
-        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M9.5 9.5v10"/></svg><span class="quick-count" id="home-num-count">82장</span></div>
-        <b>암기표</b><span class="quick-count-m" data-mirror="home-num-count">82장</span>
-        <p>포트번호·IEEE 802·주파수 대역처럼 표로 외울 것</p>
-      </div>
-    </div>
-    <h2 class="home-h2">과목</h2>
-    <div class="subject-list">
-      <div class="subject-row c-s1" role="button" tabindex="0" onclick="openSubject('s1')">
-        <span class="subject-num">1</span>
-        <span class="subject-name">정보전송일반</span>
-        <span class="subject-tags"><span>AM·FM·PM</span><span>ASK·FSK·PSK</span><span>QAM·OFDM</span><span>PCM</span><span>다중화</span><span>광섬유</span></span>
-        <span class="subject-count">23개 주제</span>
-      </div>
-      <div class="subject-row c-s2" role="button" tabindex="0" onclick="openSubject('s2')">
-        <span class="subject-num">2</span>
-        <span class="subject-name">정보통신기기</span>
-        <span class="subject-tags"><span>IEEE 802</span><span>UTP 케이블</span><span>VoIP</span><span>이동통신</span><span>OLT·ONU</span><span>CCTV</span></span>
-        <span class="subject-count">10개 주제</span>
-      </div>
-      <div class="subject-row c-s3" role="button" tabindex="0" onclick="openSubject('s3')">
-        <span class="subject-num">3</span>
-        <span class="subject-name">정보통신네트워크</span>
-        <span class="subject-tags"><span>OSI 7계층</span><span>TCP·UDP</span><span>서브넷팅</span><span>라우팅</span><span>LAN·WAN</span><span>포트번호</span></span>
-        <span class="subject-count">17개 주제</span>
-      </div>
-      <div class="subject-row c-s4" role="button" tabindex="0" onclick="openSubject('s4')">
-        <span class="subject-num">4</span>
-        <span class="subject-name">정보시스템운용</span>
-        <span class="subject-tags"><span>SNMP·MIB</span><span>RAID·백업</span><span>보안 위협</span><span>방화벽·IDS</span><span>암호화</span></span>
-        <span class="subject-count">10개 주제</span>
-      </div>
-      <div class="subject-row c-s5" role="button" tabindex="0" onclick="openSubject('s5')">
-        <span class="subject-num">5</span>
-        <span class="subject-name">컴퓨터일반 및 정보설비기준</span>
-        <span class="subject-tags"><span>CPU</span><span>운영체제</span><span>자료구조</span><span>DB</span><span>전기통신사업법</span><span>설비기준</span></span>
-        <span class="subject-count">13개 주제</span>
-      </div>
-    </div>
-    <div class="home-foot">
-      <button class="link-btn" type="button" onclick="showSection('osi',null)">OSI 7계층 전체 비교표 보기 →</button>
-      <div id="visit-counter">오늘 방문 <b id="vc-today">–</b> · 누적 방문 <b id="vc-total">–</b></div>
-    </div>
-  </div>
+  <div data-section-src="/sections/home.html"></div>
   <div id="subject-content-root"><div class="section visible" id="sec-ds">
     <h1 class="section-title" style="color:#267c41">🗂️ 자료구조 · 알고리즘 (5과목)</h1>
 
@@ -423,381 +354,19 @@
   </div></div>
 
   
-  <div class="section" id="sec-cram">
-    <h2 class="section-title">시험 직전 요약</h2>
-    <div class="highlight">2022~2023년 기출 500문항에서 <b>실제로 나온 계산과 숫자</b>만 모았습니다.
-      회색 꼬리표(예: <span class="cram-tag">2022-2회 9번</span>)는 원본 문제 번호이고, 문제를 누르면 풀이와 정답이 열립니다.</div>
-
-    <div class="sub-title">계산 ① 나이퀴스트 · 표본화</div>
-    <div class="cram-formula"><div>표본화 주파수 f<sub>s</sub> ≥ 2 × f<sub>max</sub></div><div>표본화 주기 T<sub>s</sub> = 1 / f<sub>s</sub></div><div>PCM 전송률 = 2 × f<sub>max</sub> × 양자화 비트 수</div></div>
-    <ul class="cram-points"><li>식이 cos(8000πt)처럼 주어지면 2πf = 8000π 에서 <b>f = 4,000 Hz</b>를 먼저 읽는다</li><li>전화 음성 1채널: 4 kHz × 2 × 8 bit = <b>64 kbps</b></li></ul>
-    <div class="cram-qs">
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-1회 8번</span><span class="cram-qt">5[kHz]의 음성신호를 재생시키기 위한 표본화 주기는?</span></summary>
-          <div class="cram-a"><div class="cram-sol">f<sub>s</sub> = 2 × 5 kHz = 10 kHz → T<sub>s</sub> = 1 / 10,000 s = 100 μs</div><div class="cram-ans">정답 <b>100[μs]</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-2회 26번</span><span class="cram-qt">입력신호 x(t)=10cos8000πt일 때 aliasing이 나타나지 않는 이상적인 최소 표본화 주파수는?</span></summary>
-          <div class="cram-a"><div class="cram-sol">2πf = 8000π → f = 4,000 Hz → 최소 f<sub>s</sub> = 2 × 4,000 = 8,000 Hz</div><div class="cram-ans">정답 <b>8,000</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-3회 55번</span><span class="cram-qt">PCM 통신방식에서 4[kHz]의 대역폭을 갖는 음성 정보를 8[bit] 코딩으로 표본화하면 필요한 데이터 전송률은?</span></summary>
-          <div class="cram-a"><div class="cram-sol">2 × 4,000 × 8 = 64,000 bps = 64 kbps</div><div class="cram-ans">정답 <b>64[kbps]</b></div></div>
-        </details>
-    </div>
-    <div class="sub-title">계산 ② 섀넌 채널 용량</div>
-    <div class="cram-formula"><div>C = B × log<sub>2</sub>(1 + S/N) [bps]</div></div>
-    <ul class="cram-points"><li>S/N은 <b>배수</b>로 넣는다. dB로 주어지면 10<sup>dB/10</sup>으로 바꾼 뒤 계산</li><li>1 + S/N이 2, 4, 8, 16…이 되도록 문제가 나온다 → log<sub>2</sub>는 암산</li><li>용량을 늘리려면 <b>대역폭도, S/N도 늘린다</b> ("대역폭을 줄이고"는 틀린 보기)</li></ul>
-    <div class="cram-qs">
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-2회 9번</span><span class="cram-qt">채널의 대역폭이 1,000[Hz]이고 신호대 잡음비가 3일 경우 채널용량은?</span></summary>
-          <div class="cram-a"><div class="cram-sol">1,000 × log<sub>2</sub>(1 + 3) = 1,000 × 2 = 2,000 bps</div><div class="cram-ans">정답 <b>2,000[bps]</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-1회 11번</span><span class="cram-qt">채널용량에 대한 설명으로 옳지 않은 것은?</span></summary>
-          <div class="cram-a"><div class="cram-sol">대역폭 B와 S/N 모두 C에 비례해 커지므로, 대역폭을 줄이라는 설명이 틀렸다</div><div class="cram-ans">정답 <b>채널용량을 증가시키기 위해서는 대역폭을 줄이고 S/N비를 증가시켜야 한다</b></div></div>
-        </details>
-    </div>
-    <div class="sub-title">계산 ③ 데시벨(dB)</div>
-    <div class="cram-formula"><div>전력비: 10 log(P<sub>2</sub>/P<sub>1</sub>) · 전압·전류비: 20 log(V<sub>2</sub>/V<sub>1</sub>)</div><div>dBm = 10 log(P / 1 mW) · dBmV = 20 log(V / 1 mV)</div><div>경로 손실 = P<sub>t</sub>[dBm] + G<sub>t</sub> + G<sub>r</sub> − P<sub>r</sub>[dBm]</div><div>출력 SNR[dB] = 입력 SNR[dB] − 잡음지수 NF[dB]</div><div>자유공간 손실 = 20 log(4πd / λ), λ = c / f</div></div>
-    <ul class="cram-points"><li><b>전압</b> 10배 = 20 dB, 100배 = 40 dB, 1,000배 = 60 dB, 10,000배 = 80 dB</li><li>1 W = 30 dBm, 10 W = 40 dBm (1 mW = 0 dBm)</li><li>잡음지수가 배수로 10이면 10 dB</li></ul>
-    <div class="cram-qs">
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-3회 2번</span><span class="cram-qt">100[mV]는 몇 [dBmV]인가? (단, 1[mV]는 0[dBmV] 이다.)</span></summary>
-          <div class="cram-a"><div class="cram-sol">20 log(100 mV / 1 mV) = 20 × 2 = 40 dBmV</div><div class="cram-ans">정답 <b>40[dBmV]</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2023-1회 11번</span><span class="cram-qt">신호전압 25[V], 잡음전압 0.0025[V]일 때 신호대잡음비(SNR)는 몇 [dB]인가?</span></summary>
-          <div class="cram-a"><div class="cram-sol">25 / 0.0025 = 10,000배 → 20 × 4 = 80 dB</div><div class="cram-ans">정답 <b>80[dB]</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2023-2회 6번</span><span class="cram-qt">통신용 중계케이블의 통화전압이 55[V]이고 잡음전압이 0.055[V]이면 잡음레벨[dB]은?</span></summary>
-          <div class="cram-a"><div class="cram-sol">55 / 0.055 = 1,000배 → 20 × 3 = 60 dB</div><div class="cram-ans">정답 <b>60[dB]</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2023-2회 10번</span><span class="cram-qt">무선통신시스템에서 송신출력이 10[W], 송수신 안테나 이득이 각각 25[dBi], 수신 전력이 -20[dBm]이라고 할 때 자유공간 손실은 몇 [dB]인가?</span></summary>
-          <div class="cram-a"><div class="cram-sol">10 W = 40 dBm → 40 + 25 + 25 − (−20) = 110 dB</div><div class="cram-ans">정답 <b>110 [dB]</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2023-2회 19번</span><span class="cram-qt">입력측 신호대잡음비가 15[dB]이고 시스템의 잡음지수(Noise Factor)가 10일 때, 출력측 신호대잡음비는 몇 [dB]인가?</span></summary>
-          <div class="cram-a"><div class="cram-sol">NF = 10 log 10 = 10 dB → 15 − 10 = 5 dB</div><div class="cram-ans">정답 <b>5</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-2회 21번</span><span class="cram-qt">자유공간에서 송수신 안테나간 거리 2[km]에 1[GHz]의 주파수로 통신링크를 구성할 때 전송경로의 손실은?</span></summary>
-          <div class="cram-a"><div class="cram-sol">λ = 3×10<sup>8</sup> / 10<sup>9</sup> = 0.3 m → 20 log(4π × 2,000 / 0.3) ≈ 98.5 dB</div><div class="cram-ans">정답 <b>98.52[dB]</b></div></div>
-        </details>
-    </div>
-    <div class="sub-title">계산 ④ 비트 오류율(BER)</div>
-    <div class="cram-formula"><div>BER = 오류 비트 수 / 전송한 전체 비트 수</div><div>전체 비트 수 = 전송 속도[bps] × 시간[초]</div></div>
-    <ul class="cram-points"><li>1시간 = 3,600초, 1분 = 60초로 바꾸고 계산</li><li>오류율이 주어지면 실제 속도 = 속도 × (1 − 오류율)</li></ul>
-    <div class="cram-qs">
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-2회 7번</span><span class="cram-qt">통신속도가 2000[bps]이고 1시간 전송했을 때 에러 비트 수가 36[bit]였다면 비트에러율은?</span></summary>
-          <div class="cram-a"><div class="cram-sol">2,000 × 3,600 = 7,200,000 bit → 36 / 7,200,000 = 5×10<sup>−6</sup></div><div class="cram-ans">정답 <b>5×10⁻⁶</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-3회 20번</span><span class="cram-qt">10,000,000개의 비트 중 2개가 오류일 때 비트 에러율은?</span></summary>
-          <div class="cram-a"><div class="cram-sol">2 / 10,000,000 = 2×10<sup>−7</sup></div><div class="cram-ans">정답 <b>2×10⁻⁷</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2023-1회 57번</span><span class="cram-qt">2.4[GByte]의 영화를 100[Mbps] 회선(에러율 10%)으로 다운로드할 때 소요 시간은? (재전송 및 FEC 없음)</span></summary>
-          <div class="cram-a"><div class="cram-sol">2.4 GB × 8 = 19.2×10<sup>9</sup> bit, 실제 속도 90 Mbps → 약 213초 ≈ 3.5분</div><div class="cram-ans">정답 <b>약 3.5분</b></div></div>
-        </details>
-    </div>
-    <div class="sub-title">계산 ⑤ 다중화 · 전송 속도</div>
-    <div class="cram-formula"><div>다중화 출력 속도 = 채널 속도 × 채널 수</div><div>bps = baud × log<sub>2</sub>M (M = 신호 준위 수), baud = 1 / 펄스 시간</div><div>bps = 보낸 비트 수 / 걸린 시간 · 대역폭 효율 = 전송 속도 / 대역폭 [bps/Hz]</div></div>
-    <ul class="cram-points"><li><b>T1(북미) 1.544 Mbps = 24채널</b>, E1(유럽) 2.048 Mbps = 32채널, 채널당 64 kbps</li><li>2진 FSK: 한 방향 대역폭 = 보오율 + 두 반송파 간격</li></ul>
-    <div class="cram-qs">
-        <details class="cram-q">
-          <summary><span class="cram-tag">2023-2회 24번</span><span class="cram-qt">1,200[bps] 속도를 갖는 4채널을 다중화한다면 다중화 설비 출력 속도는 최소 얼마인가?</span></summary>
-          <div class="cram-a"><div class="cram-sol">1,200 × 4 = 4,800 bps</div><div class="cram-ans">정답 <b>4,800[bps]</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-3회 5번</span><span class="cram-qt">PDH 북미방식 T1의 전송속도는?</span></summary>
-          <div class="cram-a"><div class="cram-sol">T1 = 24채널 × 64 kbps + 프레임 비트 = 1.544 Mbps</div><div class="cram-ans">정답 <b>1.544[Mbps]</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2023-2회 1번</span><span class="cram-qt">어떤 신호가 4개의 데이터 준위를 가지며 펄스시간은 1[ms]일 때 비트 전송률은?</span></summary>
-          <div class="cram-a"><div class="cram-sol">baud = 1 / 0.001 = 1,000 → 1,000 × log<sub>2</sub>4 = 2,000 bps</div><div class="cram-ans">정답 <b>2,000[bps]</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-3회 19번</span><span class="cram-qt">12비트의 정보가 6ms마다 전송된다면 비트율[bps]은?</span></summary>
-          <div class="cram-a"><div class="cram-sol">12 bit / 0.006 s = 2,000 bps</div><div class="cram-ans">정답 <b>2000[bps]</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2023-1회 3번</span><span class="cram-qt">전송매체의 대역폭이 12,000[Hz], 두 반송파 주파수 사이의 간격이 최소 2,000[Hz]일 때 2진 FSK 신호의 보오율[baud]과 비트율[bps]은? (전이중방식, 각 방향 동일 대역폭)</span></summary>
-          <div class="cram-a"><div class="cram-sol">전이중이라 한 방향 6,000 Hz → 6,000 − 2,000 = 4,000 baud, 2진이므로 4,000 bps</div><div class="cram-ans">정답 <b>4,000[baud], 4,000[bps]</b></div></div>
-        </details>
-        <details class="cram-q">
-          <summary><span class="cram-tag">2022-3회 32번</span><span class="cram-qt">어느 멀티미디어 기기의 전송대역폭이 6[MHz]이고 전송속도가 19.39[Mbps]일 때 대역폭 효율값은?</span></summary>
-          <div class="cram-a"><div class="cram-sol">19.39 / 6 ≈ 3.23 bps/Hz</div><div class="cram-ans">정답 <b>3.23</b></div></div>
-        </details>
-    </div>
-    <div class="sub-title">그 밖에 나온 계산</div>
-    <table class="tbl cram-tbl cram-other"><thead><tr><th>항목</th><th>공식</th><th>기출 → 정답</th></tr></thead><tbody><tr><td>파장</td><td>λ = c / f (c = 3×10<sup>8</sup> m/s)</td><td><span class="cram-tag">2023-1회 9번</span> 2 GHz → 0.15 m = <b>15 cm</b></td></tr><tr><td>대역폭</td><td>최고 주파수 − 최저 주파수</td><td><span class="cram-tag">2023-2회 18번</span> 500 − 300 = <b>200 Hz</b></td></tr><tr><td>구형파 실효값</td><td>진폭 A 그대로 (정현파는 A/√2)</td><td><span class="cram-tag">2022-3회 10번</span> <b>A</b></td></tr><tr><td>PN 부호 주기</td><td>2<sup>n</sup> − 1 (n = 시프트 레지스터 단 수)</td><td><span class="cram-tag">2022-3회 17번</span> 5단 → <b>31</b></td></tr><tr><td>가동률</td><td>MTBF / (MTBF + MTTR)</td><td><span class="cram-tag">2022-1회 72번</span> 22/24 ≈ <b>0.92</b><br><span class="cram-tag">2023-2회 53번</span> 23/24 ≈ <b>95.83 %</b></td></tr><tr><td>병렬(이중화) 신뢰도</td><td>1 − (1 − R)<sup>2</sup>, 직렬로 이어지면 곱한다</td><td><span class="cram-tag">2022-1회 77번</span> 0.96 × 0.99 = <b>0.9504</b></td></tr><tr><td>코드 효율</td><td>정보 비트 / (정보 비트 + 오버헤드)</td><td><span class="cram-tag">2022-1회 57번</span> 100 / 120 ≈ <b>83 %</b></td></tr><tr><td>중계선 효율</td><td>운반 호량[Erl] / 회선 수</td><td><span class="cram-tag">2023-2회 25번</span> 5 / 20 = <b>25 %</b></td></tr><tr><td>충전기 2차 전류</td><td>축전지 용량[Ah] / 10 + 부하 전력 / 전압</td><td><span class="cram-tag">2022-3회 62번</span> 20 + 120 = <b>140 A</b></td></tr><tr><td>클럭 주기</td><td>1 / 클럭 주파수</td><td><span class="cram-tag">2022-2회 97번</span> 1 GHz → <b>1 ns</b></td></tr><tr><td>기억장치 대역폭</td><td>(버스 폭 / 8) × 클럭 주파수</td><td><span class="cram-tag">2023-1회 85번</span> 4 × 1,000 MHz = <b>4,000 MB/s</b></td></tr><tr><td>CIDR 주소 수</td><td>2<sup>(32 − 프리픽스)</sup></td><td><span class="cram-tag">2023-2회 44번</span> /20 → 2<sup>12</sup> = <b>4,096</b></td></tr><tr><td>서브넷</td><td>블록 크기 = 256 − 마스크 마지막 값<br>/27 = .224, /28 = .240, /29 = .248</td><td><span class="cram-tag">2023-1회 91번</span> .224 → 32씩 → 68은 <b>.64</b> 네트워크<br><span class="cram-tag">2023-2회 45번</span> /26 → 64씩 → 호스트 <b>.65 ~ .126</b><br><span class="cram-tag">2022-3회 49번</span> .248 = <b>/29</b> · <span class="cram-tag">2022-2회 43번</span> 서브넷 26개·호스트 5개 → <b>.248</b></td></tr><tr><td>진수 변환</td><td>정수는 자리값, 소수는 ×2 반복 · 2진→8진은 3자리씩</td><td><span class="cram-tag">2022-1회 86번</span> AB<sub>16</sub> = <b>171</b><br><span class="cram-tag">2022-3회 89번</span> 0.375 = <b>0.011<sub>2</sub></b><br><span class="cram-tag">2023-2회 92번</span> 100110.100101<sub>2</sub> = <b>46.45<sub>8</sub></b></td></tr></tbody></table>
-    <div class="sub-title">설비기준 · 법규 숫자</div>
-    <table class="tbl cram-tbl cram-law"><thead><tr><th>항목</th><th>외울 내용</th><th>기출</th></tr></thead><tbody><tr><td>접지저항</td><td>원칙 <b>10 Ω 이하</b>. 국선 수용 <b>100회선 이하 주배선반</b> 등 예외 설비는 <b>100 Ω 이하</b></td><td><span class="cram-tag">2022-1회 88번</span></td></tr><tr><td>맨홀·핸드홀 간 거리</td><td>"<b>350 m 이내</b>"는 <b>틀린 보기</b>로 두 번 나왔다</td><td><span class="cram-tag">2022-1회 94번</span> <span class="cram-tag">2022-2회 90번</span></td></tr><tr><td>설계 발주</td><td><b>50회선 이상</b> 구내통신선로설비공사는 용역업자에게 설계를 발주해야 한다</td><td><span class="cram-tag">2022-3회 82번</span></td></tr><tr><td>설계도서 보관</td><td>설계한 용역업자: 실시설계도서 <b>준공 후 5년</b><br>감리한 용역업자: 준공설계도서 <b>하자담보책임기간 종료 때까지</b><br>실시·준공설계도서: 공사 목적물이 <b>폐지될 때까지</b><br>설계도서가 바뀌면 <b>변경 후</b> 도서를 보관 ("변경 전후 모두"는 틀린 보기)</td><td><span class="cram-tag">2022-3회 86번</span> <span class="cram-tag">2023-2회 100번</span></td></tr><tr><td>감리원 배치</td><td>총공사금액 <b>70억~100억 원 미만 → 특급감리원</b><br>30억~70억 미만 고급 · 5억~30억 미만 중급 · 5억 미만 초급 (각 이상 등급)</td><td><span class="cram-tag">2023-1회 100번</span></td></tr><tr><td>감리원의 공사중지</td><td>부적합 시공이면 <b>발주자의 동의</b>를 얻어 공사중지 명령</td><td><span class="cram-tag">2022-1회 96번</span> <span class="cram-tag">2023-1회 98번</span></td></tr><tr><td>기간통신사업</td><td><b>과학기술정보통신부장관</b> (기출 보기는 "허가", 현행법은 "등록")</td><td><span class="cram-tag">2022-1회 92번</span></td></tr></tbody></table>
-    <div class="sub-title">두 번 나온 문제</div>
-    <table class="tbl cram-tbl cram-rep"><thead><tr><th>문제</th><th>정답</th><th>기출</th></tr></thead><tbody><tr><td>정보보호지침에 <b>포함되지 않는</b> 것</td><td>전문보안업체를 통한 위탁관리 등 관리적 보호조치</td><td><span class="cram-tag">2022-1회 100번</span> <span class="cram-tag">2022-2회 86번</span></td></tr><tr><td>프로그램 <b>이식성</b>을 가능하게 하는 주소지정</td><td>베이스레지스터 주소지정</td><td><span class="cram-tag">2022-1회 87번</span> <span class="cram-tag">2022-2회 81번</span></td></tr><tr><td>고층 건물·철탑 등 <b>인공구조물</b>에 의한 페이딩</td><td>Short-term Fading (단기 페이딩)</td><td><span class="cram-tag">2022-1회 13번</span> <span class="cram-tag">2022-2회 14번</span></td></tr><tr><td>맨홀·핸드홀 설치기준으로 <b>틀린</b> 것</td><td>간격 350 m 이내</td><td><span class="cram-tag">2022-1회 94번</span> <span class="cram-tag">2022-2회 90번</span></td></tr><tr><td>감리원이 부적합 시공에 취할 수 있는 조치</td><td>발주자의 동의를 얻어 공사중지 명령</td><td><span class="cram-tag">2022-1회 96번</span> <span class="cram-tag">2023-1회 98번</span></td></tr><tr><td>멀티미디어 특징으로 <b>틀린</b> 것</td><td>인간과 컴퓨터의 독립성 / 단방향성<br><span class="cram-dim">맞는 것: 디지털화·통합성·양방향성·상호작용성</span></td><td><span class="cram-tag">2022-1회 23번</span> <span class="cram-tag">2022-2회 29번</span></td></tr><tr><td>정지궤도 위성 설명으로 <b>틀린</b> 것</td><td>지구 면적의 약 20 %가 보인다 / 90° 간격 4개로 전 지구 커버<br><span class="cram-dim">실제: 약 42 %, 120° 간격 3개 (극지방 제외)</span></td><td><span class="cram-tag">2023-1회 58번</span> <span class="cram-tag">2023-2회 58번</span></td></tr></tbody></table>
-  </div>
+  <div data-section-src="/sections/cram.html"></div>
 
   
-  <div id="cbt-slot" data-src="/sections/cbt26.html"></div>
+  <div data-section-src="/sections/cbt26.html"></div>
 
-  <div class="section" id="sec-cards">
-    <h2 class="section-title" style="color:#117a68" id="cd-title">용어 카드 — 뜻 맞추기</h2>
-    <style>
-      #cd-wrap{--cd:var(--key);}
-      #cd-card{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 1px 2px rgba(20,24,36,.05),0 8px 24px rgba(20,24,36,.06);
-        padding:36px 32px;margin-top:16px;cursor:pointer;user-select:none;min-height:260px;
-        display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:border-color .15s,transform .08s;}
-      #cd-card:hover,#cd-card.flipped{border-color:var(--key-bd);}
-      #cd-card:active{transform:scale(.995);}
-      #cd-face{font-size:28px;font-weight:800;letter-spacing:-.5px;color:var(--text);line-height:1.45;word-break:keep-all;}
-      #cd-back{display:none;margin-top:18px;padding-top:18px;border-top:1px solid var(--border);
-        font-size:17px;color:var(--text2);line-height:1.8;word-break:keep-all;max-width:640px;}
-      #cd-card.flipped #cd-back{display:block;}
-      #cd-hint{margin-top:16px;font-size:13px;color:var(--text3);}
-      #cd-card.flipped #cd-hint{display:none;}
-      .cd-meta{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
-      .cd-chip{font-size:12px;padding:3px 8px;border-radius:5px;background:var(--bg3);color:var(--text2);}
-      .cd-chip:empty{display:none;}
-      #cd-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-top:16px;}
-      #cd-fill{height:100%;width:0;background:var(--key);border-radius:3px;transition:width .2s;}
-      #cd-controls,#cd-done > div:last-child{display:grid !important;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px !important;}
-      #cd-done > div:last-child{grid-template-columns:repeat(2,minmax(0,1fr));}
-      .cd-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;background:#fff;border:1px solid var(--border);color:var(--text);
-        border-radius:9px;padding:0 14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s;}
-      .cd-btn:hover{border-color:var(--border2);background:var(--surface);}
-      .cd-btn.know{border-color:var(--ok-bd);color:var(--ok);} .cd-btn.know:hover{background:var(--ok-bg);}
-      .cd-btn.dunno{border-color:var(--warn-bd);color:var(--warn);} .cd-btn.dunno:hover{background:var(--warn-bg);}
-      .cd-btn .mono{font-size:11px !important;padding:1px 5px;border:1px solid currentColor;border-radius:4px;opacity:.7;font-weight:500;}
-      .cd-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center;}
-      .f-label{width:40px;flex-shrink:0;font-size:12.5px;font-weight:700;color:var(--text3);}
-      .cd-filter-push{margin-left:auto;}
-      #cd-done{display:none;background:#fff;border:1px solid var(--ok-bd);border-radius:14px;padding:28px;margin-top:16px;text-align:center;}
-      @media(max-width:959px){
-        .cd-filter-push{margin-left:0;}
-        #cd-card{padding:28px 20px;min-height:300px;}
-        #cd-face{font-size:24px;}
-        #cd-back{font-size:16px;}
-        .cd-btn .mono{display:none;}
-        .cd-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:10px -16px 0;padding:0 16px 2px;scrollbar-width:none;}
-        .cd-row::-webkit-scrollbar{display:none;}
-      }
-    </style>
+  <div data-section-src="/sections/cards.html"></div>
 
-    <div class="highlight" id="cd-desc"></div>
-
-    <div id="cd-wrap">
-      <!-- 필터 -->
-      <div class="cd-row">
-        <span class="f-label">과목</span>
-        <button class="cd-filter on" data-f="전체" onclick="cdFilter('전체',this)">전체</button>
-        <button class="cd-filter" data-f="1과목" onclick="cdFilter('1과목',this)">1과목</button>
-        <button class="cd-filter" data-f="2과목" onclick="cdFilter('2과목',this)">2과목</button>
-        <button class="cd-filter" data-f="3과목" onclick="cdFilter('3과목',this)">3과목</button>
-        <button class="cd-filter" data-f="4과목" onclick="cdFilter('4과목',this)">4과목</button>
-        <button class="cd-filter" data-f="5과목" onclick="cdFilter('5과목',this)">5과목</button>
-      </div>
-      <div class="cd-row">
-        <span class="f-label">방향</span>
-        <button class="cd-filter on" id="cd-dir-t" onclick="cdDir('t2d')">용어 → 뜻</button>
-        <button class="cd-filter" id="cd-dir-d" onclick="cdDir('d2t')">뜻 → 용어</button>
-        </div>
-      <div class="cd-row">
-        <span class="f-label">유형</span>
-        <button class="cd-filter on" data-k="전체" onclick="cdKind('전체',this)">전체</button>
-        <button class="cd-filter" data-k="def" onclick="cdKind('def',this)">용어</button>
-        <button class="cd-filter" data-k="calc" onclick="cdKind('calc',this)">공식</button>
-        <button class="cd-filter" data-k="num" onclick="cdKind('num',this)">암기표</button>
-        <button class="cd-filter cd-filter-push" onclick="cdShuffle()">섞기</button>
-        <button class="cd-filter" onclick="cdRestart()">처음부터</button>
-        <button class="cd-filter" id="cd-hard-btn" onclick="cdHardOnly()">어려운 것만</button>
-      </div>
-      <div id="cd-grp-row" class="cd-row" style="display:none;">
-        <span class="f-label">분류</span>
-        <button class="cd-filter on" data-g="전체" onclick="cdGrp('전체',this)">전체</button>
-        <button class="cd-filter" data-g="포트번호" onclick="cdGrp('포트번호',this)">포트번호</button>
-        <button class="cd-filter" data-g="IEEE 802" onclick="cdGrp('IEEE 802',this)">IEEE 802</button>
-        <button class="cd-filter" data-g="UTP 케이블" onclick="cdGrp('UTP 케이블',this)">UTP 케이블</button>
-        <button class="cd-filter" data-g="주파수 대역" onclick="cdGrp('주파수 대역',this)">주파수 대역</button>
-        <button class="cd-filter" data-g="마이크로파 밴드" onclick="cdGrp('마이크로파 밴드',this)">마이크로파 밴드</button>
-        <button class="cd-filter" data-g="광통신 장치" onclick="cdGrp('광통신 장치',this)">광통신 장치</button>
-      </div>
-
-      <!-- 카드 -->
-      <div id="cd-card" onclick="cdFlip()" role="button" tabindex="0">
-        <div class="cd-meta"><span class="cd-chip" id="cd-subj"></span><span class="cd-chip" id="cd-kind" style="background:#f6eddf;color:#8a6012;"></span><span class="cd-chip" id="cd-year"></span><span class="cd-chip" id="cd-num"></span></div>
-        <div id="cd-face"></div>
-        <div id="cd-back"></div>
-        <div id="cd-hint">카드를 눌러 정답 보기　·　<span class="mono">Space</span></div>
-      </div>
-
-      <!-- 완료 화면 -->
-      <div id="cd-done">
-        <div style="font-size:21px;font-weight:700;color:#267c41;">이 묶음 끝</div>
-        <div id="cd-done-msg" style="font-size:15px;color:var(--text2);margin-top:8px;line-height:1.8;"></div>
-        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px;">
-          <button class="cd-btn dunno" onclick="cdRetryWrong()">모르는 것만 다시</button>
-          <button class="cd-btn" onclick="cdRestart()">처음부터</button>
-        </div>
-      </div>
-
-      <!-- 조작 -->
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px;" id="cd-controls">
-        <button class="cd-btn dunno" onclick="cdMark(false)">모르겠다 <span class="mono">1</span></button>
-        <button class="cd-btn" onclick="cdFlip()">뒤집기 <span class="mono">Space</span></button>
-        <button class="cd-btn know" onclick="cdMark(true)">안다 <span class="mono">2</span></button>
-      </div>
-
-      <div id="cd-bar"><div id="cd-fill"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:7px;font-size:13px;color:var(--text3);">
-        <span id="cd-status"></span>
-        <span id="cd-score"></span>
-      </div>
-    </div>
-
-    <div class="note" style="border-left-color:#117a68;">
-      <b>키보드</b> — <span class="mono">Space</span> 뒤집기 ·
-      <span class="mono">1</span> 모르겠다 · <span class="mono">2</span> 안다 · <span class="mono">←</span> 이전 카드
-    </div>
-  </div>
-
-  <div class="section" id="sec-quiz">
-    <h2 class="section-title">기출문제</h2>
-    <style>
-    #exam-panel{background:var(--exam-bg);border:1px solid var(--exam-bd);border-radius:12px;padding:16px 20px;margin-bottom:16px;}
-    #exam-panel h3{font-size:16px;font-weight:800;color:var(--text);margin:0 0 4px;}
-    #exam-panel p{font-size:14px;color:var(--text2);margin:0 0 12px;line-height:1.75;}
-    #exam-panel .exam-btns{display:flex;gap:6px;flex-wrap:wrap;}
-    .exam-start{min-height:36px;background:#fff;border:1px solid var(--exam-bd);color:var(--exam);border-radius:8px;
-      padding:0 14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
-    .exam-start:hover{background:var(--exam);border-color:var(--exam);color:#fff;}
-    #exam-bar{position:sticky;top:var(--topbar-h);z-index:150;display:none;
-      background:var(--warn-bg);border:1px solid var(--warn-bd);border-radius:10px;padding:10px 16px;margin-bottom:14px;
-      align-items:center;gap:12px;flex-wrap:wrap;}
-    #exam-bar.show{display:flex;}
-    #exam-bar .lbl{font-size:13.5px;font-weight:700;color:var(--warn);}
-    #exam-status{font-size:13.5px;color:var(--text2);margin-left:auto;font-family:var(--mono);}
-    @media(max-width:959px){ #exam-status{margin-left:0;} }
-    .exam-submit{min-height:36px;background:var(--warn);border:none;color:#fff;border-radius:8px;padding:0 16px;
-      font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;}
-    .exam-submit:hover{background:#8f2c24;}
-    .qopt.picked{border-color:var(--exam-bd) !important;background:var(--exam-bg) !important;color:var(--text) !important;box-shadow:inset 3px 0 0 var(--exam);}
-
-    /* 퀴즈 모드 선택 (세그먼트) */
-    #quiz-mode-tabs{display:flex;padding:4px;margin-bottom:10px;border-radius:10px;background:var(--side);border:1px solid var(--border);max-width:440px;}
-    .qmode{flex:1 1 0;min-height:40px;text-align:center;background:transparent;border:none;border-radius:7px;padding:8px 12px;cursor:pointer;font-family:inherit;transition:background .15s;}
-    .qmode .qmode-t{display:block;font-size:14px;font-weight:600;color:var(--text2);}
-    .qmode .qmode-d{display:none;}
-    .qmode.active{background:#fff;box-shadow:0 1px 2px rgba(20,24,36,.1);}
-    .qmode.active .qmode-t{color:var(--text);font-weight:700;}
-    .quiz-mode-desc{font-size:13.5px;line-height:1.65;color:var(--text2);margin-bottom:18px;}
-    .quiz-mode-desc .d-exam{display:none;}
-    #quiz-mode-tabs:has(#mode-exam.active) + .quiz-mode-desc .d-study{display:none;}
-    #quiz-mode-tabs:has(#mode-exam.active) + .quiz-mode-desc .d-exam{display:inline;}
-    #quiz-filter-panel{display:flex;flex-direction:column;gap:10px;margin-bottom:8px;}
-    #quiz-filter-panel .f-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
-    #quiz-filter-panel .f-label{width:40px;flex-shrink:0;font-size:12.5px;font-weight:700;color:var(--text3);}
-    .quiz-bank{font-size:13px;color:var(--text3);}
-    .retry-btn.sm{min-height:36px;font-size:13.5px;padding:0 14px;white-space:nowrap;}
-    @media(max-width:959px){
-      #quiz-filter-panel .f-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px 2px;scrollbar-width:none;}
-      #quiz-filter-panel .f-row::-webkit-scrollbar{display:none;}
-      #quiz-mode-tabs{max-width:none;}
-    }
-    </style>
-
-    <div id="quiz-mode-tabs">
-      <button id="mode-study" class="qmode active" onclick="setQuizMode('study')">
-        <span class="qmode-t">풀이 모드</span>
-        <span class="qmode-d">회차·과목을 골라 풀고, 보기를 고르는 <b>즉시 정답과 해설</b>이 나옵니다.</span>
-      </button>
-      <button id="mode-exam" class="qmode" onclick="setQuizMode('exam')">
-        <span class="qmode-t">실전 진단 모드</span>
-        <span class="qmode-d">한 회차 100문항을 <b>정답·해설 없이</b> 풀고, 제출하면 과목별 점수와 과락 여부가 나옵니다.</span>
-      </button>
-    </div>
-    <p class="quiz-mode-desc"><span class="d-study">회차·과목을 골라 풀고, 보기를 고르면 <b>바로 정답과 해설</b>이 나옵니다.</span><span class="d-exam">한 회차 100문항을 <b>정답·해설 없이</b> 풀고, 제출하면 과목별 점수와 과락 여부가 나옵니다.</span></p>
-
-    <div id="exam-panel" style="display:none;">
-      <h3>실전 진단 모드</h3>
-      <p>회차를 고르면 <b style="color:#1d252d">100문항</b> 실전 조건으로 시작합니다. (제한시간 없음)
-        진단 중에는 <b style="color:#8a6012">정답과 해설이 보이지 않고</b>, 답은 몇 번이든 바꿀 수 있습니다.
-        제출하면 과목별 점수와 <b style="color:#8a6012">과락 여부</b>가 한 번에 나옵니다.
-        <br>판정 기준은 과목당 <b style="color:#af3c3d">8개 이하 과락</b> · <b style="color:#267c41">12개 이상 합격</b> 입니다.</p>
-      <div class="exam-btns" id="exam-btns"><!-- 회차 버튼은 데이터 로드 후 자동 생성됩니다 --></div>
-    </div>
-
-    <div id="exam-bar">
-      <span class="lbl">실전 진단 모드 진행 중</span>
-      <span id="exam-status">0 / 100 답안 표시</span>
-      <button class="exam-submit" onclick="submitExam()">제출하고 채점</button>
-      <button class="qfbtn" onclick="cancelExam()">중단</button>
-    </div>
-    <div id="quiz-filter-panel">
-      <div class="quiz-bank">기출문제 은행 · 총 <span id="quiz-count">0</span>문항</div>
-      <div class="f-row" id="year-filters"><!-- 회차 필터 버튼은 데이터 로드 후 자동 생성됩니다 --></div>
-      <div class="f-row" id="subj-filters">
-        <span class="f-label">과목</span>
-        <button onclick="filterQuiz('전체',this)" class="qfbtn active">전체</button>
-        <button onclick="filterQuiz('1과목',this)" class="qfbtn">1과목 정보전송일반</button>
-        <button onclick="filterQuiz('2과목',this)" class="qfbtn">2과목 정보통신기기</button>
-        <button onclick="filterQuiz('3과목',this)" class="qfbtn">3과목 정보통신네트워크</button>
-        <button onclick="filterQuiz('4과목',this)" class="qfbtn">4과목 정보시스템운용</button>
-        <button onclick="filterQuiz('5과목',this)" class="qfbtn">5과목 컴퓨터일반 및 정보설비기준</button>
-      </div>
-    </div>
-    <div id="quiz-play-area">
-    <!-- 진행 현황 바 (sticky) -->
-    <div class="progress-bar-wrap" id="quiz-progress-bar">
-      <span style="font-size:14px;color:var(--text2);white-space:nowrap;" id="progress-txt">0 / 0</span>
-      <div class="progress-bar-bg"><div class="progress-bar-fg" id="progress-fg" style="width:0%"></div></div>
-      <button onclick="showMidResult()" class="retry-btn sm">결과 보기</button>
-    </div>
-    <!-- 이전 진행상황 복원 안내 -->
-    <div id="resume-note" style="display:none;margin:10px 0;padding:10px 14px;border-radius:8px;background:#e1ecfb;border:1px solid #2c6da4;font-size:14px;color:#2f506e;align-items:center;gap:10px;flex-wrap:wrap;">
-      <span id="resume-text"></span>
-      <button onclick="restartAll()" style="padding:4px 12px;border-radius:14px;border:1px solid #2c6da4;background:transparent;color:#2c6da4;font-size:13px;cursor:pointer;font-family:inherit;">처음부터 다시 풀기</button>
-    </div>
-    <div class="quiz-wrap" id="quiz-wrap"></div>
-    <!-- 페이지 이동 -->
-    <div id="quiz-pager" style="display:none;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;margin:18px 0 4px;"></div>
-
-    <!-- 중간 결과 팝업 -->
-    <div class="mid-result-overlay" id="mid-result-overlay" onclick="closeMidResult(event)">
-      <div class="mid-result-box" onclick="event.stopPropagation()">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">
-          <span style="font-size:17.5px;font-weight:700;color:var(--text);">📊 현재까지 결과</span>
-          <button onclick="closeMidResult()" style="background:none;border:none;color:var(--text2);font-size:21px;cursor:pointer;">✕</button>
-        </div>
-        <div id="mid-result-content"></div>
-        <div style="text-align:center;margin-top:16px;">
-          <button onclick="closeMidResult()" style="padding:8px 24px;border-radius:20px;border:1px solid #2c6da4;font-size:15.5px;cursor:pointer;background:#e1ecfb;color:#2c6da4;font-family:inherit;">계속 풀기</button>
-        </div>
-      </div>
-    </div>
-    <div class="score-wrap" id="score-wrap">
-      <div style="font-size:15.5px;color:var(--text2);margin-bottom:8px;">📋 최종 결과</div>
-      <div class="score-num" id="score-num"></div>
-      <div class="score-msg" id="score-msg"></div>
-      <!-- 과목별 점수 -->
-      <div id="subj-score" style="margin:16px 0;text-align:left;"></div>
-      <!-- 취약 문제 목록 -->
-      <div id="wrong-list" style="margin:16px 0;text-align:left;"></div>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
-        <button class="retry-btn" onclick="restartAll()">전체 다시 풀기</button>
-        <button class="retry-btn" id="retry-wrong-btn" style="display:none;">틀린 문제만 다시 풀기</button>
-      </div>
-    </div>
-    </div><!-- /quiz-play-area -->
-  </div>
+  <div data-section-src="/sections/quiz.html"></div>
 
 </div><aside class="page-toc" id="page-toc" hidden aria-label="이 페이지에서"></aside></div></main>
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=3aa407a6e2cf"></script>
+<script src="/assets/app.js?v=e8e86077a230"></script>
 </body>
 </html>

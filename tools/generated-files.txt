@@ -72,4 +72,8 @@ s5/index.html
 s5/law-const/index.html
 s5/law-tel/index.html
 s5/os/index.html
+sections/cards.html
 sections/cbt26.html
+sections/cram.html
+sections/home.html
+sections/quiz.html

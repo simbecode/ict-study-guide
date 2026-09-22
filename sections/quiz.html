@@ -1,0 +1,129 @@
+<div class="section" id="sec-quiz">
+    <h2 class="section-title">기출문제</h2>
+    <style>
+    #exam-panel{background:var(--exam-bg);border:1px solid var(--exam-bd);border-radius:12px;padding:16px 20px;margin-bottom:16px;}
+    #exam-panel h3{font-size:16px;font-weight:800;color:var(--text);margin:0 0 4px;}
+    #exam-panel p{font-size:14px;color:var(--text2);margin:0 0 12px;line-height:1.75;}
+    #exam-panel .exam-btns{display:flex;gap:6px;flex-wrap:wrap;}
+    .exam-start{min-height:36px;background:#fff;border:1px solid var(--exam-bd);color:var(--exam);border-radius:8px;
+      padding:0 14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
+    .exam-start:hover{background:var(--exam);border-color:var(--exam);color:#fff;}
+    #exam-bar{position:sticky;top:var(--topbar-h);z-index:150;display:none;
+      background:var(--warn-bg);border:1px solid var(--warn-bd);border-radius:10px;padding:10px 16px;margin-bottom:14px;
+      align-items:center;gap:12px;flex-wrap:wrap;}
+    #exam-bar.show{display:flex;}
+    #exam-bar .lbl{font-size:13.5px;font-weight:700;color:var(--warn);}
+    #exam-status{font-size:13.5px;color:var(--text2);margin-left:auto;font-family:var(--mono);}
+    @media(max-width:959px){ #exam-status{margin-left:0;} }
+    .exam-submit{min-height:36px;background:var(--warn);border:none;color:#fff;border-radius:8px;padding:0 16px;
+      font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;}
+    .exam-submit:hover{background:#8f2c24;}
+    .qopt.picked{border-color:var(--exam-bd) !important;background:var(--exam-bg) !important;color:var(--text) !important;box-shadow:inset 3px 0 0 var(--exam);}
+
+    /* 퀴즈 모드 선택 (세그먼트) */
+    #quiz-mode-tabs{display:flex;padding:4px;margin-bottom:10px;border-radius:10px;background:var(--side);border:1px solid var(--border);max-width:440px;}
+    .qmode{flex:1 1 0;min-height:40px;text-align:center;background:transparent;border:none;border-radius:7px;padding:8px 12px;cursor:pointer;font-family:inherit;transition:background .15s;}
+    .qmode .qmode-t{display:block;font-size:14px;font-weight:600;color:var(--text2);}
+    .qmode .qmode-d{display:none;}
+    .qmode.active{background:#fff;box-shadow:0 1px 2px rgba(20,24,36,.1);}
+    .qmode.active .qmode-t{color:var(--text);font-weight:700;}
+    .quiz-mode-desc{font-size:13.5px;line-height:1.65;color:var(--text2);margin-bottom:18px;}
+    .quiz-mode-desc .d-exam{display:none;}
+    #quiz-mode-tabs:has(#mode-exam.active) + .quiz-mode-desc .d-study{display:none;}
+    #quiz-mode-tabs:has(#mode-exam.active) + .quiz-mode-desc .d-exam{display:inline;}
+    #quiz-filter-panel{display:flex;flex-direction:column;gap:10px;margin-bottom:8px;}
+    #quiz-filter-panel .f-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+    #quiz-filter-panel .f-label{width:40px;flex-shrink:0;font-size:12.5px;font-weight:700;color:var(--text3);}
+    .quiz-bank{font-size:13px;color:var(--text3);}
+    .retry-btn.sm{min-height:36px;font-size:13.5px;padding:0 14px;white-space:nowrap;}
+    @media(max-width:959px){
+      #quiz-filter-panel .f-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px 2px;scrollbar-width:none;}
+      #quiz-filter-panel .f-row::-webkit-scrollbar{display:none;}
+      #quiz-mode-tabs{max-width:none;}
+    }
+    </style>
+
+    <div id="quiz-mode-tabs">
+      <button id="mode-study" class="qmode active" onclick="setQuizMode('study')">
+        <span class="qmode-t">풀이 모드</span>
+        <span class="qmode-d">회차·과목을 골라 풀고, 보기를 고르는 <b>즉시 정답과 해설</b>이 나옵니다.</span>
+      </button>
+      <button id="mode-exam" class="qmode" onclick="setQuizMode('exam')">
+        <span class="qmode-t">실전 진단 모드</span>
+        <span class="qmode-d">한 회차 100문항을 <b>정답·해설 없이</b> 풀고, 제출하면 과목별 점수와 과락 여부가 나옵니다.</span>
+      </button>
+    </div>
+    <p class="quiz-mode-desc"><span class="d-study">회차·과목을 골라 풀고, 보기를 고르면 <b>바로 정답과 해설</b>이 나옵니다.</span><span class="d-exam">한 회차 100문항을 <b>정답·해설 없이</b> 풀고, 제출하면 과목별 점수와 과락 여부가 나옵니다.</span></p>
+
+    <div id="exam-panel" style="display:none;">
+      <h3>실전 진단 모드</h3>
+      <p>회차를 고르면 <b style="color:#1d252d">100문항</b> 실전 조건으로 시작합니다. (제한시간 없음)
+        진단 중에는 <b style="color:#8a6012">정답과 해설이 보이지 않고</b>, 답은 몇 번이든 바꿀 수 있습니다.
+        제출하면 과목별 점수와 <b style="color:#8a6012">과락 여부</b>가 한 번에 나옵니다.
+        <br>판정 기준은 과목당 <b style="color:#af3c3d">8개 이하 과락</b> · <b style="color:#267c41">12개 이상 합격</b> 입니다.</p>
+      <div class="exam-btns" id="exam-btns"><!-- 회차 버튼은 데이터 로드 후 자동 생성됩니다 --></div>
+    </div>
+
+    <div id="exam-bar">
+      <span class="lbl">실전 진단 모드 진행 중</span>
+      <span id="exam-status">0 / 100 답안 표시</span>
+      <button class="exam-submit" onclick="submitExam()">제출하고 채점</button>
+      <button class="qfbtn" onclick="cancelExam()">중단</button>
+    </div>
+    <div id="quiz-filter-panel">
+      <div class="quiz-bank">기출문제 은행 · 총 <span id="quiz-count">0</span>문항</div>
+      <div class="f-row" id="year-filters"><!-- 회차 필터 버튼은 데이터 로드 후 자동 생성됩니다 --></div>
+      <div class="f-row" id="subj-filters">
+        <span class="f-label">과목</span>
+        <button onclick="filterQuiz('전체',this)" class="qfbtn active">전체</button>
+        <button onclick="filterQuiz('1과목',this)" class="qfbtn">1과목 정보전송일반</button>
+        <button onclick="filterQuiz('2과목',this)" class="qfbtn">2과목 정보통신기기</button>
+        <button onclick="filterQuiz('3과목',this)" class="qfbtn">3과목 정보통신네트워크</button>
+        <button onclick="filterQuiz('4과목',this)" class="qfbtn">4과목 정보시스템운용</button>
+        <button onclick="filterQuiz('5과목',this)" class="qfbtn">5과목 컴퓨터일반 및 정보설비기준</button>
+      </div>
+    </div>
+    <div id="quiz-play-area">
+    <!-- 진행 현황 바 (sticky) -->
+    <div class="progress-bar-wrap" id="quiz-progress-bar">
+      <span style="font-size:14px;color:var(--text2);white-space:nowrap;" id="progress-txt">0 / 0</span>
+      <div class="progress-bar-bg"><div class="progress-bar-fg" id="progress-fg" style="width:0%"></div></div>
+      <button onclick="showMidResult()" class="retry-btn sm">결과 보기</button>
+    </div>
+    <!-- 이전 진행상황 복원 안내 -->
+    <div id="resume-note" style="display:none;margin:10px 0;padding:10px 14px;border-radius:8px;background:#e1ecfb;border:1px solid #2c6da4;font-size:14px;color:#2f506e;align-items:center;gap:10px;flex-wrap:wrap;">
+      <span id="resume-text"></span>
+      <button onclick="restartAll()" style="padding:4px 12px;border-radius:14px;border:1px solid #2c6da4;background:transparent;color:#2c6da4;font-size:13px;cursor:pointer;font-family:inherit;">처음부터 다시 풀기</button>
+    </div>
+    <div class="quiz-wrap" id="quiz-wrap"></div>
+    <!-- 페이지 이동 -->
+    <div id="quiz-pager" style="display:none;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;margin:18px 0 4px;"></div>
+
+    <!-- 중간 결과 팝업 -->
+    <div class="mid-result-overlay" id="mid-result-overlay" onclick="closeMidResult(event)">
+      <div class="mid-result-box" onclick="event.stopPropagation()">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+          <span style="font-size:17.5px;font-weight:700;color:var(--text);">📊 현재까지 결과</span>
+          <button onclick="closeMidResult()" style="background:none;border:none;color:var(--text2);font-size:21px;cursor:pointer;">✕</button>
+        </div>
+        <div id="mid-result-content"></div>
+        <div style="text-align:center;margin-top:16px;">
+          <button onclick="closeMidResult()" style="padding:8px 24px;border-radius:20px;border:1px solid #2c6da4;font-size:15.5px;cursor:pointer;background:#e1ecfb;color:#2c6da4;font-family:inherit;">계속 풀기</button>
+        </div>
+      </div>
+    </div>
+    <div class="score-wrap" id="score-wrap">
+      <div style="font-size:15.5px;color:var(--text2);margin-bottom:8px;">📋 최종 결과</div>
+      <div class="score-num" id="score-num"></div>
+      <div class="score-msg" id="score-msg"></div>
+      <!-- 과목별 점수 -->
+      <div id="subj-score" style="margin:16px 0;text-align:left;"></div>
+      <!-- 취약 문제 목록 -->
+      <div id="wrong-list" style="margin:16px 0;text-align:left;"></div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+        <button class="retry-btn" onclick="restartAll()">전체 다시 풀기</button>
+        <button class="retry-btn" id="retry-wrong-btn" style="display:none;">틀린 문제만 다시 풀기</button>
+      </div>
+    </div>
+    </div><!-- /quiz-play-area -->
+  </div>

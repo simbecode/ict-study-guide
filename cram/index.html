@@ -106,6 +106,7 @@
   <div class="subj-group">
     <div class="subj-head c-s1" data-sid="s1" onclick="toggleSubj('s1',this)" role="button" tabindex="0" aria-controls="s1"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">1. 정보전송일반</span><span class="nav-count">23</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
     <div class="subj-items" id="s1">
+      <a class="hub-item" href="/s1/">1과목 전체 주제 한눈에 보기</a>
       <div class="nav-group">신호 및 변조</div>
       <a class="sub-item" href="/s1/csma/" data-sec="csma" onclick="return navGo(event,'csma',this)">CSMA/CD vs CA</a>
       <a class="sub-item" href="/s1/ammod/" data-sec="ammod" onclick="return navGo(event,'ammod',this)">아날로그 변조 AM / FM / PM</a>
@@ -142,6 +143,7 @@
   <div class="subj-group">
     <div class="subj-head c-s2" data-sid="s2" onclick="toggleSubj('s2',this)" role="button" tabindex="0" aria-controls="s2"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">2. 정보통신기기</span><span class="nav-count">10</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
     <div class="subj-items" id="s2">
+      <a class="hub-item" href="/s2/">2과목 전체 주제 한눈에 보기</a>
       <div class="nav-group">표준 / 장비</div>
       <a class="sub-item" href="/s2/ieee/" data-sec="ieee" onclick="return navGo(event,'ieee',this)">IEEE 802 표준</a>
       <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">계층별 NW 장비</a>
@@ -162,6 +164,7 @@
   <div class="subj-group">
     <div class="subj-head c-s3" data-sid="s3" onclick="toggleSubj('s3',this)" role="button" tabindex="0" aria-controls="s3"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">3. 정보통신네트워크</span><span class="nav-count">17</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
     <div class="subj-items" id="s3">
+      <a class="hub-item" href="/s3/">3과목 전체 주제 한눈에 보기</a>
       <!-- OSI 개요 -->
       <div class="nav-group">OSI 개요</div>
       <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">OSI 7계층 전체 비교표</a>
@@ -206,6 +209,7 @@
   <div class="subj-group">
     <div class="subj-head c-s4" data-sid="s4" onclick="toggleSubj('s4',this)" role="button" tabindex="0" aria-controls="s4"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">4. 정보시스템운용</span><span class="nav-count">10</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
     <div class="subj-items" id="s4">
+      <a class="hub-item" href="/s4/">4과목 전체 주제 한눈에 보기</a>
       <a class="sub-item" href="/s3/l6/" data-sec="l6" onclick="return navGo(event,'l6',this)">보안·암호화 (6계층)</a>
       <a class="sub-item" href="/s3/l4/" data-sec="l4" onclick="return navGo(event,'l4',this)">TCP 연결·흐름제어</a>
       <a class="sub-item" href="/s4/crypto/" data-sec="crypto" onclick="return navGo(event,'crypto',this)">암호화 · AES-256</a>
@@ -221,6 +225,7 @@
   <div class="subj-group">
     <div class="subj-head c-s5" data-sid="s5" onclick="toggleSubj('s5',this)" role="button" tabindex="0" aria-controls="s5"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">5. 컴퓨터일반 및 정보설비기준</span><span class="nav-count">13</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
     <div class="subj-items" id="s5">
+      <a class="hub-item" href="/s5/">5과목 전체 주제 한눈에 보기</a>
       <div class="nav-group">컴퓨터일반</div>
       <a class="sub-item" href="/s4/cloud/" data-sec="cloud" onclick="return navGo(event,'cloud',this)">클라우드 IaaS / PaaS / SaaS</a>
       <a class="sub-item" href="/s1/radix/" data-sec="radix" onclick="return navGo(event,'radix',this)">진수 변환 (2·8·10·16)</a>
@@ -268,81 +273,7 @@
   <div id="search-hint" class="search-hint" style="display:none;"></div>
 
   <!-- 홈 화면 -->
-  <div class="section" id="sec-home">
-    <div class="home-head">
-      <p class="home-title">정보통신기사 필기 학습 가이드</p>
-      <p class="home-meta"><b>5</b> 과목 · <b>100</b> 문항(과목당 20) · 과목별 <b>40점</b> 이상, 전과목 평균 <b>60점</b> 이상 합격 · 시험 시간 <b>150분</b> · <b>연 3회</b> 시행</p>
-    </div>
-    <aside class="cbt-poll" aria-labelledby="cbt-poll-title">
-      <div><span class="cbt-poll-label">여러분의 의견을 들려주세요</span><h2 id="cbt-poll-title">앞으로도 CBT 문제를 꾸준히 업데이트할까요?</h2><p>이 사이트가 학습에 도움이 된다면 ‘좋아요’를 눌러주세요.</p></div>
-      <div class="cbt-poll-actions"><button type="button" data-vote="yes">👍 좋아요 <span id="cbt-vote-yes">–</span></button><button type="button" data-vote="no">아니요 <span id="cbt-vote-no">–</span></button></div>
-      <p id="cbt-poll-status" role="status" aria-live="polite">로그인 없이 참여 · 이 브라우저에서 한 번 응답할 수 있어요.</p>
-    </aside>
-    <div class="home-quick">
-      <div class="quick-card wide" role="button" tabindex="0" onclick="goQuiz()">
-        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12.5h8M8 16.5h5"/></svg><span class="quick-count" id="home-quiz-count">500문항</span></div>
-        <b>기출문제</b><span class="quick-count-m" data-mirror="home-quiz-count">500문항</span>
-        <p>2022년 1~3회 · 2023년 1~2회. 풀이 모드와 실전 진단 모드</p>
-      </div>
-      <div class="quick-card wide" role="button" tabindex="0" onclick="showSection('cbt26',null)">
-        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="2.6"/></svg><span class="quick-count" id="home-cbt-count">54문항</span></div>
-        <b>2026-4 CBT 복원예상문제</b><span class="quick-count-m" data-mirror="home-cbt-count">54문항</span>
-        <p>54개 주제의 핵심 개념과 확인 문제. 개념 학습부터 오답 재풀이까지</p>
-      </div>
-      <div class="quick-card" role="button" tabindex="0" onclick="showSection('cram',null)">
-        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></svg><span class="quick-count" id="home-cram">계산·숫자</span></div>
-        <b>시험 직전 요약</b><span class="quick-count-m" data-mirror="home-cram">계산·숫자</span>
-        <p>기출에 나온 계산 공식과 설비기준 숫자만 한 페이지에</p>
-      </div>
-      <div class="quick-card" role="button" tabindex="0" onclick="cdOpen('def',null)">
-        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6.5" width="13" height="14" rx="2"/><path d="M8 3.5h10.5a2 2 0 0 1 2 2v12"/></svg><span class="quick-count" id="home-def-count">189장</span></div>
-        <b>용어 카드</b><span class="quick-count-m" data-mirror="home-def-count">189장</span>
-        <p>기출에서 뽑은 용어와 공식 카드. 모르는 카드만 다시</p>
-      </div>
-      <div class="quick-card" role="button" tabindex="0" onclick="cdOpen('num',null)">
-        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M9.5 9.5v10"/></svg><span class="quick-count" id="home-num-count">82장</span></div>
-        <b>암기표</b><span class="quick-count-m" data-mirror="home-num-count">82장</span>
-        <p>포트번호·IEEE 802·주파수 대역처럼 표로 외울 것</p>
-      </div>
-    </div>
-    <h2 class="home-h2">과목</h2>
-    <div class="subject-list">
-      <div class="subject-row c-s1" role="button" tabindex="0" onclick="openSubject('s1')">
-        <span class="subject-num">1</span>
-        <span class="subject-name">정보전송일반</span>
-        <span class="subject-tags"><span>AM·FM·PM</span><span>ASK·FSK·PSK</span><span>QAM·OFDM</span><span>PCM</span><span>다중화</span><span>광섬유</span></span>
-        <span class="subject-count">23개 주제</span>
-      </div>
-      <div class="subject-row c-s2" role="button" tabindex="0" onclick="openSubject('s2')">
-        <span class="subject-num">2</span>
-        <span class="subject-name">정보통신기기</span>
-        <span class="subject-tags"><span>IEEE 802</span><span>UTP 케이블</span><span>VoIP</span><span>이동통신</span><span>OLT·ONU</span><span>CCTV</span></span>
-        <span class="subject-count">10개 주제</span>
-      </div>
-      <div class="subject-row c-s3" role="button" tabindex="0" onclick="openSubject('s3')">
-        <span class="subject-num">3</span>
-        <span class="subject-name">정보통신네트워크</span>
-        <span class="subject-tags"><span>OSI 7계층</span><span>TCP·UDP</span><span>서브넷팅</span><span>라우팅</span><span>LAN·WAN</span><span>포트번호</span></span>
-        <span class="subject-count">17개 주제</span>
-      </div>
-      <div class="subject-row c-s4" role="button" tabindex="0" onclick="openSubject('s4')">
-        <span class="subject-num">4</span>
-        <span class="subject-name">정보시스템운용</span>
-        <span class="subject-tags"><span>SNMP·MIB</span><span>RAID·백업</span><span>보안 위협</span><span>방화벽·IDS</span><span>암호화</span></span>
-        <span class="subject-count">10개 주제</span>
-      </div>
-      <div class="subject-row c-s5" role="button" tabindex="0" onclick="openSubject('s5')">
-        <span class="subject-num">5</span>
-        <span class="subject-name">컴퓨터일반 및 정보설비기준</span>
-        <span class="subject-tags"><span>CPU</span><span>운영체제</span><span>자료구조</span><span>DB</span><span>전기통신사업법</span><span>설비기준</span></span>
-        <span class="subject-count">13개 주제</span>
-      </div>
-    </div>
-    <div class="home-foot">
-      <button class="link-btn" type="button" onclick="showSection('osi',null)">OSI 7계층 전체 비교표 보기 →</button>
-      <div id="visit-counter">오늘 방문 <b id="vc-today">–</b> · 누적 방문 <b id="vc-total">–</b></div>
-    </div>
-  </div>
+  <div data-section-src="/sections/home.html"></div>
   <div id="subject-content-root"><div style="padding:60px 20px;text-align:center;color:var(--text3);font-size:14px;">불러오는 중…</div></div>
 
   
@@ -465,262 +396,16 @@
   </div>
 
   
-  <div id="cbt-slot" data-src="/sections/cbt26.html"></div>
+  <div data-section-src="/sections/cbt26.html"></div>
 
-  <div class="section" id="sec-cards">
-    <h2 class="section-title" style="color:#117a68" id="cd-title">용어 카드 — 뜻 맞추기</h2>
-    <style>
-      #cd-wrap{--cd:var(--key);}
-      #cd-card{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 1px 2px rgba(20,24,36,.05),0 8px 24px rgba(20,24,36,.06);
-        padding:36px 32px;margin-top:16px;cursor:pointer;user-select:none;min-height:260px;
-        display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:border-color .15s,transform .08s;}
-      #cd-card:hover,#cd-card.flipped{border-color:var(--key-bd);}
-      #cd-card:active{transform:scale(.995);}
-      #cd-face{font-size:28px;font-weight:800;letter-spacing:-.5px;color:var(--text);line-height:1.45;word-break:keep-all;}
-      #cd-back{display:none;margin-top:18px;padding-top:18px;border-top:1px solid var(--border);
-        font-size:17px;color:var(--text2);line-height:1.8;word-break:keep-all;max-width:640px;}
-      #cd-card.flipped #cd-back{display:block;}
-      #cd-hint{margin-top:16px;font-size:13px;color:var(--text3);}
-      #cd-card.flipped #cd-hint{display:none;}
-      .cd-meta{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
-      .cd-chip{font-size:12px;padding:3px 8px;border-radius:5px;background:var(--bg3);color:var(--text2);}
-      .cd-chip:empty{display:none;}
-      #cd-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-top:16px;}
-      #cd-fill{height:100%;width:0;background:var(--key);border-radius:3px;transition:width .2s;}
-      #cd-controls,#cd-done > div:last-child{display:grid !important;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px !important;}
-      #cd-done > div:last-child{grid-template-columns:repeat(2,minmax(0,1fr));}
-      .cd-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;background:#fff;border:1px solid var(--border);color:var(--text);
-        border-radius:9px;padding:0 14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s;}
-      .cd-btn:hover{border-color:var(--border2);background:var(--surface);}
-      .cd-btn.know{border-color:var(--ok-bd);color:var(--ok);} .cd-btn.know:hover{background:var(--ok-bg);}
-      .cd-btn.dunno{border-color:var(--warn-bd);color:var(--warn);} .cd-btn.dunno:hover{background:var(--warn-bg);}
-      .cd-btn .mono{font-size:11px !important;padding:1px 5px;border:1px solid currentColor;border-radius:4px;opacity:.7;font-weight:500;}
-      .cd-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center;}
-      .f-label{width:40px;flex-shrink:0;font-size:12.5px;font-weight:700;color:var(--text3);}
-      .cd-filter-push{margin-left:auto;}
-      #cd-done{display:none;background:#fff;border:1px solid var(--ok-bd);border-radius:14px;padding:28px;margin-top:16px;text-align:center;}
-      @media(max-width:959px){
-        .cd-filter-push{margin-left:0;}
-        #cd-card{padding:28px 20px;min-height:300px;}
-        #cd-face{font-size:24px;}
-        #cd-back{font-size:16px;}
-        .cd-btn .mono{display:none;}
-        .cd-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:10px -16px 0;padding:0 16px 2px;scrollbar-width:none;}
-        .cd-row::-webkit-scrollbar{display:none;}
-      }
-    </style>
+  <div data-section-src="/sections/cards.html"></div>
 
-    <div class="highlight" id="cd-desc"></div>
-
-    <div id="cd-wrap">
-      <!-- 필터 -->
-      <div class="cd-row">
-        <span class="f-label">과목</span>
-        <button class="cd-filter on" data-f="전체" onclick="cdFilter('전체',this)">전체</button>
-        <button class="cd-filter" data-f="1과목" onclick="cdFilter('1과목',this)">1과목</button>
-        <button class="cd-filter" data-f="2과목" onclick="cdFilter('2과목',this)">2과목</button>
-        <button class="cd-filter" data-f="3과목" onclick="cdFilter('3과목',this)">3과목</button>
-        <button class="cd-filter" data-f="4과목" onclick="cdFilter('4과목',this)">4과목</button>
-        <button class="cd-filter" data-f="5과목" onclick="cdFilter('5과목',this)">5과목</button>
-      </div>
-      <div class="cd-row">
-        <span class="f-label">방향</span>
-        <button class="cd-filter on" id="cd-dir-t" onclick="cdDir('t2d')">용어 → 뜻</button>
-        <button class="cd-filter" id="cd-dir-d" onclick="cdDir('d2t')">뜻 → 용어</button>
-        </div>
-      <div class="cd-row">
-        <span class="f-label">유형</span>
-        <button class="cd-filter on" data-k="전체" onclick="cdKind('전체',this)">전체</button>
-        <button class="cd-filter" data-k="def" onclick="cdKind('def',this)">용어</button>
-        <button class="cd-filter" data-k="calc" onclick="cdKind('calc',this)">공식</button>
-        <button class="cd-filter" data-k="num" onclick="cdKind('num',this)">암기표</button>
-        <button class="cd-filter cd-filter-push" onclick="cdShuffle()">섞기</button>
-        <button class="cd-filter" onclick="cdRestart()">처음부터</button>
-        <button class="cd-filter" id="cd-hard-btn" onclick="cdHardOnly()">어려운 것만</button>
-      </div>
-      <div id="cd-grp-row" class="cd-row" style="display:none;">
-        <span class="f-label">분류</span>
-        <button class="cd-filter on" data-g="전체" onclick="cdGrp('전체',this)">전체</button>
-        <button class="cd-filter" data-g="포트번호" onclick="cdGrp('포트번호',this)">포트번호</button>
-        <button class="cd-filter" data-g="IEEE 802" onclick="cdGrp('IEEE 802',this)">IEEE 802</button>
-        <button class="cd-filter" data-g="UTP 케이블" onclick="cdGrp('UTP 케이블',this)">UTP 케이블</button>
-        <button class="cd-filter" data-g="주파수 대역" onclick="cdGrp('주파수 대역',this)">주파수 대역</button>
-        <button class="cd-filter" data-g="마이크로파 밴드" onclick="cdGrp('마이크로파 밴드',this)">마이크로파 밴드</button>
-        <button class="cd-filter" data-g="광통신 장치" onclick="cdGrp('광통신 장치',this)">광통신 장치</button>
-      </div>
-
-      <!-- 카드 -->
-      <div id="cd-card" onclick="cdFlip()" role="button" tabindex="0">
-        <div class="cd-meta"><span class="cd-chip" id="cd-subj"></span><span class="cd-chip" id="cd-kind" style="background:#f6eddf;color:#8a6012;"></span><span class="cd-chip" id="cd-year"></span><span class="cd-chip" id="cd-num"></span></div>
-        <div id="cd-face"></div>
-        <div id="cd-back"></div>
-        <div id="cd-hint">카드를 눌러 정답 보기　·　<span class="mono">Space</span></div>
-      </div>
-
-      <!-- 완료 화면 -->
-      <div id="cd-done">
-        <div style="font-size:21px;font-weight:700;color:#267c41;">이 묶음 끝</div>
-        <div id="cd-done-msg" style="font-size:15px;color:var(--text2);margin-top:8px;line-height:1.8;"></div>
-        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px;">
-          <button class="cd-btn dunno" onclick="cdRetryWrong()">모르는 것만 다시</button>
-          <button class="cd-btn" onclick="cdRestart()">처음부터</button>
-        </div>
-      </div>
-
-      <!-- 조작 -->
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px;" id="cd-controls">
-        <button class="cd-btn dunno" onclick="cdMark(false)">모르겠다 <span class="mono">1</span></button>
-        <button class="cd-btn" onclick="cdFlip()">뒤집기 <span class="mono">Space</span></button>
-        <button class="cd-btn know" onclick="cdMark(true)">안다 <span class="mono">2</span></button>
-      </div>
-
-      <div id="cd-bar"><div id="cd-fill"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:7px;font-size:13px;color:var(--text3);">
-        <span id="cd-status"></span>
-        <span id="cd-score"></span>
-      </div>
-    </div>
-
-    <div class="note" style="border-left-color:#117a68;">
-      <b>키보드</b> — <span class="mono">Space</span> 뒤집기 ·
-      <span class="mono">1</span> 모르겠다 · <span class="mono">2</span> 안다 · <span class="mono">←</span> 이전 카드
-    </div>
-  </div>
-
-  <div class="section" id="sec-quiz">
-    <h2 class="section-title">기출문제</h2>
-    <style>
-    #exam-panel{background:var(--exam-bg);border:1px solid var(--exam-bd);border-radius:12px;padding:16px 20px;margin-bottom:16px;}
-    #exam-panel h3{font-size:16px;font-weight:800;color:var(--text);margin:0 0 4px;}
-    #exam-panel p{font-size:14px;color:var(--text2);margin:0 0 12px;line-height:1.75;}
-    #exam-panel .exam-btns{display:flex;gap:6px;flex-wrap:wrap;}
-    .exam-start{min-height:36px;background:#fff;border:1px solid var(--exam-bd);color:var(--exam);border-radius:8px;
-      padding:0 14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
-    .exam-start:hover{background:var(--exam);border-color:var(--exam);color:#fff;}
-    #exam-bar{position:sticky;top:var(--topbar-h);z-index:150;display:none;
-      background:var(--warn-bg);border:1px solid var(--warn-bd);border-radius:10px;padding:10px 16px;margin-bottom:14px;
-      align-items:center;gap:12px;flex-wrap:wrap;}
-    #exam-bar.show{display:flex;}
-    #exam-bar .lbl{font-size:13.5px;font-weight:700;color:var(--warn);}
-    #exam-status{font-size:13.5px;color:var(--text2);margin-left:auto;font-family:var(--mono);}
-    @media(max-width:959px){ #exam-status{margin-left:0;} }
-    .exam-submit{min-height:36px;background:var(--warn);border:none;color:#fff;border-radius:8px;padding:0 16px;
-      font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;}
-    .exam-submit:hover{background:#8f2c24;}
-    .qopt.picked{border-color:var(--exam-bd) !important;background:var(--exam-bg) !important;color:var(--text) !important;box-shadow:inset 3px 0 0 var(--exam);}
-
-    /* 퀴즈 모드 선택 (세그먼트) */
-    #quiz-mode-tabs{display:flex;padding:4px;margin-bottom:10px;border-radius:10px;background:var(--side);border:1px solid var(--border);max-width:440px;}
-    .qmode{flex:1 1 0;min-height:40px;text-align:center;background:transparent;border:none;border-radius:7px;padding:8px 12px;cursor:pointer;font-family:inherit;transition:background .15s;}
-    .qmode .qmode-t{display:block;font-size:14px;font-weight:600;color:var(--text2);}
-    .qmode .qmode-d{display:none;}
-    .qmode.active{background:#fff;box-shadow:0 1px 2px rgba(20,24,36,.1);}
-    .qmode.active .qmode-t{color:var(--text);font-weight:700;}
-    .quiz-mode-desc{font-size:13.5px;line-height:1.65;color:var(--text2);margin-bottom:18px;}
-    .quiz-mode-desc .d-exam{display:none;}
-    #quiz-mode-tabs:has(#mode-exam.active) + .quiz-mode-desc .d-study{display:none;}
-    #quiz-mode-tabs:has(#mode-exam.active) + .quiz-mode-desc .d-exam{display:inline;}
-    #quiz-filter-panel{display:flex;flex-direction:column;gap:10px;margin-bottom:8px;}
-    #quiz-filter-panel .f-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
-    #quiz-filter-panel .f-label{width:40px;flex-shrink:0;font-size:12.5px;font-weight:700;color:var(--text3);}
-    .quiz-bank{font-size:13px;color:var(--text3);}
-    .retry-btn.sm{min-height:36px;font-size:13.5px;padding:0 14px;white-space:nowrap;}
-    @media(max-width:959px){
-      #quiz-filter-panel .f-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px 2px;scrollbar-width:none;}
-      #quiz-filter-panel .f-row::-webkit-scrollbar{display:none;}
-      #quiz-mode-tabs{max-width:none;}
-    }
-    </style>
-
-    <div id="quiz-mode-tabs">
-      <button id="mode-study" class="qmode active" onclick="setQuizMode('study')">
-        <span class="qmode-t">풀이 모드</span>
-        <span class="qmode-d">회차·과목을 골라 풀고, 보기를 고르는 <b>즉시 정답과 해설</b>이 나옵니다.</span>
-      </button>
-      <button id="mode-exam" class="qmode" onclick="setQuizMode('exam')">
-        <span class="qmode-t">실전 진단 모드</span>
-        <span class="qmode-d">한 회차 100문항을 <b>정답·해설 없이</b> 풀고, 제출하면 과목별 점수와 과락 여부가 나옵니다.</span>
-      </button>
-    </div>
-    <p class="quiz-mode-desc"><span class="d-study">회차·과목을 골라 풀고, 보기를 고르면 <b>바로 정답과 해설</b>이 나옵니다.</span><span class="d-exam">한 회차 100문항을 <b>정답·해설 없이</b> 풀고, 제출하면 과목별 점수와 과락 여부가 나옵니다.</span></p>
-
-    <div id="exam-panel" style="display:none;">
-      <h3>실전 진단 모드</h3>
-      <p>회차를 고르면 <b style="color:#1d252d">100문항</b> 실전 조건으로 시작합니다. (제한시간 없음)
-        진단 중에는 <b style="color:#8a6012">정답과 해설이 보이지 않고</b>, 답은 몇 번이든 바꿀 수 있습니다.
-        제출하면 과목별 점수와 <b style="color:#8a6012">과락 여부</b>가 한 번에 나옵니다.
-        <br>판정 기준은 과목당 <b style="color:#af3c3d">8개 이하 과락</b> · <b style="color:#267c41">12개 이상 합격</b> 입니다.</p>
-      <div class="exam-btns" id="exam-btns"><!-- 회차 버튼은 데이터 로드 후 자동 생성됩니다 --></div>
-    </div>
-
-    <div id="exam-bar">
-      <span class="lbl">실전 진단 모드 진행 중</span>
-      <span id="exam-status">0 / 100 답안 표시</span>
-      <button class="exam-submit" onclick="submitExam()">제출하고 채점</button>
-      <button class="qfbtn" onclick="cancelExam()">중단</button>
-    </div>
-    <div id="quiz-filter-panel">
-      <div class="quiz-bank">기출문제 은행 · 총 <span id="quiz-count">0</span>문항</div>
-      <div class="f-row" id="year-filters"><!-- 회차 필터 버튼은 데이터 로드 후 자동 생성됩니다 --></div>
-      <div class="f-row" id="subj-filters">
-        <span class="f-label">과목</span>
-        <button onclick="filterQuiz('전체',this)" class="qfbtn active">전체</button>
-        <button onclick="filterQuiz('1과목',this)" class="qfbtn">1과목 정보전송일반</button>
-        <button onclick="filterQuiz('2과목',this)" class="qfbtn">2과목 정보통신기기</button>
-        <button onclick="filterQuiz('3과목',this)" class="qfbtn">3과목 정보통신네트워크</button>
-        <button onclick="filterQuiz('4과목',this)" class="qfbtn">4과목 정보시스템운용</button>
-        <button onclick="filterQuiz('5과목',this)" class="qfbtn">5과목 컴퓨터일반 및 정보설비기준</button>
-      </div>
-    </div>
-    <div id="quiz-play-area">
-    <!-- 진행 현황 바 (sticky) -->
-    <div class="progress-bar-wrap" id="quiz-progress-bar">
-      <span style="font-size:14px;color:var(--text2);white-space:nowrap;" id="progress-txt">0 / 0</span>
-      <div class="progress-bar-bg"><div class="progress-bar-fg" id="progress-fg" style="width:0%"></div></div>
-      <button onclick="showMidResult()" class="retry-btn sm">결과 보기</button>
-    </div>
-    <!-- 이전 진행상황 복원 안내 -->
-    <div id="resume-note" style="display:none;margin:10px 0;padding:10px 14px;border-radius:8px;background:#e1ecfb;border:1px solid #2c6da4;font-size:14px;color:#2f506e;align-items:center;gap:10px;flex-wrap:wrap;">
-      <span id="resume-text"></span>
-      <button onclick="restartAll()" style="padding:4px 12px;border-radius:14px;border:1px solid #2c6da4;background:transparent;color:#2c6da4;font-size:13px;cursor:pointer;font-family:inherit;">처음부터 다시 풀기</button>
-    </div>
-    <div class="quiz-wrap" id="quiz-wrap"></div>
-    <!-- 페이지 이동 -->
-    <div id="quiz-pager" style="display:none;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;margin:18px 0 4px;"></div>
-
-    <!-- 중간 결과 팝업 -->
-    <div class="mid-result-overlay" id="mid-result-overlay" onclick="closeMidResult(event)">
-      <div class="mid-result-box" onclick="event.stopPropagation()">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">
-          <span style="font-size:17.5px;font-weight:700;color:var(--text);">📊 현재까지 결과</span>
-          <button onclick="closeMidResult()" style="background:none;border:none;color:var(--text2);font-size:21px;cursor:pointer;">✕</button>
-        </div>
-        <div id="mid-result-content"></div>
-        <div style="text-align:center;margin-top:16px;">
-          <button onclick="closeMidResult()" style="padding:8px 24px;border-radius:20px;border:1px solid #2c6da4;font-size:15.5px;cursor:pointer;background:#e1ecfb;color:#2c6da4;font-family:inherit;">계속 풀기</button>
-        </div>
-      </div>
-    </div>
-    <div class="score-wrap" id="score-wrap">
-      <div style="font-size:15.5px;color:var(--text2);margin-bottom:8px;">📋 최종 결과</div>
-      <div class="score-num" id="score-num"></div>
-      <div class="score-msg" id="score-msg"></div>
-      <!-- 과목별 점수 -->
-      <div id="subj-score" style="margin:16px 0;text-align:left;"></div>
-      <!-- 취약 문제 목록 -->
-      <div id="wrong-list" style="margin:16px 0;text-align:left;"></div>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
-        <button class="retry-btn" onclick="restartAll()">전체 다시 풀기</button>
-        <button class="retry-btn" id="retry-wrong-btn" style="display:none;">틀린 문제만 다시 풀기</button>
-      </div>
-    </div>
-    </div><!-- /quiz-play-area -->
-  </div>
+  <div data-section-src="/sections/quiz.html"></div>
 
 </div><aside class="page-toc" id="page-toc" hidden aria-label="이 페이지에서"></aside></div></main>
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=3aa407a6e2cf"></script>
+<script src="/assets/app.js?v=e8e86077a230"></script>
 </body>
 </html>
