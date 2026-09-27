@@ -63,7 +63,10 @@ let quizzes = [];
     return fetch(src).then(function(r){
       if(!r.ok) throw new Error(src + ' 로드 실패 (HTTP ' + r.status + ')');
       return r.text();
-    }).then(function(h){ slot.outerHTML = h; });
+    }).then(function(h){
+      slot.outerHTML = h;
+      initHomeWidgets();
+    });
   })).then(function(){
     if(slots.length) cbtInit();   // CBT 섹션이 뒤늦게 들어왔으면 초기화
   });
@@ -2157,11 +2160,10 @@ function calcAvailability(){
   const unitName = {h:'시간', m:'분', d:'일'}[unit];
   const k = MTBF_UNIT_H[unit];
 
-  const avail   = mtbf / (mtbf + mttr);          // 시험 공식
+  const avail   = mtbf / (mtbf + mttr);          // MTBF는 수리 시간을 제외한 평균 가동 시간
   const unavail = 1 - avail;
   const pct     = avail * 100;
   const downYear = unavail * YEAR_HOURS;          // 연간 다운타임(시간)
-  const mttf    = mtbf - mttr;                    // 정의상 MTTF = MTBF − MTTR
   const nines   = ninesLabel(avail);
 
   const card = (label, value, color, sub)=>
@@ -2175,8 +2177,8 @@ function calcAvailability(){
   html += card('가동률 (가용도)', pct.toFixed(2)+' %', '#267c41',
     avail.toFixed(4) + ' · ' + nines.n);
   html += card('불가동률', (unavail*100).toFixed(2)+' %', '#ae3e30', (1-avail).toFixed(4));
-  html += card('MTTF (정의상)', (mttf >= 0 ? mttf : 0) + ' ' + unitName, '#2c6da4',
-    'MTBF − MTTR = ' + mtbf + ' − ' + mttr);
+  html += card('평균 가동 시간 (MTBF)', mtbf + ' ' + unitName, '#2c6da4',
+    '수리 시간을 제외한 값');
   html += card('연간 다운타임', fmtDuration(downYear), '#8a6012', '1년 = 8,760시간 기준');
   html += '</div>';
 
@@ -2192,9 +2194,6 @@ function calcAvailability(){
     '<span class="badge" style="background:'+nines.c+'22;color:'+nines.c+';font-size:13px;padding:4px 10px;">가용도 수준 · '+nines.n+'</span>'+
     '<span style="font-size:13px;color:var(--text3);">통신망 표준은 보통 five nines(99.999%)</span></div>';
 
-  if(mttf < 0){
-    html += '<div class="warn">MTTR이 MTBF보다 큽니다. 실제 시스템에서는 나올 수 없는 값이니 입력을 확인해 주세요.</div>';
-  }
 
   out.innerHTML = html;
 }
@@ -3061,7 +3060,7 @@ const CARD_DATA = [
  {t:'SNMP', d:'네트워크 관리 및 네트워크 장치와 그 동작을 감시·관리하는 프로토콜', s:'4과목', y:'2022-1회·2023-1회'},
  {t:'NMS', d:'네트워크를 모니터링하고 관리하는 데 사용되는 하드웨어와 소프트웨어의 조합으로 구성되는 망관리 시스템', s:'4과목', y:'2022-3회'},
  {t:'MTTR', d:'시스템의 평균 수리 소요시간을 의미하는 지표', s:'4과목', y:'2022-1회'},
- {t:'MTBF', d:'수리가 가능한 시스템이 고장난 후부터 다음 고장이 날 때까지의 평균 시간', s:'4과목', y:'2022-2회'},
+ {t:'MTBF', d:'수리 가능한 시스템의 고장 사이 정상 가동 시간의 평균. 수리 시간은 제외', s:'4과목', y:'2022-2회'},
  {t:'Availability (가용도)', d:'시스템의 총 운용 시간 중 정상적으로 가동된 시간의 비율. MTBF ÷ (MTBF+MTTR)', s:'4과목', y:'2022-1회'},
  {t:'무결성 (Integrity)', d:'시스템 내의 정보를 인가된 사용자만 수정할 수 있고, 전송 중에도 수정되지 않고 전달되는 보안 요건', s:'4과목', y:'2022-1회'},
  {t:'기밀성 (Confidentiality)', d:'비대칭 암호화에서 수신자의 공개키로 암호화하여 이메일을 전송할 때 얻을 수 있는 기능', s:'4과목', y:'2023-2회'},
@@ -3485,15 +3484,21 @@ try{ cdApplyMode(); }catch(e){}
 cdBuild(true);
 
 // ══════════ 방문자 수 위젯 (홈 화면 맨 아래) ══════════
-// countapi.xyz 라는 무료 공용 카운터 서비스를 사용 — 회원가입/서버 없이 그냥
+// 공용 Count API 서비스를 사용 — 회원가입/서버 없이
 // GET 요청 하나로 숫자를 올리고 읽어올 수 있음. 정밀한 통계는 GA4가 담당하고,
 // 이건 방문자가 홈 화면에서 바로 보는 "체감용" 숫자.
 // 같은 브라우저에서 하루에 여러 번 새로고침해도 "오늘 방문"은 1회만 올라가도록
 // localStorage로 날짜를 기억해서 중복 카운트를 막는다.
-(function visitCounter(){
+function initHomeWidgets(){
+  initVisitCounter();
+  initCbtPoll();
+}
+
+function initVisitCounter(){
   var todayEl = document.getElementById('vc-today');
   var totalEl = document.getElementById('vc-total');
-  if(!todayEl || !totalEl) return;
+  if(!todayEl || !totalEl || todayEl.dataset.initialized) return;
+  todayEl.dataset.initialized = 'true';
 
   var NS = 'ict-study-guide-simbecode-9f3k2m'; // 다른 사이트와 안 겹치게 고유한 이름
   var today = new Date(Date.now() + 9*3600*1000).toISOString().slice(0,10); // 한국시간(KST) 자정 기준           // 'YYYY-MM-DD'
@@ -3503,7 +3508,7 @@ cdBuild(true);
   // NS와 key를 합쳐서 하나의 고유 키로 사용함 (기존 누적 카운트는 이관 불가, 0부터 재시작)
   var base = 'https://countapi.mileshilliard.com/api/v1';
 
-  function fmt(n){ return (typeof n === 'number') ? n.toLocaleString() : '–'; }
+  function fmt(n){ return (typeof n === 'number' && Number.isFinite(n)) ? n.toLocaleString() : '조회 불가'; }
   function show(t, tot){ todayEl.textContent = fmt(t); totalEl.textContent = fmt(tot); }
 
   var alreadyToday = false;
@@ -3511,24 +3516,36 @@ cdBuild(true);
 
   var op = alreadyToday ? 'get' : 'hit';
 
-  Promise.all([
-    fetch(base + '/' + op + '/' + NS + '-' + todayKey).then(function(r){ return r.json(); }),
-    fetch(base + '/' + op + '/' + NS + '-total').then(function(r){ return r.json(); })
-  ]).then(function(res){
-    show(res[0] && res[0].value, res[1] && res[1].value);
+  async function request(key){
+    var controller = new AbortController();
+    var timer = setTimeout(function(){ controller.abort(); }, 10000);
+    try{
+      var r = await fetch(base + '/' + op + '/' + NS + '-' + key,
+        {cache:'no-store', signal:controller.signal, referrerPolicy:'no-referrer'});
+      if(!r.ok) throw new Error('counter request failed');
+      var data = await r.json();
+      if(data.value == null || !Number.isFinite(Number(data.value)) || Number(data.value) < 0){
+        throw new Error('invalid count');
+      }
+      return Number(data.value);
+    }finally{ clearTimeout(timer); }
+  }
+  Promise.all([request(todayKey), request('total')]).then(function(res){
+    show(res[0], res[1]);
     if(!alreadyToday){ try{ localStorage.setItem(LS_KEY, today); }catch(e){} }
   }).catch(function(){
-    // 카운터 서비스가 응답 없을 때도 사이트 동작에는 전혀 영향 없이 '–'로 표시만 됨
+    // 조회 실패를 0명으로 표시하지 않고 집계 불가 상태를 알린다.
     show(null, null);
   });
-})();
+}
 
 
 // Anonymous, advisory poll: public counts; browser-local duplicate suppression.
-(function initCbtPoll(){
+function initCbtPoll(){
   var buttons=Array.from(document.querySelectorAll('[data-vote]'));
   var status=document.getElementById('cbt-poll-status');
-  if(!status || !buttons.length) return;
+  if(!status || !buttons.length || status.dataset.initialized) return;
+  status.dataset.initialized = 'true';
   var base='https://countapi.mileshilliard.com/api/v1/';
   var prefix='ict-study-guide-simbecode-9f3k2m-cbt-updates-20260921-';
   var storageKey='ict_cbt_update_vote_v1';
@@ -3560,4 +3577,5 @@ cdBuild(true);
       status.textContent='의견 감사합니다! 앞으로의 CBT 업데이트에 참고하겠습니다.';
     }catch(e){saved='pending';status.textContent='전송 결과를 확인하지 못했습니다. 중복 집계를 막기 위해 다시 전송하지 않습니다.';}
   });});
-})();
+}
+initHomeWidgets();

@@ -7,7 +7,7 @@
 <title>MTTF · MTTR · MTBF — 신뢰성 지표와 가동률 | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="MTTF·MTTR·MTBF 구분과 관계식(MTBF=MTTF+MTTR), 가동률 A=MTTF/MTBF 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
+<meta name="description" content="수리 시간을 제외한 MTBF와 MTTF·MTTR의 구분, 가동률 A=MTBF/(MTBF+MTTR) 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ict.kyufind.com/s4/mtbf/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
@@ -17,7 +17,7 @@
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
 <meta property="og:title" content="MTTF · MTTR · MTBF — 신뢰성 지표와 가동률 | 정보통신기사 필기">
-<meta property="og:description" content="MTTF·MTTR·MTBF 구분과 관계식(MTBF=MTTF+MTTR), 가동률 A=MTTF/MTBF 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
+<meta property="og:description" content="수리 시간을 제외한 MTBF와 MTTF·MTTR의 구분, 가동률 A=MTBF/(MTBF+MTTR) 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
 <meta property="og:url" content="https://ict.kyufind.com/s4/mtbf/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -25,7 +25,7 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="MTTF · MTTR · MTBF — 신뢰성 지표와 가동률 | 정보통신기사 필기">
-<meta name="twitter:description" content="MTTF·MTTR·MTBF 구분과 관계식(MTBF=MTTF+MTTR), 가동률 A=MTTF/MTBF 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
+<meta name="twitter:description" content="수리 시간을 제외한 MTBF와 MTTF·MTTR의 구분, 가동률 A=MTBF/(MTBF+MTTR) 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "MTTF · MTTR · MTBF — 신뢰성 지표와 가동률",
-  "description": "MTTF·MTTR·MTBF 구분과 관계식(MTBF=MTTF+MTTR), 가동률 A=MTTF/MTBF 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.",
+  "description": "수리 시간을 제외한 MTBF와 MTTF·MTTR의 구분, 가동률 A=MTBF/(MTBF+MTTR) 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.",
   "url": "https://ict.kyufind.com/s4/mtbf/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
@@ -280,12 +280,12 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-mtbf" data-desc="MTTF·MTTR·MTBF 구분과 관계식(MTBF=MTTF+MTTR), 가동률 A=MTTF/MTBF 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
+  <div id="subject-content-root"><div class="section visible" id="sec-mtbf" data-desc="수리 시간을 제외한 MTBF와 MTTF·MTTR의 구분, 가동률 A=MTBF/(MTBF+MTTR) 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
     <h1 class="section-title" style="color:#ae3e30">⏱️ MTTF · MTTR · MTBF — 신뢰성 지표와 가동률</h1>
 
     <div class="highlight">
       시스템이 <b>얼마나 오래 잘 버티는가(MTTF)</b>, <b>고장 나면 얼마나 빨리 고치는가(MTTR)</b>,
-      그리고 <b>고장과 고장 사이가 얼마나 되는가(MTBF)</b> — 이 세 값으로 시스템의 <b>가동률(가용도)</b> 이 결정된다.
+      수리 가능한 시스템이 <b>고장 사이에 정상 가동한 평균 시간(MTBF)</b>을 구분한다. 가동과 수리만 반복하는 시스템의 <b>가동률(가용도)</b>은 MTBF와 MTTR로 계산한다.
     </div>
 
     <!-- 세 용어 -->
@@ -297,7 +297,7 @@
         <div style="font-size:15.5px;color:#1d252d;font-weight:600;margin-bottom:6px;">평균 고장 시간</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.9;">
           정상 동작을 시작해서 <b style="color:#1d252d">고장 날 때까지</b>의 평균 시간<br>
-          = 실제로 <b style="color:#267c41">일한 시간</b>
+          주로 수리하지 않고 교체하는 부품의 <b style="color:#267c41">평균 수명</b>에 사용
         </div>
       </div>
       <div style="background:#feebe5;border:2px solid #ae3e30;border-radius:12px;padding:16px;">
@@ -314,8 +314,8 @@
         <div style="font-size:13px;color:var(--text3);margin:3px 0 10px;">Mean Time Between Failures</div>
         <div style="font-size:15.5px;color:#1d252d;font-weight:600;margin-bottom:6px;">평균 고장 간격</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.9;">
-          한 고장에서 <b style="color:#1d252d">다음 고장까지</b>의 평균 시간<br>
-          = 일한 시간 + 고친 시간
+          수리 가능한 시스템의 고장 사이 <b style="color:#1d252d">정상 가동 시간</b>의 평균<br>
+          = 정상 가동 시간 합 ÷ 고장 횟수 (수리 시간 제외)
         </div>
       </div>
     </div>
@@ -323,21 +323,21 @@
     <!-- 관계식 -->
     <div class="sub-title" style="color:#117a68">🔗 핵심 관계식</div>
     <div style="background:#e1f3ee;border:2px solid #117a68;border-radius:12px;padding:20px 24px;margin-top:10px;text-align:center;">
-      <div style="font-size:13px;color:#117a68;letter-spacing:1px;font-weight:600;margin-bottom:12px;">셋의 관계</div>
+      <div style="font-size:13px;color:#117a68;letter-spacing:1px;font-weight:600;margin-bottom:12px;">MTBF 계산 기준</div>
       <div style="font-size:28.5px;font-weight:700;color:#1d252d;">
-        <span style="color:#2c6da4">MTBF</span> = <span style="color:#267c41">MTTF</span> + <span style="color:#ae3e30">MTTR</span>
+        <span style="color:#2c6da4">MTBF</span> = 정상 가동 시간 합 ÷ 고장 횟수
       </div>
       <div style="font-size:14px;color:var(--text2);margin-top:10px;">
-        (고장 간격) = (동작한 시간) + (수리한 시간)
+        가동 100 h + 90 h + 80 h, 고장 3회 → MTBF = 90 h
       </div>
     </div>
 
     <div class="sub-title" style="color:#117a68">📈 시간축으로 보면</div>
-    <div class="flow"><span style="color:#267c41">━━━ 동작 ━━━</span><span style="color:#ae3e30">✖ 수리 ✖</span><span style="color:#267c41">━━━ 동작 ━━━</span><span style="color:#ae3e30">✖ 수리 ✖</span><span style="color:#267c41">━━━ 동작 ━━━</span>
-     <span style="color:#267c41">MTTF</span>       <span style="color:#ae3e30">MTTR</span>        <span style="color:#267c41">MTTF</span>       <span style="color:#ae3e30">MTTR</span>
-└──────────── <span style="color:#2c6da4">MTBF</span> ────────────┘
+    <div class="flow">가동 100 h → 고장 → 수리 4 h → 가동 90 h → 고장 → 수리 3 h → 가동 80 h → 고장
+MTBF = (100 + 90 + 80) / 3 = 90 h
+MTTR = (4 + 3) / 2 = 3.5 h (완료된 수리 2회 기준)
 
-<span style="color:#8a6012">MTTF ↑ (고장이 드물다)  ·  MTTR ↓ (빨리 고친다)  →  가동률 ↑</span></div>
+<span style="color:#8a6012">MTBF ↑ (고장이 드물다) · MTTR ↓ (빨리 고친다) → 가동률 ↑</span></div>
 
     <!-- 가동률 -->
     <div class="sub-title" style="color:#8a6012">🎯 가동률(가용도, Availability) 공식</div>
@@ -351,11 +351,11 @@
     </div>
 
     <div class="note" style="border-left-color:#6b59aa">
-      <b>❓ 왜 교재마다 공식이 달라 보일까</b> — 엄밀한 정의로는 MTBF 안에 MTTR이 이미 포함되므로
-      가용도 = <b><span class="fr"><span>MTTF</span><span>MTTF + MTTR</span></span></b> = <span class="fr"><span>MTTF</span><span>MTBF</span></span> 가 맞다.
-      그런데 <b>시험 문제에서는 MTBF를 "동작한 시간"의 뜻으로 주고</b> 가동률 = <span class="fr"><span>MTBF</span><span>MTBF+MTTR</span></span> 로 계산하게 한다.
-      <b>기출 정답이 이 형태로 나오므로, 시험에서는 위 공식을 그대로 쓰면 된다.</b>
-      (두 식은 MTBF ≈ MTTF 로 보면 같은 식이다.)
+      <b>MTBF의 시간 기준을 확인하세요.</b> 이 자료와 계산기는 MTBF를 <b>수리 시간을 제외한 평균 정상 가동 시간</b>으로 사용합니다.
+      가동과 수리만 반복하는 시스템의 장기 가용도는 MTBF / (MTBF + MTTR)입니다.
+      수리 시간을 포함한 전체 주기를 고장 간격이라고 부르는 자료와 혼용하지 마세요.
+      MTTF는 주로 비수리 부품의 평균 수명에 쓰며, 여기서 <b>MTBF − MTTR로 계산하지 않습니다.</b>
+      <a href="https://www.itl.nist.gov/div898/handbook/apr/section4/apr451.htm" target="_blank" rel="noopener noreferrer">NIST · MTBF 계산 기준 ↗</a>
     </div>
 
     <!-- 기출 예제 -->
@@ -434,6 +434,7 @@
 
     <!-- 신뢰도 -->
     <div class="sub-title" style="color:#267c41">🔧 시스템 신뢰도 — 직렬 vs 병렬(이중화)</div>
+    <p>각 장치의 고장은 서로 독립이며, 병렬에서는 한 대만 동작해도 전체 기능을 수행한다고 가정한다.</p>
     <div class="two-col">
       <div class="mini-card">
         <h4 style="color:#ae3e30">직렬 구조 — 하나만 고장나도 정지</h4>
@@ -492,10 +493,10 @@
 
     <div class="highlight">
       <b>📝 시험 포인트</b><br>
-      • <b>MTBF = MTTF + MTTR</b> — 고장 간격 = 동작 시간 + 수리 시간<br>
+      • <b>MTBF = 정상 가동 시간 합 ÷ 고장 횟수</b> — 수리 시간 제외<br>
       • <b>가동률 = <span class="fr"><span>MTBF</span><span>MTBF + MTTR</span></span></b>, 불가동률 = 1 − 가동률<br>
-      • MTTF = 고장까지 걸린 시간, <b>MTTR = 수리에 걸린 시간</b>, MTBF = 고장~다음 고장<br>
-      • 신뢰도는 <b>직렬 = 곱, 병렬 = 1−(1−R)ⁿ</b> — 병렬 먼저 묶고 직렬로 곱한다<br>
+      • MTTF = 고장까지 걸린 시간, <b>MTTR = 수리에 걸린 시간</b>, MTBF = 고장 사이 평균 정상 가동 시간<br>
+      • 독립인 장치의 신뢰도는 <b>직렬 = 곱, 병렬 = 1−(1−R)ⁿ</b> — 병렬 먼저 묶고 직렬로 곱한다<br>
       • Availability = 총 운용 시간 중 <b>정상 가동된 시간의 비율</b><br>
       • TMN 5대 기능은 <b>FCAPS</b> (조직관리는 없다)<br>
       • 장애 대응 절차 마지막은 <b>장애이력관리</b>
@@ -516,6 +517,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=321c4bb4f382"></script>
+<script src="/assets/app.js?v=1fae944ecc00"></script>
 </body>
 </html>
