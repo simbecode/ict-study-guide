@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>보안 장비 · 인증 · 접근통제 | 정보통신기사 필기 4과목 정보시스템운용</title>
+<title>보안 장비 · 인증 · 접근통제 | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="정보통신기사 필기 4과목 정보시스템운용 — 보안 장비 · 인증 · 접근통제. 앞 섹션이 &quot;어떻게 공격하는가&quot; 였다면, 여기는 &quot;무엇으로 막는가&quot; 다. 장비는 놓이는 위치 와 보는 계층 으로, 인증은 무엇으로 증명하는가 로 갈린다. 방화벽(Firewall) 유형 유형…">
+<meta name="description" content="방화벽 유형별 동작 계층과 판단 기준, DMZ 구성, IDS vs IPS 차이, VPN과 사용자 인증 3요소, 생체인식 FAR·FRR 지표까지.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ict.kyufind.com/s4/secdev/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
@@ -16,16 +16,16 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="보안 장비 · 인증 · 접근통제 | 정보통신기사 필기 4과목 정보시스템운용">
-<meta property="og:description" content="정보통신기사 필기 4과목 정보시스템운용 — 보안 장비 · 인증 · 접근통제. 앞 섹션이 &quot;어떻게 공격하는가&quot; 였다면, 여기는 &quot;무엇으로 막는가&quot; 다. 장비는 놓이는 위치 와 보는 계층 으로, 인증은 무엇으로 증명하는가 로 갈린다. 방화벽(Firewall) 유형 유형…">
+<meta property="og:title" content="보안 장비 · 인증 · 접근통제 | 정보통신기사 필기">
+<meta property="og:description" content="방화벽 유형별 동작 계층과 판단 기준, DMZ 구성, IDS vs IPS 차이, VPN과 사용자 인증 3요소, 생체인식 FAR·FRR 지표까지.">
 <meta property="og:url" content="https://ict.kyufind.com/s4/secdev/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="보안 장비 · 인증 · 접근통제 | 정보통신기사 필기 4과목 정보시스템운용">
-<meta name="twitter:description" content="정보통신기사 필기 4과목 정보시스템운용 — 보안 장비 · 인증 · 접근통제. 앞 섹션이 &quot;어떻게 공격하는가&quot; 였다면, 여기는 &quot;무엇으로 막는가&quot; 다. 장비는 놓이는 위치 와 보는 계층 으로, 인증은 무엇으로 증명하는가 로 갈린다. 방화벽(Firewall) 유형 유형…">
+<meta name="twitter:title" content="보안 장비 · 인증 · 접근통제 | 정보통신기사 필기">
+<meta name="twitter:description" content="방화벽 유형별 동작 계층과 판단 기준, DMZ 구성, IDS vs IPS 차이, VPN과 사용자 인증 3요소, 생체인식 FAR·FRR 지표까지.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "보안 장비 · 인증 · 접근통제",
-  "description": "정보통신기사 필기 4과목 정보시스템운용 — 보안 장비 · 인증 · 접근통제. 앞 섹션이 \"어떻게 공격하는가\" 였다면, 여기는 \"무엇으로 막는가\" 다. 장비는 놓이는 위치 와 보는 계층 으로, 인증은 무엇으로 증명하는가 로 갈린다. 방화벽(Firewall) 유형 유형…",
+  "description": "방화벽 유형별 동작 계층과 판단 기준, DMZ 구성, IDS vs IPS 차이, VPN과 사용자 인증 3요소, 생체인식 FAR·FRR 지표까지.",
   "url": "https://ict.kyufind.com/s4/secdev/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
@@ -280,7 +280,7 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-secdev">
+  <div id="subject-content-root"><div class="section visible" id="sec-secdev" data-desc="방화벽 유형별 동작 계층과 판단 기준, DMZ 구성, IDS vs IPS 차이, VPN과 사용자 인증 3요소, 생체인식 FAR·FRR 지표까지.">
     <h1 class="section-title" style="color:#6b59aa">🧱 보안 장비 · 인증 · 접근통제</h1>
 
     <div class="highlight">
@@ -462,6 +462,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=e8e86077a230"></script>
+<script src="/assets/app.js?v=321c4bb4f382"></script>
 </body>
 </html>

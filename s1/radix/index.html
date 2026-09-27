@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>진수 변환 — 2진 · 8진 · 10진 · 16진 | 정보통신기사 필기 1과목 정보전송일반</title>
+<title>진수 변환 — 2진 · 8진 · 10진 · 16진 | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="정보통신기사 필기 1과목 정보전송일반 — 진수 변환 — 2진 · 8진 · 10진 · 16진. 진수(Radix / Base) 는 한 자리에 쓸 수 있는 숫자의 개수. 컴퓨터는 2진수로 동작하지만 2진수는 자릿수가 길어 읽기 힘들기 때문에, 3비트씩 묶은 8진수 와…">
+<meta name="description" content="2·8·10·16진수 변환 요령 5가지와 4비트 대응표. 소수점 변환과 1의 보수·2의 보수 음수 표현까지 예제로 정리.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ict.kyufind.com/s1/radix/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
@@ -16,16 +16,16 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="진수 변환 — 2진 · 8진 · 10진 · 16진 | 정보통신기사 필기 1과목 정보전송일반">
-<meta property="og:description" content="정보통신기사 필기 1과목 정보전송일반 — 진수 변환 — 2진 · 8진 · 10진 · 16진. 진수(Radix / Base) 는 한 자리에 쓸 수 있는 숫자의 개수. 컴퓨터는 2진수로 동작하지만 2진수는 자릿수가 길어 읽기 힘들기 때문에, 3비트씩 묶은 8진수 와…">
+<meta property="og:title" content="진수 변환 — 2진 · 8진 · 10진 · 16진 | 정보통신기사 필기">
+<meta property="og:description" content="2·8·10·16진수 변환 요령 5가지와 4비트 대응표. 소수점 변환과 1의 보수·2의 보수 음수 표현까지 예제로 정리.">
 <meta property="og:url" content="https://ict.kyufind.com/s1/radix/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="진수 변환 — 2진 · 8진 · 10진 · 16진 | 정보통신기사 필기 1과목 정보전송일반">
-<meta name="twitter:description" content="정보통신기사 필기 1과목 정보전송일반 — 진수 변환 — 2진 · 8진 · 10진 · 16진. 진수(Radix / Base) 는 한 자리에 쓸 수 있는 숫자의 개수. 컴퓨터는 2진수로 동작하지만 2진수는 자릿수가 길어 읽기 힘들기 때문에, 3비트씩 묶은 8진수 와…">
+<meta name="twitter:title" content="진수 변환 — 2진 · 8진 · 10진 · 16진 | 정보통신기사 필기">
+<meta name="twitter:description" content="2·8·10·16진수 변환 요령 5가지와 4비트 대응표. 소수점 변환과 1의 보수·2의 보수 음수 표현까지 예제로 정리.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "진수 변환 — 2진 · 8진 · 10진 · 16진",
-  "description": "정보통신기사 필기 1과목 정보전송일반 — 진수 변환 — 2진 · 8진 · 10진 · 16진. 진수(Radix / Base) 는 한 자리에 쓸 수 있는 숫자의 개수. 컴퓨터는 2진수로 동작하지만 2진수는 자릿수가 길어 읽기 힘들기 때문에, 3비트씩 묶은 8진수 와…",
+  "description": "2·8·10·16진수 변환 요령 5가지와 4비트 대응표. 소수점 변환과 1의 보수·2의 보수 음수 표현까지 예제로 정리.",
   "url": "https://ict.kyufind.com/s1/radix/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
@@ -280,7 +280,7 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-radix">
+  <div id="subject-content-root"><div class="section visible" id="sec-radix" data-desc="2·8·10·16진수 변환 요령 5가지와 4비트 대응표. 소수점 변환과 1의 보수·2의 보수 음수 표현까지 예제로 정리.">
     <h1 class="section-title" style="color:#2c6da4">🔢 진수 변환 — 2진 · 8진 · 10진 · 16진</h1>
 
     <div class="highlight">
@@ -776,6 +776,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=e8e86077a230"></script>
+<script src="/assets/app.js?v=321c4bb4f382"></script>
 </body>
 </html>

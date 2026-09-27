@@ -517,7 +517,10 @@ html,body{max-width:100%;overflow-x:clip;}
 .cbt-recall > p{margin:5px 0 8px;}
 .cbt-recall-answer summary{cursor:pointer;color:var(--key);font-size:12px;font-weight:700;}
 .cbt-recall-answer p{margin-top:8px;color:var(--text2);}
-#sec-cbt26:not([data-mode="study"]) .cbt-recall{display:none;}
+.cbt-ex .cbt-concept{margin:14px 0 0;background:var(--bg2);}
+.cbt-concept-head{padding:9px 14px;font-size:13px;font-weight:700;color:var(--sct);background:var(--scb);border-bottom:1px solid var(--border);border-radius:7px 7px 0 0;}
+.cbt-ex .cbt-concept-body{padding:12px 14px;line-height:1.8;}
+.cbt-ex .cbt-memory{background:var(--surface);}
 .cbt-steps{margin:14px 0;padding:13px 15px;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text2);}
 .cbt-steps ol{padding-left:20px;margin-top:8px;}
 .cbt-steps li{padding:3px 0;}

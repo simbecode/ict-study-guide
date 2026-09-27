@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>2계층 — 데이터링크 계층 (Data Link Layer) | 정보통신기사 필기 3과목 정보통신네트워크</title>
+<title>2계층 — 데이터링크 계층 (Data Link Layer) | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="정보통신기사 필기 3과목 정보통신네트워크 — 2계층 — 데이터링크 계층 (Data Link Layer). 역할: MAC 주소 기반 인접 노드 간 데이터 전송. 오류 검출 PDU: 프레임 (Frame) | 장비: 스위치, 브리지, AP TIP · 2층에서 브리지…">
+<meta name="description" content="OSI 2계층 데이터링크 계층 — 매체 접근 방식 3가지, 토큰 패싱, HDLC 프레임 구조와 동작 모드, 비트 스터핑을 정리했습니다.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ict.kyufind.com/s3/l2/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
@@ -16,16 +16,16 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="2계층 — 데이터링크 계층 (Data Link Layer) | 정보통신기사 필기 3과목 정보통신네트워크">
-<meta property="og:description" content="정보통신기사 필기 3과목 정보통신네트워크 — 2계층 — 데이터링크 계층 (Data Link Layer). 역할: MAC 주소 기반 인접 노드 간 데이터 전송. 오류 검출 PDU: 프레임 (Frame) | 장비: 스위치, 브리지, AP TIP · 2층에서 브리지…">
+<meta property="og:title" content="2계층 — 데이터링크 계층 (Data Link Layer) | 정보통신기사 필기">
+<meta property="og:description" content="OSI 2계층 데이터링크 계층 — 매체 접근 방식 3가지, 토큰 패싱, HDLC 프레임 구조와 동작 모드, 비트 스터핑을 정리했습니다.">
 <meta property="og:url" content="https://ict.kyufind.com/s3/l2/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="2계층 — 데이터링크 계층 (Data Link Layer) | 정보통신기사 필기 3과목 정보통신네트워크">
-<meta name="twitter:description" content="정보통신기사 필기 3과목 정보통신네트워크 — 2계층 — 데이터링크 계층 (Data Link Layer). 역할: MAC 주소 기반 인접 노드 간 데이터 전송. 오류 검출 PDU: 프레임 (Frame) | 장비: 스위치, 브리지, AP TIP · 2층에서 브리지…">
+<meta name="twitter:title" content="2계층 — 데이터링크 계층 (Data Link Layer) | 정보통신기사 필기">
+<meta name="twitter:description" content="OSI 2계층 데이터링크 계층 — 매체 접근 방식 3가지, 토큰 패싱, HDLC 프레임 구조와 동작 모드, 비트 스터핑을 정리했습니다.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "2계층 — 데이터링크 계층 (Data Link Layer)",
-  "description": "정보통신기사 필기 3과목 정보통신네트워크 — 2계층 — 데이터링크 계층 (Data Link Layer). 역할: MAC 주소 기반 인접 노드 간 데이터 전송. 오류 검출 PDU: 프레임 (Frame) | 장비: 스위치, 브리지, AP TIP · 2층에서 브리지…",
+  "description": "OSI 2계층 데이터링크 계층 — 매체 접근 방식 3가지, 토큰 패싱, HDLC 프레임 구조와 동작 모드, 비트 스터핑을 정리했습니다.",
   "url": "https://ict.kyufind.com/s3/l2/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
@@ -280,7 +280,7 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-l2">
+  <div id="subject-content-root"><div class="section visible" id="sec-l2" data-desc="OSI 2계층 데이터링크 계층 — 매체 접근 방식 3가지, 토큰 패싱, HDLC 프레임 구조와 동작 모드, 비트 스터핑을 정리했습니다.">
     <h1 class="section-title" style="color:#267c41">2계층 — 데이터링크 계층 (Data Link Layer)</h1>
     <div class="osi-nav-slot" data-layer="l2"></div>
     <div class="note" style="border-color:#267c41"><b>역할:</b> MAC 주소 기반 인접 노드 간 데이터 전송. 오류 검출<br><b>PDU:</b> 프레임 (Frame) | <b>장비:</b> 스위치, 브리지, AP</div>
@@ -903,6 +903,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=e8e86077a230"></script>
+<script src="/assets/app.js?v=321c4bb4f382"></script>
 </body>
 </html>

@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>IP 주소 클래스 · 서브넷 마스크 · CIDR | 정보통신기사 필기 3과목 정보통신네트워크</title>
+<title>IP 주소 클래스 · 서브넷 마스크 · CIDR | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="정보통신기사 필기 3과목 정보통신네트워크 — IP 주소 클래스 · 서브넷 마스크 · CIDR. IPv4 주소는 32비트이고 네트워크 부분 + 호스트 부분 으로 나뉜다. 이 경계를 어디에 두느냐 를 미리 5가지로 정해 둔 것이 클래스(Class) 다. 경계는 주소의 맨…">
+<meta name="description" content="IP 주소 클래스 A~E 판별법(맨 앞 비트)과 서브넷 마스크·CIDR. 사설 IP 대역, 특수 주소, 서브넷팅 계산을 판별기와 함께 정리.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ict.kyufind.com/s3/ipclass/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
@@ -16,16 +16,16 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="IP 주소 클래스 · 서브넷 마스크 · CIDR | 정보통신기사 필기 3과목 정보통신네트워크">
-<meta property="og:description" content="정보통신기사 필기 3과목 정보통신네트워크 — IP 주소 클래스 · 서브넷 마스크 · CIDR. IPv4 주소는 32비트이고 네트워크 부분 + 호스트 부분 으로 나뉜다. 이 경계를 어디에 두느냐 를 미리 5가지로 정해 둔 것이 클래스(Class) 다. 경계는 주소의 맨…">
+<meta property="og:title" content="IP 주소 클래스 · 서브넷 마스크 · CIDR | 정보통신기사 필기">
+<meta property="og:description" content="IP 주소 클래스 A~E 판별법(맨 앞 비트)과 서브넷 마스크·CIDR. 사설 IP 대역, 특수 주소, 서브넷팅 계산을 판별기와 함께 정리.">
 <meta property="og:url" content="https://ict.kyufind.com/s3/ipclass/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="IP 주소 클래스 · 서브넷 마스크 · CIDR | 정보통신기사 필기 3과목 정보통신네트워크">
-<meta name="twitter:description" content="정보통신기사 필기 3과목 정보통신네트워크 — IP 주소 클래스 · 서브넷 마스크 · CIDR. IPv4 주소는 32비트이고 네트워크 부분 + 호스트 부분 으로 나뉜다. 이 경계를 어디에 두느냐 를 미리 5가지로 정해 둔 것이 클래스(Class) 다. 경계는 주소의 맨…">
+<meta name="twitter:title" content="IP 주소 클래스 · 서브넷 마스크 · CIDR | 정보통신기사 필기">
+<meta name="twitter:description" content="IP 주소 클래스 A~E 판별법(맨 앞 비트)과 서브넷 마스크·CIDR. 사설 IP 대역, 특수 주소, 서브넷팅 계산을 판별기와 함께 정리.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "IP 주소 클래스 · 서브넷 마스크 · CIDR",
-  "description": "정보통신기사 필기 3과목 정보통신네트워크 — IP 주소 클래스 · 서브넷 마스크 · CIDR. IPv4 주소는 32비트이고 네트워크 부분 + 호스트 부분 으로 나뉜다. 이 경계를 어디에 두느냐 를 미리 5가지로 정해 둔 것이 클래스(Class) 다. 경계는 주소의 맨…",
+  "description": "IP 주소 클래스 A~E 판별법(맨 앞 비트)과 서브넷 마스크·CIDR. 사설 IP 대역, 특수 주소, 서브넷팅 계산을 판별기와 함께 정리.",
   "url": "https://ict.kyufind.com/s3/ipclass/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
@@ -280,7 +280,7 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-ipclass">
+  <div id="subject-content-root"><div class="section visible" id="sec-ipclass" data-desc="IP 주소 클래스 A~E 판별법(맨 앞 비트)과 서브넷 마스크·CIDR. 사설 IP 대역, 특수 주소, 서브넷팅 계산을 판별기와 함께 정리.">
     <h1 class="section-title" style="color:#9d520f">🏷️ IP 주소 클래스 · 서브넷 마스크 · CIDR</h1>
 
     <div class="highlight">
@@ -963,6 +963,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=e8e86077a230"></script>
+<script src="/assets/app.js?v=321c4bb4f382"></script>
 </body>
 </html>

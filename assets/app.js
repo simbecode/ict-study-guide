@@ -1114,7 +1114,7 @@ function syncNavCounts(){
 }
 
 // ══════════ 2026년 4회 CBT 복원 문제 ══════════
-var cbtMode = 'study', cbtSubject = 'all', cbtReviewIds = [];
+var cbtMode = 'practice', cbtSubject = 'all', cbtReviewIds = [];
 function cbtCards(){ return Array.from(document.querySelectorAll('#sec-cbt26 .cbt-card')); }
 function cbtVisibleCards(){ return cbtCards().filter(function(c){ return !c.hidden; }); }
 function cbtScore(){
@@ -1148,7 +1148,6 @@ function cbtPick(btn){
   card.dataset.done = pick === ans ? 'ok' : 'ng';
   card.querySelector('.cbt-ex').classList.add('show');
   card.querySelector('.cbt-extra').hidden = false;
-  if(cbtMode === 'review' && pick !== ans) card.querySelector('.cbt-concept').open = true;
   cbtScore();
 }
 function cbtClearCard(card){
@@ -1159,8 +1158,6 @@ function cbtClearCard(card){
   card.querySelector('.cbt-variant').hidden = true;
   card.querySelector('.cbt-extra-start').setAttribute('aria-expanded','false');
   card.querySelector('.cbt-extra-start').textContent = '변형 문제 1개 더 풀기';
-  card.querySelector('.cbt-recall-answer').open = false;
-  if(cbtMode !== 'study') card.querySelector('.cbt-concept').open = false;
 }
 function cbtRetryOne(btn){
   var card = btn.closest('.cbt-card');
@@ -1183,12 +1180,9 @@ function cbtSetMode(mode){
   document.querySelectorAll('.cbt-modes button').forEach(function(b){
     var on = b.dataset.mode === mode; b.classList.toggle('active',on); b.setAttribute('aria-pressed',String(on));
   });
-  document.querySelectorAll('#sec-cbt26 .cbt-compare').forEach(function(d){ d.open = mode === 'study'; });
-  cbtCards().forEach(function(c){ c.querySelector('.cbt-concept').open = mode === 'study'; c.querySelector('.cbt-recall-answer').open = false; });
-  document.getElementById('cbt-mode-help').textContent = mode === 'study'
-    ? '비교표 → 핵심 개념 → 10초 회상 → 확인 문제 순서로 학습하세요. 답을 고르면 해설과 변형 문제가 열립니다.'
-    : mode === 'review' ? '오답을 모아 선택한 답을 지웠습니다. 다시 틀리면 핵심 개념을 자동으로 펼칩니다. 복습 중에는 목록이 유지됩니다.'
-    : '비교표와 개념을 접고 먼저 풀어 보세요. 답을 고르면 해설과 추가 연습 버튼이 나타납니다.';
+  document.getElementById('cbt-mode-help').textContent = mode === 'review'
+    ? '오답만 모아 선택한 답을 지웠습니다. 다시 풀면 바로 아래에 해설과 핵심 개념이 나옵니다.'
+    : '보기를 고르면 바로 정답·해설과 핵심 개념이 나옵니다. 헷갈리는 개념 비교표는 과목마다 펼쳐 볼 수 있습니다.';
   cbtFilter(cbtSubject);
 }
 function cbtFilter(k){
@@ -1216,7 +1210,7 @@ document.addEventListener('click', function(e){
   if(!a) return;
   e.preventDefault();
   cbtSubject = 'all';
-  cbtSetMode('study');
+  cbtSetMode('practice');
   var t = document.getElementById('cbt-q' + a.dataset.q);
   if(t){
     t.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'});
@@ -1258,7 +1252,6 @@ function cbtPickVariant(btn){
   v.dataset.done = correct ? 'ok' : 'ng';
   v.querySelector('.cbt-variant-state').textContent = correct ? '정답' : '오답 · 개념 다시 확인';
   v.querySelector('.cbt-variant-result').hidden=false;
-  if(!correct && cbtMode === 'review') v.closest('.cbt-card').querySelector('.cbt-concept').open=true;
   cbtVariantScore();
 }
 function cbtClearVariant(v){

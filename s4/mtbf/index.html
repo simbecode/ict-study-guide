@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>MTTF · MTTR · MTBF — 신뢰성 지표와 가동률 | 정보통신기사 필기 4과목 정보시스템운용</title>
+<title>MTTF · MTTR · MTBF — 신뢰성 지표와 가동률 | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="정보통신기사 필기 4과목 정보시스템운용 — MTTF · MTTR · MTBF — 신뢰성 지표와 가동률. 시스템이 얼마나 오래 잘 버티는가(MTTF) , 고장 나면 얼마나 빨리 고치는가(MTTR) , 그리고 고장과 고장 사이가 얼마나 되는가(MTBF) — 이 세 값으로…">
+<meta name="description" content="MTTF·MTTR·MTBF 구분과 관계식(MTBF=MTTF+MTTR), 가동률 A=MTTF/MTBF 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ict.kyufind.com/s4/mtbf/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
@@ -16,16 +16,16 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="MTTF · MTTR · MTBF — 신뢰성 지표와 가동률 | 정보통신기사 필기 4과목 정보시스템운용">
-<meta property="og:description" content="정보통신기사 필기 4과목 정보시스템운용 — MTTF · MTTR · MTBF — 신뢰성 지표와 가동률. 시스템이 얼마나 오래 잘 버티는가(MTTF) , 고장 나면 얼마나 빨리 고치는가(MTTR) , 그리고 고장과 고장 사이가 얼마나 되는가(MTBF) — 이 세 값으로…">
+<meta property="og:title" content="MTTF · MTTR · MTBF — 신뢰성 지표와 가동률 | 정보통신기사 필기">
+<meta property="og:description" content="MTTF·MTTR·MTBF 구분과 관계식(MTBF=MTTF+MTTR), 가동률 A=MTTF/MTBF 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
 <meta property="og:url" content="https://ict.kyufind.com/s4/mtbf/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="MTTF · MTTR · MTBF — 신뢰성 지표와 가동률 | 정보통신기사 필기 4과목 정보시스템운용">
-<meta name="twitter:description" content="정보통신기사 필기 4과목 정보시스템운용 — MTTF · MTTR · MTBF — 신뢰성 지표와 가동률. 시스템이 얼마나 오래 잘 버티는가(MTTF) , 고장 나면 얼마나 빨리 고치는가(MTTR) , 그리고 고장과 고장 사이가 얼마나 되는가(MTBF) — 이 세 값으로…">
+<meta name="twitter:title" content="MTTF · MTTR · MTBF — 신뢰성 지표와 가동률 | 정보통신기사 필기">
+<meta name="twitter:description" content="MTTF·MTTR·MTBF 구분과 관계식(MTBF=MTTF+MTTR), 가동률 A=MTTF/MTBF 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "MTTF · MTTR · MTBF — 신뢰성 지표와 가동률",
-  "description": "정보통신기사 필기 4과목 정보시스템운용 — MTTF · MTTR · MTBF — 신뢰성 지표와 가동률. 시스템이 얼마나 오래 잘 버티는가(MTTF) , 고장 나면 얼마나 빨리 고치는가(MTTR) , 그리고 고장과 고장 사이가 얼마나 되는가(MTBF) — 이 세 값으로…",
+  "description": "MTTF·MTTR·MTBF 구분과 관계식(MTBF=MTTF+MTTR), 가동률 A=MTTF/MTBF 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.",
   "url": "https://ict.kyufind.com/s4/mtbf/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
@@ -280,7 +280,7 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-mtbf">
+  <div id="subject-content-root"><div class="section visible" id="sec-mtbf" data-desc="MTTF·MTTR·MTBF 구분과 관계식(MTBF=MTTF+MTTR), 가동률 A=MTTF/MTBF 계산. 직렬·병렬 신뢰도와 연간 다운타임까지.">
     <h1 class="section-title" style="color:#ae3e30">⏱️ MTTF · MTTR · MTBF — 신뢰성 지표와 가동률</h1>
 
     <div class="highlight">
@@ -516,6 +516,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=e8e86077a230"></script>
+<script src="/assets/app.js?v=321c4bb4f382"></script>
 </body>
 </html>

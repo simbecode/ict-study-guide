@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>라우팅 프로토콜 — RIP · OSPF · BGP | 정보통신기사 필기 3과목 정보통신네트워크</title>
+<title>라우팅 프로토콜 — RIP · OSPF · BGP | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="정보통신기사 필기 3과목 정보통신네트워크 — 라우팅 프로토콜 — RIP · OSPF · BGP. 라우팅 ├─ 정적(Static) : 관리자가 직접 입력. 안전·부하 없음. 규모 커지면 관리 불가 └─ 동적(Dynamic) : 라우터끼리 정보 교환 ├─ IGP (AS…">
+<meta name="description" content="RIP·OSPF·BGP 라우팅 프로토콜 비교. 거리벡터(벨만-포드) vs 링크상태(다익스트라) 원리와 무한 카운트 문제 대책까지 정리.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ict.kyufind.com/s3/routing/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
@@ -16,16 +16,16 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="라우팅 프로토콜 — RIP · OSPF · BGP | 정보통신기사 필기 3과목 정보통신네트워크">
-<meta property="og:description" content="정보통신기사 필기 3과목 정보통신네트워크 — 라우팅 프로토콜 — RIP · OSPF · BGP. 라우팅 ├─ 정적(Static) : 관리자가 직접 입력. 안전·부하 없음. 규모 커지면 관리 불가 └─ 동적(Dynamic) : 라우터끼리 정보 교환 ├─ IGP (AS…">
+<meta property="og:title" content="라우팅 프로토콜 — RIP · OSPF · BGP | 정보통신기사 필기">
+<meta property="og:description" content="RIP·OSPF·BGP 라우팅 프로토콜 비교. 거리벡터(벨만-포드) vs 링크상태(다익스트라) 원리와 무한 카운트 문제 대책까지 정리.">
 <meta property="og:url" content="https://ict.kyufind.com/s3/routing/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="라우팅 프로토콜 — RIP · OSPF · BGP | 정보통신기사 필기 3과목 정보통신네트워크">
-<meta name="twitter:description" content="정보통신기사 필기 3과목 정보통신네트워크 — 라우팅 프로토콜 — RIP · OSPF · BGP. 라우팅 ├─ 정적(Static) : 관리자가 직접 입력. 안전·부하 없음. 규모 커지면 관리 불가 └─ 동적(Dynamic) : 라우터끼리 정보 교환 ├─ IGP (AS…">
+<meta name="twitter:title" content="라우팅 프로토콜 — RIP · OSPF · BGP | 정보통신기사 필기">
+<meta name="twitter:description" content="RIP·OSPF·BGP 라우팅 프로토콜 비교. 거리벡터(벨만-포드) vs 링크상태(다익스트라) 원리와 무한 카운트 문제 대책까지 정리.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "라우팅 프로토콜 — RIP · OSPF · BGP",
-  "description": "정보통신기사 필기 3과목 정보통신네트워크 — 라우팅 프로토콜 — RIP · OSPF · BGP. 라우팅 ├─ 정적(Static) : 관리자가 직접 입력. 안전·부하 없음. 규모 커지면 관리 불가 └─ 동적(Dynamic) : 라우터끼리 정보 교환 ├─ IGP (AS…",
+  "description": "RIP·OSPF·BGP 라우팅 프로토콜 비교. 거리벡터(벨만-포드) vs 링크상태(다익스트라) 원리와 무한 카운트 문제 대책까지 정리.",
   "url": "https://ict.kyufind.com/s3/routing/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
@@ -280,7 +280,7 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-routing">
+  <div id="subject-content-root"><div class="section visible" id="sec-routing" data-desc="RIP·OSPF·BGP 라우팅 프로토콜 비교. 거리벡터(벨만-포드) vs 링크상태(다익스트라) 원리와 무한 카운트 문제 대책까지 정리.">
     <h1 class="section-title" style="color:#9d520f">🧭 라우팅 프로토콜 — RIP · OSPF · BGP</h1>
 
     <div class="flow">
@@ -366,6 +366,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=e8e86077a230"></script>
+<script src="/assets/app.js?v=321c4bb4f382"></script>
 </body>
 </html>

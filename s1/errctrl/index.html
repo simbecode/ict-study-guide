@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>오류 제어 / 흐름 제어 | 정보통신기사 필기 1과목 정보전송일반</title>
+<title>오류 제어 / 흐름 제어 | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="정보통신기사 필기 1과목 정보전송일반 — 오류 제어 / 흐름 제어. 전송 오류의 원인 원인 설명 백색 잡음 (열잡음) 도체 내 전자의 열운동. 항상 존재하며 제거 불가능 → 랜덤 오류 충격성 잡음 (Impulse) 순간적인 외부 전기 충격. 짧은 시간에 여러 비트가…">
+<meta name="description" content="패리티·CRC·해밍코드 오류 검출과 FEC vs ARQ 비교. 정지대기·Go-Back-N·선택적 재전송 ARQ 4종과 흐름 제어를 함께 정리.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ict.kyufind.com/s1/errctrl/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
@@ -16,16 +16,16 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="오류 제어 / 흐름 제어 | 정보통신기사 필기 1과목 정보전송일반">
-<meta property="og:description" content="정보통신기사 필기 1과목 정보전송일반 — 오류 제어 / 흐름 제어. 전송 오류의 원인 원인 설명 백색 잡음 (열잡음) 도체 내 전자의 열운동. 항상 존재하며 제거 불가능 → 랜덤 오류 충격성 잡음 (Impulse) 순간적인 외부 전기 충격. 짧은 시간에 여러 비트가…">
+<meta property="og:title" content="오류 제어 / 흐름 제어 | 정보통신기사 필기">
+<meta property="og:description" content="패리티·CRC·해밍코드 오류 검출과 FEC vs ARQ 비교. 정지대기·Go-Back-N·선택적 재전송 ARQ 4종과 흐름 제어를 함께 정리.">
 <meta property="og:url" content="https://ict.kyufind.com/s1/errctrl/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="오류 제어 / 흐름 제어 | 정보통신기사 필기 1과목 정보전송일반">
-<meta name="twitter:description" content="정보통신기사 필기 1과목 정보전송일반 — 오류 제어 / 흐름 제어. 전송 오류의 원인 원인 설명 백색 잡음 (열잡음) 도체 내 전자의 열운동. 항상 존재하며 제거 불가능 → 랜덤 오류 충격성 잡음 (Impulse) 순간적인 외부 전기 충격. 짧은 시간에 여러 비트가…">
+<meta name="twitter:title" content="오류 제어 / 흐름 제어 | 정보통신기사 필기">
+<meta name="twitter:description" content="패리티·CRC·해밍코드 오류 검출과 FEC vs ARQ 비교. 정지대기·Go-Back-N·선택적 재전송 ARQ 4종과 흐름 제어를 함께 정리.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "오류 제어 / 흐름 제어",
-  "description": "정보통신기사 필기 1과목 정보전송일반 — 오류 제어 / 흐름 제어. 전송 오류의 원인 원인 설명 백색 잡음 (열잡음) 도체 내 전자의 열운동. 항상 존재하며 제거 불가능 → 랜덤 오류 충격성 잡음 (Impulse) 순간적인 외부 전기 충격. 짧은 시간에 여러 비트가…",
+  "description": "패리티·CRC·해밍코드 오류 검출과 FEC vs ARQ 비교. 정지대기·Go-Back-N·선택적 재전송 ARQ 4종과 흐름 제어를 함께 정리.",
   "url": "https://ict.kyufind.com/s1/errctrl/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
@@ -280,7 +280,7 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-errctrl">
+  <div id="subject-content-root"><div class="section visible" id="sec-errctrl" data-desc="패리티·CRC·해밍코드 오류 검출과 FEC vs ARQ 비교. 정지대기·Go-Back-N·선택적 재전송 ARQ 4종과 흐름 제어를 함께 정리.">
     <h1 class="section-title" style="color:#ae3e30">🛡️ 오류 제어 / 흐름 제어</h1>
 
     <div class="sub-title" style="color:#8a6012">⚡ 전송 오류의 원인</div>
@@ -421,6 +421,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=e8e86077a230"></script>
+<script src="/assets/app.js?v=321c4bb4f382"></script>
 </body>
 </html>

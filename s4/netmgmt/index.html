@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>네트워크 관리 — SNMP · MIB · SMI · RMON | 정보통신기사 필기 4과목 정보시스템운용</title>
+<title>네트워크 관리 — SNMP · MIB · SMI · RMON | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="정보통신기사 필기 4과목 정보시스템운용 — 네트워크 관리 — SNMP · MIB · SMI · RMON. 4과목에서 매 회차 2~3문항 이 이 한 주제에서 나온다. 구조는 단순하다 — 관리자(Manager) 가 에이전트(Agent) 에게 물어보고, 에이전트는 MIB…">
+<meta name="description" content="SNMP 메시지 5종과 MIB·SMI·OID 구조, RMON 원격 모니터링, SNMP vs CMIP 비교. ISO 망관리 5대 기능(FCAPS)까지 정리.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ict.kyufind.com/s4/netmgmt/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
@@ -16,16 +16,16 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="네트워크 관리 — SNMP · MIB · SMI · RMON | 정보통신기사 필기 4과목 정보시스템운용">
-<meta property="og:description" content="정보통신기사 필기 4과목 정보시스템운용 — 네트워크 관리 — SNMP · MIB · SMI · RMON. 4과목에서 매 회차 2~3문항 이 이 한 주제에서 나온다. 구조는 단순하다 — 관리자(Manager) 가 에이전트(Agent) 에게 물어보고, 에이전트는 MIB…">
+<meta property="og:title" content="네트워크 관리 — SNMP · MIB · SMI · RMON | 정보통신기사 필기">
+<meta property="og:description" content="SNMP 메시지 5종과 MIB·SMI·OID 구조, RMON 원격 모니터링, SNMP vs CMIP 비교. ISO 망관리 5대 기능(FCAPS)까지 정리.">
 <meta property="og:url" content="https://ict.kyufind.com/s4/netmgmt/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="네트워크 관리 — SNMP · MIB · SMI · RMON | 정보통신기사 필기 4과목 정보시스템운용">
-<meta name="twitter:description" content="정보통신기사 필기 4과목 정보시스템운용 — 네트워크 관리 — SNMP · MIB · SMI · RMON. 4과목에서 매 회차 2~3문항 이 이 한 주제에서 나온다. 구조는 단순하다 — 관리자(Manager) 가 에이전트(Agent) 에게 물어보고, 에이전트는 MIB…">
+<meta name="twitter:title" content="네트워크 관리 — SNMP · MIB · SMI · RMON | 정보통신기사 필기">
+<meta name="twitter:description" content="SNMP 메시지 5종과 MIB·SMI·OID 구조, RMON 원격 모니터링, SNMP vs CMIP 비교. ISO 망관리 5대 기능(FCAPS)까지 정리.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "네트워크 관리 — SNMP · MIB · SMI · RMON",
-  "description": "정보통신기사 필기 4과목 정보시스템운용 — 네트워크 관리 — SNMP · MIB · SMI · RMON. 4과목에서 매 회차 2~3문항 이 이 한 주제에서 나온다. 구조는 단순하다 — 관리자(Manager) 가 에이전트(Agent) 에게 물어보고, 에이전트는 MIB…",
+  "description": "SNMP 메시지 5종과 MIB·SMI·OID 구조, RMON 원격 모니터링, SNMP vs CMIP 비교. ISO 망관리 5대 기능(FCAPS)까지 정리.",
   "url": "https://ict.kyufind.com/s4/netmgmt/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
@@ -280,7 +280,7 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-netmgmt">
+  <div id="subject-content-root"><div class="section visible" id="sec-netmgmt" data-desc="SNMP 메시지 5종과 MIB·SMI·OID 구조, RMON 원격 모니터링, SNMP vs CMIP 비교. ISO 망관리 5대 기능(FCAPS)까지 정리.">
     <h1 class="section-title" style="color:#ae3e30">🛰️ 네트워크 관리 — SNMP · MIB · SMI · RMON</h1>
 
     <div class="highlight">
@@ -455,6 +455,6 @@ root
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=e8e86077a230"></script>
+<script src="/assets/app.js?v=321c4bb4f382"></script>
 </body>
 </html>

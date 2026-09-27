@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>자료 표현 · 코드 체계 | 정보통신기사 필기 1과목 정보전송일반</title>
+<title>자료 표현 · 코드 체계 | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="정보통신기사 필기 1과목 정보전송일반 — 자료 표현 · 코드 체계. 컴퓨터는 0과 1밖에 모른다. 그래서 숫자·문자·부호를 어떤 규칙으로 0과 1에 대응시킬 것인가 가 문제가 되고, 그 규칙들이 곧 코드 체계 다. 진수 변환이 계산 이라면 이 단원은 약속 을 다룬다…">
+<meta name="description" content="비트·니블·바이트·워드 자료 단위와 고정소수점/부동소수점 표현. BCD·그레이 코드 변환과 ASCII·EBCDIC·유니코드 비교.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ict.kyufind.com/s1/datacode/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
@@ -16,16 +16,16 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="자료 표현 · 코드 체계 | 정보통신기사 필기 1과목 정보전송일반">
-<meta property="og:description" content="정보통신기사 필기 1과목 정보전송일반 — 자료 표현 · 코드 체계. 컴퓨터는 0과 1밖에 모른다. 그래서 숫자·문자·부호를 어떤 규칙으로 0과 1에 대응시킬 것인가 가 문제가 되고, 그 규칙들이 곧 코드 체계 다. 진수 변환이 계산 이라면 이 단원은 약속 을 다룬다…">
+<meta property="og:title" content="자료 표현 · 코드 체계 | 정보통신기사 필기">
+<meta property="og:description" content="비트·니블·바이트·워드 자료 단위와 고정소수점/부동소수점 표현. BCD·그레이 코드 변환과 ASCII·EBCDIC·유니코드 비교.">
 <meta property="og:url" content="https://ict.kyufind.com/s1/datacode/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="자료 표현 · 코드 체계 | 정보통신기사 필기 1과목 정보전송일반">
-<meta name="twitter:description" content="정보통신기사 필기 1과목 정보전송일반 — 자료 표현 · 코드 체계. 컴퓨터는 0과 1밖에 모른다. 그래서 숫자·문자·부호를 어떤 규칙으로 0과 1에 대응시킬 것인가 가 문제가 되고, 그 규칙들이 곧 코드 체계 다. 진수 변환이 계산 이라면 이 단원은 약속 을 다룬다…">
+<meta name="twitter:title" content="자료 표현 · 코드 체계 | 정보통신기사 필기">
+<meta name="twitter:description" content="비트·니블·바이트·워드 자료 단위와 고정소수점/부동소수점 표현. BCD·그레이 코드 변환과 ASCII·EBCDIC·유니코드 비교.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "자료 표현 · 코드 체계",
-  "description": "정보통신기사 필기 1과목 정보전송일반 — 자료 표현 · 코드 체계. 컴퓨터는 0과 1밖에 모른다. 그래서 숫자·문자·부호를 어떤 규칙으로 0과 1에 대응시킬 것인가 가 문제가 되고, 그 규칙들이 곧 코드 체계 다. 진수 변환이 계산 이라면 이 단원은 약속 을 다룬다…",
+  "description": "비트·니블·바이트·워드 자료 단위와 고정소수점/부동소수점 표현. BCD·그레이 코드 변환과 ASCII·EBCDIC·유니코드 비교.",
   "url": "https://ict.kyufind.com/s1/datacode/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
@@ -280,7 +280,7 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-datacode">
+  <div id="subject-content-root"><div class="section visible" id="sec-datacode" data-desc="비트·니블·바이트·워드 자료 단위와 고정소수점/부동소수점 표현. BCD·그레이 코드 변환과 ASCII·EBCDIC·유니코드 비교.">
     <h1 class="section-title" style="color:#2c6da4">🔤 자료 표현 · 코드 체계 (5과목)</h1>
 
     <div class="highlight">
@@ -441,6 +441,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=e8e86077a230"></script>
+<script src="/assets/app.js?v=321c4bb4f382"></script>
 </body>
 </html>

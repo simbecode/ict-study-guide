@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>백업 · RAID · 이중화 · 재해복구 | 정보통신기사 필기 4과목 정보시스템운용</title>
+<title>백업 · RAID · 이중화 · 재해복구 | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="정보통신기사 필기 4과목 정보시스템운용 — 백업 · RAID · 이중화 · 재해복구. 운용 파트에서 &quot;가용성을 어떻게 지키는가&quot; 를 묻는 묶음이다. 백업은 데이터를 되살리는 장치, RAID·이중화는 안 죽게 만드는 장치, 재해복구는 건물째 날아갔을 때 의 대비다…">
+<meta name="description" content="전체·증분·차등 백업의 백업/복구 시간 차이, RAID 레벨, 이중화(HA) 구성, RTO·RPO와 재해복구 사이트 4종 비교를 정리.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ict.kyufind.com/s4/backup/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
@@ -16,16 +16,16 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="백업 · RAID · 이중화 · 재해복구 | 정보통신기사 필기 4과목 정보시스템운용">
-<meta property="og:description" content="정보통신기사 필기 4과목 정보시스템운용 — 백업 · RAID · 이중화 · 재해복구. 운용 파트에서 &quot;가용성을 어떻게 지키는가&quot; 를 묻는 묶음이다. 백업은 데이터를 되살리는 장치, RAID·이중화는 안 죽게 만드는 장치, 재해복구는 건물째 날아갔을 때 의 대비다…">
+<meta property="og:title" content="백업 · RAID · 이중화 · 재해복구 | 정보통신기사 필기">
+<meta property="og:description" content="전체·증분·차등 백업의 백업/복구 시간 차이, RAID 레벨, 이중화(HA) 구성, RTO·RPO와 재해복구 사이트 4종 비교를 정리.">
 <meta property="og:url" content="https://ict.kyufind.com/s4/backup/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="백업 · RAID · 이중화 · 재해복구 | 정보통신기사 필기 4과목 정보시스템운용">
-<meta name="twitter:description" content="정보통신기사 필기 4과목 정보시스템운용 — 백업 · RAID · 이중화 · 재해복구. 운용 파트에서 &quot;가용성을 어떻게 지키는가&quot; 를 묻는 묶음이다. 백업은 데이터를 되살리는 장치, RAID·이중화는 안 죽게 만드는 장치, 재해복구는 건물째 날아갔을 때 의 대비다…">
+<meta name="twitter:title" content="백업 · RAID · 이중화 · 재해복구 | 정보통신기사 필기">
+<meta name="twitter:description" content="전체·증분·차등 백업의 백업/복구 시간 차이, RAID 레벨, 이중화(HA) 구성, RTO·RPO와 재해복구 사이트 4종 비교를 정리.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "백업 · RAID · 이중화 · 재해복구",
-  "description": "정보통신기사 필기 4과목 정보시스템운용 — 백업 · RAID · 이중화 · 재해복구. 운용 파트에서 \"가용성을 어떻게 지키는가\" 를 묻는 묶음이다. 백업은 데이터를 되살리는 장치, RAID·이중화는 안 죽게 만드는 장치, 재해복구는 건물째 날아갔을 때 의 대비다…",
+  "description": "전체·증분·차등 백업의 백업/복구 시간 차이, RAID 레벨, 이중화(HA) 구성, RTO·RPO와 재해복구 사이트 4종 비교를 정리.",
   "url": "https://ict.kyufind.com/s4/backup/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
@@ -280,7 +280,7 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-backup">
+  <div id="subject-content-root"><div class="section visible" id="sec-backup" data-desc="전체·증분·차등 백업의 백업/복구 시간 차이, RAID 레벨, 이중화(HA) 구성, RTO·RPO와 재해복구 사이트 4종 비교를 정리.">
     <h1 class="section-title" style="color:#267c41">💾 백업 · RAID · 이중화 · 재해복구</h1>
 
     <div class="highlight">
@@ -420,6 +420,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=e8e86077a230"></script>
+<script src="/assets/app.js?v=321c4bb4f382"></script>
 </body>
 </html>
