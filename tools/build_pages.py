@@ -48,11 +48,42 @@ DESC_MAX = 88
 EXTRA_PAGES = {
     'cram': ('/cram/', '기출에 나온 나이퀴스트·섀넌·데시벨·BER·다중화 계산 공식과 설비기준·법규 숫자, 두 번 이상 나온 문제를 한 페이지에 모았습니다.',
              '시험 직전 요약 — 계산 공식·법규 숫자' + TITLE_SUFFIX),
-    'cbt26': ('/cbt-2026-4/', '2026년 4회 응시 후기로 모은 출제 주제를 바탕으로 만든 개념 정리와 확인 문제, 변형 문제, 오답 복습을 제공합니다.',
-              '2026년 4회 CBT 복원 예상문제' + TITLE_SUFFIX),
+    'cbt26': ('/cbt-2026/', '응시 후기로 모은 2026년 출제 주제를 바탕으로 만든 복원 문제 69개. 개념 정리와 확인 문제, 변형 문제, 오답 복습까지 이어집니다.',
+              '2026년 시험복원문제 69문항' + TITLE_SUFFIX),
     'quiz': ('/quiz/', '2022~2023년 기출 500문항을 회차별·과목별로 골라 풀고, 해설과 과목별 점수·틀린 문제를 확인하는 무료 CBT 연습.',
              '기출문제 500제 — 회차별 CBT 풀이' + TITLE_SUFFIX),
 }
+
+# 주소가 바뀐 페이지: 옛 주소 → 새 주소.
+# GitHub Pages 는 서버 리다이렉트를 못 하므로, 옛 주소에 canonical + 즉시 이동 페이지를 남긴다.
+REDIRECTS = {
+    '/cbt-2026-4/': '/cbt-2026/',      # 2026-09-22 '2026년 시험복원문제' 로 이름 변경
+}
+
+# 회차별 기출 페이지 — data/quiz/*.json 하나당 한 페이지(/quiz/2022-1/)
+QUIZ_CSS = ('<style>'
+            '.qy-lead{font-size:14.5px;color:var(--text2);line-height:1.75;margin:-4px 0 22px}'
+            '.qy-meta{display:flex;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--text3);margin:0 0 18px}'
+            '.qy-meta span{border:1px solid var(--border);border-radius:20px;padding:3px 11px;background:var(--bg2)}'
+            '.qy-subj{margin:34px 0 14px;font-size:17px;font-weight:800;color:var(--text);'
+            'padding-bottom:7px;border-bottom:2px solid var(--border)}'
+            '.qy-list{list-style:none;margin:0;padding:0;display:grid;gap:14px}'
+            '.qy-item{border:1px solid var(--border);border-radius:10px;background:var(--bg2);padding:15px 18px}'
+            '.qy-q{font-size:15px;font-weight:600;line-height:1.7;margin:0 0 11px}'
+            '.qy-q .qy-no{color:var(--key);font-family:var(--mono);font-weight:700;margin-right:7px}'
+            '.qy-opts{list-style:none;margin:0;padding:0;display:grid;gap:5px}'
+            '.qy-opts li{font-size:14px;line-height:1.65;color:var(--text2);padding:5px 10px;border-radius:6px}'
+            '.qy-opts li.ok{background:var(--ok-bg);color:var(--ok);font-weight:700}'
+            '.qy-ex{margin:11px 0 0;padding:10px 13px;border-left:3px solid var(--key-bd);'
+            'background:var(--key-bg);border-radius:0 7px 7px 0;font-size:13.5px;line-height:1.7;color:var(--text2)}'
+            '.qy-ex b{color:var(--key)}'
+            '.qy-foot{margin:34px 0 0;padding-top:18px;border-top:1px solid var(--border);'
+            'font-size:13px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap;align-items:center}'
+            '.qy-foot a{display:inline-block;padding:5px 11px;border:1px solid var(--border);border-radius:7px;'
+            'background:var(--bg2);color:var(--text2);text-decoration:none;font-weight:600}'
+            '.qy-foot a:hover{border-color:var(--key-bd);background:var(--key-bg);color:var(--key)}'
+            '</style>')
+CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩'
 
 # 과목 모음 페이지(/s1/ 등)의 검색 설명 — 주제 이름을 그대로 나열하면 80자를 금방 넘겨 잘린다.
 HUB_DESC = {
@@ -243,7 +274,18 @@ def main():
         sec = m.group(2)
         url = routes.get(sec, ['/'])[0]
         return '%shref="%s" data-sec="%s"' % (m.group(1), url, sec)
+    # 회차별 기출 페이지로 가는 링크 (검색엔진이 따라갈 수 있게 실제 <a> 로 넣는다)
+    quiz_slugs = sorted(f[:-5] for f in os.listdir(os.path.join(ROOT, 'data', 'quiz'))
+                        if f.endswith('.json')) if os.path.isdir(os.path.join(ROOT, 'data', 'quiz')) else []
+    archive_html = ('<div id="quiz-archive" class="quiz-archive"><b>회차별 문제·해설 모아보기</b>'
+                    + ''.join('<a href="/quiz/%s/">%s년 %s회</a>' % (sl, sl.split('-')[0], sl.split('-')[1])
+                              for sl in quiz_slugs) + '</div>')
+
+    def fill_archive(text):
+        return re.sub(r'<div id="quiz-archive"[^>]*>.*?</div>', lambda m: archive_html, text, count=1, flags=re.S)
+
     new_index = re.sub(r'(<a class="sub-item[^"]*" )href="[^"]*" data-sec="([^"]+)"', fix_href, index)
+    new_index = fill_archive(new_index)
     if wr('index.html', new_index, None):
         print('index.html 사이드바 링크 주소를 갱신했습니다.')
     index = new_index
@@ -266,6 +308,7 @@ def main():
     tpl = tpl.replace('<div class="section visible" id="sec-home">', '<div class="section" id="sec-home">', 1)
     tpl = tpl.replace('<h1 class="home-title">', '<p class="home-title">', 1)
     tpl = re.sub(r'(<p class="home-title">[^<]*)</h1>', r'\1</p>', tpl, count=1)
+    tpl = fill_archive(tpl)
 
     # ── 공용 섹션 분리 ───────────────────────────────────────
     # 홈·시험직전요약·CBT·용어카드·기출 은 어느 페이지에서나 똑같은 내용이다.
@@ -406,9 +449,105 @@ def main():
         t = t.replace('<script src="/assets/routes.js"></script>', page_script({'sec': sec}), 1)
         # 이 페이지가 주인공인 섹션만 본문에 넣는다 (나머지는 슬롯 그대로 두고 app.js 가 불러옴)
         assert sec in slot_div, 'sec-%s 슬롯을 찾지 못했습니다.' % sec
-        t = t.replace(slot_div[sec], as_visible(d['html']), 1)
+        # 회차 링크는 index.html 을 다시 쓰기 전에 떠 온 블록이라 여기서 한 번 더 채운다
+        t = t.replace(slot_div[sec], as_visible(fill_archive(d['html'])), 1)
         t = mark_active(t, sec)
         written += wr(d['url'].strip('/') + '/index.html', t, gen)
+
+    # ── 회차별 기출 페이지 ───────────────────────────────────
+    # /quiz/ 는 문제를 JSON 에서 JS 로 불러와 화면에 몇 개씩만 그리므로 HTML 에 본문이 거의 없다.
+    # 회차마다 100문항과 해설을 그대로 담은 정적 페이지를 따로 만들어 검색엔진이 읽게 한다.
+    quiz_pages = []
+    quiz_dir = os.path.join(ROOT, 'data', 'quiz')
+    for qf in sorted(os.listdir(quiz_dir)) if os.path.isdir(quiz_dir) else []:
+        if not qf.endswith('.json'):
+            continue
+        slug = qf[:-5]                                   # 2022-1
+        with open(os.path.join(quiz_dir, qf), encoding='utf-8') as f:
+            items = json.load(f)
+        if not items:
+            continue
+        yr, rnd = slug.split('-')[0], slug.split('-')[1]
+        label = '%s년 %s회' % (yr, rnd)
+        quiz_pages.append(dict(slug=slug, label=label, url='/quiz/%s/' % slug,
+                               items=items, file='data/quiz/' + qf))
+
+    def quiz_body(pg_, others):
+        by_subj = {}
+        for it in pg_['items']:
+            by_subj.setdefault(it.get('subj') or '기타', []).append(it)
+        parts = []
+        for subj in sorted(by_subj):
+            sid_ = 's' + subj[0] if subj and subj[0].isdigit() else ''
+            sname_ = subj_names.get(sid_, '')
+            head = '%s %s' % (subj, sname_) if sname_ else subj
+            link = ('<a href="/%s/">%s</a>' % (sid_, esc(head))) if sid_ in subj_names else esc(head)
+            # sub-title 을 함께 주면 오른쪽 "이 페이지에서" 목차(buildToc)에 잡힌다
+            parts.append('<h2 class="qy-subj sub-title">%s</h2><ol class="qy-list">' % link)
+            for it in by_subj[subj]:
+                ans = it.get('ans')
+                opts = []
+                for i, o in enumerate(it.get('opts') or []):
+                    ok = ' class="ok"' if i == ans else ''
+                    opts.append('<li%s>%s %s</li>' % (ok, CIRCLED[i:i + 1] or '-', esc(str(o))))
+                ex = it.get('ex') or ''
+                mark = CIRCLED[ans:ans + 1] if isinstance(ans, int) and 0 <= ans < len(CIRCLED) else '-'
+                parts.append('<li class="qy-item" id="q%s">'
+                             '<p class="qy-q"><span class="qy-no">%s번</span>%s</p>'
+                             '<ol class="qy-opts">%s</ol>'
+                             '<p class="qy-ex"><b>정답 %s</b>%s</p></li>'
+                             % (esc(str(it.get('n', ''))), esc(str(it.get('n', ''))), esc(str(it.get('q', ''))),
+                                ''.join(opts), mark, (' — ' + esc(ex)) if ex else ''))
+            parts.append('</ol>')
+        foot = ('<nav class="qy-foot"><span>다른 회차</span>'
+                + ''.join('<a href="%s">%s</a>' % (o['url'], esc(o['label'])) for o in others)
+                + '<a href="/quiz/">풀이 모드로 풀기</a></nav>')
+        crumb = ('<nav class="crumb" aria-label="경로">'
+                 '<a class="crumb-link" href="/">홈</a><span class="crumb-sep">/</span>'
+                 '<a class="crumb-link" href="/quiz/">기출문제</a><span class="crumb-sep">/</span>'
+                 '<b>%s</b></nav>') % esc(pg_['label'])
+        return ('<div class="section visible" id="sec-quizyear-%s">%s%s'
+                '<h1 class="section-title">정보통신기사 필기 %s 기출문제</h1>'
+                '<p class="qy-lead">%s 필기 기출 %d문항 전체와 해설입니다. 과목별로 묶었고, '
+                '정답 보기는 초록색으로 표시했습니다. 직접 풀어 보려면 '
+                '<a href="/quiz/">기출문제 풀이 모드</a>를 이용하세요.</p>'
+                '<div class="qy-meta"><span>%d문항</span><span>5과목</span><span>해설 포함</span></div>'
+                '%s%s</div>') % (pg_['slug'], QUIZ_CSS, crumb, esc(pg_['label']), esc(pg_['label']),
+                                 len(pg_['items']), len(pg_['items']), ''.join(parts), foot)
+
+    for pg_ in quiz_pages:
+        others = [o for o in quiz_pages if o['slug'] != pg_['slug']]
+        ptitle = '%s 기출문제 해설%s' % (pg_['label'], TITLE_SUFFIX)
+        pdesc = ('정보통신기사 필기 %s 기출문제 %d문항 전체와 해설. 과목별로 묶어 정답과 풀이를 함께 실었습니다.'
+                 % (pg_['label'], len(pg_['items'])))
+        routes['quizyear-' + pg_['slug']] = [pg_['url'], ptitle]
+        t = set_meta(tpl, ptitle, pdesc, pg_['url'],
+                     [home_crumb, ('기출문제', '/quiz/'), (pg_['label'], pg_['url'])],
+                     '%s 기출문제' % pg_['label'])
+        t = t.replace('<script src="/assets/routes.js"></script>',
+                      page_script({'sec': 'quizyear-' + pg_['slug'], 'nav': 'quiz'}), 1)
+        t = t.replace(root_m.group(0), quiz_body(pg_, others) + root_m.group(0), 1)
+        written += wr('quiz/%s/index.html' % pg_['slug'], t, gen)
+
+    # routes.js 는 회차 주소까지 담아야 뒤로가기·주소 동기화가 맞는다 → 여기서 다시 쓴다
+    wr('assets/routes.js', '// 자동 생성: tools/build_pages.py — 주제별 주소 목록\nwindow.__ROUTES__ = '
+       + json.dumps(routes, ensure_ascii=False, indent=0) + ';\n', None)
+
+    # ── 옛 주소 안내 페이지 ──────────────────────────────────
+    for old_url, new_url in REDIRECTS.items():
+        page = ('<!DOCTYPE html>\n<html lang="ko">\n<head>\n<meta charset="UTF-8">\n'
+                '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+                '<link rel="canonical" href="%s%s">\n'
+                '<meta http-equiv="refresh" content="0; url=%s">\n'
+                '<title>주소가 바뀌었습니다 — 정보통신기사 필기</title>\n'
+                '<style>body{font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;'
+                'background:#fafcfe;color:#1d252d;display:flex;align-items:center;justify-content:center;'
+                'min-height:100vh;margin:0;padding:24px;text-align:center;line-height:1.7}'
+                'a{color:#2769b7}</style>\n</head>\n<body>\n'
+                '<p>이 페이지의 주소가 <b>%s</b> 로 바뀌었습니다.<br>'
+                '자동으로 이동하지 않으면 <a href="%s">여기를 눌러 주세요</a>.</p>\n'
+                '</body>\n</html>\n') % (SITE, new_url, new_url, new_url, new_url)
+        written += wr(old_url.strip('/') + '/index.html', page, gen)
 
     # ── sitemap.xml ──────────────────────────────────────────
     urls = [('/', git_date('index.html', 'subjects', 'data'), '1.0')]
@@ -417,6 +556,8 @@ def main():
         urls.append(('/%s/' % sid, git_date(*(f or ['index.html'])), '0.8'))
     for sec, d in extra.items():
         urls.append((d['url'], git_date('index.html', 'data') if sec == 'quiz' else git_date('index.html'), '0.8'))
+    for pg_ in quiz_pages:
+        urls.append((pg_['url'], git_date(pg_['file']), '0.7'))
     for d in sections.values():
         urls.append((d['url'], git_date(d['file']), '0.6'))
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
