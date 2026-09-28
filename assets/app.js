@@ -722,7 +722,7 @@ function showFinalResult(){
 
 // 사이드바 검색 데이터
 const menuItems = [
-  {label:'2026-4 CBT 복원예상문제 2026년 4회 예상 문제 후기 출제 주제', action:"showSection('cbt26',this)", subj:'2026-4 CBT 복원예상문제'},
+  {label:'2026년 시험복원문제 CBT 복원 예상 문제 후기 출제 주제', action:"showSection('cbt26',this)", subj:'2026년 시험복원문제'},
   {label:'시험 직전 요약 계산 공식 나이퀴스트 섀넌 샤논 데시벨 dB 오류율 BER 다중화 설비기준 법규 숫자 암기 반복 출제', action:"showSection('cram',this)", subj:'시험 직전 요약'},
   {label:'가산기 감산기 반가산기 전가산기 병렬가산기 리플캐리 캐리예측 CLA BCD가산기 2의보수 누산기 Accumulator', action:"showSection('adder',this)", subj:'5과목'},
   {label:'PCM 표본화 양자화 잡음 압신 델타변조 나이퀴스트 64kbps', action:"showSection('pcm',this)", subj:'1과목'},
@@ -1116,7 +1116,7 @@ function syncNavCounts(){
   }catch(e){}
 }
 
-// ══════════ 2026년 4회 CBT 복원 문제 ══════════
+// ══════════ 2026년 시험복원문제 ══════════
 var cbtMode = 'practice', cbtSubject = 'all', cbtReviewIds = [];
 function cbtCards(){ return Array.from(document.querySelectorAll('#sec-cbt26 .cbt-card')); }
 function cbtVisibleCards(){ return cbtCards().filter(function(c){ return !c.hidden; }); }
@@ -2782,7 +2782,8 @@ function bootInit(){
   var home = document.getElementById('sec-home');
   if(pg && pg.sec && document.getElementById('sec-' + pg.sec)){
     _navReplace = true;
-    showSection(pg.sec, null);
+    // pg.nav 가 있으면(회차별 기출 등 정적 단독 페이지) 그 사이드바 항목을 선택 표시한다
+    showSection(pg.sec, pg.nav ? document.querySelector('.sidebar [data-sec="' + pg.nav + '"]') : null);
     _navReplace = false;
   } else if(pg && pg.hub){
     try{ syncNav('', document.querySelector('.subj-head[data-sid="' + pg.hub + '"]')); toggleSubj(pg.hub, document.querySelector('.subj-head[data-sid="' + pg.hub + '"]')); }catch(e){}

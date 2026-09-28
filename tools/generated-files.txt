@@ -3,7 +3,13 @@ assets/app.css
 assets/app.js
 assets/routes.js
 cbt-2026-4/index.html
+cbt-2026/index.html
 cram/index.html
+quiz/2022-1/index.html
+quiz/2022-2/index.html
+quiz/2022-3/index.html
+quiz/2023-1/index.html
+quiz/2023-2/index.html
 quiz/index.html
 s1/adder/index.html
 s1/ammod/index.html
