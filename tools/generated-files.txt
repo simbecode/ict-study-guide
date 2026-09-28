@@ -58,6 +58,7 @@ s3/lan/index.html
 s3/netdev/index.html
 s3/ports/index.html
 s3/routing/index.html
+s3/subnet/index.html
 s3/tcp_udp/index.html
 s3/topology/index.html
 s3/wan/index.html

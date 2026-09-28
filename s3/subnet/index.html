@@ -4,28 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>보안 위협 유형 · 공격 기법 | 정보통신기사 필기</title>
+<title>서브넷 마스크 한눈에 | 정보통신기사 필기</title>
 
 <!-- ══════════ SEO ══════════ -->
-<meta name="description" content="보안 위협 4분류(가로막기·가로채기·변조·위조)와 침해되는 보안 요건. 소극적·적극적 공격, DoS 세부 유형, 악성코드 3분류까지.">
+<meta name="description" content="CIDR /8~/30의 서브넷 마스크·주소 수·호스트 수를 표 하나로. 비트 그림과 블록 간격으로 네트워크·브로드캐스트 주소를 바로 찾는다.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ict.kyufind.com/s4/secthreat/">
+<link rel="canonical" href="https://ict.kyufind.com/s3/subnet/">
 <meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A1%3C/text%3E%3C/svg%3E">
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="보안 위협 유형 · 공격 기법 | 정보통신기사 필기">
-<meta property="og:description" content="보안 위협 4분류(가로막기·가로채기·변조·위조)와 침해되는 보안 요건. 소극적·적극적 공격, DoS 세부 유형, 악성코드 3분류까지.">
-<meta property="og:url" content="https://ict.kyufind.com/s4/secthreat/">
+<meta property="og:title" content="서브넷 마스크 한눈에 | 정보통신기사 필기">
+<meta property="og:description" content="CIDR /8~/30의 서브넷 마스크·주소 수·호스트 수를 표 하나로. 비트 그림과 블록 간격으로 네트워크·브로드캐스트 주소를 바로 찾는다.">
+<meta property="og:url" content="https://ict.kyufind.com/s3/subnet/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="보안 위협 유형 · 공격 기법 | 정보통신기사 필기">
-<meta name="twitter:description" content="보안 위협 4분류(가로막기·가로채기·변조·위조)와 침해되는 보안 요건. 소극적·적극적 공격, DoS 세부 유형, 악성코드 3분류까지.">
+<meta name="twitter:title" content="서브넷 마스크 한눈에 | 정보통신기사 필기">
+<meta name="twitter:description" content="CIDR /8~/30의 서브넷 마스크·주소 수·호스트 수를 표 하나로. 비트 그림과 블록 간격으로 네트워크·브로드캐스트 주소를 바로 찾는다.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
 <script type="application/ld+json">
@@ -43,23 +43,23 @@
    {
     "@type": "ListItem",
     "position": 2,
-    "name": "4과목 정보시스템운용",
-    "item": "https://ict.kyufind.com/s4/"
+    "name": "3과목 정보통신네트워크",
+    "item": "https://ict.kyufind.com/s3/"
    },
    {
     "@type": "ListItem",
     "position": 3,
-    "name": "보안 위협 유형 · 공격 기법",
-    "item": "https://ict.kyufind.com/s4/secthreat/"
+    "name": "서브넷 마스크 한눈에",
+    "item": "https://ict.kyufind.com/s3/subnet/"
    }
   ]
  },
  {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "name": "보안 위협 유형 · 공격 기법",
-  "description": "보안 위협 4분류(가로막기·가로채기·변조·위조)와 침해되는 보안 요건. 소극적·적극적 공격, DoS 세부 유형, 악성코드 3분류까지.",
-  "url": "https://ict.kyufind.com/s4/secthreat/",
+  "name": "서브넷 마스크 한눈에",
+  "description": "CIDR /8~/30의 서브넷 마스크·주소 수·호스트 수를 표 하나로. 비트 그림과 블록 간격으로 네트워크·브로드캐스트 주소를 바로 찾는다.",
+  "url": "https://ict.kyufind.com/s3/subnet/",
   "inLanguage": "ko",
   "isAccessibleForFree": true,
   "learningResourceType": "study guide",
@@ -78,7 +78,7 @@
 </script>
 <!-- ══════════ /SEO ══════════ -->
 <script src="/assets/routes.js"></script>
-<script>window.__PAGE__ = {"sec": "secthreat"};</script>
+<script>window.__PAGE__ = {"sec": "subnet"};</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -107,7 +107,7 @@
   <a class="sub-item nav-top" href="/" data-sec="home" onclick="return navGo(event,'home',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 10v9.5h12V10"/></svg>홈</a>
   <div class="nav-label">꼭 외워야 할 것</div>
   <a class="sub-item nav-top" href="/overview/">OSI 7계층 한눈에</a>
-  <a class="sub-item nav-top" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
+  <a class="sub-item nav-top active" aria-current="page" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
   <div class="nav-label">과목</div>
   <nav id="sidebar-menu" aria-label="과목">
   <div class="subj-group">
@@ -224,7 +224,7 @@
       <a class="sub-item" href="/s4/netmgmt/" data-sec="netmgmt" onclick="return navGo(event,'netmgmt',this)">네트워크 관리 SNMP · MIB</a>
       <a class="sub-item" href="/s4/sysops/" data-sec="sysops" onclick="return navGo(event,'sysops',this)">운용관리 · 장애대응 · 루프백</a>
       <a class="sub-item" href="/s4/backup/" data-sec="backup" onclick="return navGo(event,'backup',this)">백업 · RAID · 재해복구</a>
-      <a class="sub-item active" aria-current="page" href="/s4/secthreat/" data-sec="secthreat" onclick="return navGo(event,'secthreat',this)">보안 위협 · 공격 기법</a>
+      <a class="sub-item" href="/s4/secthreat/" data-sec="secthreat" onclick="return navGo(event,'secthreat',this)">보안 위협 · 공격 기법</a>
       <a class="sub-item" href="/s4/secdev/" data-sec="secdev" onclick="return navGo(event,'secdev',this)">보안장비 · 인증 · 접근통제</a>
       <a class="sub-item" href="/s4/cloud/" data-sec="cloud" onclick="return navGo(event,'cloud',this)">클라우드 IaaS / PaaS / SaaS</a>
       <a class="sub-item" href="/s4/mtbf/" data-sec="mtbf" onclick="return navGo(event,'mtbf',this)">MTTF · MTTR · MTBF · 가동률</a>
@@ -277,135 +277,122 @@
     <button class="icon-btn" type="button" onclick="toggleSearch()" aria-label="검색 열기"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
   </header>
 <main class="main" id="main-content"><div class="main-inner"><div class="content">
-  <div id="crumb" class="crumb c-s4" aria-label="경로"><a class="crumb-link" href="/">홈</a><span class="crumb-sep">/</span><span class="crumb-dot" style="background:var(--sc)"></span><a class="crumb-link" href="/s4/" style="color:var(--sct)"><b>4과목 정보시스템운용</b></a></div>
+  <div id="crumb" class="crumb c-s3" aria-label="경로"><a class="crumb-link" href="/">홈</a><span class="crumb-sep">/</span><span class="crumb-dot" style="background:var(--sc)"></span><a class="crumb-link" href="/s3/" style="color:var(--sct)"><b>3과목 정보통신네트워크</b></a></div>
   <div id="search-hint" class="search-hint" style="display:none;"></div>
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div class="section visible" id="sec-secthreat" data-desc="보안 위협 4분류(가로막기·가로채기·변조·위조)와 침해되는 보안 요건. 소극적·적극적 공격, DoS 세부 유형, 악성코드 3분류까지.">
-    <h1 class="section-title" style="color:#ae3e30">⚔️ 보안 위협 유형 · 공격 기법</h1>
+  <div id="subject-content-root"><div class="section visible" id="sec-subnet" data-desc="CIDR /8~/30의 서브넷 마스크·주소 수·호스트 수를 표 하나로. 비트 그림과 블록 간격으로 네트워크·브로드캐스트 주소를 바로 찾는다.">
+    <h1 class="section-title" style="color:#9d520f">📐 서브넷 마스크 한눈에</h1>
 
     <div class="highlight">
-      출제의 <b>뼈대는 딱 하나</b> — <b>「어떤 보안 요건을 깨뜨리는 공격인가」</b>.
-      기밀성·무결성·가용성·인증 네 기둥에 공격 하나씩을 붙여 외우면 대부분의 문제가 풀린다.
+      IPv4 주소는 <b>32비트</b>다. <b>/n</b> 은 앞 <b>n비트가 네트워크</b>, 나머지 <b>32−n비트가 호스트</b>라는 뜻이다.<br>
+      마스크는 네트워크 부분을 <b>1</b>, 호스트 부분을 <b>0</b>으로 채운 값이고, 1은 항상 왼쪽부터 이어진다.<br>
+      사용 가능 호스트 = <b style="color:#9d520f">2<sup>호스트 비트</sup> − 2</b> (네트워크 주소·브로드캐스트 주소 제외).
+      <b>/n이 1 커지면 주소 수는 절반</b>이 된다.
     </div>
 
-    <!-- 위협 4분류 -->
-    <div class="sub-title" style="color:#ae3e30">🎯 보안 위협 4분류 — 매 회차 출제</div>
-    <div class="flow">
-        정상 흐름                      ① 가로막기 (Interruption)
-   송신자 ──────▶ 수신자          송신자 ──╳    수신자     → 가용성 침해
+<figure class="netviz"><figcaption>① /27은 32칸 중 앞 27칸을 네트워크로 쓰는 것</figcaption><div class="nv-legend"><span class="nv-pill nv-net">파랑 · 네트워크 27비트 (1)</span><span class="nv-pill nv-host">초록 · 호스트 5비트 (0)</span></div><div class="nv-octets"><div class="nv-octet"><b>1번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span></div><span class="nv-pill">255</span></div><div class="nv-octet"><b>2번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span></div><span class="nv-pill">255</span></div><div class="nv-octet"><b>3번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span></div><span class="nv-pill">255</span></div><div class="nv-octet"><b>4번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span></div><span class="nv-pill">224 = 128 + 64 + 32</span></div></div><p class="nv-caption">앞의 8 + 8 + 8 + 3 = 27비트 → /27 → 255.255.255.224. 초록색 5비트로 2⁵ = 32개의 주소를 만들 수 있다.</p></figure>
 
-   ② 가로채기 (Interception)       ③ 변조 (Modification)
-   송신자 ──┬───▶ 수신자          송신자 ──▶[✎]──▶ 수신자
-            ▼ 제3자                        제3자가 내용 수정
-      → 기밀성 침해                  → 무결성 침해
-
-   ④ 위조 (Fabrication)
-   제3자 ─────▶ 수신자   (송신자인 척 새로 만들어 보냄)  → 인증 침해
-    </div>
-    <table class="tbl">
-      <thead><tr><th>위협</th><th>행위</th><th>깨지는 요건</th><th>공격 예</th></tr></thead>
+    <div class="sub-title" style="color:#9d520f">📊 CIDR · 마스크 · 주소 수</div>
+    <table class="tbl subnet-tbl">
+      <thead><tr><th>CIDR</th><th>서브넷 마스크</th><th>주소 수</th><th>호스트 수</th></tr></thead>
       <tbody>
-        <tr><td><b style="color:#8a6012">가로막기</b><br><span class="tag">Interruption</span></td><td>전달 자체를 <b>차단·마비</b></td><td><b style="color:#8a6012">가용성</b></td><td>DoS/DDoS, 회선 절단</td></tr>
-        <tr><td><b style="color:#2c6da4">가로채기</b><br><span class="tag">Interception</span></td><td>몰래 <b>엿봄</b> (내용은 안 건드림)</td><td><b style="color:#2c6da4">기밀성</b></td><td>스니핑, 도청, 트래픽 분석</td></tr>
-        <tr><td><b style="color:#267c41">변조</b><br><span class="tag">Modification</span></td><td>접근할 뿐 아니라 <b>내용을 바꿈</b></td><td><b style="color:#267c41">무결성</b></td><td>데이터 수정, 웹 변조</td></tr>
-        <tr><td><b style="color:#6b59aa">위조</b><br><span class="tag">Fabrication</span></td><td>없던 것을 <b>새로 만들어 삽입</b></td><td><b style="color:#6b59aa">인증</b></td><td>스푸핑, 위조 메시지 삽입</td></tr>
+        <tr><td><b>/8</b></td><td class="mono">255.0.0.0</td><td>16,777,216</td><td><b>16,777,214</b></td></tr>
+        <tr><td><b>/16</b></td><td class="mono">255.255.0.0</td><td>65,536</td><td><b>65,534</b></td></tr>
+        <tr><td><b>/22</b></td><td class="mono">255.255.252.0</td><td>1,024</td><td><b>1,022</b></td></tr>
+        <tr><td><b>/23</b></td><td class="mono">255.255.254.0</td><td>512</td><td><b>510</b></td></tr>
+        <tr><td><b>/24</b></td><td class="mono">255.255.255.0</td><td>256</td><td><b>254</b></td></tr>
+        <tr><td><b>/25</b></td><td class="mono">255.255.255.128</td><td>128</td><td><b>126</b></td></tr>
+        <tr><td><b>/26</b></td><td class="mono">255.255.255.192</td><td>64</td><td><b>62</b></td></tr>
+        <tr style="background:#e1ecfb;"><td><b>/27</b></td><td class="mono">255.255.255.224</td><td>32</td><td><b>30</b></td></tr>
+        <tr><td><b>/28</b></td><td class="mono">255.255.255.240</td><td>16</td><td><b>14</b></td></tr>
+        <tr><td><b>/29</b></td><td class="mono">255.255.255.248</td><td>8</td><td><b>6</b></td></tr>
+        <tr><td><b>/30</b></td><td class="mono">255.255.255.252</td><td>4</td><td><b>2</b></td></tr>
       </tbody>
     </table>
-    <div class="note" style="border-left-color:#ae3e30;">
-      🧠 <b>「막·채·변·위」 → 「가·기·무·인」</b><br>
-      가로<b>막</b>기=<b>가</b>용성 · 가로<b>채</b>기=<b>기</b>밀성 · <b>변</b>조=<b>무</b>결성 · <b>위</b>조=<b>인</b>증.<br>
-      기출 문장 <b>"인가받지 않은 제3자가 자원에 접근할 뿐만 아니라 내용을 변경"</b> → <b>변조</b>
-      <span class="tag">2022-1회 68번</span>. "접근만" 하면 가로채기, <b>"변경까지"</b> 하면 변조다.
+    <div class="note">
+      • <b>/24 ~ /30</b> 7줄부터 외운다. 마지막 옥텟만 바뀌어 계산이 가장 쉽다.<br>
+      • 블록 간격 = <b>256 − 마스크 값</b> (예: /27 → 256 − 224 = 32). /23처럼 셋째 옥텟에 걸리면 셋째 옥텟 기준으로 센다 (256 − 254 = 2).<br>
+      • <b>/31</b>은 점대점 링크용으로 주소 2개를 모두 쓰고, <b>/32</b>는 단일 호스트 주소다. 둘 다 −2 공식을 쓰지 않는다.
     </div>
 
-    <!-- 소극/적극 -->
-    <div class="sub-title" style="color:#2c6da4">🔀 소극적 공격 vs 적극적 공격</div>
+    <div class="sub-title" style="color:#117a68">⭐ 마지막 옥텟 암기법</div>
     <div class="two-col">
-      <div class="mini-card" style="border-left:3px solid #2c6da4;">
-        <h4 style="color:#2c6da4">소극적(Passive) 공격</h4>
-        <p>데이터를 <b>건드리지 않고 관찰만</b><br>
-        • 스니핑 · 도청 · <b>트래픽 분석</b><br>
-        <b style="color:#ae4024">탐지가 어렵다</b> → <b>예방(암호화)</b>이 대책</p>
+      <div class="mini-card">
+        <h4 style="color:#117a68">비트 가중치를 왼쪽부터 더한다</h4>
+        <p class="mono" style="line-height:2.1;font-size:14px;">
+          <b style="color:#1d252d">128 · 64 · 32 · 16 · 8 · 4 · 2 · 1</b><br>
+          ↓ 누적 합 = 마스크 값<br>
+          128 → 192 → 224 → 240<br>
+          → 248 → 252 → 254 → 255
+        </p>
       </div>
-      <div class="mini-card" style="border-left:3px solid #ae3e30;">
-        <h4 style="color:#ae4024">적극적(Active) 공격</h4>
-        <p>데이터를 <b>바꾸거나 흐름을 방해</b><br>
-        • 변조 · 위장 · 재전송 · <b>서비스 거부</b><br>
-        탐지는 비교적 쉽다 → <b>탐지·복구</b>가 대책</p>
+      <div class="mini-card">
+        <h4 style="color:#267c41">/25 ~ /30 은 세 줄을 짝으로</h4>
+        <p class="mono" style="line-height:2.1;font-size:14px;">
+          마스크 &nbsp;128 · 192 · 224 · 240 · 248 · 252<br>
+          주소 수 128 · &nbsp;64 · &nbsp;32 · &nbsp;16 · &nbsp;&nbsp;8 · &nbsp;&nbsp;4<br>
+          호스트 126 · &nbsp;62 · &nbsp;30 · &nbsp;14 · &nbsp;&nbsp;6 · &nbsp;&nbsp;2
+        </p>
+      </div>
+    </div>
+    <div class="flow">예: /27 = 24 + 3
+→ 255.255.255.<span style="color:#9d520f">111</span>00000 = 255.255.255.224
+→ 블록 간격 256 − 224 = 32
+→ 마지막 옥텟 시작값 0 · 32 · 64 · 96 · 128 · 160 · 192 · 224</div>
+
+    <div class="sub-title" style="color:#2c6da4">🧩 그림으로 보는 서브넷팅</div>
+<figure class="netviz"><figcaption>② 큰 주소 상자를 8개의 작은 상자로 나누기</figcaption><div class="nv-parent">192.168.10.0/24 · 전체 주소 256개 · .0 ~ .255</div><div class="nv-arrow">↓ 호스트 비트 3개를 빌려 /27로 분할 · 2³ = 8개 서브넷 ↓</div><div class="nv-split"><div class="nv-block "><b>서브넷 1</b><strong>.0~.31</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 2</b><strong>.32~.63</strong><span>/27 · 32개</span></div><div class="nv-block nv-selected"><b>서브넷 3</b><strong>.64~.95</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 4</b><strong>.96~.127</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 5</b><strong>.128~.159</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 6</b><strong>.160~.191</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 7</b><strong>.192~.223</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 8</b><strong>.224~.255</strong><span>/27 · 32개</span></div></div><p class="nv-caption">모든 상자의 앞 세 옥텟은 192.168.10으로 같다. 각 상자는 주소 32개, 일반 호스트 30개를 갖는다. 예시 IP .77은 세 번째 상자(.64~.95)에 들어간다.</p></figure>
+<figure class="netviz"><figcaption>③ 32개 주소 중 장비에 줄 수 있는 주소는 30개</figcaption><p>192.168.10.64/27의 마지막 옥텟을 한 칸에 하나씩 표시했다.</p><div class="nv-range"><span class="nv-address nv-reserved " title="192.168.10.64">.64</span><span class="nv-address nv-host " title="192.168.10.65">.65</span><span class="nv-address nv-host " title="192.168.10.66">.66</span><span class="nv-address nv-host " title="192.168.10.67">.67</span><span class="nv-address nv-host " title="192.168.10.68">.68</span><span class="nv-address nv-host " title="192.168.10.69">.69</span><span class="nv-address nv-host " title="192.168.10.70">.70</span><span class="nv-address nv-host " title="192.168.10.71">.71</span><span class="nv-address nv-host " title="192.168.10.72">.72</span><span class="nv-address nv-host " title="192.168.10.73">.73</span><span class="nv-address nv-host " title="192.168.10.74">.74</span><span class="nv-address nv-host " title="192.168.10.75">.75</span><span class="nv-address nv-host " title="192.168.10.76">.76</span><span class="nv-address nv-host nv-target" title="192.168.10.77">.77</span><span class="nv-address nv-host " title="192.168.10.78">.78</span><span class="nv-address nv-host " title="192.168.10.79">.79</span><span class="nv-address nv-host " title="192.168.10.80">.80</span><span class="nv-address nv-host " title="192.168.10.81">.81</span><span class="nv-address nv-host " title="192.168.10.82">.82</span><span class="nv-address nv-host " title="192.168.10.83">.83</span><span class="nv-address nv-host " title="192.168.10.84">.84</span><span class="nv-address nv-host " title="192.168.10.85">.85</span><span class="nv-address nv-host " title="192.168.10.86">.86</span><span class="nv-address nv-host " title="192.168.10.87">.87</span><span class="nv-address nv-host " title="192.168.10.88">.88</span><span class="nv-address nv-host " title="192.168.10.89">.89</span><span class="nv-address nv-host " title="192.168.10.90">.90</span><span class="nv-address nv-host " title="192.168.10.91">.91</span><span class="nv-address nv-host " title="192.168.10.92">.92</span><span class="nv-address nv-host " title="192.168.10.93">.93</span><span class="nv-address nv-host " title="192.168.10.94">.94</span><span class="nv-address nv-reserved " title="192.168.10.95">.95</span></div><div class="nv-results"><div class="nv-reserved">네트워크 주소<strong>.64</strong>장비 할당 제외</div><div class="nv-host">사용 가능 호스트<strong>.65 ~ .94</strong>30개 · 테두리 표시 = 예시 IP .77</div><div class="nv-reserved">브로드캐스트<strong>.95</strong>장비 할당 제외</div></div><p class="nv-caption">전체 32개 − 시작 주소 1개 − 마지막 주소 1개 = 30개. /31 점대점 링크와 /32 단일 주소에는 이 빼기 공식을 적용하지 않는다.</p></figure>
+<figure class="netviz"><figcaption>④ AND 연산은 네트워크 비트를 남기고 호스트 비트를 0으로</figcaption><p>192.168.10.77/27에서 앞 세 옥텟은 그대로다. 마지막 옥텟만 비교한다.</p><div class="nv-and"><div class="nv-and-row"><b>IP</b><div class="nv-bits"><span class="nv-bit nv-net">0</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">1</span><span class="nv-bit nv-host">1</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">1</span></div><b>77</b></div><div class="nv-and-row"><b>AND 마스크</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span></div><b>224</b></div><div class="nv-and-row"><b>네트워크</b><div class="nv-bits"><span class="nv-bit nv-net">0</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span></div><b>64</b></div></div><p class="nv-caption">같은 세로 칸에서 둘 다 1일 때만 결과가 1이다. 77 AND 224 = 64 → 네트워크 주소 192.168.10.64.</p></figure>
+
+    <div class="sub-title" style="color:#6b59aa">📝 계산 순서 — 192.168.10.77/27</div>
+    <div class="flow">① 마스크·간격   /27 → 255.255.255.224,  256 − 224 = <b>32</b>
+② 들어갈 블록   77은 64 이상 96 미만 → ⌊77 ÷ 32⌋ × 32 = <b>64</b>
+③ 시작과 끝     네트워크 192.168.10.<b>64</b> / 브로드캐스트 192.168.10.<b>95</b> (다음 시작 96 − 1)
+④ 호스트 범위   192.168.10.<b>65 ~ 94</b>  → 32 − 2 = <b>30개</b></div>
+    <div class="two-col">
+      <div class="mini-card">
+        <h4 style="color:#6b59aa">/23처럼 옥텟을 넘으면</h4>
+        <p>
+          192.168.11.77/23 → 마스크 255.255.<b>254</b>.0<br>
+          셋째 옥텟 간격 256 − 254 = <b>2</b> → 10·11이 한 블록<br>
+          네트워크 192.168.<b>10.0</b> · 브로드캐스트 192.168.<b>11.255</b>
+        </p>
+      </div>
+      <div class="mini-card">
+        <h4 style="color:#ae3e30">서브넷 개수와 호스트 수는 다르다</h4>
+        <p>
+          /24를 /27로 나누면 빌린 비트 3개 → 서브넷 <b>2³ = 8개</b><br>
+          서브넷마다 호스트 비트 5개 → 호스트 <b>2⁵ − 2 = 30개</b><br>
+          <span style="color:var(--text3)">개수는 빌린 비트, 호스트는 남은 비트로 센다.</span>
+        </p>
       </div>
     </div>
 
-    <!-- 공격 기법 -->
-    <div class="sub-title" style="color:#8a6012">🗡️ 자주 나오는 공격 기법</div>
-    <table class="tbl">
-      <thead><tr><th>공격</th><th>수법</th><th>노리는 것</th></tr></thead>
-      <tbody>
-        <tr><td><b>스니핑</b> <span class="tag">Sniffing</span></td><td>회선을 흐르는 <b>패킷을 훔쳐봄</b> (랜카드를 무차별 모드로)</td><td>기밀성</td></tr>
-        <tr><td><b>스푸핑</b> <span class="tag">Spoofing</span></td><td><b>남의 주소인 척</b> 속임 — IP/ARP/DNS/MAC 스푸핑</td><td>인증</td></tr>
-        <tr><td><b>세션 하이재킹</b></td><td>인증이 끝난 <b>세션을 가로채</b> 이어받음</td><td>인증·기밀성</td></tr>
-        <tr><td><b>중간자 공격</b> <span class="tag">MITM</span></td><td>둘 사이에 끼어 <b>양쪽인 척</b> 중계하며 도청·변조</td><td>기밀성·무결성</td></tr>
-        <tr><td><b>재전송 공격</b> <span class="tag">Replay</span></td><td>정상 패킷을 <b>복사해 나중에 다시</b> 보냄 → 타임스탬프·논스로 방어</td><td>인증</td></tr>
-        <tr><td><b>DoS / DDoS</b></td><td>자원을 고갈시켜 <b>서비스 마비</b>. DDoS는 <b>좀비 PC 다수</b>를 동원</td><td><b>가용성</b></td></tr>
-        <tr><td><b>SQL 인젝션</b></td><td>입력값에 <b>SQL 구문을 삽입</b>해 DB를 조작 → <b>입력값 검증</b>으로 방어</td><td>기밀성·무결성</td></tr>
-        <tr><td><b>XSS</b> <span class="tag">Cross-Site Scripting</span></td><td>게시글 등에 <b>스크립트를 심어</b> 다른 사용자 브라우저에서 실행</td><td>세션 탈취</td></tr>
-        <tr><td><b>CSRF</b></td><td>로그인된 사용자가 <b>모르는 사이 요청을 보내게</b> 만듦</td><td>무결성</td></tr>
-        <tr><td><b>버퍼 오버플로우</b></td><td>할당된 <b>버퍼를 넘겨 써서</b> 복귀 주소를 덮고 코드 실행</td><td>권한 탈취</td></tr>
-        <tr><td><b>제로데이</b> <span class="tag">Zero-day</span></td><td><b>패치가 나오기 전</b>의 취약점을 공격 — 시그니처 기반으로 못 막음</td><td>전반</td></tr>
-        <tr><td><b>APT</b></td><td><b>특정 대상</b>을 오래 잠복하며 <b>지속적·지능적</b>으로 공격</td><td>전반</td></tr>
-        <tr><td><b>랜섬웨어</b></td><td>파일을 <b>암호화하고 몸값</b> 요구 → <b>백업</b>이 최선의 대책</td><td>가용성</td></tr>
-        <tr><td><b>사회공학</b></td><td>기술이 아니라 <b>사람을 속임</b> — 피싱·파밍·스미싱·보이스피싱</td><td>인증</td></tr>
-      </tbody>
-    </table>
-
-    <!-- DoS 세부 -->
-    <div class="sub-title" style="color:#ae3e30">💥 DoS 공격 세부 유형</div>
-    <table class="tbl">
-      <thead><tr><th>공격</th><th>원리</th></tr></thead>
-      <tbody>
-        <tr><td><b>SYN Flooding</b></td><td>SYN만 잔뜩 보내고 <b>3-way 핸드셰이크를 완성하지 않아</b> 연결 대기열을 고갈</td></tr>
-        <tr><td><b>Smurf</b></td><td>출발지를 피해자로 위조해 <b>브로드캐스트로 ICMP</b>를 뿌려 응답 폭주 유도</td></tr>
-        <tr><td><b>Ping of Death</b></td><td><b>규격을 넘는 큰 ICMP</b> 패킷으로 재조립 시 시스템 오류 유발</td></tr>
-        <tr><td><b>Teardrop</b></td><td>단편(Fragment) <b>오프셋을 겹치게</b> 조작해 재조립을 깨뜨림</td></tr>
-        <tr><td><b>Land</b></td><td>출발지와 목적지 <b>주소를 똑같이</b> 만들어 자기 자신에게 응답하게 함</td></tr>
-      </tbody>
-    </table>
-    <div class="note" style="border-left-color:#ae3e30;">
-      🧠 <b>키워드 하나씩만</b> — SYN=<b>미완성 연결</b>, Smurf=<b>브로드캐스트 ICMP</b>,
-      PoD=<b>큰 패킷</b>, Teardrop=<b>겹친 오프셋</b>, Land=<b>출발지=목적지</b>.
+    <div class="sub-title" style="color:#8a6012">⏱️ 10초 확인</div>
+    <div class="cram-qs">
+      <details class="cram-q">
+        <summary><span class="cram-tag">확인 1</span><span class="cram-qt">호스트 50대가 필요할 때 가장 작은 서브넷은?</span></summary>
+        <div class="cram-a"><div class="cram-sol">2⁵ − 2 = 30 → 부족, 2⁶ − 2 = 62 → 충분 → 호스트 비트 6 → 32 − 6 = /26</div><div class="cram-ans">정답 <b>/26 (255.255.255.192)</b></div></div>
+      </details>
+      <details class="cram-q">
+        <summary><span class="cram-tag">확인 2</span><span class="cram-qt">192.168.1.130/26의 네트워크 주소와 브로드캐스트 주소는?</span></summary>
+        <div class="cram-a"><div class="cram-sol">간격 256 − 192 = 64 → 블록 128 ~ 191 → 호스트 .129 ~ .190</div><div class="cram-ans">정답 <b>192.168.1.128 / 192.168.1.191</b></div></div>
+      </details>
+      <details class="cram-q">
+        <summary><span class="cram-tag">확인 3</span><span class="cram-qt">/24를 /28로 나누면 서브넷 몇 개, 서브넷당 호스트 몇 개?</span></summary>
+        <div class="cram-a"><div class="cram-sol">빌린 비트 4 → 2⁴ = 16개, 남은 호스트 비트 4 → 2⁴ − 2 = 14</div><div class="cram-ans">정답 <b>16개 / 14개</b></div></div>
+      </details>
     </div>
 
-    <!-- 악성코드 -->
-    <div class="sub-title" style="color:#6b59aa">🦠 악성코드 3분류</div>
-    <table class="tbl">
-      <thead><tr><th>종류</th><th>숙주</th><th>자기 복제</th><th>특징</th></tr></thead>
-      <tbody>
-        <tr><td><b style="color:#8a6012">바이러스</b></td><td><b>필요</b> (파일에 기생)</td><td>O</td><td>숙주 파일이 실행돼야 퍼진다</td></tr>
-        <tr><td><b style="color:#ae3e30">웜</b> <span class="tag">Worm</span></td><td><b style="color:#ae4024">불필요</b> (독립 실행)</td><td>O</td><td><b>네트워크를 타고 스스로</b> 확산 → 대역폭 고갈</td></tr>
-        <tr><td><b style="color:#6b59aa">트로이 목마</b></td><td>정상 프로그램 <b>위장</b></td><td><b style="color:#ae4024">X</b></td><td>복제하지 않고 <b>백도어·정보 유출</b> 수행</td></tr>
-      </tbody>
-    </table>
     <div class="warn">
-      ⚠️ <b>가르는 기준 두 개</b> — <b>숙주가 필요한가(바이러스 O / 웜 X)</b>,
-      <b>스스로 복제하는가(트로이 목마만 X)</b>. 이 두 질문이면 세 개가 항상 구분된다.
-    </div>
-
-    <!-- 보안 요건 -->
-    <div class="sub-title" style="color:#267c41">🛡️ 정보통신보안 요건 정리</div>
-    <table class="tbl">
-      <thead><tr><th>요건</th><th>정의 문장 (기출 그대로)</th></tr></thead>
-      <tbody>
-        <tr><td><b style="color:#2c6da4">기밀성</b></td><td>인가된 사용자만 정보를 <b>볼 수 있음</b> — 도청·유출 방지</td></tr>
-        <tr><td><b style="color:#267c41">무결성</b></td><td>인가된 사용자만 <b>수정 가능</b>하며, <b>전송 중 수정되지 않고</b> 전달됨 <span class="tag">2022-1회 71번</span></td></tr>
-        <tr><td><b style="color:#8a6012">가용성</b></td><td>필요할 때 <b>언제든 사용 가능</b> — DDoS·장애로 깨진다</td></tr>
-        <tr><td><b style="color:#6b59aa">인증</b></td><td>통신 상대가 <b>주장하는 그 사람이 맞는지</b> 확인</td></tr>
-        <tr><td><b style="color:#9d520f">부인방지</b></td><td>보낸 사실·받은 사실을 <b>나중에 부인하지 못하게</b> — 전자서명이 수단</td></tr>
-      </tbody>
-    </table>
-    <div class="highlight">
-      암호화 알고리즘(대칭·비대칭·해시)과 전자서명 순서는 <b>「암호화 · AES-256」</b> 섹션에서 이어진다.
-      기출 단골인 <b>"A의 비밀키로 서명 → B의 공개키로 암호화"</b> 순서도 그쪽에 정리돼 있다.
+      ⚠️ <b>자주 틀리는 곳</b><br>
+      • 256 − 마스크 값은 그 옥텟의 <b>간격</b>이지 전체 주소 수가 아니다. /23의 전체 주소는 2가 아니라 <b>512</b>개다.<br>
+      • 호스트 수를 물으면 <b>−2</b>를 잊지 않는다. 32개로 답하면 오답이다.<br>
+      • 클래스 판별(첫 옥텟)과 마스크 비트는 다른 이야기다 →
+      <a href="/s3/ipclass/" onclick="return navGo(event,'ipclass',this)"><b>IP 클래스 · 서브넷마스크 · CIDR</b></a>
     </div>
   </div></div>
 

@@ -107,7 +107,7 @@
   <a class="sub-item nav-top" href="/" data-sec="home" onclick="return navGo(event,'home',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 10v9.5h12V10"/></svg>홈</a>
   <div class="nav-label">꼭 외워야 할 것</div>
   <a class="sub-item nav-top" href="/overview/">OSI 7계층 한눈에</a>
-  <a class="sub-item nav-top" href="/subnet/">서브넷 마스크 한눈에</a>
+  <a class="sub-item nav-top" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
   <div class="nav-label">과목</div>
   <nav id="sidebar-menu" aria-label="과목">
   <div class="subj-group">
@@ -169,7 +169,7 @@
     </div>
   </div>
   <div class="subj-group">
-    <div class="subj-head c-s3" data-sid="s3" onclick="toggleSubj('s3',this)" role="button" tabindex="0" aria-controls="s3"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">3. 정보통신네트워크</span><span class="nav-count">17</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
+    <div class="subj-head c-s3" data-sid="s3" onclick="toggleSubj('s3',this)" role="button" tabindex="0" aria-controls="s3"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">3. 정보통신네트워크</span><span class="nav-count">18</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
     <div class="subj-items" id="s3">
       <a class="hub-item" href="/s3/">3과목 전체 주제 한눈에 보기</a>
       <!-- OSI 개요 -->
@@ -191,6 +191,7 @@
       <div class="sub-item-child" data-sec="ipclass" onclick="showAndScroll('ipclass','anchor-subnet',this)">서브넷팅 / CIDR 계산</div>
       <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-arp',this)">ARP / RARP</div>
       <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-icmp',this)">ICMP / IGMP</div>
+      <a class="sub-item" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
       <a class="sub-item" href="/s3/l2/" data-sec="l2" onclick="return navGo(event,'l2',this)"><span class="layer-menu-copy"><b>2계층 · 데이터링크</b><small>연결된 구간에서 프레임 전달하기</small></span></a>
       <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-hdlc',this)">HDLC</div>
       <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-llc',this)">802.2 LLC</div>
@@ -543,6 +544,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=7aef874d00df"></script>
+<script src="/assets/app.js?v=691b552f7903"></script>
 </body>
-</html>
+</html>
