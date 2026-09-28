@@ -1798,7 +1798,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       경계는 주소의 <b>맨 앞 비트 몇 개</b>만 보면 바로 알 수 있다.
     </div>
 
-<figure class="netviz"><figcaption>클래스 A·B·C의 기본 경계는 8비트씩 이동</figcaption><div class="nv-legend"><span class="nv-pill nv-net">네트워크 부분</span><span class="nv-pill nv-host">호스트 부분</span></div><div class="nv-class"><div class="nv-class-label">클래스 A<small>기본 /8</small></div><div class="nv-class-track"><span class="nv-net" style="flex:8">8비트</span><span class="nv-host" style="flex:24">24비트</span></div></div><div class="nv-class"><div class="nv-class-label">클래스 B<small>기본 /16</small></div><div class="nv-class-track"><span class="nv-net" style="flex:16">16비트</span><span class="nv-host" style="flex:16">16비트</span></div></div><div class="nv-class"><div class="nv-class-label">클래스 C<small>기본 /24</small></div><div class="nv-class-track"><span class="nv-net" style="flex:24">24비트</span><span class="nv-host" style="flex:8">8비트</span></div></div><p class="nv-caption">전체 막대는 IPv4의 32비트입니다. CIDR은 /27처럼 경계를 더 세밀하게 정합니다. D는 멀티캐스트, E는 예약 대역으로 이 호스트 분할 방식에 해당하지 않습니다.</p></figure>
+<figure class="netviz"><figcaption>클래스 A·B·C의 기본 경계는 8비트씩 이동</figcaption><div class="nv-legend"><span class="nv-pill nv-net">네트워크 부분</span><span class="nv-pill nv-host">호스트 부분</span></div><div class="nv-class"><div class="nv-class-label">클래스 A<small>기본 /8</small></div><div class="nv-class-track"><span class="nv-net" style="flex:8">8비트</span><span class="nv-host" style="flex:24">24비트</span></div></div><div class="nv-class"><div class="nv-class-label">클래스 B<small>기본 /16</small></div><div class="nv-class-track"><span class="nv-net" style="flex:16">16비트</span><span class="nv-host" style="flex:16">16비트</span></div></div><div class="nv-class"><div class="nv-class-label">클래스 C<small>기본 /24</small></div><div class="nv-class-track"><span class="nv-net" style="flex:24">24비트</span><span class="nv-host" style="flex:8">8비트</span></div></div><p class="nv-caption">전체 막대는 IPv4의 32비트다. CIDR은 /27처럼 경계를 더 세밀하게 정한다. D는 멀티캐스트, E는 예약 대역으로 이 호스트 분할 방식에 해당하지 않는다.</p></figure>
     <!-- 선두 비트 원리 -->
     <div class="sub-title" style="color:#9d520f">🔑 원리 — 맨 앞 비트가 클래스를 결정한다</div>
     <div class="flow">첫 번째 옥텟(8비트)의 <span style="color:#9d520f">앞부분</span>만 보면 끝
@@ -2260,7 +2260,9 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       목적: IP 주소 낭비 방지 / 브로드캐스트 도메인 축소 / 보안 강화
     </div>
 
-<figure class="netviz"><figcaption>① /27은 32칸 중 앞 27칸을 네트워크로 쓰는 것</figcaption><div class="nv-legend"><span class="nv-pill nv-net">파랑 · 네트워크 27비트 (1)</span><span class="nv-pill nv-host">초록 · 호스트 5비트 (0)</span></div><div class="nv-octets"><div class="nv-octet"><b>1번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span></div><span class="nv-pill">255</span></div><div class="nv-octet"><b>2번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span></div><span class="nv-pill">255</span></div><div class="nv-octet"><b>3번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span></div><span class="nv-pill">255</span></div><div class="nv-octet"><b>4번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span></div><span class="nv-pill">224 = 128 + 64 + 32</span></div></div><p class="nv-caption">앞의 8 + 8 + 8 + 3 = 27비트 → /27 → 255.255.255.224. 초록색 5비트로 2⁵ = 32개의 주소를 만들 수 있습니다.</p></figure><figure class="netviz"><figcaption>② 큰 주소 상자를 8개의 작은 상자로 나누기</figcaption><div class="nv-parent">192.168.10.0/24 · 전체 주소 256개 · .0 ~ .255</div><div class="nv-arrow">↓ 호스트 비트 3개를 빌려 /27로 분할 · 2³ = 8개 서브넷 ↓</div><div class="nv-split"><div class="nv-block "><b>서브넷 1</b><strong>.0~.31</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 2</b><strong>.32~.63</strong><span>/27 · 32개</span></div><div class="nv-block nv-selected"><b>서브넷 3</b><strong>.64~.95</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 4</b><strong>.96~.127</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 5</b><strong>.128~.159</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 6</b><strong>.160~.191</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 7</b><strong>.192~.223</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 8</b><strong>.224~.255</strong><span>/27 · 32개</span></div></div><p class="nv-caption">모든 상자의 앞 세 옥텟은 192.168.10으로 같습니다. 각 상자는 주소 32개, 일반 호스트 30개를 갖습니다. 예시 IP .77은 세 번째 상자(.64~.95)에 들어갑니다.</p></figure><figure class="netviz"><figcaption>③ 32개 주소 중 장비에 줄 수 있는 주소는 30개</figcaption><p>192.168.10.64/27의 마지막 옥텟을 한 칸에 하나씩 표시했습니다.</p><div class="nv-range"><span class="nv-address nv-reserved " title="192.168.10.64">.64</span><span class="nv-address nv-host " title="192.168.10.65">.65</span><span class="nv-address nv-host " title="192.168.10.66">.66</span><span class="nv-address nv-host " title="192.168.10.67">.67</span><span class="nv-address nv-host " title="192.168.10.68">.68</span><span class="nv-address nv-host " title="192.168.10.69">.69</span><span class="nv-address nv-host " title="192.168.10.70">.70</span><span class="nv-address nv-host " title="192.168.10.71">.71</span><span class="nv-address nv-host " title="192.168.10.72">.72</span><span class="nv-address nv-host " title="192.168.10.73">.73</span><span class="nv-address nv-host " title="192.168.10.74">.74</span><span class="nv-address nv-host " title="192.168.10.75">.75</span><span class="nv-address nv-host " title="192.168.10.76">.76</span><span class="nv-address nv-host nv-target" title="192.168.10.77">.77</span><span class="nv-address nv-host " title="192.168.10.78">.78</span><span class="nv-address nv-host " title="192.168.10.79">.79</span><span class="nv-address nv-host " title="192.168.10.80">.80</span><span class="nv-address nv-host " title="192.168.10.81">.81</span><span class="nv-address nv-host " title="192.168.10.82">.82</span><span class="nv-address nv-host " title="192.168.10.83">.83</span><span class="nv-address nv-host " title="192.168.10.84">.84</span><span class="nv-address nv-host " title="192.168.10.85">.85</span><span class="nv-address nv-host " title="192.168.10.86">.86</span><span class="nv-address nv-host " title="192.168.10.87">.87</span><span class="nv-address nv-host " title="192.168.10.88">.88</span><span class="nv-address nv-host " title="192.168.10.89">.89</span><span class="nv-address nv-host " title="192.168.10.90">.90</span><span class="nv-address nv-host " title="192.168.10.91">.91</span><span class="nv-address nv-host " title="192.168.10.92">.92</span><span class="nv-address nv-host " title="192.168.10.93">.93</span><span class="nv-address nv-host " title="192.168.10.94">.94</span><span class="nv-address nv-reserved " title="192.168.10.95">.95</span></div><div class="nv-results"><div class="nv-reserved">네트워크 주소<strong>.64</strong>장비 할당 제외</div><div class="nv-host">사용 가능 호스트<strong>.65 ~ .94</strong>30개 · 테두리 표시 = 예시 IP .77</div><div class="nv-reserved">브로드캐스트<strong>.95</strong>장비 할당 제외</div></div><p class="nv-caption">전체 32개 − 시작 주소 1개 − 마지막 주소 1개 = 30개. /31 점대점 링크와 /32 단일 주소에는 이 빼기 공식을 적용하지 않습니다.</p></figure><figure class="netviz"><figcaption>④ AND 연산은 네트워크 비트를 남기고 호스트 비트를 0으로</figcaption><p>192.168.10.77/27에서 앞 세 옥텟은 그대로입니다. 마지막 옥텟만 비교하세요.</p><div class="nv-and"><div class="nv-and-row"><b>IP</b><div class="nv-bits"><span class="nv-bit nv-net">0</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">1</span><span class="nv-bit nv-host">1</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">1</span></div><b>77</b></div><div class="nv-and-row"><b>AND 마스크</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span></div><b>224</b></div><div class="nv-and-row"><b>네트워크</b><div class="nv-bits"><span class="nv-bit nv-net">0</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span></div><b>64</b></div></div><p class="nv-caption">같은 세로 칸에서 둘 다 1일 때만 결과가 1입니다. 77 AND 224 = 64 → 네트워크 주소 192.168.10.64.</p></figure>
+    <div class="highlight" style="cursor:pointer;" onclick="showSection('subnet',null)" role="button" tabindex="0">
+      📐 <b>비트 그림 · 마스크 암기표 · 계산 순서</b>는 <b style="text-decoration:underline">「서브넷 마스크 한눈에」</b> 섹션에 모아 두었다 → 바로 가기
+    </div>
     <div class="sub-title" style="margin-top:12px">핵심 용어</div>
     <table class="tbl">
       <thead><tr><th>용어</th><th>의미</th><th>예시 (/24 기준)</th></tr></thead>
@@ -2363,21 +2365,7 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </div>
 
     <div class="sub-title" style="margin-top:14px">CIDR 전체 표</div>
-    <table class="tbl">
-      <thead><tr><th>CIDR</th><th>서브넷 마스크</th><th>호스트 비트</th><th>전체 IP</th><th>사용 가능 호스트</th><th>용도</th></tr></thead>
-      <tbody>
-        <tr><td><b>/8</b></td><td>255.0.0.0</td><td>24 bit</td><td>16,777,216</td><td><b>16,777,214</b></td><td>클래스 A</td></tr>
-        <tr><td><b>/16</b></td><td>255.255.0.0</td><td>16 bit</td><td>65,536</td><td><b>65,534</b></td><td>클래스 B</td></tr>
-        <tr><td><b>/24</b></td><td>255.255.255.0</td><td>8 bit</td><td>256</td><td><b>254</b></td><td>클래스 C (가장 일반적)</td></tr>
-        <tr><td><b>/25</b></td><td>255.255.255.128</td><td>7 bit</td><td>128</td><td><b>126</b></td><td>/24 반으로 분할</td></tr>
-        <tr><td><b>/26</b></td><td>255.255.255.192</td><td>6 bit</td><td>64</td><td><b>62</b></td><td>/24 4등분</td></tr>
-        <tr><td><b>/27</b></td><td>255.255.255.224</td><td>5 bit</td><td>32</td><td><b>30</b></td><td>/24 8등분</td></tr>
-        <tr><td><b>/28</b></td><td>255.255.255.240</td><td>4 bit</td><td>16</td><td><b>14</b></td><td>소규모</td></tr>
-        <tr><td><b>/29</b></td><td>255.255.255.248</td><td>3 bit</td><td>8</td><td><b>6</b></td><td>소규모</td></tr>
-        <tr><td><b>/30</b></td><td>255.255.255.252</td><td>2 bit</td><td>4</td><td><b>2</b></td><td>점대점(P2P) 연결</td></tr>
-        <tr><td><b>/32</b></td><td>255.255.255.255</td><td>0 bit</td><td>1</td><td><b>0</b></td><td>단일 호스트 주소</td></tr>
-      </tbody>
-    </table>
+    <div class="note">/8 ~ /30 전체 표와 /31·/32 예외는 <a href="/s3/subnet/" onclick="return navGo(event,'subnet',this)"><b>서브넷 마스크 한눈에</b></a>에 정리했다.</div>
 
     <div class="sub-title" style="margin-top:14px">실전 계산 예제</div>
     <div class="two-col">
@@ -2457,6 +2445,121 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
       • <b>169.254.x.x</b> 가 보이면 DHCP 할당 실패(APIPA)<br>
       • 유효 호스트 = <b>2ⁿ − 2</b>, 서브넷 수 = <b>2^(빌린 비트)</b>, 블록 크기 = <b>256 − 마지막 옥텟</b><br>
       • <b>블록 크기 × 서브넷 수 = 256</b> — 곱이 256이 아니면 계산이 틀린 것
+    </div>
+  </div>
+
+  <!-- ════ 서브넷 마스크 한눈에 ════ -->
+  <div class="section" id="sec-subnet" data-desc="CIDR /8~/30의 서브넷 마스크·주소 수·호스트 수를 표 하나로. 비트 그림과 블록 간격으로 네트워크·브로드캐스트 주소를 바로 찾는다.">
+    <h2 class="section-title" style="color:#9d520f">📐 서브넷 마스크 한눈에</h2>
+
+    <div class="highlight">
+      IPv4 주소는 <b>32비트</b>다. <b>/n</b> 은 앞 <b>n비트가 네트워크</b>, 나머지 <b>32−n비트가 호스트</b>라는 뜻이다.<br>
+      마스크는 네트워크 부분을 <b>1</b>, 호스트 부분을 <b>0</b>으로 채운 값이고, 1은 항상 왼쪽부터 이어진다.<br>
+      사용 가능 호스트 = <b style="color:#9d520f">2<sup>호스트 비트</sup> − 2</b> (네트워크 주소·브로드캐스트 주소 제외).
+      <b>/n이 1 커지면 주소 수는 절반</b>이 된다.
+    </div>
+
+<figure class="netviz"><figcaption>① /27은 32칸 중 앞 27칸을 네트워크로 쓰는 것</figcaption><div class="nv-legend"><span class="nv-pill nv-net">파랑 · 네트워크 27비트 (1)</span><span class="nv-pill nv-host">초록 · 호스트 5비트 (0)</span></div><div class="nv-octets"><div class="nv-octet"><b>1번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span></div><span class="nv-pill">255</span></div><div class="nv-octet"><b>2번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span></div><span class="nv-pill">255</span></div><div class="nv-octet"><b>3번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span></div><span class="nv-pill">255</span></div><div class="nv-octet"><b>4번째 옥텟 · 8비트</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span></div><span class="nv-pill">224 = 128 + 64 + 32</span></div></div><p class="nv-caption">앞의 8 + 8 + 8 + 3 = 27비트 → /27 → 255.255.255.224. 초록색 5비트로 2⁵ = 32개의 주소를 만들 수 있다.</p></figure>
+
+    <div class="sub-title" style="color:#9d520f">📊 CIDR · 마스크 · 주소 수</div>
+    <table class="tbl subnet-tbl">
+      <thead><tr><th>CIDR</th><th>서브넷 마스크</th><th>주소 수</th><th>호스트 수</th></tr></thead>
+      <tbody>
+        <tr><td><b>/8</b></td><td class="mono">255.0.0.0</td><td>16,777,216</td><td><b>16,777,214</b></td></tr>
+        <tr><td><b>/16</b></td><td class="mono">255.255.0.0</td><td>65,536</td><td><b>65,534</b></td></tr>
+        <tr><td><b>/22</b></td><td class="mono">255.255.252.0</td><td>1,024</td><td><b>1,022</b></td></tr>
+        <tr><td><b>/23</b></td><td class="mono">255.255.254.0</td><td>512</td><td><b>510</b></td></tr>
+        <tr><td><b>/24</b></td><td class="mono">255.255.255.0</td><td>256</td><td><b>254</b></td></tr>
+        <tr><td><b>/25</b></td><td class="mono">255.255.255.128</td><td>128</td><td><b>126</b></td></tr>
+        <tr><td><b>/26</b></td><td class="mono">255.255.255.192</td><td>64</td><td><b>62</b></td></tr>
+        <tr style="background:#e1ecfb;"><td><b>/27</b></td><td class="mono">255.255.255.224</td><td>32</td><td><b>30</b></td></tr>
+        <tr><td><b>/28</b></td><td class="mono">255.255.255.240</td><td>16</td><td><b>14</b></td></tr>
+        <tr><td><b>/29</b></td><td class="mono">255.255.255.248</td><td>8</td><td><b>6</b></td></tr>
+        <tr><td><b>/30</b></td><td class="mono">255.255.255.252</td><td>4</td><td><b>2</b></td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      • <b>/24 ~ /30</b> 7줄부터 외운다. 마지막 옥텟만 바뀌어 계산이 가장 쉽다.<br>
+      • 블록 간격 = <b>256 − 마스크 값</b> (예: /27 → 256 − 224 = 32). /23처럼 셋째 옥텟에 걸리면 셋째 옥텟 기준으로 센다 (256 − 254 = 2).<br>
+      • <b>/31</b>은 점대점 링크용으로 주소 2개를 모두 쓰고, <b>/32</b>는 단일 호스트 주소다. 둘 다 −2 공식을 쓰지 않는다.
+    </div>
+
+    <div class="sub-title" style="color:#117a68">⭐ 마지막 옥텟 암기법</div>
+    <div class="two-col">
+      <div class="mini-card">
+        <h4 style="color:#117a68">비트 가중치를 왼쪽부터 더한다</h4>
+        <p class="mono" style="line-height:2.1;font-size:14px;">
+          <b style="color:#1d252d">128 · 64 · 32 · 16 · 8 · 4 · 2 · 1</b><br>
+          ↓ 누적 합 = 마스크 값<br>
+          128 → 192 → 224 → 240<br>
+          → 248 → 252 → 254 → 255
+        </p>
+      </div>
+      <div class="mini-card">
+        <h4 style="color:#267c41">/25 ~ /30 은 세 줄을 짝으로</h4>
+        <p class="mono" style="line-height:2.1;font-size:14px;">
+          마스크 &nbsp;128 · 192 · 224 · 240 · 248 · 252<br>
+          주소 수 128 · &nbsp;64 · &nbsp;32 · &nbsp;16 · &nbsp;&nbsp;8 · &nbsp;&nbsp;4<br>
+          호스트 126 · &nbsp;62 · &nbsp;30 · &nbsp;14 · &nbsp;&nbsp;6 · &nbsp;&nbsp;2
+        </p>
+      </div>
+    </div>
+    <div class="flow">예: /27 = 24 + 3
+→ 255.255.255.<span style="color:#9d520f">111</span>00000 = 255.255.255.224
+→ 블록 간격 256 − 224 = 32
+→ 마지막 옥텟 시작값 0 · 32 · 64 · 96 · 128 · 160 · 192 · 224</div>
+
+    <div class="sub-title" style="color:#2c6da4">🧩 그림으로 보는 서브넷팅</div>
+<figure class="netviz"><figcaption>② 큰 주소 상자를 8개의 작은 상자로 나누기</figcaption><div class="nv-parent">192.168.10.0/24 · 전체 주소 256개 · .0 ~ .255</div><div class="nv-arrow">↓ 호스트 비트 3개를 빌려 /27로 분할 · 2³ = 8개 서브넷 ↓</div><div class="nv-split"><div class="nv-block "><b>서브넷 1</b><strong>.0~.31</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 2</b><strong>.32~.63</strong><span>/27 · 32개</span></div><div class="nv-block nv-selected"><b>서브넷 3</b><strong>.64~.95</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 4</b><strong>.96~.127</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 5</b><strong>.128~.159</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 6</b><strong>.160~.191</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 7</b><strong>.192~.223</strong><span>/27 · 32개</span></div><div class="nv-block "><b>서브넷 8</b><strong>.224~.255</strong><span>/27 · 32개</span></div></div><p class="nv-caption">모든 상자의 앞 세 옥텟은 192.168.10으로 같다. 각 상자는 주소 32개, 일반 호스트 30개를 갖는다. 예시 IP .77은 세 번째 상자(.64~.95)에 들어간다.</p></figure>
+<figure class="netviz"><figcaption>③ 32개 주소 중 장비에 줄 수 있는 주소는 30개</figcaption><p>192.168.10.64/27의 마지막 옥텟을 한 칸에 하나씩 표시했다.</p><div class="nv-range"><span class="nv-address nv-reserved " title="192.168.10.64">.64</span><span class="nv-address nv-host " title="192.168.10.65">.65</span><span class="nv-address nv-host " title="192.168.10.66">.66</span><span class="nv-address nv-host " title="192.168.10.67">.67</span><span class="nv-address nv-host " title="192.168.10.68">.68</span><span class="nv-address nv-host " title="192.168.10.69">.69</span><span class="nv-address nv-host " title="192.168.10.70">.70</span><span class="nv-address nv-host " title="192.168.10.71">.71</span><span class="nv-address nv-host " title="192.168.10.72">.72</span><span class="nv-address nv-host " title="192.168.10.73">.73</span><span class="nv-address nv-host " title="192.168.10.74">.74</span><span class="nv-address nv-host " title="192.168.10.75">.75</span><span class="nv-address nv-host " title="192.168.10.76">.76</span><span class="nv-address nv-host nv-target" title="192.168.10.77">.77</span><span class="nv-address nv-host " title="192.168.10.78">.78</span><span class="nv-address nv-host " title="192.168.10.79">.79</span><span class="nv-address nv-host " title="192.168.10.80">.80</span><span class="nv-address nv-host " title="192.168.10.81">.81</span><span class="nv-address nv-host " title="192.168.10.82">.82</span><span class="nv-address nv-host " title="192.168.10.83">.83</span><span class="nv-address nv-host " title="192.168.10.84">.84</span><span class="nv-address nv-host " title="192.168.10.85">.85</span><span class="nv-address nv-host " title="192.168.10.86">.86</span><span class="nv-address nv-host " title="192.168.10.87">.87</span><span class="nv-address nv-host " title="192.168.10.88">.88</span><span class="nv-address nv-host " title="192.168.10.89">.89</span><span class="nv-address nv-host " title="192.168.10.90">.90</span><span class="nv-address nv-host " title="192.168.10.91">.91</span><span class="nv-address nv-host " title="192.168.10.92">.92</span><span class="nv-address nv-host " title="192.168.10.93">.93</span><span class="nv-address nv-host " title="192.168.10.94">.94</span><span class="nv-address nv-reserved " title="192.168.10.95">.95</span></div><div class="nv-results"><div class="nv-reserved">네트워크 주소<strong>.64</strong>장비 할당 제외</div><div class="nv-host">사용 가능 호스트<strong>.65 ~ .94</strong>30개 · 테두리 표시 = 예시 IP .77</div><div class="nv-reserved">브로드캐스트<strong>.95</strong>장비 할당 제외</div></div><p class="nv-caption">전체 32개 − 시작 주소 1개 − 마지막 주소 1개 = 30개. /31 점대점 링크와 /32 단일 주소에는 이 빼기 공식을 적용하지 않는다.</p></figure>
+<figure class="netviz"><figcaption>④ AND 연산은 네트워크 비트를 남기고 호스트 비트를 0으로</figcaption><p>192.168.10.77/27에서 앞 세 옥텟은 그대로다. 마지막 옥텟만 비교한다.</p><div class="nv-and"><div class="nv-and-row"><b>IP</b><div class="nv-bits"><span class="nv-bit nv-net">0</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">1</span><span class="nv-bit nv-host">1</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">1</span></div><b>77</b></div><div class="nv-and-row"><b>AND 마스크</b><div class="nv-bits"><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span></div><b>224</b></div><div class="nv-and-row"><b>네트워크</b><div class="nv-bits"><span class="nv-bit nv-net">0</span><span class="nv-bit nv-net">1</span><span class="nv-bit nv-net">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span><span class="nv-bit nv-host">0</span></div><b>64</b></div></div><p class="nv-caption">같은 세로 칸에서 둘 다 1일 때만 결과가 1이다. 77 AND 224 = 64 → 네트워크 주소 192.168.10.64.</p></figure>
+
+    <div class="sub-title" style="color:#6b59aa">📝 계산 순서 — 192.168.10.77/27</div>
+    <div class="flow">① 마스크·간격   /27 → 255.255.255.224,  256 − 224 = <b>32</b>
+② 들어갈 블록   77은 64 이상 96 미만 → ⌊77 ÷ 32⌋ × 32 = <b>64</b>
+③ 시작과 끝     네트워크 192.168.10.<b>64</b> / 브로드캐스트 192.168.10.<b>95</b> (다음 시작 96 − 1)
+④ 호스트 범위   192.168.10.<b>65 ~ 94</b>  → 32 − 2 = <b>30개</b></div>
+    <div class="two-col">
+      <div class="mini-card">
+        <h4 style="color:#6b59aa">/23처럼 옥텟을 넘으면</h4>
+        <p>
+          192.168.11.77/23 → 마스크 255.255.<b>254</b>.0<br>
+          셋째 옥텟 간격 256 − 254 = <b>2</b> → 10·11이 한 블록<br>
+          네트워크 192.168.<b>10.0</b> · 브로드캐스트 192.168.<b>11.255</b>
+        </p>
+      </div>
+      <div class="mini-card">
+        <h4 style="color:#ae3e30">서브넷 개수와 호스트 수는 다르다</h4>
+        <p>
+          /24를 /27로 나누면 빌린 비트 3개 → 서브넷 <b>2³ = 8개</b><br>
+          서브넷마다 호스트 비트 5개 → 호스트 <b>2⁵ − 2 = 30개</b><br>
+          <span style="color:var(--text3)">개수는 빌린 비트, 호스트는 남은 비트로 센다.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="sub-title" style="color:#8a6012">⏱️ 10초 확인</div>
+    <div class="cram-qs">
+      <details class="cram-q">
+        <summary><span class="cram-tag">확인 1</span><span class="cram-qt">호스트 50대가 필요할 때 가장 작은 서브넷은?</span></summary>
+        <div class="cram-a"><div class="cram-sol">2⁵ − 2 = 30 → 부족, 2⁶ − 2 = 62 → 충분 → 호스트 비트 6 → 32 − 6 = /26</div><div class="cram-ans">정답 <b>/26 (255.255.255.192)</b></div></div>
+      </details>
+      <details class="cram-q">
+        <summary><span class="cram-tag">확인 2</span><span class="cram-qt">192.168.1.130/26의 네트워크 주소와 브로드캐스트 주소는?</span></summary>
+        <div class="cram-a"><div class="cram-sol">간격 256 − 192 = 64 → 블록 128 ~ 191 → 호스트 .129 ~ .190</div><div class="cram-ans">정답 <b>192.168.1.128 / 192.168.1.191</b></div></div>
+      </details>
+      <details class="cram-q">
+        <summary><span class="cram-tag">확인 3</span><span class="cram-qt">/24를 /28로 나누면 서브넷 몇 개, 서브넷당 호스트 몇 개?</span></summary>
+        <div class="cram-a"><div class="cram-sol">빌린 비트 4 → 2⁴ = 16개, 남은 호스트 비트 4 → 2⁴ − 2 = 14</div><div class="cram-ans">정답 <b>16개 / 14개</b></div></div>
+      </details>
+    </div>
+
+    <div class="warn">
+      ⚠️ <b>자주 틀리는 곳</b><br>
+      • 256 − 마스크 값은 그 옥텟의 <b>간격</b>이지 전체 주소 수가 아니다. /23의 전체 주소는 2가 아니라 <b>512</b>개다.<br>
+      • 호스트 수를 물으면 <b>−2</b>를 잊지 않는다. 32개로 답하면 오답이다.<br>
+      • 클래스 판별(첫 옥텟)과 마스크 비트는 다른 이야기다 →
+      <a href="/s3/ipclass/" onclick="return navGo(event,'ipclass',this)"><b>IP 클래스 · 서브넷마스크 · CIDR</b></a>
     </div>
   </div>
 
@@ -3302,4 +3405,3 @@ X.25 (1970s)          프레임릴레이 (1990s)         ATM (1990s~)
     </table>
     <div class="warn" style="margin-top:12px"><b>UDP 사용 암기법 — "다 동 티 스 립 알"</b><br>DNS(53) / DHCP(67,68) / TFTP(69) / SNMP(161) / RIP(520) / RTP(5004)<br>나머지 대부분 TCP / BGP만 예외로 라우팅인데 TCP(179)</div>
   </div>
-
