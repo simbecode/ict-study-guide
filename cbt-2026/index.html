@@ -85,8 +85,22 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-N0XWRMVEX0');
+  gtag('config', 'G-N0XWRMVEX0', {send_page_view:false});
+  window.__lastGaPagePath = '';
+  window.trackPageView = function(){
+    var path = location.pathname + location.search;
+    if(window.__lastGaPagePath === path) return;
+    window.__lastGaPagePath = path;
+    gtag('event', 'page_view', {
+      page_title: document.title,
+      page_location: location.href,
+      page_path: path
+    });
+  };
+  window.trackEvent = function(name, params){ gtag('event', name, params || {}); };
+  window.trackPageView();
 </script>
+<script src="/assets/exam-rules.js"></script>
 </head>
 <body>
 
@@ -102,7 +116,8 @@
   <div class="nav-label">꼭 외워야 할 것</div>
   <a class="sub-item nav-top" href="/overview/">OSI 7계층 한눈에</a>
   <a class="sub-item nav-top" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
-  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">공장가동률 한눈에</a>
+  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">MTTF · MTTR · MTBF</a>
+  <a class="sub-item nav-top" href="/radix/" data-sec="radix-essential" onclick="return navGo(event,'radix-essential',this)">진수 변환 한눈에</a>
   <div class="nav-label">과목</div>
   <nav id="sidebar-menu" aria-label="과목">
   <div class="subj-group">
@@ -277,10 +292,12 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div style="padding:60px 20px;text-align:center;color:var(--text3);font-size:14px;">불러오는 중…</div></div>
+  <div id="subject-content-root"></div>
 
   
   <div data-section-src="/sections/factory-utilization.html"></div>
+
+  <div data-section-src="/sections/radix-essential.html"></div>
 
   <div data-section-src="/sections/cram.html"></div>
 
@@ -293,7 +310,8 @@
     <div class="sub-title">주제 바로가기</div>
     <p class="cbt-lead">주제를 누르면 해당 문제로 이동합니다. 풀이 후 표시되는 정답·오답으로 복습할 주제를 확인하세요.</p>
     <table class="tbl cbt-toc"><tbody><tr class="c-s1"><td><span class="cbt-dot"></span>1과목</td><td><a href="#cbt-q1" class="cbt-topic" data-q="1">문자 동기 방식</a> <a href="#cbt-q2" class="cbt-topic" data-q="2">DPCM</a> <a href="#cbt-q3" class="cbt-topic" data-q="3">PWM</a> <a href="#cbt-q4" class="cbt-topic" data-q="4">신호대잡음비 dB 변환</a> <a href="#cbt-q5" class="cbt-topic" data-q="5">송신전력 dB 변환</a> <a href="#cbt-q6" class="cbt-topic" data-q="6">W ↔ dBW·dBm 변환</a> <a href="#cbt-q7" class="cbt-topic" data-q="7">RC 발진회로</a> <a href="#cbt-q8" class="cbt-topic" data-q="8">LPF 차단주파수</a> <a href="#cbt-q9" class="cbt-topic" data-q="9">광속도와 굴절률</a> <a href="#cbt-q10" class="cbt-topic" data-q="10">반파장 안테나</a> <a href="#cbt-q11" class="cbt-topic" data-q="11">PAPR 계산</a> <a href="#cbt-q12" class="cbt-topic" data-q="12">DS-CDMA 상호상관</a> <a href="#cbt-q13" class="cbt-topic" data-q="13">MU-MIMO</a> <a href="#cbt-q14" class="cbt-topic" data-q="14">AMI 선로부호</a> <a href="#cbt-q15" class="cbt-topic" data-q="15">PCM 과정</a> <a href="#cbt-q16" class="cbt-topic" data-q="16">마이크로파 대역 순서</a></td></tr><tr class="c-s2"><td><span class="cbt-dot"></span>2과목</td><td><a href="#cbt-q17" class="cbt-topic" data-q="17">IPTV · H.264 / H.265</a> <a href="#cbt-q18" class="cbt-topic" data-q="18">CCTV 동축 vs 네트워크 카메라</a> <a href="#cbt-q19" class="cbt-topic" data-q="19">위성 지구국 구성</a> <a href="#cbt-q20" class="cbt-topic" data-q="20">위성 왕복 지연</a> <a href="#cbt-q21" class="cbt-topic" data-q="21">STM-n 전송속도</a> <a href="#cbt-q22" class="cbt-topic" data-q="22">STB(셋톱박스)</a> <a href="#cbt-q23" class="cbt-topic" data-q="23">음량조절기(볼륨)</a> <a href="#cbt-q24" class="cbt-topic" data-q="24">DSU</a> <a href="#cbt-q25" class="cbt-topic" data-q="25">Wi-Fi 7</a> <a href="#cbt-q26" class="cbt-topic" data-q="26">WPAN</a> <a href="#cbt-q27" class="cbt-topic" data-q="27">ZigBee</a> <a href="#cbt-q28" class="cbt-topic" data-q="28">BLE</a> <a href="#cbt-q29" class="cbt-topic" data-q="29">UWB</a> <a href="#cbt-q30" class="cbt-topic" data-q="30">LTE</a> <a href="#cbt-q31" class="cbt-topic" data-q="31">AMI(지능형 원격검침)</a> <a href="#cbt-q32" class="cbt-topic" data-q="32">위성 상향·하향링크 주파수</a> <a href="#cbt-q33" class="cbt-topic" data-q="33">ZigBee 장치와 토폴로지</a> <a href="#cbt-q34" class="cbt-topic" data-q="34">CATV 구성</a></td></tr><tr class="c-s3"><td><span class="cbt-dot"></span>3과목</td><td><a href="#cbt-q35" class="cbt-topic" data-q="35">IPv4 · IPv6 주소 표현</a> <a href="#cbt-q36" class="cbt-topic" data-q="36">IPv4 · IPv6 주소 길이</a> <a href="#cbt-q37" class="cbt-topic" data-q="37">STP 표준</a> <a href="#cbt-q38" class="cbt-topic" data-q="38">VLAN과 서브넷</a> <a href="#cbt-q39" class="cbt-topic" data-q="39">서브넷 마스크 → CIDR</a> <a href="#cbt-q40" class="cbt-topic" data-q="40">VTP</a> <a href="#cbt-q41" class="cbt-topic" data-q="41">ACL</a> <a href="#cbt-q42" class="cbt-topic" data-q="42">NTP</a> <a href="#cbt-q43" class="cbt-topic" data-q="43">SDN</a> <a href="#cbt-q44" class="cbt-topic" data-q="44">Cut-through 스위칭</a> <a href="#cbt-q45" class="cbt-topic" data-q="45">NAS</a> <a href="#cbt-q46" class="cbt-topic" data-q="46">IPv4 클래스 구분</a> <a href="#cbt-q47" class="cbt-topic" data-q="47">OSI 계층과 장비</a> <a href="#cbt-q48" class="cbt-topic" data-q="48">IP 주소 2진 변환</a> <a href="#cbt-q49" class="cbt-topic" data-q="49">CSMA/CD</a></td></tr><tr class="c-s4"><td><span class="cbt-dot"></span>4과목</td><td><a href="#cbt-q50" class="cbt-topic" data-q="50">고장점 측정 — 머레이 루프법</a> <a href="#cbt-q51" class="cbt-topic" data-q="51">고장점 측정 — 교류 측정</a> <a href="#cbt-q52" class="cbt-topic" data-q="52">ISMS 관리체계</a> <a href="#cbt-q53" class="cbt-topic" data-q="53">RSA 공개키 계산</a> <a href="#cbt-q54" class="cbt-topic" data-q="54">MTBF 계산 (가동·수리 그림)</a> <a href="#cbt-q55" class="cbt-topic" data-q="55">가동률 계산 — 직렬·병렬</a> <a href="#cbt-q56" class="cbt-topic" data-q="56">IaaS · PaaS · SaaS</a></td></tr><tr class="c-s5"><td><span class="cbt-dot"></span>5과목</td><td><a href="#cbt-q57" class="cbt-topic" data-q="57">컴퓨터 부팅</a> <a href="#cbt-q58" class="cbt-topic" data-q="58">프로그램 계수기(PC)</a> <a href="#cbt-q59" class="cbt-topic" data-q="59">MAR</a> <a href="#cbt-q60" class="cbt-topic" data-q="60">MBR(메모리 버퍼 레지스터)</a> <a href="#cbt-q61" class="cbt-topic" data-q="61">T 플립플롭 분주</a> <a href="#cbt-q62" class="cbt-topic" data-q="62">시스템 소프트웨어와 운영체제</a> <a href="#cbt-q63" class="cbt-topic" data-q="63">홈네트워크 필수설비</a> <a href="#cbt-q64" class="cbt-topic" data-q="64">홈네트워크 단지서버 위치</a> <a href="#cbt-q65" class="cbt-topic" data-q="65">홈네트워크 통신배관실</a> <a href="#cbt-q66" class="cbt-topic" data-q="66">홈네트워크 전원</a> <a href="#cbt-q67" class="cbt-topic" data-q="67">MDF실(집중구내통신실) 기준</a> <a href="#cbt-q68" class="cbt-topic" data-q="68">소수 2진 변환 (0.875)</a> <a href="#cbt-q69" class="cbt-topic" data-q="69">정보통신산업 진흥법</a></td></tr></tbody></table>
-    <details class="cbt-fix"><summary>문항 검토 기준과 참고 자료 · 2026. 9. 16.</summary><ul><li>복원 메모의 주제를 바탕으로 만든 학습용 예상문제입니다. 실제 시험 문항이나 출제 확정 목록이 아닙니다.</li><li>계산은 단위와 경로를 명시하고, 정답이 하나가 되도록 보기와 해설을 검토했습니다.</li><li>ISMS는 KISA의 일반 인증기준으로 정리했습니다. 부팅 방식, 운영체제와 시스템 소프트웨어, dB의 기준 전력을 구분했습니다.</li><li>설비 문항은 「지능형 홈네트워크 설비 설치 및 기술기준」 2022. 7. 1. 시행본의 조항을 명시했습니다. 클라우드 특례와 전원·문턱의 예외 조건을 보완했습니다.</li><li>‘MDF 설치 높이’는 원문을 확인할 수 없어 수치를 추정하지 않고, 근거가 명확한 설치 공간 문제로 구성했습니다. 관련 개념 아래에서 원문을 확인할 수 있습니다.</li><li>2026. 9. 27. 사용자가 준 주제로 15문항을 추가했습니다. ‘공장 가동률’은 가용도(MTBF·MTTR, 직렬·병렬)로, ‘정보통신진흥법’은 「정보통신산업 진흥법」으로 해석했습니다.</li></ul></details>
+    <p class="cbt-lead">수험생 응시 후기의 출제 주제로 15문항을 추가했습니다 (2026. 9. 27.)</p>
+    <details class="cbt-fix"><summary>문항 검토 기준과 참고 자료 · 2026. 9. 16.</summary><ul><li>복원 메모의 주제를 바탕으로 만든 학습용 예상문제이며 실제 시험 문항이나 출제 확정 목록이 아닙니다.</li><li>계산은 단위와 풀이 경로를 명시하고 정답이 하나가 되도록 검토했습니다.</li><li>설비·법규 문항은 확인 가능한 기준과 원문 링크를 우선해 구성했습니다.</li><li>‘공장 가동률’은 가용도(MTBF·MTTR, 직렬·병렬), ‘정보통신진흥법’은 「정보통신산업 진흥법」의 출제 주제로 정리했습니다.</li></ul></details>
 
     <div class="sub-title" id="cbt-learning-title">문제 풀기</div>
     <div class="cbt-modes" role="group" aria-label="학습 방식">
@@ -805,6 +823,7 @@
     </div>
   </div>
 
+
   <div data-section-src="/sections/cards.html"></div>
 
   <div data-section-src="/sections/quiz.html"></div>
@@ -813,6 +832,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=62c6e84027a3"></script>
+<script src="/assets/app.js?v=5fd3f04b4462"></script>
 </body>
-</html>
+</html>

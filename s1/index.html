@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>1과목 정보전송일반 핵심정리 | 정보통신기사 필기</title>
+<title>정보전송일반 핵심정리 | 정보통신기사 필기 1과목</title>
 
 <!-- ══════════ SEO ══════════ -->
 <meta name="description" content="정보전송일반 핵심 주제 23개 — 변조, 다중화, PCM, 광통신, 오류 제어와 나이퀴스트·BER 계산 공식을 주제별로 정리.">
@@ -16,7 +16,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="1과목 정보전송일반 핵심정리 | 정보통신기사 필기">
+<meta property="og:title" content="정보전송일반 핵심정리 | 정보통신기사 필기 1과목">
 <meta property="og:description" content="정보전송일반 핵심 주제 23개 — 변조, 다중화, PCM, 광통신, 오류 제어와 나이퀴스트·BER 계산 공식을 주제별로 정리.">
 <meta property="og:url" content="https://ict.kyufind.com/s1/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
@@ -24,7 +24,7 @@
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="1과목 정보전송일반 핵심정리 | 정보통신기사 필기">
+<meta name="twitter:title" content="정보전송일반 핵심정리 | 정보통신기사 필기 1과목">
 <meta name="twitter:description" content="정보전송일반 핵심 주제 23개 — 변조, 다중화, PCM, 광통신, 오류 제어와 나이퀴스트·BER 계산 공식을 주제별로 정리.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
@@ -85,8 +85,22 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-N0XWRMVEX0');
+  gtag('config', 'G-N0XWRMVEX0', {send_page_view:false});
+  window.__lastGaPagePath = '';
+  window.trackPageView = function(){
+    var path = location.pathname + location.search;
+    if(window.__lastGaPagePath === path) return;
+    window.__lastGaPagePath = path;
+    gtag('event', 'page_view', {
+      page_title: document.title,
+      page_location: location.href,
+      page_path: path
+    });
+  };
+  window.trackEvent = function(name, params){ gtag('event', name, params || {}); };
+  window.trackPageView();
 </script>
+<script src="/assets/exam-rules.js"></script>
 </head>
 <body>
 
@@ -102,7 +116,8 @@
   <div class="nav-label">꼭 외워야 할 것</div>
   <a class="sub-item nav-top" href="/overview/">OSI 7계층 한눈에</a>
   <a class="sub-item nav-top" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
-  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">공장가동률 한눈에</a>
+  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">MTTF · MTTR · MTBF</a>
+  <a class="sub-item nav-top" href="/radix/" data-sec="radix-essential" onclick="return navGo(event,'radix-essential',this)">진수 변환 한눈에</a>
   <div class="nav-label">과목</div>
   <nav id="sidebar-menu" aria-label="과목">
   <div class="subj-group">
@@ -277,10 +292,12 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div class="section visible" id="sec-hub-s1"><style>.hub-lead{font-size:15px;color:var(--text2);margin:-6px 0 22px;line-height:1.7}.hub-group{margin:26px 0 8px;font-size:13px;font-weight:700;color:var(--text3)}.hub-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.hub-list a{display:block;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);text-decoration:none;color:var(--text)}.hub-list a:hover{border-color:var(--key-bd);background:var(--key-bg)}.hub-list b{display:block;font-size:15px;margin-bottom:3px}.hub-list span{display:block;font-size:13px;color:var(--text3);line-height:1.55}</style><nav class="crumb c-s1" aria-label="경로"><a class="crumb-link" href="/">홈</a><span class="crumb-sep">/</span><span class="crumb-dot" style="background:var(--sc)"></span><b style="color:var(--sct)">1과목 정보전송일반</b></nav><h1 class="section-title">1과목 정보전송일반</h1><p class="hub-lead">정보통신기사 필기 1과목 <b>정보전송일반</b>의 핵심 주제 23개입니다. 주제를 누르면 정리 페이지로 이동합니다.</p><div class="hub-group">신호 및 변조</div><ul class="hub-list"><li><a href="/s1/csma/" onclick="return navGo(event,'csma',this)"><b>CSMA/CD vs CA</b><span>CSMA = Carrier Sense Multiple Access (반송파 감지 다중 접속) 여러 장치가 하나의 전송 매체를 공유할 때 충돌을 어떻게 처리하느냐…</span></a></li><li><a href="/s1/ammod/" onclick="return navGo(event,'ammod',this)"><b>아날로그 변조 AM / FM / PM</b><span>변조(Modulation) 란 정보 신호(신호파, 저주파)를 반송파(Carrier, 고주파) 에 실어 보내는 과정. 목적은 ① 안테나 크기 축소( λ 4…</span></a></li><li><a href="/s1/digmod/" onclick="return navGo(event,'digmod',this)"><b>디지털 변조 ASK / FSK / PSK</b><span>디지털 데이터(0과 1)를 아날로그 전송로로 보내기 위해 반송파의 진폭 · 주파수 · 위상 중 무엇을 바꾸느냐로 ASK · FSK · PSK가 나뉜다. 진폭과…</span></a></li><li><a href="/s1/qamofdm/" onclick="return navGo(event,'qamofdm',this)"><b>QAM / OFDM</b><span>QAM — 직교 진폭 변조 (Quadrature Amplitude Modulation) 진폭(ASK)과 위상(PSK)을 동시에 변조해 하나의 심볼에 더 많은…</span></a></li><li><a href="/s1/pcm/" onclick="return navGo(event,'pcm',this)"><b>PCM · 표본화 · 양자화 잡음</b><span>PCM(Pulse Code Modulation) = 아날로그 음성을 디지털 비트열로 바꾸는 표준 방식. 표본화 → 양자화 → 부호화 세 단계가 핵심이고, 시험…</span></a></li></ul><div class="hub-group">전송 방식</div><ul class="hub-list"><li><a href="/s1/flags/" onclick="return navGo(event,'flags',this)"><b>TCP 제어비트 · 전송 제어 문자</b><span>전송 제어 문자 (ASCII) 문자 ASCII 풀네임 역할 SOH 0x01 Start Of Header 헤더 시작 STX 0x02 Start Of Text 본문…</span></a></li></ul><div class="hub-group">오류 계산 / 전파</div><ul class="hub-list"><li><a href="/s1/radix/" onclick="return navGo(event,'radix',this)"><b>진수 변환 (2·8·10·16)</b><span>진수(Radix / Base) 는 한 자리에 쓸 수 있는 숫자의 개수. 컴퓨터는 2진수로 동작하지만 2진수는 자릿수가 길어 읽기 힘들기 때문에, 3비트씩 묶은…</span></a></li><li><a href="/s1/datacode/" onclick="return navGo(event,'datacode',this)"><b>자료 표현 · 코드 체계</b><span>컴퓨터는 0과 1밖에 모른다. 그래서 숫자·문자·부호를 어떤 규칙으로 0과 1에 대응시킬 것인가 가 문제가 되고, 그 규칙들이 곧 코드 체계 다. 진수 변환이…</span></a></li><li><a href="/s1/logic/" onclick="return navGo(event,'logic',this)"><b>논리회로 · 불대수</b><span>기본 논리 게이트 게이트 논리식 동작 AND Y = A · B 둘 다 1 일 때만 1 OR Y = A + B 하나라도 1 이면 1 NOT Y = A&#x27; 반전…</span></a></li><li><a href="/s1/adder/" onclick="return navGo(event,'adder',this)"><b>가산기 / 감산기</b><span>한 줄 요약 — 반가산기 = XOR + AND (자리올림 입력 없음) · 전가산기 = 반가산기 2개 + OR 1개 (자리올림 입력 있음) · n비트 병렬가산기…</span></a></li><li><a href="/s1/ber/" onclick="return navGo(event,'ber',this)"><b>BER · 비트에러율 계산</b><span>핵심 공식 BER = 오류 비트 수 ÷ 총 전송 비트 수 오류 비트 수 = BER × 총 전송 비트 수 총 전송 비트 수 = 전송 속도[bps] × 전송…</span></a></li><li><a href="/s1/band/" onclick="return navGo(event,'band',this)"><b>주파수 대역 · 마이크로파 밴드</b><span>전파는 주파수가 높아질수록 파장이 짧아지고 , 성질이 완전히 달라진다. 낮은 주파수는 멀리 돌아가고 , 높은 주파수는 직진하며 많은 정보를 싣는다 . 이 성질…</span></a></li><li><a href="/s1/antenna/" onclick="return navGo(event,'antenna',this)"><b>등방성 안테나 · 전계강도</b><span>전계강도 E = √(30·P) d E : 전계강도 [V/m] P : 방사전력 [W] d : 거리 [m] 전력 밀도 S = P 4πd² S : 전력 밀도…</span></a></li><li><a href="/s1/waveval/" onclick="return navGo(event,'waveval',this)"><b>실효값 · 평균값 · 파고율 · 파형률</b><span>계산이 아니라 표를 외우는 문제 다. 다행히 숫자들 사이에 규칙이 있어서, √1 · √2 · √3 하나와 「반파는 반토막」 규칙 하나만 알면 15칸을 다 채울…</span></a></li><li><a href="/s1/calc/" onclick="return navGo(event,'calc',this)"><b>전파 파장 · SNR · 데시벨 계산</b><span>전파의 파장 (Wavelength) 핵심 공식 λ = c f λ = 파장(m) · c = 광속 = 3 × 10⁸ m/s · f = 주파수(Hz) (전파는 빛과…</span></a></li><li><a href="/s1/bitrate/" onclick="return navGo(event,'bitrate',this)"><b>비트전송률 bps · 변조속도 baud</b><span>비트전송률 vs 변조속도 — 시험 최다 출제! 비트전송률 (Bit Rate) · 1초당 전송되는 비트(bit) 수 · 단위: bps (bits per…</span></a></li><li><a href="/s1/mux/" onclick="return navGo(event,'mux',this)"><b>다중화 FDM / TDM / CDM</b><span>다중화(Multiplexing) 란 하나의 전송로(채널) 에 여러 개의 신호 를 동시에 전송 하는 기술. 대역폭·시간·코드 자원을 효율적으로 분할하여 전송…</span></a></li><li><a href="/s1/optical/" onclick="return navGo(event,'optical',this)"><b>광통신 이론 (광원·수광·증폭)</b><span>광섬유가 길 이라면, 광통신 이론은 그 길 위를 달리는 차와 신호등 이다. 전기를 빛으로 바꾸는 광원 , 빛을 다시 전기로 되돌리는 수광소자 , 중간에서 힘을…</span></a></li><li><a href="/s1/fiber/" onclick="return navGo(event,'fiber',this)"><b>광섬유 · 케이블</b><span>구조와 전송 원리 ┌─────────────────────────────┐ │ 피복 Jacket (보호·완충) │ │…</span></a></li><li><a href="/s1/errctrl/" onclick="return navGo(event,'errctrl',this)"><b>오류 제어 / 흐름 제어</b><span>전송 오류의 원인 원인 설명 백색 잡음 (열잡음) 도체 내 전자의 열운동. 항상 존재하며 제거 불가능 → 랜덤 오류 충격성 잡음 (Impulse) 순간적인 외부…</span></a></li></ul><div class="hub-group">회로 / 발진</div><ul class="hub-list"><li><a href="/s1/osc/" onclick="return navGo(event,'osc',this)"><b>궤환 / 발진회로 · 바크하우젠</b><span>궤환(Feedback) 이란 증폭기의 출력 일부를 입력으로 되돌리는 동작. 궤환 방식에 따라 부궤환 (안정성↑) 또는 정궤환 (발진 발생)이 나타남…</span></a></li><li><a href="/s1/nyquist/" onclick="return navGo(event,'nyquist',this)"><b>나이퀴스트 / 샤논 공식</b><span>나이퀴스트 (Nyquist) 잡음이 없는 채널 C = 2B · log 2 M C : 채널 용량 [bps] B : 대역폭 [Hz] M : 신호 레벨 수 (진수)…</span></a></li><li><a href="/s1/fourier/" onclick="return navGo(event,'fourier',this)"><b>푸리에 급수 / 푸리에 변환</b><span>푸리에 급수 (Fourier Series) 주기(T) 신호 → 삼각함수의 합 f(t) = a₀ 2 + Σaₙcos(nω₀t) + Σbₙsin(nω₀t) ω₀ =…</span></a></li></ul></div><div id="subject-content-root"><div style="padding:60px 20px;text-align:center;color:var(--text3);font-size:14px;">불러오는 중…</div></div>
+  <div class="section visible" id="sec-hub-s1"><style>.hub-lead{font-size:15px;color:var(--text2);margin:-6px 0 22px;line-height:1.7}.hub-group{margin:26px 0 8px;font-size:13px;font-weight:700;color:var(--text3)}.hub-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.hub-list a{display:block;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);text-decoration:none;color:var(--text)}.hub-list a:hover{border-color:var(--key-bd);background:var(--key-bg)}.hub-list b{display:block;font-size:15px;margin-bottom:3px}.hub-list span{display:block;font-size:13px;color:var(--text3);line-height:1.55}</style><nav class="crumb c-s1" aria-label="경로"><a class="crumb-link" href="/">홈</a><span class="crumb-sep">/</span><span class="crumb-dot" style="background:var(--sc)"></span><b style="color:var(--sct)">1과목 정보전송일반</b></nav><h1 class="section-title">1과목 정보전송일반</h1><p class="hub-lead">정보통신기사 필기 1과목 <b>정보전송일반</b>의 핵심 주제 23개입니다. 주제를 누르면 정리 페이지로 이동합니다.</p><div class="hub-group">신호 및 변조</div><ul class="hub-list"><li><a href="/s1/csma/" onclick="return navGo(event,'csma',this)"><b>CSMA/CD vs CA</b><span>CSMA = Carrier Sense Multiple Access (반송파 감지 다중 접속) 여러 장치가 하나의 전송 매체를 공유할 때 충돌을 어떻게 처리하느냐…</span></a></li><li><a href="/s1/ammod/" onclick="return navGo(event,'ammod',this)"><b>아날로그 변조 AM / FM / PM</b><span>변조(Modulation) 란 정보 신호(신호파, 저주파)를 반송파(Carrier, 고주파) 에 실어 보내는 과정. 목적은 ① 안테나 크기 축소( λ 4…</span></a></li><li><a href="/s1/digmod/" onclick="return navGo(event,'digmod',this)"><b>디지털 변조 ASK / FSK / PSK</b><span>디지털 데이터(0과 1)를 아날로그 전송로로 보내기 위해 반송파의 진폭 · 주파수 · 위상 중 무엇을 바꾸느냐로 ASK · FSK · PSK가 나뉜다. 진폭과…</span></a></li><li><a href="/s1/qamofdm/" onclick="return navGo(event,'qamofdm',this)"><b>QAM / OFDM</b><span>QAM — 직교 진폭 변조 (Quadrature Amplitude Modulation) 진폭(ASK)과 위상(PSK)을 동시에 변조해 하나의 심볼에 더 많은…</span></a></li><li><a href="/s1/pcm/" onclick="return navGo(event,'pcm',this)"><b>PCM · 표본화 · 양자화 잡음</b><span>PCM(Pulse Code Modulation) = 아날로그 음성을 디지털 비트열로 바꾸는 표준 방식. 표본화 → 양자화 → 부호화 세 단계가 핵심이고, 시험…</span></a></li></ul><div class="hub-group">전송 방식</div><ul class="hub-list"><li><a href="/s1/flags/" onclick="return navGo(event,'flags',this)"><b>TCP 제어비트 · 전송 제어 문자</b><span>전송 제어 문자 (ASCII) 문자 ASCII 풀네임 역할 SOH 0x01 Start Of Header 헤더 시작 STX 0x02 Start Of Text 본문…</span></a></li></ul><div class="hub-group">오류 계산 / 전파</div><ul class="hub-list"><li><a href="/s1/radix/" onclick="return navGo(event,'radix',this)"><b>진수 변환 (2·8·10·16)</b><span>진수(Radix / Base) 는 한 자리에 쓸 수 있는 숫자의 개수. 컴퓨터는 2진수로 동작하지만 2진수는 자릿수가 길어 읽기 힘들기 때문에, 3비트씩 묶은…</span></a></li><li><a href="/s1/datacode/" onclick="return navGo(event,'datacode',this)"><b>자료 표현 · 코드 체계</b><span>컴퓨터는 0과 1밖에 모른다. 그래서 숫자·문자·부호를 어떤 규칙으로 0과 1에 대응시킬 것인가 가 문제가 되고, 그 규칙들이 곧 코드 체계 다. 진수 변환이…</span></a></li><li><a href="/s1/logic/" onclick="return navGo(event,'logic',this)"><b>논리회로 · 불대수</b><span>기본 논리 게이트 게이트 논리식 동작 AND Y = A · B 둘 다 1 일 때만 1 OR Y = A + B 하나라도 1 이면 1 NOT Y = A&#x27; 반전…</span></a></li><li><a href="/s1/adder/" onclick="return navGo(event,'adder',this)"><b>가산기 / 감산기</b><span>한 줄 요약 — 반가산기 = XOR + AND (자리올림 입력 없음) · 전가산기 = 반가산기 2개 + OR 1개 (자리올림 입력 있음) · n비트 병렬가산기…</span></a></li><li><a href="/s1/ber/" onclick="return navGo(event,'ber',this)"><b>BER · 비트에러율 계산</b><span>핵심 공식 BER = 오류 비트 수 ÷ 총 전송 비트 수 오류 비트 수 = BER × 총 전송 비트 수 총 전송 비트 수 = 전송 속도[bps] × 전송…</span></a></li><li><a href="/s1/band/" onclick="return navGo(event,'band',this)"><b>주파수 대역 · 마이크로파 밴드</b><span>전파는 주파수가 높아질수록 파장이 짧아지고 , 성질이 완전히 달라진다. 낮은 주파수는 멀리 돌아가고 , 높은 주파수는 직진하며 많은 정보를 싣는다 . 이 성질…</span></a></li><li><a href="/s1/antenna/" onclick="return navGo(event,'antenna',this)"><b>등방성 안테나 · 전계강도</b><span>전계강도 E = √(30·P) d E : 전계강도 [V/m] P : 방사전력 [W] d : 거리 [m] 전력 밀도 S = P 4πd² S : 전력 밀도…</span></a></li><li><a href="/s1/waveval/" onclick="return navGo(event,'waveval',this)"><b>실효값 · 평균값 · 파고율 · 파형률</b><span>계산이 아니라 표를 외우는 문제 다. 다행히 숫자들 사이에 규칙이 있어서, √1 · √2 · √3 하나와 「반파는 반토막」 규칙 하나만 알면 15칸을 다 채울…</span></a></li><li><a href="/s1/calc/" onclick="return navGo(event,'calc',this)"><b>전파 파장 · SNR · 데시벨 계산</b><span>전파의 파장 (Wavelength) 핵심 공식 λ = c f λ = 파장(m) · c = 광속 = 3 × 10⁸ m/s · f = 주파수(Hz) (전파는 빛과…</span></a></li><li><a href="/s1/bitrate/" onclick="return navGo(event,'bitrate',this)"><b>비트전송률 bps · 변조속도 baud</b><span>비트전송률 vs 변조속도 — 시험 최다 출제! 비트전송률 (Bit Rate) · 1초당 전송되는 비트(bit) 수 · 단위: bps (bits per…</span></a></li><li><a href="/s1/mux/" onclick="return navGo(event,'mux',this)"><b>다중화 FDM / TDM / CDM</b><span>다중화(Multiplexing) 란 하나의 전송로(채널) 에 여러 개의 신호 를 동시에 전송 하는 기술. 대역폭·시간·코드 자원을 효율적으로 분할하여 전송…</span></a></li><li><a href="/s1/optical/" onclick="return navGo(event,'optical',this)"><b>광통신 이론 (광원·수광·증폭)</b><span>광섬유가 길 이라면, 광통신 이론은 그 길 위를 달리는 차와 신호등 이다. 전기를 빛으로 바꾸는 광원 , 빛을 다시 전기로 되돌리는 수광소자 , 중간에서 힘을…</span></a></li><li><a href="/s1/fiber/" onclick="return navGo(event,'fiber',this)"><b>광섬유 · 케이블</b><span>구조와 전송 원리 ┌─────────────────────────────┐ │ 피복 Jacket (보호·완충) │ │…</span></a></li><li><a href="/s1/errctrl/" onclick="return navGo(event,'errctrl',this)"><b>오류 제어 / 흐름 제어</b><span>전송 오류의 원인 원인 설명 백색 잡음 (열잡음) 도체 내 전자의 열운동. 항상 존재하며 제거 불가능 → 랜덤 오류 충격성 잡음 (Impulse) 순간적인 외부…</span></a></li></ul><div class="hub-group">회로 / 발진</div><ul class="hub-list"><li><a href="/s1/osc/" onclick="return navGo(event,'osc',this)"><b>궤환 / 발진회로 · 바크하우젠</b><span>궤환(Feedback) 이란 증폭기의 출력 일부를 입력으로 되돌리는 동작. 궤환 방식에 따라 부궤환 (안정성↑) 또는 정궤환 (발진 발생)이 나타남…</span></a></li><li><a href="/s1/nyquist/" onclick="return navGo(event,'nyquist',this)"><b>나이퀴스트 / 샤논 공식</b><span>나이퀴스트 (Nyquist) 잡음이 없는 채널 C = 2B · log 2 M C : 채널 용량 [bps] B : 대역폭 [Hz] M : 신호 레벨 수 (진수)…</span></a></li><li><a href="/s1/fourier/" onclick="return navGo(event,'fourier',this)"><b>푸리에 급수 / 푸리에 변환</b><span>푸리에 급수 (Fourier Series) 주기(T) 신호 → 삼각함수의 합 f(t) = a₀ 2 + Σaₙcos(nω₀t) + Σbₙsin(nω₀t) ω₀ =…</span></a></li></ul></div><div id="subject-content-root"></div>
 
   
   <div data-section-src="/sections/factory-utilization.html"></div>
+
+  <div data-section-src="/sections/radix-essential.html"></div>
 
   <div data-section-src="/sections/cram.html"></div>
 
@@ -295,6 +312,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=62c6e84027a3"></script>
+<script src="/assets/app.js?v=5fd3f04b4462"></script>
 </body>
-</html>
+</html>

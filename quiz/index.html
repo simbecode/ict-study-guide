@@ -85,8 +85,22 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-N0XWRMVEX0');
+  gtag('config', 'G-N0XWRMVEX0', {send_page_view:false});
+  window.__lastGaPagePath = '';
+  window.trackPageView = function(){
+    var path = location.pathname + location.search;
+    if(window.__lastGaPagePath === path) return;
+    window.__lastGaPagePath = path;
+    gtag('event', 'page_view', {
+      page_title: document.title,
+      page_location: location.href,
+      page_path: path
+    });
+  };
+  window.trackEvent = function(name, params){ gtag('event', name, params || {}); };
+  window.trackPageView();
 </script>
+<script src="/assets/exam-rules.js"></script>
 </head>
 <body>
 
@@ -102,7 +116,8 @@
   <div class="nav-label">꼭 외워야 할 것</div>
   <a class="sub-item nav-top" href="/overview/">OSI 7계층 한눈에</a>
   <a class="sub-item nav-top" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
-  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">공장가동률 한눈에</a>
+  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">MTTF · MTTR · MTBF</a>
+  <a class="sub-item nav-top" href="/radix/" data-sec="radix-essential" onclick="return navGo(event,'radix-essential',this)">진수 변환 한눈에</a>
   <div class="nav-label">과목</div>
   <nav id="sidebar-menu" aria-label="과목">
   <div class="subj-group">
@@ -277,10 +292,12 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div style="padding:60px 20px;text-align:center;color:var(--text3);font-size:14px;">불러오는 중…</div></div>
+  <div id="subject-content-root"></div>
 
   
   <div data-section-src="/sections/factory-utilization.html"></div>
+
+  <div data-section-src="/sections/radix-essential.html"></div>
 
   <div data-section-src="/sections/cram.html"></div>
 
@@ -352,7 +369,7 @@
       <p>회차를 고르면 <b style="color:#1d252d">100문항</b> 실전 조건으로 시작합니다. (제한시간 없음)
         진단 중에는 <b style="color:#8a6012">정답과 해설이 보이지 않고</b>, 답은 몇 번이든 바꿀 수 있습니다.
         제출하면 과목별 점수와 <b style="color:#8a6012">과락 여부</b>가 한 번에 나옵니다.
-        <br>판정 기준은 과목당 <b style="color:#af3c3d">8개 이하 과락</b> · <b style="color:#267c41">12개 이상 합격</b> 입니다.</p>
+        <br>판정 기준은 과목 <b style="color:#af3c3d">40점 미만 과락</b>, 모든 과목 40점 이상이면서 전 과목 평균 <b style="color:#267c41">60점 이상</b>일 때 최종 합격입니다.</p>
       <div class="exam-btns" id="exam-btns"><!-- 회차 버튼은 데이터 로드 후 자동 생성됩니다 --></div>
     </div>
 
@@ -420,10 +437,11 @@
     </div><!-- /quiz-play-area -->
   </div>
 
+
 </div><aside class="page-toc" id="page-toc" hidden aria-label="이 페이지에서"></aside></div></main>
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=62c6e84027a3"></script>
+<script src="/assets/app.js?v=5fd3f04b4462"></script>
 </body>
-</html>
+</html>

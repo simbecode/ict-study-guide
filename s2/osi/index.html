@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>OSI 7계층 전체 지도 | 정보통신기사 필기</title>
+<title>OSI 7계층 전체 지도 | 정보통신기사 필기 2과목</title>
 
 <!-- ══════════ SEO ══════════ -->
 <meta name="description" content="OSI 7계층 전체 지도 — 계층별 PDU, 프로토콜, 네트워크 장비, 보안 장비, TCP/IP 4계층 매핑을 한 표로. 계층을 누르면 상세로 이동합니다.">
@@ -16,7 +16,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="OSI 7계층 전체 지도 | 정보통신기사 필기">
+<meta property="og:title" content="OSI 7계층 전체 지도 | 정보통신기사 필기 2과목">
 <meta property="og:description" content="OSI 7계층 전체 지도 — 계층별 PDU, 프로토콜, 네트워크 장비, 보안 장비, TCP/IP 4계층 매핑을 한 표로. 계층을 누르면 상세로 이동합니다.">
 <meta property="og:url" content="https://ict.kyufind.com/s2/osi/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
@@ -24,7 +24,7 @@
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="OSI 7계층 전체 지도 | 정보통신기사 필기">
+<meta name="twitter:title" content="OSI 7계층 전체 지도 | 정보통신기사 필기 2과목">
 <meta name="twitter:description" content="OSI 7계층 전체 지도 — 계층별 PDU, 프로토콜, 네트워크 장비, 보안 장비, TCP/IP 4계층 매핑을 한 표로. 계층을 누르면 상세로 이동합니다.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
@@ -91,8 +91,22 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-N0XWRMVEX0');
+  gtag('config', 'G-N0XWRMVEX0', {send_page_view:false});
+  window.__lastGaPagePath = '';
+  window.trackPageView = function(){
+    var path = location.pathname + location.search;
+    if(window.__lastGaPagePath === path) return;
+    window.__lastGaPagePath = path;
+    gtag('event', 'page_view', {
+      page_title: document.title,
+      page_location: location.href,
+      page_path: path
+    });
+  };
+  window.trackEvent = function(name, params){ gtag('event', name, params || {}); };
+  window.trackPageView();
 </script>
+<script src="/assets/exam-rules.js"></script>
 </head>
 <body>
 
@@ -108,7 +122,8 @@
   <div class="nav-label">꼭 외워야 할 것</div>
   <a class="sub-item nav-top" href="/overview/">OSI 7계층 한눈에</a>
   <a class="sub-item nav-top" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
-  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">공장가동률 한눈에</a>
+  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">MTTF · MTTR · MTBF</a>
+  <a class="sub-item nav-top" href="/radix/" data-sec="radix-essential" onclick="return navGo(event,'radix-essential',this)">진수 변환 한눈에</a>
   <div class="nav-label">과목</div>
   <nav id="sidebar-menu" aria-label="과목">
   <div class="subj-group">
@@ -314,181 +329,7 @@
     </div>
 
     <!-- 메인 확장표 -->
-    <div style="overflow-x:auto;">
-    <table class="tbl" style="min-width:860px;">
-      <thead>
-        <tr>
-          <th style="width:35px">계층</th>
-          <th style="width:100px">OSI Layer</th>
-          <th style="width:50px">PDU</th>
-          <th>키워드 / 프로토콜</th>
-          <th style="width:110px">NW 장비</th>
-          <th style="width:90px">보안 장비</th>
-          <th style="width:130px">TCP/IP 계층</th>
-          <th style="width:80px">Cloud</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- 7계층 -->
-        <tr>
-          <td style="font-weight:700;font-size:17.5px;color:#6b59aa">7</td>
-          <td><span style="font-weight:500;color:#6b59aa">Application</span><br><span style="font-size:12px;color:var(--text2)">응용 계층</span></td>
-          <td><span class="badge" style="background:#eae8ff;color:#6b59aa">Data</span></td>
-          <td>
-            <span class="tag">HTTP</span><span class="tag">SMTP</span><span class="tag">FTP</span><span class="tag">Telnet</span><span class="tag">CMIP</span><span class="tag">DNS</span><span class="tag">DHCP</span><span class="tag">SNMP</span>
-            <div style="font-size:13px;color:var(--text2);margin-top:3px">사용자 접근, 각종 Application 프로토콜</div>
-          </td>
-          <td style="font-size:14px;color:var(--text2)">전용 장비 없음<br><span style="font-size:12px">(소프트웨어 처리)</span></td>
-          <td>
-            <span class="badge b-red">IPS</span><br>
-            <span class="badge b-red" style="margin-top:3px;display:inline-block">DDoS</span><br>
-            <span class="badge b-red" style="margin-top:3px;display:inline-block">WAF</span>
-          </td>
-          <td>
-            <span class="badge b-purple" style="margin-bottom:3px;display:inline-block">Application</span>
-            <div style="font-size:12px;color:var(--text2);margin-top:3px">HTTP, DNS, DHCP<br>SMTP, POP/IMAP<br>FTP, Telnet<br>SNMP, SIP, CMIP</div>
-          </td>
-          <td><span class="badge" style="background:#eae8ff;color:#6b59aa">SaaS</span><br><span class="badge b-gray" style="margin-top:3px;display:inline-block">Application</span></td>
-        </tr>
-        <!-- 6계층 -->
-        <tr>
-          <td style="font-weight:700;font-size:17.5px;color:#117a68">6</td>
-          <td><span style="font-weight:500;color:#117a68">Presentation</span><br><span style="font-size:12px;color:var(--text2)">표현 계층</span></td>
-          <td><span class="badge" style="background:#dff1ed;color:#117a68">Data</span></td>
-          <td>
-            <span class="tag">MPEG</span><span class="tag">JPEG</span><span class="tag">SSL/TLS</span><span class="tag">ASCII</span><span class="tag">ZIP</span>
-            <div style="font-size:13px;color:var(--text2);margin-top:3px">데이터 표현, 압축, 암호화, 인코딩 표준</div>
-          </td>
-          <td style="font-size:14px;color:var(--text2)">전용 장비 없음</td>
-          <td>
-            <span class="badge b-red">IPS</span><br>
-            <span class="badge b-red" style="margin-top:3px;display:inline-block">DDoS</span><br>
-            <span class="badge b-red" style="margin-top:3px;display:inline-block">WAF</span>
-          </td>
-          <td><span class="badge b-purple">Application</span></td>
-          <td><span class="badge" style="background:#e1ecfb;color:#2c6da4">PaaS</span><br><span class="badge b-gray" style="margin-top:3px;display:inline-block">Platform</span></td>
-        </tr>
-        <!-- 5계층 -->
-        <tr>
-          <td style="font-weight:700;font-size:17.5px;color:#2c6da4">5</td>
-          <td><span style="font-weight:500;color:#2c6da4">Session</span><br><span style="font-size:12px;color:var(--text2)">세션 계층</span></td>
-          <td><span class="badge" style="background:#e1ecfb;color:#2c6da4">Data</span></td>
-          <td>
-            <span class="tag">SSH</span><span class="tag">NetBIOS</span><span class="tag">RPC</span>
-            <div style="font-size:13px;color:var(--text2);margin-top:3px">세션관리, 동기화, 반이중/전이중 관리, 제어</div>
-          </td>
-          <td>
-            <span class="badge b-purple">게이트웨이</span><br>
-            <span style="font-size:12px;color:var(--text2)">(Gateway)</span>
-          </td>
-          <td>
-            <span class="badge" style="background:#e1ecfb;color:#2c6da4">UTM</span>
-          </td>
-          <td><span class="badge b-purple">Application</span></td>
-          <td><span class="badge" style="background:#dff1ed;color:#117a68">MiddleWare</span></td>
-        </tr>
-        <!-- 4계층 -->
-        <tr style="background:#f2f6fb;">
-          <td style="font-weight:700;font-size:17.5px;color:#8a6012">4</td>
-          <td><span style="font-weight:500;color:#8a6012">Transport</span><br><span style="font-size:12px;color:var(--text2)">전송 계층</span></td>
-          <td>
-            <span class="badge b-tcp" style="display:block;margin-bottom:3px">Segment</span>
-            <span class="badge b-udp" style="display:block">Datagram</span>
-          </td>
-          <td>
-            <span class="tag">TCP</span><span class="tag">UDP</span><span class="tag">SSL</span><span class="tag">SCTP</span>
-            <div style="font-size:13px;color:var(--text2);margin-top:3px">연결지향, 신뢰성, 포트관리, 다중화<br>Segmentation / Multiplexing / Demultiplexing</div>
-          </td>
-          <td>
-            <span class="badge b-purple">게이트웨이</span><br>
-            <span style="font-size:12px;color:var(--text2)">(Gateway)</span>
-          </td>
-          <td>
-            <span class="badge" style="background:#e5f3e5;color:#267c41">FW</span><br>
-            <span style="font-size:12px;color:var(--text2)">(방화벽)</span>
-          </td>
-          <td>
-            <span class="badge b-amber">Transport</span>
-            <div style="font-size:12px;color:var(--text2);margin-top:3px">TCP, UDP, SCTP</div>
-          </td>
-          <td><span class="badge" style="background:#dff1ed;color:#117a68">MiddleWare</span></td>
-        </tr>
-        <!-- 3계층 -->
-        <tr>
-          <td style="font-weight:700;font-size:17.5px;color:#9d520f">3</td>
-          <td><span style="font-weight:500;color:#9d520f">Network</span><br><span style="font-size:12px;color:var(--text2)">네트워크 계층</span></td>
-          <td><span class="badge" style="background:#f9ede2;color:#9d520f">Packet</span></td>
-          <td>
-            <span class="tag">IP</span><span class="tag">ICMP</span><span class="tag">ARP</span><span class="tag">RARP</span><span class="tag">IGMP</span><span class="tag">X.25</span><span class="tag">IPSec</span>
-            <div style="font-size:13px;color:var(--text2);margin-top:3px">IP 경로결정, 최소거리, 라우팅</div>
-          </td>
-          <td>
-            <span class="badge" style="background:#f9ede2;color:#9d520f">라우터</span><br>
-            <span style="font-size:12px;color:var(--text2)">(Router)</span>
-          </td>
-          <td>
-            <span class="badge" style="background:#e5f3e5;color:#267c41">FW</span>
-          </td>
-          <td>
-            <span class="badge" style="background:#f9ede2;color:#9d520f">Internet</span>
-            <div style="font-size:12px;color:var(--text2);margin-top:3px">IP, ICMP, ARP<br>RARP, IGMP<br>IPSec, X.25, SNMP</div>
-          </td>
-          <td>
-            <span class="badge b-amber">IaaS</span><br>
-            <span class="badge b-gray" style="margin-top:3px;display:inline-block">Network</span>
-          </td>
-        </tr>
-        <!-- 2계층 -->
-        <tr>
-          <td style="font-weight:700;font-size:17.5px;color:#267c41">2</td>
-          <td><span style="font-weight:500;color:#267c41">DataLink</span><br><span style="font-size:12px;color:var(--text2)">데이터링크 계층</span></td>
-          <td><span class="badge" style="background:#e5f3e5;color:#267c41">Frame</span></td>
-          <td>
-            <span class="tag">MAC</span><span class="tag">HDLC</span><span class="tag">SDLC</span><span class="tag">PPP</span><span class="tag">L2TP</span>
-            <div style="font-size:13px;color:var(--text2);margin-top:3px">Framing, 오류제어, 흐름제어, 순서제어</div>
-          </td>
-          <td>
-            <span class="badge" style="background:#e5f3e5;color:#267c41">브리지</span>
-            <span class="badge" style="background:#e5f3e5;color:#267c41">스위치</span>
-            <div style="font-size:12px;color:var(--text2);margin-top:2px">Bridge, Switch, Hub</div>
-          </td>
-          <td style="font-size:14px;color:var(--text2)">IP 관리기</td>
-          <td>
-            <span class="badge" style="background:#e5f3e5;color:#267c41">Host-to-NW</span>
-            <div style="font-size:12px;color:var(--text2);margin-top:3px">MAC주소 기반<br>CSMA/CD<br>LAN, 이중화구현</div>
-          </td>
-          <td>
-            <span class="badge b-gray">IaaS</span><br>
-            <span class="badge b-gray" style="margin-top:3px;display:inline-block">Server</span>
-          </td>
-        </tr>
-        <!-- 1계층 -->
-        <tr>
-          <td style="font-weight:700;font-size:17.5px;color:#4d5660">1</td>
-          <td><span style="font-weight:500;color:#4d5660">Physical</span><br><span style="font-size:12px;color:var(--text2)">물리 계층</span></td>
-          <td><span class="badge b-gray">Bit</span></td>
-          <td>
-            <span class="tag">Ethernet</span><span class="tag">RS-232C</span><span class="tag">RS-485</span><span class="tag">UTP</span><span class="tag">광케이블</span>
-            <div style="font-size:13px;color:var(--text2);margin-top:3px">물리적 전기신호, 전송매체</div>
-          </td>
-          <td style="font-size:14px">
-            <span class="badge b-gray">리피터</span><br>
-            <span class="badge b-gray" style="margin-top:3px;display:inline-block">케이블</span><br>
-            <span class="badge b-gray" style="margin-top:3px;display:inline-block">허브(Hub)</span>
-          </td>
-          <td style="font-size:14px;color:var(--text2)">물 관리</td>
-          <td>
-            <span class="badge" style="background:#eff3f8;color:#4d5660">Host-to-NW</span>
-            <div style="font-size:12px;color:var(--text2);margin-top:3px">Bluetooth, WiFi<br>토큰링</div>
-          </td>
-          <td>
-            <span class="badge b-gray">IaaS</span><br>
-            <span class="badge b-gray" style="margin-top:3px;display:inline-block">Storage</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
+    <!-- OSI_SHARED_TABLE_START --><div style="overflow-x:auto"><table class="tbl" style="min-width:900px"><thead><tr><th>계층</th><th>OSI Layer</th><th>PDU</th><th>역할·프로토콜</th><th>NW 장비</th><th>보안 장비</th><th>TCP/IP 계층</th><th>Cloud</th></tr></thead><tbody><tr><td><b>7</b></td><td><b>Application</b><br><span style="font-size:12px;color:var(--text2)">응용 계층</span></td><td>데이터</td><td>네트워크 서비스<br><small>HTTP · SMTP · FTP · Telnet · CMIP · DNS · DHCP · SNMP</small></td><td>L7 스위치</td><td>IPS · DDoS · WAF</td><td>Application</td><td>SaaS · Application</td></tr><tr><td><b>6</b></td><td><b>Presentation</b><br><span style="font-size:12px;color:var(--text2)">표현 계층</span></td><td>데이터</td><td>형식 변환 · 압축 · 암호화<br><small>MPEG · JPEG · SSL/TLS · ASCII · ZIP</small></td><td>전용 장비 없음</td><td>IPS · DDoS · WAF</td><td>Application</td><td>PaaS · Platform</td></tr><tr><td><b>5</b></td><td><b>Session</b><br><span style="font-size:12px;color:var(--text2)">세션 계층</span></td><td>데이터</td><td>시작 · 유지 · 동기화 · 종료<br><small>SSH · NetBIOS · RPC</small></td><td>—</td><td>UTM</td><td>Application</td><td>MiddleWare</td></tr><tr><td><b>4</b></td><td><b>Transport</b><br><span style="font-size:12px;color:var(--text2)">전송 계층</span></td><td>TCP 세그먼트 · UDP 데이터그램</td><td>프로세스 간 전달<br><small>TCP · UDP · SSL · SCTP</small></td><td>게이트웨이</td><td>방화벽(FW)</td><td>Transport</td><td>MiddleWare</td></tr><tr><td><b>3</b></td><td><b>Network</b><br><span style="font-size:12px;color:var(--text2)">네트워크 계층</span></td><td>패킷</td><td>경로 선택 · 패킷 전달<br><small>IP · ICMP · ARP · RARP · IGMP · X.25 · IPSec</small></td><td>라우터 · L3 스위치</td><td>방화벽(FW)</td><td>Internet</td><td>IaaS · Network</td></tr><tr><td><b>2</b></td><td><b>Data Link</b><br><span style="font-size:12px;color:var(--text2)">데이터링크 계층</span></td><td>프레임</td><td>링크 구간 전달 · 오류 검출<br><small>Ethernet · MAC · LLC · HDLC · SDLC · PPP · L2TP</small></td><td>브리지 · L2 스위치</td><td>—</td><td>Host-to-Network</td><td>IaaS · Server</td></tr><tr><td><b>1</b></td><td><b>Physical</b><br><span style="font-size:12px;color:var(--text2)">물리 계층</span></td><td>비트</td><td>비트를 신호로 전달<br><small>Ethernet · RS-232C · RS-485 · UTP · 광케이블</small></td><td>리피터 · 허브 · 케이블</td><td>—</td><td>Host-to-Network</td><td>IaaS · Storage</td></tr></tbody></table></div><!-- OSI_SHARED_TABLE_END -->
 
     <!-- 보안장비 상세 -->
     <div class="sub-title" style="margin-top:20px">보안 장비 계층별 정리</div>
@@ -554,8 +395,8 @@
       · SCTP = TCP·UDP 장점 결합한 전송 프로토콜 (4계층)
     </div>
     <div class="note" style="border-color:#2c6da4;margin-top:14px">
-      <b>암기법 — 아파서 타네 물리</b><br>
-      아=응용(7) 파=표현(6) 서=세션(5) 타=전송(4) 네=네트워크(3) 데=데이터링크(2) 물=물리(1)<br><br>
+      <b>암기법 — 아래에서 위로 “물·데·네·전·세·표·응”</b><br>
+      물=물리(1) 데=데이터링크(2) 네=네트워크(3) 전=전송(4) 세=세션(5) 표=표현(6) 응=응용(7)<br><br>
       <b>PDU 암기 — 세·패·프·비 (4→1계층)</b><br>
       세그먼트(4) → 패킷(3) → 프레임(2) → 비트(1) / 7·6·5계층은 모두 데이터
     </div>
@@ -563,6 +404,8 @@
 
   
   <div data-section-src="/sections/factory-utilization.html"></div>
+
+  <div data-section-src="/sections/radix-essential.html"></div>
 
   <div data-section-src="/sections/cram.html"></div>
 
@@ -577,6 +420,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=62c6e84027a3"></script>
+<script src="/assets/app.js?v=5fd3f04b4462"></script>
 </body>
-</html>
+</html>

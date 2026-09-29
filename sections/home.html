@@ -1,6 +1,6 @@
 <div class="section" id="sec-home">
     <div class="home-head">
-      <p class="home-title">정보통신기사 필기 학습 가이드</p>
+      <h1 class="home-title">정보통신기사 필기 학습 가이드</h1>
       <p class="home-meta"><b>5</b> 과목 · <b>100</b> 문항(과목당 20) · 과목별 <b>40점</b> 이상, 전과목 평균 <b>60점</b> 이상 합격 · 시험 시간 <b>150분</b> · <b>연 3회</b> 시행</p>
     </div>
     <aside class="cbt-poll" aria-labelledby="cbt-poll-title">
@@ -9,31 +9,36 @@
       <p id="cbt-poll-status" role="status" aria-live="polite">로그인 없이 참여 · 이 브라우저에서 한 번 응답할 수 있어요.</p>
     </aside>
     <div class="home-quick">
-      <div class="quick-card wide" role="button" tabindex="0" onclick="goQuiz()">
+      <a class="quick-card wide" href="/quiz/" onclick="return navGo(event,'quiz',this)">
         <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12.5h8M8 16.5h5"/></svg><span class="quick-count" id="home-quiz-count">500문항</span></div>
         <b>기출문제</b><span class="quick-count-m" data-mirror="home-quiz-count">500문항</span>
         <p>2022년 1~3회 · 2023년 1~2회. 풀이 모드와 실전 진단 모드</p>
-      </div>
-      <div class="quick-card wide" role="button" tabindex="0" onclick="showSection('cbt26',null)">
+      </a>
+      <a class="quick-card wide" href="/cbt-2026/" onclick="return navGo(event,'cbt26',this)">
         <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="2.6"/></svg><span class="quick-count" id="home-cbt-count">69문항</span></div>
         <b>2026년 시험복원문제</b><span class="quick-count-m" data-mirror="home-cbt-count">69문항</span>
         <p>69개 주제 예상문제. 풀면 바로 해설·핵심 개념, 오답 재풀이까지</p>
-      </div>
-      <div class="quick-card" role="button" tabindex="0" onclick="showSection('cram',null)">
+      </a>
+      <a class="quick-card" href="/cram/" onclick="return navGo(event,'cram',this)">
         <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></svg><span class="quick-count" id="home-cram">계산·숫자</span></div>
         <b>시험 직전 요약</b><span class="quick-count-m" data-mirror="home-cram">계산·숫자</span>
         <p>기출에 나온 계산 공식과 설비기준 숫자만 한 페이지에</p>
-      </div>
-      <div class="quick-card" role="button" tabindex="0" onclick="cdOpen('def',null)">
+      </a>
+      <a class="quick-card" href="/factory-utilization/" onclick="return navGo(event,'factory-utilization',this)">
+        <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V9l5 3V8l5 3V4h6v16z"/><path d="M8 20v-3M13 20v-3M18 20v-3"/></svg><span class="quick-count">공식·예제</span></div>
+        <b>공장가동률</b><span class="quick-count-m">공식·예제</span>
+        <p>MTTF·MTTR·MTBF와 가동률 계산을 한눈에</p>
+      </a>
+      <a class="quick-card" href="/cards/" onclick="return navGo(event,'cards',this)">
         <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6.5" width="13" height="14" rx="2"/><path d="M8 3.5h10.5a2 2 0 0 1 2 2v12"/></svg><span class="quick-count" id="home-def-count">189장</span></div>
         <b>용어 카드</b><span class="quick-count-m" data-mirror="home-def-count">189장</span>
         <p>기출에서 뽑은 용어와 공식 카드. 모르는 카드만 다시</p>
-      </div>
-      <div class="quick-card" role="button" tabindex="0" onclick="cdOpen('num',null)">
+      </a>
+      <a class="quick-card" href="/cards/#numbers">
         <div class="quick-top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M9.5 9.5v10"/></svg><span class="quick-count" id="home-num-count">82장</span></div>
         <b>암기표</b><span class="quick-count-m" data-mirror="home-num-count">82장</span>
         <p>포트번호·IEEE 802·주파수 대역처럼 표로 외울 것</p>
-      </div>
+      </a>
     </div>
     <h2 class="home-h2">과목</h2>
     <div class="subject-list">
@@ -69,7 +74,7 @@
       </div>
     </div>
     <div class="home-foot">
-      <button class="link-btn" type="button" onclick="showSection('osi',null)">OSI 7계층 전체 비교표 보기 →</button>
-      <div id="visit-counter">오늘 방문 <b id="vc-today">–</b> · 누적 방문 <b id="vc-total">–</b></div>
+      <a class="link-btn" href="/s2/osi/" onclick="return navGo(event,'osi',this)">OSI 7계층 전체 비교표 보기 →</a>
+      <div id="visit-counter" hidden>오늘 방문 <b id="vc-today"></b> · 누적 방문 <b id="vc-total"></b></div>
     </div>
   </div>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>2과목 정보통신기기 핵심정리 | 정보통신기사 필기</title>
+<title>정보통신기기 핵심정리 | 정보통신기사 필기 2과목</title>
 
 <!-- ══════════ SEO ══════════ -->
 <meta name="description" content="정보통신기기 핵심 주제 — UTP 케이블, OSI 전체 지도, 광가입자망, 이동통신 1G~5G, CCTV·CATV, 교환기를 주제별로 정리.">
@@ -16,7 +16,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="2과목 정보통신기기 핵심정리 | 정보통신기사 필기">
+<meta property="og:title" content="정보통신기기 핵심정리 | 정보통신기사 필기 2과목">
 <meta property="og:description" content="정보통신기기 핵심 주제 — UTP 케이블, OSI 전체 지도, 광가입자망, 이동통신 1G~5G, CCTV·CATV, 교환기를 주제별로 정리.">
 <meta property="og:url" content="https://ict.kyufind.com/s2/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
@@ -24,7 +24,7 @@
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="2과목 정보통신기기 핵심정리 | 정보통신기사 필기">
+<meta name="twitter:title" content="정보통신기기 핵심정리 | 정보통신기사 필기 2과목">
 <meta name="twitter:description" content="정보통신기기 핵심 주제 — UTP 케이블, OSI 전체 지도, 광가입자망, 이동통신 1G~5G, CCTV·CATV, 교환기를 주제별로 정리.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
@@ -85,8 +85,22 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-N0XWRMVEX0');
+  gtag('config', 'G-N0XWRMVEX0', {send_page_view:false});
+  window.__lastGaPagePath = '';
+  window.trackPageView = function(){
+    var path = location.pathname + location.search;
+    if(window.__lastGaPagePath === path) return;
+    window.__lastGaPagePath = path;
+    gtag('event', 'page_view', {
+      page_title: document.title,
+      page_location: location.href,
+      page_path: path
+    });
+  };
+  window.trackEvent = function(name, params){ gtag('event', name, params || {}); };
+  window.trackPageView();
 </script>
+<script src="/assets/exam-rules.js"></script>
 </head>
 <body>
 
@@ -102,7 +116,8 @@
   <div class="nav-label">꼭 외워야 할 것</div>
   <a class="sub-item nav-top" href="/overview/">OSI 7계층 한눈에</a>
   <a class="sub-item nav-top" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
-  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">공장가동률 한눈에</a>
+  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">MTTF · MTTR · MTBF</a>
+  <a class="sub-item nav-top" href="/radix/" data-sec="radix-essential" onclick="return navGo(event,'radix-essential',this)">진수 변환 한눈에</a>
   <div class="nav-label">과목</div>
   <nav id="sidebar-menu" aria-label="과목">
   <div class="subj-group">
@@ -277,10 +292,12 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div class="section visible" id="sec-hub-s2"><style>.hub-lead{font-size:15px;color:var(--text2);margin:-6px 0 22px;line-height:1.7}.hub-group{margin:26px 0 8px;font-size:13px;font-weight:700;color:var(--text3)}.hub-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.hub-list a{display:block;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);text-decoration:none;color:var(--text)}.hub-list a:hover{border-color:var(--key-bd);background:var(--key-bg)}.hub-list b{display:block;font-size:15px;margin-bottom:3px}.hub-list span{display:block;font-size:13px;color:var(--text3);line-height:1.55}</style><nav class="crumb c-s2" aria-label="경로"><a class="crumb-link" href="/">홈</a><span class="crumb-sep">/</span><span class="crumb-dot" style="background:var(--sc)"></span><b style="color:var(--sct)">2과목 정보통신기기</b></nav><h1 class="section-title">2과목 정보통신기기</h1><p class="hub-lead">정보통신기사 필기 2과목 <b>정보통신기기</b>의 핵심 주제 10개입니다. 주제를 누르면 정리 페이지로 이동합니다.</p><div class="hub-group">표준 / 장비</div><ul class="hub-list"><li><a href="/s2/ieee/" onclick="return navGo(event,'ieee',this)"><b>IEEE 802 표준</b><span>표준 명칭 OSI 계층 변조/접근방식 특징 802.2 LLC 2계층 — Logical Link Control. 데이터링크 상위 서브레이어. 흐름·오류 제어…</span></a></li><li><a href="/s2/osi/" onclick="return navGo(event,'osi',this)"><b>계층별 NW 장비</b><span>여기서 전체를 훑고, 계층을 눌러 상세로 들어가세요. 각 계층 페이지에서는 위·아래 계층으로 계속 이동할 수 있습니다. 7 응용 6 표현 5 세션 4 전송 3…</span></a></li><li><a href="/s2/cable/" onclick="return navGo(event,'cable',this)"><b>UTP 케이블 Cat.3~Cat.7</b><span>카테고리별 전체 비교표 카테고리 최대 전송속도 대역폭 케이블 유형 주요 용도 / 이더넷 표준 Cat.3 10 Mbps 16 MHz UTP 10BASE-T…</span></a></li><li><a href="/s2/switch/" onclick="return navGo(event,'switch',this)"><b>교환기 · 전송장비 · VoIP</b><span>2과목은 &quot;이 장비가 무슨 일을 하는가&quot; 를 묻는 암기 과목이다. 교환기는 연결을 이어주는 장비, 전송장비는 신호를 멀리 보내는 장비 — 이 둘만 갈라놓으면…</span></a></li></ul><div class="hub-group">이동통신</div><ul class="hub-list"><li><a href="/s1/band/" onclick="return navGo(event,'band',this)"><b>주파수 대역 · 마이크로파 밴드</b><span>전파는 주파수가 높아질수록 파장이 짧아지고 , 성질이 완전히 달라진다. 낮은 주파수는 멀리 돌아가고 , 높은 주파수는 직진하며 많은 정보를 싣는다 . 이 성질…</span></a></li><li><a href="/s2/handoff/" onclick="return navGo(event,'handoff',this)"><b>핸드오버 / 핸드오프 분류</b><span>핸드오버(Handover) / 핸드오프(Handoff) 란 이동 단말이 이동 중에도 통화가 끊기지 않도록 현재 기지국에서 인접 기지국으로 채널을 자동으로 전환…</span></a></li><li><a href="/s2/mobile/" onclick="return navGo(event,'mobile',this)"><b>이동통신 1G~5G · 근거리 무선</b><span>세대 문제는 「그 세대에서 처음 된 것」 하나만 붙잡으면 된다 — 1G 음성, 2G 문자, 3G 영상통화, 4G 올-IP, 5G 초저지연 . 다중접속…</span></a></li><li><a href="/s2/olt/" onclick="return navGo(event,'olt',this)"><b>OLT / ONT / ONU · 광통신 장치</b><span>PON(Passive Optical Network) 구조에서 사용되는 핵심 광통신 장치들. 국사(교환국) ↔ 광분배기(Splitter) ↔ 가입자 댁내를…</span></a></li></ul><div class="hub-group">영상 / 방송</div><ul class="hub-list"><li><a href="/s2/cctv/" onclick="return navGo(event,'cctv',this)"><b>CCTV · 폐쇄회로 영상감시</b><span>CCTV(Closed-Circuit Television) 는 특정 수신자에게만 영상을 전송하는 폐쇄회로 영상감시 시스템 . 방송(브로드캐스트)과 달리 불특정…</span></a></li><li><a href="/s2/catv/" onclick="return navGo(event,'catv',this)"><b>CATV · 케이블 TV / HFC</b><span>CATV(Cable Television) 는 원래 Community Antenna TV (공동안테나)에서 유래. 케이블(동축·광) 을 통해 방송 신호를…</span></a></li></ul></div><div id="subject-content-root"><div style="padding:60px 20px;text-align:center;color:var(--text3);font-size:14px;">불러오는 중…</div></div>
+  <div class="section visible" id="sec-hub-s2"><style>.hub-lead{font-size:15px;color:var(--text2);margin:-6px 0 22px;line-height:1.7}.hub-group{margin:26px 0 8px;font-size:13px;font-weight:700;color:var(--text3)}.hub-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.hub-list a{display:block;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);text-decoration:none;color:var(--text)}.hub-list a:hover{border-color:var(--key-bd);background:var(--key-bg)}.hub-list b{display:block;font-size:15px;margin-bottom:3px}.hub-list span{display:block;font-size:13px;color:var(--text3);line-height:1.55}</style><nav class="crumb c-s2" aria-label="경로"><a class="crumb-link" href="/">홈</a><span class="crumb-sep">/</span><span class="crumb-dot" style="background:var(--sc)"></span><b style="color:var(--sct)">2과목 정보통신기기</b></nav><h1 class="section-title">2과목 정보통신기기</h1><p class="hub-lead">정보통신기사 필기 2과목 <b>정보통신기기</b>의 핵심 주제 10개입니다. 주제를 누르면 정리 페이지로 이동합니다.</p><div class="hub-group">표준 / 장비</div><ul class="hub-list"><li><a href="/s2/ieee/" onclick="return navGo(event,'ieee',this)"><b>IEEE 802 표준</b><span>표준 명칭 OSI 계층 변조/접근방식 특징 802.2 LLC 2계층 — Logical Link Control. 데이터링크 상위 서브레이어. 흐름·오류 제어…</span></a></li><li><a href="/s2/osi/" onclick="return navGo(event,'osi',this)"><b>계층별 NW 장비</b><span>여기서 전체를 훑고, 계층을 눌러 상세로 들어가세요. 각 계층 페이지에서는 위·아래 계층으로 계속 이동할 수 있습니다. 7 응용 6 표현 5 세션 4 전송 3…</span></a></li><li><a href="/s2/cable/" onclick="return navGo(event,'cable',this)"><b>UTP 케이블 Cat.3~Cat.7</b><span>카테고리별 전체 비교표 카테고리 최대 전송속도 대역폭 케이블 유형 주요 용도 / 이더넷 표준 Cat.3 10 Mbps 16 MHz UTP 10BASE-T…</span></a></li><li><a href="/s2/switch/" onclick="return navGo(event,'switch',this)"><b>교환기 · 전송장비 · VoIP</b><span>2과목은 &quot;이 장비가 무슨 일을 하는가&quot; 를 묻는 암기 과목이다. 교환기는 연결을 이어주는 장비, 전송장비는 신호를 멀리 보내는 장비 — 이 둘만 갈라놓으면…</span></a></li></ul><div class="hub-group">이동통신</div><ul class="hub-list"><li><a href="/s1/band/" onclick="return navGo(event,'band',this)"><b>주파수 대역 · 마이크로파 밴드</b><span>전파는 주파수가 높아질수록 파장이 짧아지고 , 성질이 완전히 달라진다. 낮은 주파수는 멀리 돌아가고 , 높은 주파수는 직진하며 많은 정보를 싣는다 . 이 성질…</span></a></li><li><a href="/s2/handoff/" onclick="return navGo(event,'handoff',this)"><b>핸드오버 / 핸드오프 분류</b><span>핸드오버(Handover) / 핸드오프(Handoff) 란 이동 단말이 이동 중에도 통화가 끊기지 않도록 현재 기지국에서 인접 기지국으로 채널을 자동으로 전환…</span></a></li><li><a href="/s2/mobile/" onclick="return navGo(event,'mobile',this)"><b>이동통신 1G~5G · 근거리 무선</b><span>세대 문제는 「그 세대에서 처음 된 것」 하나만 붙잡으면 된다 — 1G 음성, 2G 문자, 3G 영상통화, 4G 올-IP, 5G 초저지연 . 다중접속…</span></a></li><li><a href="/s2/olt/" onclick="return navGo(event,'olt',this)"><b>OLT / ONT / ONU · 광통신 장치</b><span>PON(Passive Optical Network) 구조에서 사용되는 핵심 광통신 장치들. 국사(교환국) ↔ 광분배기(Splitter) ↔ 가입자 댁내를…</span></a></li></ul><div class="hub-group">영상 / 방송</div><ul class="hub-list"><li><a href="/s2/cctv/" onclick="return navGo(event,'cctv',this)"><b>CCTV · 폐쇄회로 영상감시</b><span>CCTV(Closed-Circuit Television) 는 특정 수신자에게만 영상을 전송하는 폐쇄회로 영상감시 시스템 . 방송(브로드캐스트)과 달리 불특정…</span></a></li><li><a href="/s2/catv/" onclick="return navGo(event,'catv',this)"><b>CATV · 케이블 TV / HFC</b><span>CATV(Cable Television) 는 원래 Community Antenna TV (공동안테나)에서 유래. 케이블(동축·광) 을 통해 방송 신호를…</span></a></li></ul></div><div id="subject-content-root"></div>
 
   
   <div data-section-src="/sections/factory-utilization.html"></div>
+
+  <div data-section-src="/sections/radix-essential.html"></div>
 
   <div data-section-src="/sections/cram.html"></div>
 
@@ -295,6 +312,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=62c6e84027a3"></script>
+<script src="/assets/app.js?v=5fd3f04b4462"></script>
 </body>
-</html>
+</html>

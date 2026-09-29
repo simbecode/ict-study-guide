@@ -85,8 +85,22 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-N0XWRMVEX0');
+  gtag('config', 'G-N0XWRMVEX0', {send_page_view:false});
+  window.__lastGaPagePath = '';
+  window.trackPageView = function(){
+    var path = location.pathname + location.search;
+    if(window.__lastGaPagePath === path) return;
+    window.__lastGaPagePath = path;
+    gtag('event', 'page_view', {
+      page_title: document.title,
+      page_location: location.href,
+      page_path: path
+    });
+  };
+  window.trackEvent = function(name, params){ gtag('event', name, params || {}); };
+  window.trackPageView();
 </script>
+<script src="/assets/exam-rules.js"></script>
 </head>
 <body>
 
@@ -102,7 +116,8 @@
   <div class="nav-label">꼭 외워야 할 것</div>
   <a class="sub-item nav-top" href="/overview/">OSI 7계층 한눈에</a>
   <a class="sub-item nav-top" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
-  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">공장가동률 한눈에</a>
+  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">MTTF · MTTR · MTBF</a>
+  <a class="sub-item nav-top" href="/radix/" data-sec="radix-essential" onclick="return navGo(event,'radix-essential',this)">진수 변환 한눈에</a>
   <div class="nav-label">과목</div>
   <nav id="sidebar-menu" aria-label="과목">
   <div class="subj-group">
@@ -277,10 +292,12 @@
 
   <!-- 홈 화면 -->
   <div data-section-src="/sections/home.html"></div>
-  <div id="subject-content-root"><div style="padding:60px 20px;text-align:center;color:var(--text3);font-size:14px;">불러오는 중…</div></div>
+  <div id="subject-content-root"></div>
 
   
   <div data-section-src="/sections/factory-utilization.html"></div>
+
+  <div data-section-src="/sections/radix-essential.html"></div>
 
   <div class="section visible" id="sec-cram">
     <h1 class="section-title">시험 직전 요약</h1>
@@ -400,6 +417,7 @@
     <table class="tbl cram-tbl cram-rep"><thead><tr><th>문제</th><th>정답</th><th>기출</th></tr></thead><tbody><tr><td>정보보호지침에 <b>포함되지 않는</b> 것</td><td>전문보안업체를 통한 위탁관리 등 관리적 보호조치</td><td><span class="cram-tag">2022-1회 100번</span> <span class="cram-tag">2022-2회 86번</span></td></tr><tr><td>프로그램 <b>이식성</b>을 가능하게 하는 주소지정</td><td>베이스레지스터 주소지정</td><td><span class="cram-tag">2022-1회 87번</span> <span class="cram-tag">2022-2회 81번</span></td></tr><tr><td>고층 건물·철탑 등 <b>인공구조물</b>에 의한 페이딩</td><td>Short-term Fading (단기 페이딩)</td><td><span class="cram-tag">2022-1회 13번</span> <span class="cram-tag">2022-2회 14번</span></td></tr><tr><td>맨홀·핸드홀 설치기준으로 <b>틀린</b> 것</td><td>간격 350 m 이내</td><td><span class="cram-tag">2022-1회 94번</span> <span class="cram-tag">2022-2회 90번</span></td></tr><tr><td>감리원이 부적합 시공에 취할 수 있는 조치</td><td>발주자의 동의를 얻어 공사중지 명령</td><td><span class="cram-tag">2022-1회 96번</span> <span class="cram-tag">2023-1회 98번</span></td></tr><tr><td>멀티미디어 특징으로 <b>틀린</b> 것</td><td>인간과 컴퓨터의 독립성 / 단방향성<br><span class="cram-dim">맞는 것: 디지털화·통합성·양방향성·상호작용성</span></td><td><span class="cram-tag">2022-1회 23번</span> <span class="cram-tag">2022-2회 29번</span></td></tr><tr><td>정지궤도 위성 설명으로 <b>틀린</b> 것</td><td>지구 면적의 약 20 %가 보인다 / 90° 간격 4개로 전 지구 커버<br><span class="cram-dim">실제: 약 42 %, 120° 간격 3개 (극지방 제외)</span></td><td><span class="cram-tag">2023-1회 58번</span> <span class="cram-tag">2023-2회 58번</span></td></tr></tbody></table>
   </div>
 
+
   
   <div data-section-src="/sections/cbt26.html"></div>
 
@@ -411,6 +429,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=62c6e84027a3"></script>
+<script src="/assets/app.js?v=5fd3f04b4462"></script>
 </body>
-</html>
+</html>

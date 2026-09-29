@@ -2,16 +2,20 @@
 assets/app.css
 assets/app.js
 assets/routes.js
+cards/index.html
 cbt-2026-4/index.html
 cbt-2026/index.html
 cram/index.html
 factory-utilization/index.html
+osi_study_guide.html
+overview/index.html
 quiz/2022-1/index.html
 quiz/2022-2/index.html
 quiz/2022-3/index.html
 quiz/2023-1/index.html
 quiz/2023-2/index.html
 quiz/index.html
+radix/index.html
 s1/adder/index.html
 s1/ammod/index.html
 s1/antenna/index.html
@@ -86,3 +90,5 @@ sections/cram.html
 sections/factory-utilization.html
 sections/home.html
 sections/quiz.html
+sections/radix-essential.html
+subnet/index.html

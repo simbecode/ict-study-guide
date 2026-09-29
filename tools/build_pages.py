@@ -6,9 +6,12 @@
   실행:  python tools/build_pages.py        (저장소 폴더에서, 파이썬 3.7 이상, 추가 설치 없음)
 
   원본(직접 수정하는 파일)
-    index.html            홈 화면이자 전체 화면 틀(CSS·JS 포함)
+    index.html            홈 화면과 전체 화면 틀
+    assets/app.css/.js    공용 스타일·동작
+    sections/*.html       홈·요약·CBT·카드·기출 등 독립 본문
     subjects/*.html       과목별 본문
     data/quiz/*.json      기출문제
+    data/osi-layers.json  OSI 비교 페이지 공용 데이터
 
   자동 생성(직접 수정하지 말 것 — 원본을 고치고 이 스크립트를 다시 실행)
     s1/ ~ s5/             과목 모음(/s1/)과 주제 페이지(/s1/csma/ …)
@@ -41,25 +44,37 @@ GEN_LIST = os.path.join(ROOT, 'tools', 'generated-files.txt')
 # ── 검색결과에 보이는 문구 ────────────────────────────────
 # 제목: 구글 한국어 검색결과는 약 30자에서 잘린다. 주제명을 앞에 두고 접미사는 짧게 유지한다.
 # 설명: 약 80자까지만 노출된다. 80자를 넘기면 뒤가 잘리므로 DESC_MAX 안에서 끝낸다.
-TITLE_SUFFIX = ' | 정보통신기사 필기'
 DESC_MAX = 88
+
+
+def page_title(topic, subject_number=None):
+    suffix = ' | 정보통신기사 필기'
+    if subject_number:
+        suffix += ' %s과목' % subject_number
+    return topic + suffix
 
 # 과목 외 단독 페이지: 섹션 id → (주소, 검색 설명, 페이지 제목)
 EXTRA_PAGES = {
     'factory-utilization': ('/factory-utilization/', 'MTTF·MTTR·MTBF의 뜻과 설비 가동률·불가동률 공식, 기출 계산 예제와 공장 설비 적용 방법을 한눈에 정리합니다.',
-                            '공장가동률 한눈에 — MTTF·MTTR·MTBF' + TITLE_SUFFIX),
+                            page_title('공장가동률 한눈에 — MTTF·MTTR·MTBF')),
+    'radix-essential': ('/radix/', '2진수·8진수·10진수·16진수 변환에 꼭 필요한 자릿값, 묶음 규칙과 기출형 예제를 한눈에 정리합니다.',
+                        page_title('진수 변환 한눈에')),
     'cram': ('/cram/', '기출에 나온 나이퀴스트·섀넌·데시벨·BER·다중화 계산 공식과 설비기준·법규 숫자, 두 번 이상 나온 문제를 한 페이지에 모았습니다.',
-             '시험 직전 요약 — 계산 공식·법규 숫자' + TITLE_SUFFIX),
+             page_title('시험 직전 요약 — 계산 공식·법규 숫자')),
     'cbt26': ('/cbt-2026/', '응시 후기로 모은 2026년 출제 주제를 바탕으로 만든 복원 문제 69개. 개념 정리와 확인 문제, 변형 문제, 오답 복습까지 이어집니다.',
-              '2026년 시험복원문제 69문항' + TITLE_SUFFIX),
+              page_title('2026년 시험복원문제 69문항')),
     'quiz': ('/quiz/', '2022~2023년 기출 500문항을 회차별·과목별로 골라 풀고, 해설과 과목별 점수·틀린 문제를 확인하는 무료 CBT 연습.',
-             '기출문제 500제 — 회차별 CBT 풀이' + TITLE_SUFFIX),
+             page_title('기출문제 500제 — 회차별 CBT 풀이')),
+    'cards': ('/cards/', '정보통신기사 필기 핵심 용어와 숫자·공식을 카드로 반복 학습하고 어려운 카드만 다시 복습합니다.',
+              page_title('용어 카드 — 뜻 맞추기')),
 }
 
 # 주소가 바뀐 페이지: 옛 주소 → 새 주소.
 # GitHub Pages 는 서버 리다이렉트를 못 하므로, 옛 주소에 canonical + 즉시 이동 페이지를 남긴다.
 REDIRECTS = {
     '/cbt-2026-4/': '/cbt-2026/',      # 2026-09-22 '2026년 시험복원문제' 로 이름 변경
+    '/subnet/': '/s3/subnet/',
+    '/osi_study_guide.html': '/s2/osi/',
 }
 
 # 회차별 기출 페이지 — data/quiz/*.json 하나당 한 페이지(/quiz/2022-1/)
@@ -193,9 +208,51 @@ def esc(t):
     return html.escape(t, quote=True)
 
 
+def render_osi_detail_table(layers):
+    rows = []
+    for layer in layers:
+        rows.append(
+            '<tr><td><b>%s</b></td><td><b>%s</b><br><span style="font-size:12px;color:var(--text2)">%s</span></td>'
+            '<td>%s</td><td>%s<br><small>%s</small></td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>' % (
+                layer['number'], esc(layer['en']), esc(layer['ko']), esc(layer['pdu']),
+                esc(layer['role']), esc(' · '.join(layer['protocols'])), esc(layer['networkDevice']),
+                esc(layer['securityDevice']), esc(layer['tcpIpLayer']), esc(layer['cloud'])))
+    return ('<!-- OSI_SHARED_TABLE_START --><div style="overflow-x:auto"><table class="tbl" style="min-width:900px">'
+            '<thead><tr><th>계층</th><th>OSI Layer</th><th>PDU</th><th>역할·프로토콜</th>'
+            '<th>NW 장비</th><th>보안 장비</th><th>TCP/IP 계층</th><th>Cloud</th></tr></thead>'
+            '<tbody>%s</tbody></table></div><!-- OSI_SHARED_TABLE_END -->' % ''.join(rows))
+
+
+def render_osi_overview(layers):
+    rows = []
+    for layer in layers:
+        rows.append(
+            '<tr class="%s"><th scope="row"><a href="/s3/%s/"><b>%s</b> %s<small>%s</small></a></th>'
+            '<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>' % (
+                layer['key'], layer['key'], layer['number'], esc(layer['ko']), esc(layer['en']),
+                esc(layer['role']), esc(' · '.join(layer['protocols'])), esc(layer['address']),
+                esc(layer['pdu']), esc(layer['networkDevice']), esc(layer['memory'])))
+    title = page_title('OSI 7계층 한눈에')
+    return '''<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>%s</title><meta name="description" content="OSI 7계층의 역할, 프로토콜, 주소, PDU와 대표 장비를 한 표에서 비교합니다.">
+<link rel="canonical" href="%s/overview/"><meta name="robots" content="index,follow">
+<style>body{margin:0;background:#fafcfe;color:#1d252d;font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;line-height:1.55}header,main{max-width:1400px;margin:auto;padding:20px}header{font-weight:800}h1{margin:0 0 6px}.lead{color:#596674}.scroll{overflow-x:auto;background:#fff;border:1px solid #d9dfe3;border-radius:10px}table{width:100%%;min-width:1050px;border-collapse:collapse;font-size:13px}th,td{padding:13px 11px;border-bottom:1px solid #e0e5e9;text-align:left;vertical-align:top}thead th{background:#f0f4f7}tbody th{min-width:155px}tbody th a{color:inherit;text-decoration:none}tbody th small{display:block;color:#6d767f;font-weight:400}.l7 th{background:#eae8ff}.l6 th{background:#dff1ed}.l5 th{background:#e1ecfb}.l4 th{background:#f6eddf}.l3 th{background:#f9ebe0}.l2 th{background:#e5f3e5}.l1 th{background:#eff3f8}.remember{margin:16px 0;padding:14px 16px;background:#fff;border:1px solid #d9dfe3;border-radius:8px}.footer{display:flex;gap:18px;flex-wrap:wrap}.footer a{color:#2769b7}</style>
+<!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-N0XWRMVEX0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-N0XWRMVEX0');</script>
+</head><body><header><a href="/">정보통신기사 필기</a> / OSI 전체 지도</header><main>
+<h1>OSI 7계층 한눈에</h1><p class="lead">계층 이름부터 역할·프로토콜·장비까지 공용 데이터로 정리했습니다.</p>
+<div class="scroll" tabindex="0" role="region" aria-label="OSI 전체 계층 비교표"><table><thead><tr><th>계층</th><th>하는 일</th><th>핵심 프로토콜</th><th>주소·구분</th><th>데이터 단위</th><th>대표 장비</th><th>기억할 연결</th></tr></thead><tbody>%s</tbody></table></div>
+<div class="remember"><b>아래에서 위로</b> 물 · 데 · 네 · 전 · 세 · 표 · 응</div>
+<div class="footer"><a href="/s2/osi/">OSI 상세 설명</a><a href="/">홈으로</a></div>
+</main></body></html>''' % (esc(title), SITE, ''.join(rows))
+
+
 def main():
     index = rd('index.html')
     NL = '\r\n' if '\r\n' in index else '\n'
+    with open(os.path.join(ROOT, 'data', 'osi-layers.json'), encoding='utf-8') as f:
+        osi_layers = json.load(f)
 
     # ── 과목 이름 (사이드바 기준) ─────────────────────────────
     subj_names = {}
@@ -225,6 +282,9 @@ def main():
     for fn in subj_files:
         sid = 's' + fn.split('-')[0]
         src = rd('subjects/' + fn)
+        if 'OSI_SHARED_TABLE_START' in src:
+            src = re.sub(r'<!-- OSI_SHARED_TABLE_START -->.*?<!-- OSI_SHARED_TABLE_END -->',
+                         lambda m: render_osi_detail_table(osi_layers), src, count=1, flags=re.S)
         for m in re.finditer(r'<div class="section[^"]*" id="sec-([^"]+)"', src):
             sec = m.group(1)
             if sec in sections:
@@ -252,19 +312,19 @@ def main():
     routes = {'home': ['/', home_title]}
     for sid in sorted(subj_names):
         n = sid[1:]
-        routes['hub-' + sid] = ['/%s/' % sid, '%s과목 %s 핵심정리%s' % (n, subj_names[sid], TITLE_SUFFIX)]
+        routes['hub-' + sid] = ['/%s/' % sid, page_title('%s 핵심정리' % subj_names[sid], n)]
     for sec, d in sections.items():
         n = d['sid'][1:]
         d['url'] = '/%s/%s/' % (d['sid'], sec)
-        d['page_title'] = (d['seo_title'] or d['title']) + TITLE_SUFFIX
+        d['page_title'] = page_title(d['seo_title'] or d['title'], n)
         routes[sec] = [d['url'], d['page_title']]
     extra = {}
     for sec, (url, desc, ptitle) in EXTRA_PAGES.items():
-        m = re.search(r'<div class="section[^"]*" id="sec-%s"' % re.escape(sec), index)
-        if not m:
-            print('주의: index.html 에 sec-%s 가 없어 건너뜀' % sec)
+        section_path = 'sections/%s.html' % sec
+        if not os.path.exists(os.path.join(ROOT, section_path)):
+            print('주의: %s 가 없어 건너뜀' % section_path)
             continue
-        block = balanced_div(index, m.start())
+        block = rd(section_path)
         h = re.search(r'<h2[^>]*>(.*?)</h2>', block, re.S)
         title = clean_title(h.group(1)) if h else sec
         extra[sec] = dict(id=sec, url=url, desc=desc, html=block, title=title,
@@ -297,16 +357,30 @@ def main():
     # ── 공용 파일 ────────────────────────────────────────────
     css_m = re.search(r'<style>(.*?)</style>', index, re.S)
     js_m = re.search(r'<script>(\s*let quizzes = \[\];.*?)</script>', index, re.S)
-    assert css_m and js_m, 'index.html 에서 CSS/JS 블록을 찾지 못했습니다.'
-    wr('assets/app.css', '/* 자동 생성: tools/build_pages.py — index.html 의 첫 <style> 복사본. 직접 수정하지 마세요. */\n' + css_m.group(1).strip() + '\n', gen)
-    wr('assets/app.js', '// 자동 생성: tools/build_pages.py — index.html 의 본문 스크립트 복사본. 직접 수정하지 마세요.\n' + js_m.group(1).strip() + '\n', gen)
+    if css_m:
+        css_source = css_m.group(1).strip()
+        wr('assets/app.css', '/* 자동 생성: tools/build_pages.py — 공용 스타일. */\n' + css_source + '\n', gen)
+    else:
+        css_source = re.sub(r'^/\*.*?\*/\s*', '', rd('assets/app.css'), count=1, flags=re.S).strip()
+        gen.append('assets/app.css')
+    if js_m:
+        js_source = js_m.group(1).strip()
+        wr('assets/app.js', '// 자동 생성: tools/build_pages.py — 공용 동작 코드.\n' + js_source + '\n', gen)
+    else:
+        js_source = re.sub(r'^//[^\n]*\n', '', rd('assets/app.js'), count=1).strip()
+        gen.append('assets/app.js')
     wr('assets/routes.js', '// 자동 생성: tools/build_pages.py — 주제별 주소 목록\nwindow.__ROUTES__ = ' + json.dumps(routes, ensure_ascii=False, indent=0) + ';\n', gen)
 
     # ── 페이지 틀 ────────────────────────────────────────────
     tpl = index
-    tpl = tpl.replace(css_m.group(0), '<link rel="stylesheet" href="/assets/app.css">', 1)
-    js_version = hashlib.sha256(js_m.group(1).encode('utf-8')).hexdigest()[:12]
-    tpl = tpl.replace(js_m.group(0), '<script src="/assets/app.js?v=' + js_version + '"></script>', 1)
+    if css_m:
+        tpl = tpl.replace(css_m.group(0), '<link rel="stylesheet" href="/assets/app.css">', 1)
+    js_version = hashlib.sha256(js_source.encode('utf-8')).hexdigest()[:12]
+    if js_m:
+        tpl = tpl.replace(js_m.group(0), '<script src="/assets/app.js?v=' + js_version + '"></script>', 1)
+    else:
+        tpl = re.sub(r'<script src="/assets/app\.js(?:\?v=[^"]*)?"></script>',
+                     '<script src="/assets/app.js?v=' + js_version + '"></script>', tpl, count=1)
     tpl = tpl.replace('<div class="section visible" id="sec-home">', '<div class="section" id="sec-home">', 1)
     tpl = tpl.replace('<h1 class="home-title">', '<p class="home-title">', 1)
     tpl = re.sub(r'(<p class="home-title">[^<]*)</h1>', r'\1</p>', tpl, count=1)
@@ -318,20 +392,26 @@ def main():
     # 검색엔진이 "이 페이지가 무엇에 대한 페이지인지" 판단할 근거가 흐려진다.
     # 그래서 sections/*.html 로 빼고, 해당 내용이 주인공인 페이지에서만 본문에 넣는다.
     # 나머지 페이지는 슬롯만 두고 app.js 가 화면 표시 뒤에 불러온다.
-    SLOT_SECTIONS = ['factory-utilization', 'home', 'cram', 'cbt26', 'cards', 'quiz']
+    SLOT_SECTIONS = ['factory-utilization', 'radix-essential', 'home', 'cram', 'cbt26', 'cards', 'quiz']
     slot_div = {}
+    section_blocks = {}
     for name in SLOT_SECTIONS:
-        m = re.search(r'<div class="section[^"]*" id="sec-%s"' % re.escape(name), tpl)
-        if not m:
-            print('주의: 공용 섹션 sec-%s 를 찾지 못해 건너뜁니다' % name)
+        section_path = 'sections/%s.html' % name
+        if not os.path.exists(os.path.join(ROOT, section_path)):
+            print('주의: 공용 섹션 %s 를 찾지 못해 건너뜁니다' % section_path)
             continue
-        block = balanced_div(tpl, m.start())
-        wr('sections/%s.html' % name, block + '\n', gen)
-        slot_div[name] = '<div data-section-src="/sections/%s.html"></div>' % name
-        tpl = tpl.replace(block, slot_div[name], 1)
+        source_block = rd(section_path).strip()
+        section_blocks[name] = source_block
+        gen.append(section_path)
+        slot_div[name] = '<div data-section-src="/%s"></div>' % section_path
+        m = re.search(r'<div class="section[^"]*" id="sec-%s"' % re.escape(name), tpl)
+        if m:
+            block = balanced_div(tpl, m.start())
+            tpl = tpl.replace(block, slot_div[name], 1)
 
-    root_m = re.search(r'<div id="subject-content-root">.*?</div></div>', tpl)
-    assert root_m, 'subject-content-root 를 찾지 못했습니다.'
+    root_start = re.search(r'<div id="subject-content-root"[^>]*>', tpl)
+    assert root_start, 'subject-content-root 를 찾지 못했습니다.'
+    root_block = balanced_div(tpl, root_start.start())
 
     # ── 빵부스러기(경로 표시) ────────────────────────────────
     # 기존 #crumb 는 JS 가 채우는 빈 div 라서 검색엔진이 따라갈 링크가 없었다.
@@ -398,7 +478,7 @@ def main():
                      [home_crumb, ('%s과목 %s' % (n, sname), '/%s/' % d['sid']), (d['title'], d['url'])],
                      d['title'])
         t = t.replace('<script src="/assets/routes.js"></script>', page_script({'sec': sec}), 1)
-        t = t.replace(root_m.group(0), '<div id="subject-content-root">' + as_visible(d['html']) + '</div>', 1)
+        t = t.replace(root_block, '<div id="subject-content-root">' + as_visible(d['html']) + '</div>', 1)
         t = t.replace(CRUMB_EMPTY, crumb_links(d['sid'], '%s과목 %s' % (n, sname), '/%s/' % d['sid']), 1)
         t = mark_active(t, sec)
         written += wr('%s/%s/index.html' % (d['sid'], sec), t, gen)
@@ -442,7 +522,7 @@ def main():
         t = set_meta(tpl, routes['hub-' + sid][1], desc, url,
                      [home_crumb, ('%s과목 %s' % (n, sname), url)], '%s과목 %s 핵심정리' % (n, sname))
         t = t.replace('<script src="/assets/routes.js"></script>', page_script({'hub': sid}), 1)
-        t = t.replace(root_m.group(0), body + root_m.group(0), 1)
+        t = t.replace(root_block, body + root_block, 1)
         written += wr('%s/index.html' % sid, t, gen)
 
     # 단독 페이지 (요약 · CBT · 기출)
@@ -519,7 +599,7 @@ def main():
 
     for pg_ in quiz_pages:
         others = [o for o in quiz_pages if o['slug'] != pg_['slug']]
-        ptitle = '%s 기출문제 해설%s' % (pg_['label'], TITLE_SUFFIX)
+        ptitle = page_title('%s 기출문제 해설' % pg_['label'])
         pdesc = ('정보통신기사 필기 %s 기출문제 %d문항 전체와 해설. 과목별로 묶어 정답과 풀이를 함께 실었습니다.'
                  % (pg_['label'], len(pg_['items'])))
         routes['quizyear-' + pg_['slug']] = [pg_['url'], ptitle]
@@ -528,7 +608,7 @@ def main():
                      '%s 기출문제' % pg_['label'])
         t = t.replace('<script src="/assets/routes.js"></script>',
                       page_script({'sec': 'quizyear-' + pg_['slug'], 'nav': 'quiz'}), 1)
-        t = t.replace(root_m.group(0), quiz_body(pg_, others) + root_m.group(0), 1)
+        t = t.replace(root_block, quiz_body(pg_, others) + root_block, 1)
         written += wr('quiz/%s/index.html' % pg_['slug'], t, gen)
 
     # routes.js 는 회차 주소까지 담아야 뒤로가기·주소 동기화가 맞는다 → 여기서 다시 쓴다
@@ -549,7 +629,9 @@ def main():
                 '<p>이 페이지의 주소가 <b>%s</b> 로 바뀌었습니다.<br>'
                 '자동으로 이동하지 않으면 <a href="%s">여기를 눌러 주세요</a>.</p>\n'
                 '</body>\n</html>\n') % (SITE, new_url, new_url, new_url, new_url)
-        written += wr(old_url.strip('/') + '/index.html', page, gen)
+        old_path = old_url.strip('/')
+        redirect_file = old_path if old_path.endswith('.html') else old_path + '/index.html'
+        written += wr(redirect_file, page, gen)
 
     # ── sitemap.xml ──────────────────────────────────────────
     urls = [('/', git_date('index.html', 'subjects', 'data'), '1.0')]
@@ -567,6 +649,15 @@ def main():
         sm.append('  <url><loc>%s%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>' % (SITE, u, lm, pr))
     sm.append('</urlset>')
     wr('sitemap.xml', '\n'.join(sm) + '\n', None)
+
+    # OSI 비교 페이지도 상세 페이지와 동일한 공용 JSON을 사용해 생성한다.
+    written += wr('overview/index.html', render_osi_overview(osi_layers) + '\n', gen)
+
+    # 홈은 요약 섹션만 서버 HTML에 남긴다. 나머지 본문은 각 고유 URL에서만 제공한다.
+    home_page = tpl.replace(slot_div['home'], as_visible(section_blocks['home'], h1=False), 1)
+    home_page = re.sub(r'<div id="subject-content-root">.*?</div></div>',
+                       '<div id="subject-content-root"></div>', home_page, count=1, flags=re.S)
+    wr('index.html', home_page, None)
 
     # ── 더 이상 만들지 않는 옛 페이지 정리 ─────────────────────
     old = []

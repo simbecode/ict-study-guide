@@ -1,4 +1,4 @@
-// 자동 생성: tools/build_pages.py — index.html 의 본문 스크립트 복사본. 직접 수정하지 마세요.
+// 자동 생성: tools/build_pages.py — 공용 동작 코드.
 let quizzes = [];
 
 // ══════════ 과목 콘텐츠 · 기출문제 데이터 로더 ══════════
@@ -22,7 +22,8 @@ let quizzes = [];
 
   var root = document.getElementById('subject-content-root');
 
-  var subjectsP = Promise.all(SUBJECT_FILES.map(function(f){
+  var loadAllSubjects = false; // 각 주제 본문은 해당 고유 URL의 서버 HTML에서만 렌더링한다.
+  var subjectsP = loadAllSubjects ? Promise.all(SUBJECT_FILES.map(function(f){
     return fetch(f, {cache: 'no-cache'}).then(function(r){
       if(!r.ok) throw new Error(f+' 로드 실패 (HTTP '+r.status+')');
       return r.text();
@@ -42,7 +43,7 @@ let quizzes = [];
         h2.parentNode.replaceChild(h1, h2);
       }
     }
-  });
+  }) : Promise.resolve();
 
   var quizP = Promise.all(QUIZ_FILES.map(function(f){
     return fetch(f).then(function(r){
@@ -57,7 +58,7 @@ let quizzes = [];
   // 생성된 페이지(/s1/csma/ 등)는 공용 섹션(홈·시험직전요약·CBT·용어카드·기출)을 HTML 에 넣지 않고
   // 여기서 따로 불러온다 — 같은 내용이 71개 페이지에 중복돼 검색엔진이 페이지 주제를 흐리게 보는 것을 막는다.
   // 슬롯은 tools/build_pages.py 가 <div data-section-src="/sections/xxx.html"></div> 형태로 넣는다.
-  var slots = Array.prototype.slice.call(document.querySelectorAll('[data-section-src]'));
+  var slots = []; // 공용 본문도 각 고유 URL에서만 렌더링하고 메뉴는 전체 페이지 이동을 사용한다.
   var slotP = Promise.all(slots.map(function(slot){
     var src = slot.getAttribute('data-section-src');
     return fetch(src).then(function(r){
@@ -301,24 +302,9 @@ function syncFilterButtons(){
   mark('subj-filters', currentFilter);
 }
 
-// 과목별 판정 기준 (한 과목 20문항 기준)
-//   · 과락 : 8개 이하  (정답률 40% 이하)
-//   · 합격 : 12개 이상 (정답률 60% 이상)
-//   · 9~11개는 과락은 면했지만 합격선 미달 → '미달'
-// 문항 수가 20개가 아니어도 같은 비율로 판정한다.
-const GWARAK_RATE = 0.4;   // 이 비율 "이하"면 과락
-const PASS_RATE   = 0.6;   // 이 비율 "이상"이면 합격
-const GWARAK_CNT  = 8;     // 20문항 환산 과락 기준
-const PASS_CNT    = 12;    // 20문항 환산 합격 기준
-
-// 부동소수점 오차를 피하려고 정수 비교로 판정한다.
-// 과락: correct/total <= 0.4   →  correct*10 <= total*4
+// 국가기술자격 필기 판정: 과목 40점 미만 과락, 전 과목 평균 60점 이상이며 과락이 없어야 합격.
 function isSubjGwarak(st){
-  return !!st && st.total > 0 && (st.correct * 10 <= st.total * 4);
-}
-// 합격: correct/total >= 0.6   →  correct*10 >= total*6
-function isSubjPassing(st){
-  return !!st && st.total > 0 && (st.correct * 10 >= st.total * 6);
+  return !!st && window.ICTExamRules.isSubjectFailed(st.correct, st.total);
 }
 
 // HTML 이스케이프 — 문제/보기/해설에 '<' 같은 문자가 있어도 안전하게 렌더
@@ -551,7 +537,6 @@ function showFinalResult(){
       sw.classList.add('show');
 
       const total=currentQuizzes.length;
-      const pct=Math.round(score/total*100);
 
       // 과목별 점수 계산 (results 배열 사용 — DOM 조회 없음)
       const subjNames=SUBJ_NAMES, subjColors=SUBJ_COLORS;
@@ -566,12 +551,12 @@ function showFinalResult(){
         }
       });
 
-      // 과락 체크 (20문항 기준 8개 이하를 맞힌 과목)
-      const gwarakSubjs = Object.entries(subjStats)
-        .filter(([_,st])=>isSubjGwarak(st))
-        .map(([s])=>s);
+      const subjectEntries = Object.entries(subjStats);
+      const evaluation = window.ICTExamRules.evaluateSubjects(subjectEntries.map(([_,st])=>st));
+      const pct = Math.round(evaluation.average);
+      const gwarakSubjs = evaluation.failedIndexes.map(i=>subjectEntries[i][0]);
       const hasGwarak = gwarakSubjs.length > 0;
-      const overallPass = pct>=60 && !hasGwarak;
+      const overallPass = evaluation.passed;
 
       // 전체 점수
       document.getElementById('score-num').textContent=score+' / '+total+' ('+pct+'점)';
@@ -588,6 +573,20 @@ function showFinalResult(){
         msg='다시 처음부터 복습하세요! 📚';
       }
       document.getElementById('score-msg').textContent=msg;
+
+      if(quizMode === 'exam' && window.trackEvent){
+        const eventParams = {
+          exam_round: examYear || currentYear || '',
+          average_score: Number(evaluation.average.toFixed(2)),
+          passed: overallPass ? 1 : 0,
+          failed_subjects: gwarakSubjs.join(',')
+        };
+        subjectEntries.forEach(([subject, st])=>{
+          const key = 'score_s' + String(subject).replace(/[^0-9]/g,'');
+          eventParams[key] = Number(window.ICTExamRules.subjectScore(st.correct, st.total).toFixed(2));
+        });
+        window.trackEvent('quiz_submit', eventParams);
+      }
 
       // 과목별 종합 결과 렌더링
       const subjEl=document.getElementById('subj-score');
@@ -615,7 +614,7 @@ function showFinalResult(){
         // 과목별 상세표
         html2+=`<div style="font-size:15.5px;font-weight:500;color:var(--text);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);">
           📋 과목별 상세
-          <span style="font-size:13px;font-weight:400;color:var(--text3);margin-left:6px;">— 과목당 <b style="color:#af3c3d">${GWARAK_CNT}개 이하 과락</b> · <b style="color:#267c41">${PASS_CNT}개 이상 합격</b> (20문항 기준)</span>
+          <span style="font-size:13px;font-weight:400;color:var(--text3);margin-left:6px;">— 과목 <b style="color:#af3c3d">40점 미만 과락</b> · 전 과목 평균 <b style="color:#267c41">60점 이상</b>이며 과락이 없어야 합격</span>
         </div>`;
         html2+=`<table style="width:100%;border-collapse:collapse;font-size:14px;">
           <thead>
@@ -636,13 +635,12 @@ function showFinalResult(){
           const sp=Math.round(st.correct/st.total*100);
           const color=subjColors[subj]||'#2c6da4';
           const wrong=st.total-st.correct;
-          // 판정: 8개 이하(40% 이하) 과락 / 12개 이상(60% 이상) 합격 / 그 사이는 미달
+          // 과목별 표시는 과락 여부만 보여 준다. 최종 합격은 전 과목 평균과 함께 판정한다.
           const isSubjGw   = isSubjGwarak(st);
-          const isSubjPass = isSubjPassing(st);
           const passStyle = isSubjGw
             ?'background:#feeceb;color:#af3c3d;'
-            :(isSubjPass ? 'background:#e5f3e5;color:#267c41;' : 'background:#f6eddf;color:#8a6012;');
-          const passText = isSubjGw ? '과락' : (isSubjPass ? '합격' : '미달');
+            :'background:#e5f3e5;color:#267c41;';
+          const passText = isSubjGw ? '과락' : '과락 아님';
           html2+=`<tr style="border-bottom:0.5px solid var(--bg3);">
             <td style="padding:9px 8px;">
               <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${color};margin-right:5px;"></span>
@@ -1119,7 +1117,7 @@ function syncNavCounts(){
 }
 
 // ══════════ 2026년 시험복원문제 ══════════
-var cbtMode = 'practice', cbtSubject = 'all', cbtReviewIds = [];
+var cbtMode = 'practice', cbtSubject = 'all', cbtReviewIds = [], cbtCompletionSent = false;
 function cbtCards(){ return Array.from(document.querySelectorAll('#sec-cbt26 .cbt-card')); }
 function cbtVisibleCards(){ return cbtCards().filter(function(c){ return !c.hidden; }); }
 function cbtScore(){
@@ -1139,6 +1137,17 @@ function cbtScore(){
     var a = document.querySelector('#sec-cbt26 .cbt-topic[data-q="' + c.id.replace('cbt-q', '') + '"]');
     if(a){ a.dataset.result = result; a.setAttribute('aria-label', c.querySelector('.cbt-topic-name').textContent + (result === 'ok' ? ' · 정답' : result === 'ng' ? ' · 오답' : ' · 미풀이')); }
   });
+  var allDone = all.length > 0 && all.every(function(c){ return !!c.dataset.done; });
+  if(allDone && !cbtCompletionSent){
+    cbtCompletionSent = true;
+    var totalCorrect = all.filter(function(c){ return c.dataset.done === 'ok'; }).length;
+    if(window.trackEvent) window.trackEvent('cbt_complete', {
+      answered_count: all.length,
+      correct_count: totalCorrect,
+      total_questions: all.length,
+      score_percent: Math.round(totalCorrect / all.length * 100)
+    });
+  }
 }
 function cbtPick(btn){
   var card = btn.closest('.cbt-card');
@@ -1151,6 +1160,11 @@ function cbtPick(btn){
   });
   if(pick !== ans) btn.classList.add('wrong');
   card.dataset.done = pick === ans ? 'ok' : 'ng';
+  if(window.trackEvent) window.trackEvent('cbt_answer', {
+    question_id: card.id.replace('cbt-q',''),
+    subject: card.dataset.subj || '',
+    correct: pick === ans ? 1 : 0
+  });
   card.querySelector('.cbt-ex').classList.add('show');
   card.querySelector('.cbt-extra').hidden = false;
   cbtScore();
@@ -1171,6 +1185,7 @@ function cbtRetryOne(btn){
 }
 function cbtReset(){
   cbtVisibleCards().forEach(cbtClearCard);
+  cbtCompletionSent = false;
   cbtScore();
 }
 function cbtSetMode(mode){
@@ -1424,10 +1439,16 @@ function relQuizRender(id){
 }
 
 function showSection(id,el){
+  const requested=document.getElementById('sec-'+id);
+  if(!requested){
+    const route=(window.__ROUTES__||{})[id];
+    if(route && route[0]){ location.assign(route[0]); }
+    return;
+  }
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('visible'));
   const ieeeQB=document.getElementById('ieee-quiz-block');
   if(ieeeQB) ieeeQB.style.display=(id==='ieee')?'block':'none';
-  const sec=document.getElementById('sec-'+id);
+  const sec=requested;
   if(sec) sec.classList.add('visible');
   // 선택 표시는 .active 클래스로만 처리한다.
   // (예전에는 style.color=''로 지워서, "(예정)" 항목과 그룹 헤더의
@@ -1467,6 +1488,7 @@ function navSyncUrl(id){
   if(r[1]) document.title = r[1];
   if(location.pathname === r[0]) return;
   history[_navReplace ? 'replaceState' : 'pushState']({sec:id}, '', r[0]);
+  if(window.trackPageView) window.trackPageView();
 }
 function navGo(e, id, el){
   if(e && (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button === 1)) return true;  // 새 탭 열기는 그대로
@@ -1480,7 +1502,11 @@ window.addEventListener('popstate', function(){
   else for(var k in R){ if(R[k][0] === path){ id = k; break; } }
   if(!id || (id !== 'home' && !document.getElementById('sec-' + id))){ location.reload(); return; }
   _navPop = true;
-  try{ showSection(id, null); if(R[id] && R[id][1]) document.title = R[id][1]; } finally { _navPop = false; }
+  try{
+    showSection(id, null);
+    if(R[id] && R[id][1]) document.title = R[id][1];
+    if(window.trackPageView) window.trackPageView();
+  } finally { _navPop = false; }
 });
 
 function doSearch(v){
@@ -1583,7 +1609,7 @@ function showMidResult(){
   </div>
   <div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);">
     과목별 현황
-    <span style="font-size:12px;font-weight:400;color:var(--text3);margin-left:4px;">— 푼 문제 기준 ${Math.round(GWARAK_RATE*100)}% 이하 과락 위험 · ${Math.round(PASS_RATE*100)}% 이상 양호</span>
+    <span style="font-size:12px;font-weight:400;color:var(--text3);margin-left:4px;">— 푼 문제 기준 40% 미만이면 과락 위험</span>
   </div>
   <table style="width:100%;border-collapse:collapse;font-size:14px;">
     <thead><tr style="border-bottom:1px solid var(--border);">
@@ -3396,7 +3422,16 @@ function cdRender(){
   document.getElementById('cd-status').textContent = (cdIdx + 1) + ' / ' + total + '장';
   document.getElementById('cd-score').textContent = '✓ ' + cdKnown + '　✗ ' + cdWrong.length;
 }
-function cdFlip(){ cdFlipped = !cdFlipped; cdRender(); }
+function cdFlip(){
+  cdFlipped = !cdFlipped;
+  const card = cdDeck[cdIdx];
+  if(card && window.trackEvent) window.trackEvent('card_flip', {
+    card_id: card.t,
+    card_type: card.k || 'def',
+    card_side: cdFlipped ? 'back' : 'front'
+  });
+  cdRender();
+}
 function cdMark(known){
   if(cdIdx >= cdDeck.length) return;
   const c = cdDeck[cdIdx];
@@ -3486,6 +3521,10 @@ document.addEventListener('keydown', function(e){
 cdLoadHard();
 try{ cdApplyMode(); }catch(e){}
 cdBuild(true);
+if(location.hash === '#numbers'){
+  const numberButton = document.querySelector('.cd-filter[data-k="num"]');
+  if(numberButton) cdKind('num', numberButton);
+}
 
 // ══════════ 방문자 수 위젯 (홈 화면 맨 아래) ══════════
 // 공용 Count API 서비스를 사용 — 회원가입/서버 없이
@@ -3501,6 +3540,7 @@ function initHomeWidgets(){
 function initVisitCounter(){
   var todayEl = document.getElementById('vc-today');
   var totalEl = document.getElementById('vc-total');
+  var counterEl = document.getElementById('visit-counter');
   if(!todayEl || !totalEl || todayEl.dataset.initialized) return;
   todayEl.dataset.initialized = 'true';
 
@@ -3536,10 +3576,10 @@ function initVisitCounter(){
   }
   Promise.all([request(todayKey), request('total')]).then(function(res){
     show(res[0], res[1]);
+    if(counterEl) counterEl.hidden = false;
     if(!alreadyToday){ try{ localStorage.setItem(LS_KEY, today); }catch(e){} }
   }).catch(function(){
-    // 조회 실패를 0명으로 표시하지 않고 집계 불가 상태를 알린다.
-    show(null, null);
+    if(counterEl) counterEl.hidden = true;
   });
 }
 

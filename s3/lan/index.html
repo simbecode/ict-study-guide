@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fafcfe">
-<title>LAN — VLAN · 무선랜 · DHCP | 정보통신기사 필기</title>
+<title>LAN — VLAN · 무선랜 · DHCP | 정보통신기사 필기 3과목</title>
 
 <!-- ══════════ SEO ══════════ -->
 <meta name="description" content="VLAN 분류 방식과 IEEE 802.1Q 태깅(VID 12비트·4094개), 트렁크/액세스 포트, 무선랜과 DHCP 동작을 함께 정리했습니다.">
@@ -16,7 +16,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
-<meta property="og:title" content="LAN — VLAN · 무선랜 · DHCP | 정보통신기사 필기">
+<meta property="og:title" content="LAN — VLAN · 무선랜 · DHCP | 정보통신기사 필기 3과목">
 <meta property="og:description" content="VLAN 분류 방식과 IEEE 802.1Q 태깅(VID 12비트·4094개), 트렁크/액세스 포트, 무선랜과 DHCP 동작을 함께 정리했습니다.">
 <meta property="og:url" content="https://ict.kyufind.com/s3/lan/">
 <meta property="og:image" content="https://ict.kyufind.com/og-image.png">
@@ -24,7 +24,7 @@
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="LAN — VLAN · 무선랜 · DHCP | 정보통신기사 필기">
+<meta name="twitter:title" content="LAN — VLAN · 무선랜 · DHCP | 정보통신기사 필기 3과목">
 <meta name="twitter:description" content="VLAN 분류 방식과 IEEE 802.1Q 태깅(VID 12비트·4094개), 트렁크/액세스 포트, 무선랜과 DHCP 동작을 함께 정리했습니다.">
 <meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
 
@@ -91,8 +91,22 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-N0XWRMVEX0');
+  gtag('config', 'G-N0XWRMVEX0', {send_page_view:false});
+  window.__lastGaPagePath = '';
+  window.trackPageView = function(){
+    var path = location.pathname + location.search;
+    if(window.__lastGaPagePath === path) return;
+    window.__lastGaPagePath = path;
+    gtag('event', 'page_view', {
+      page_title: document.title,
+      page_location: location.href,
+      page_path: path
+    });
+  };
+  window.trackEvent = function(name, params){ gtag('event', name, params || {}); };
+  window.trackPageView();
 </script>
+<script src="/assets/exam-rules.js"></script>
 </head>
 <body>
 
@@ -108,7 +122,8 @@
   <div class="nav-label">꼭 외워야 할 것</div>
   <a class="sub-item nav-top" href="/overview/">OSI 7계층 한눈에</a>
   <a class="sub-item nav-top" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
-  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">공장가동률 한눈에</a>
+  <a class="sub-item nav-top" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">MTTF · MTTR · MTBF</a>
+  <a class="sub-item nav-top" href="/radix/" data-sec="radix-essential" onclick="return navGo(event,'radix-essential',this)">진수 변환 한눈에</a>
   <div class="nav-label">과목</div>
   <nav id="sidebar-menu" aria-label="과목">
   <div class="subj-group">
@@ -433,6 +448,8 @@
   
   <div data-section-src="/sections/factory-utilization.html"></div>
 
+  <div data-section-src="/sections/radix-essential.html"></div>
+
   <div data-section-src="/sections/cram.html"></div>
 
   
@@ -446,6 +463,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=62c6e84027a3"></script>
+<script src="/assets/app.js?v=5fd3f04b4462"></script>
 </body>
-</html>
+</html>

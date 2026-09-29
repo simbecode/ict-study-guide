@@ -1,4 +1,4 @@
-/* 자동 생성: tools/build_pages.py — index.html 의 첫 <style> 복사본. 직접 수정하지 마세요. */
+/* 자동 생성: tools/build_pages.py — 공용 스타일. */
 *{box-sizing:border-box;margin:0;padding:0;}
 /* ══════════ 디자인 토큰 (C안 · 문서형 사이드바) ══════════ */
 :root{
@@ -156,7 +156,7 @@ a.sub-item{text-decoration:none;}
 .quick-card{grid-column:span 2;}
 .quick-card.wide{grid-column:span 3;}
 .quick-card.wide b{font-size:17px;}
-.quick-card{display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer;
+.quick-card{display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer;text-decoration:none;
   text-align:left;transition:border-color .12s,box-shadow .12s;}
 .quick-card:hover{border-color:var(--key-bd);box-shadow:0 4px 16px rgba(20,24,36,.06);}
 .quick-top{display:flex;align-items:center;justify-content:space-between;color:var(--key);}

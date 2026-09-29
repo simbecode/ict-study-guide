@@ -1,0 +1,64 @@
+<div class="section" id="sec-radix-essential">
+    <h2 class="section-title" style="color:#2c6da4">🔢 진수 변환 한눈에</h2>
+
+    <div class="highlight">
+      진수 변환은 <b>자릿값을 더하는 방법</b>과 <b>2진수를 3자리·4자리씩 묶는 규칙</b>만 기억하면 됩니다.<br>
+      시험장에서 먼저 <span class="mono" style="color:#1d252d">128 · 64 · 32 · 16 · 8 · 4 · 2 · 1</span>을 적어 두면 대부분의 문제를 빠르게 풀 수 있습니다.
+    </div>
+
+    <div class="sub-title" style="color:#117a68">📌 꼭 외울 변환 규칙</div>
+    <div class="two-col">
+      <div class="mini-card">
+        <h4 style="color:#267c41">10진수 ↔ 2진수</h4>
+        <p><b>10진 → 2진</b>: 큰 자릿값부터 뺄 수 있으면 1, 없으면 0</p>
+        <p><b>2진 → 10진</b>: 값이 1인 자리의 자릿값만 더하기</p>
+      </div>
+      <div class="mini-card">
+        <h4 style="color:#6b59aa">2진수 ↔ 8·16진수</h4>
+        <p><b>8진수 한 자리 = 2진수 3비트</b></p>
+        <p><b>16진수 한 자리 = 2진수 4비트</b></p>
+        <p>소수점을 기준으로 정수부는 오른쪽부터, 소수부는 왼쪽부터 묶기</p>
+      </div>
+    </div>
+
+    <div class="sub-title" style="color:#2c6da4">🧠 자릿값으로 바로 계산</div>
+    <div class="flow">자릿값  128  64  32  16   8   4   2   1
+2진수      1   1   0   0   1   0   0   0
+
+128 + 64 + 8 = <b style="color:#267c41">200</b>
+→ 200<sub>(10)</sub> = 11001000<sub>(2)</sub></div>
+
+    <div class="sub-title" style="color:#6b59aa">🔗 3자리·4자리씩 묶기</div>
+    <table class="tbl">
+      <thead><tr><th>변환</th><th>묶는 방법</th><th>예</th></tr></thead>
+      <tbody>
+        <tr><td><b>2진 ↔ 8진</b></td><td>소수점을 기준으로 <b>3비트씩</b></td><td class="mono">100 110 . 100 101 → 46.45<sub>(8)</sub></td></tr>
+        <tr><td><b>2진 ↔ 16진</b></td><td>소수점을 기준으로 <b>4비트씩</b></td><td class="mono">1100 1000 → C8<sub>(16)</sub></td></tr>
+        <tr><td><b>자리 부족</b></td><td>정수부는 왼쪽, 소수부는 오른쪽에 0 채우기</td><td class="mono">11.01 → 011.010 → 3.2<sub>(8)</sub></td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title" style="color:#8a6012">✍️ 시험에 나온 형태</div>
+    <div class="two-col">
+      <div class="mini-card">
+        <h4 style="color:#8a6012">16진수 AB → 10진수</h4>
+        <p class="mono" style="line-height:2">A = 10, B = 11<br>10 × 16 + 11 = <b>171</b></p>
+      </div>
+      <div class="mini-card">
+        <h4 style="color:#8a6012">10진 소수 0.375 → 2진수</h4>
+        <p class="mono" style="line-height:2">0.375 = 1/4 + 1/8<br>= 0.011<sub>(2)</sub></p>
+      </div>
+    </div>
+
+    <div class="warn">
+      <b>실수하기 쉬운 부분</b><br>
+      • 16진수의 A~F는 각각 10~15입니다.<br>
+      • 8진수에는 8과 9가, 2진수에는 2 이상의 숫자가 올 수 없습니다.<br>
+      • 소수점이 있는 수는 소수점을 기준으로 양쪽을 따로 묶습니다.
+    </div>
+
+    <div class="note">
+      이 페이지는 시험 직전 확인할 핵심만 담았습니다. 대화형 변환기, 4비트 전체 대응표, 보수와 음수 표현, 더 많은 예제는
+      <a href="/s1/radix/" onclick="return navGo(event,'radix',this)"><b>1과목 진수 변환 전체 내용에서 공부하기 →</b></a>
+    </div>
+  </div>

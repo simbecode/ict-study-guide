@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://ict.kyufind.com/</loc><lastmod>2026-09-28</lastmod><priority>1.0</priority></url>
+  <url><loc>https://ict.kyufind.com/</loc><lastmod>2026-09-29</lastmod><priority>1.0</priority></url>
   <url><loc>https://ict.kyufind.com/s1/</loc><lastmod>2026-09-22</lastmod><priority>0.8</priority></url>
   <url><loc>https://ict.kyufind.com/s2/</loc><lastmod>2026-09-22</lastmod><priority>0.8</priority></url>
   <url><loc>https://ict.kyufind.com/s3/</loc><lastmod>2026-09-28</lastmod><priority>0.8</priority></url>
   <url><loc>https://ict.kyufind.com/s4/</loc><lastmod>2026-09-27</lastmod><priority>0.8</priority></url>
   <url><loc>https://ict.kyufind.com/s5/</loc><lastmod>2026-09-22</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ict.kyufind.com/factory-utilization/</loc><lastmod>2026-09-28</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ict.kyufind.com/cram/</loc><lastmod>2026-09-28</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ict.kyufind.com/cbt-2026/</loc><lastmod>2026-09-28</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ict.kyufind.com/quiz/</loc><lastmod>2026-09-28</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ict.kyufind.com/factory-utilization/</loc><lastmod>2026-09-29</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ict.kyufind.com/radix/</loc><lastmod>2026-09-29</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ict.kyufind.com/cram/</loc><lastmod>2026-09-29</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ict.kyufind.com/cbt-2026/</loc><lastmod>2026-09-29</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ict.kyufind.com/quiz/</loc><lastmod>2026-09-29</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ict.kyufind.com/cards/</loc><lastmod>2026-09-29</lastmod><priority>0.8</priority></url>
   <url><loc>https://ict.kyufind.com/quiz/2022-1/</loc><lastmod>2026-09-15</lastmod><priority>0.7</priority></url>
   <url><loc>https://ict.kyufind.com/quiz/2022-2/</loc><lastmod>2026-09-15</lastmod><priority>0.7</priority></url>
   <url><loc>https://ict.kyufind.com/quiz/2022-3/</loc><lastmod>2026-09-15</lastmod><priority>0.7</priority></url>
