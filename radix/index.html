@@ -305,29 +305,101 @@
       시험장에서 먼저 <span class="mono" style="color:#1d252d">128 · 64 · 32 · 16 · 8 · 4 · 2 · 1</span>을 적어 두면 대부분의 문제를 빠르게 풀 수 있습니다.
     </div>
 
-    <div class="sub-title" style="color:#117a68">📌 꼭 외울 변환 규칙</div>
+    <div class="sub-title" style="color:#117a68">① 10진수에서 2·8·16진수로 변환</div>
+    <div class="highlight">
+      10진수를 바꾸려는 진수의 밑수인 <b>2, 8, 16으로 계속 나누고 나머지를 기록</b>합니다.<br>
+      몫이 0이 되면 멈추고, 나온 나머지를 <b>아래에서 위로 거꾸로 읽으면</b> 변환 결과가 됩니다.
+    </div>
+
+    <div class="radix-visual-grid" aria-label="10진수 200을 2진수, 8진수, 16진수로 변환하는 과정">
+      <figure class="radix-visual rv-bin">
+        <figcaption>200<sub>(10)</sub> → 2진수</figcaption>
+        <div class="radix-source">200<sub>(10)</sub></div>
+        <div class="radix-arrow" aria-hidden="true"><svg viewBox="0 0 90 34"><path d="M45 2v22m-8-7 8 8 8-8"/></svg><span>2로 반복해서 나누기</span></div>
+        <table class="tbl radix-calculation"><caption>2로 나누기 · 위에서 아래로 계산 ↓</caption>
+          <thead><tr><th scope="col">순서</th><th scope="col">나눗셈</th><th scope="col">몫</th><th scope="col">나머지</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">1</th><td>200 ÷ 2</td><td>100</td><td><b>0</b></td></tr>
+            <tr><th scope="row">2</th><td>100 ÷ 2</td><td>50</td><td><b>0</b></td></tr>
+            <tr><th scope="row">3</th><td>50 ÷ 2</td><td>25</td><td><b>0</b></td></tr>
+            <tr><th scope="row">4</th><td>25 ÷ 2</td><td>12</td><td><b>1</b></td></tr>
+            <tr><th scope="row">5</th><td>12 ÷ 2</td><td>6</td><td><b>0</b></td></tr>
+            <tr><th scope="row">6</th><td>6 ÷ 2</td><td>3</td><td><b>0</b></td></tr>
+            <tr><th scope="row">7</th><td>3 ÷ 2</td><td>1</td><td><b>1</b></td></tr>
+            <tr><th scope="row">8</th><td>1 ÷ 2</td><td>0 <small>(끝)</small></td><td><b>1</b></td></tr>
+          </tbody>
+        </table>
+        <p class="radix-table-guide">몫을 다음 줄에서 다시 나눕니다. 몫이 0이면 계산을 끝냅니다.</p>
+        <div class="radix-read"><span aria-hidden="true">↑</span> 나머지를 아래에서 위로</div>
+        <div class="radix-result"><small>결과</small><b class="mono">11001000<sub>(2)</sub></b></div>
+      </figure>
+
+      <figure class="radix-visual rv-oct">
+        <figcaption>200<sub>(10)</sub> → 8진수</figcaption>
+        <div class="radix-source">200<sub>(10)</sub></div>
+        <div class="radix-arrow" aria-hidden="true"><svg viewBox="0 0 90 34"><path d="M45 2v22m-8-7 8 8 8-8"/></svg><span>8로 반복해서 나누기</span></div>
+        <table class="tbl radix-calculation"><caption>8로 나누기 · 위에서 아래로 계산 ↓</caption>
+          <thead><tr><th scope="col">순서</th><th scope="col">나눗셈</th><th scope="col">몫</th><th scope="col">나머지</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">1</th><td>200 ÷ 8</td><td>25</td><td><b>0</b></td></tr>
+            <tr><th scope="row">2</th><td>25 ÷ 8</td><td>3</td><td><b>1</b></td></tr>
+            <tr><th scope="row">3</th><td>3 ÷ 8</td><td>0 <small>(끝)</small></td><td><b>3</b></td></tr>
+          </tbody>
+        </table>
+        <p class="radix-table-guide">몫을 다음 줄에서 다시 나눕니다. 몫이 0이면 계산을 끝냅니다.</p>
+        <div class="radix-read"><span aria-hidden="true">↑</span> 나머지를 아래에서 위로</div>
+        <div class="radix-result"><small>결과</small><b class="mono">310<sub>(8)</sub></b></div>
+      </figure>
+
+      <figure class="radix-visual rv-hex">
+        <figcaption>200<sub>(10)</sub> → 16진수</figcaption>
+        <div class="radix-source">200<sub>(10)</sub></div>
+        <div class="radix-arrow" aria-hidden="true"><svg viewBox="0 0 90 34"><path d="M45 2v22m-8-7 8 8 8-8"/></svg><span>16으로 반복해서 나누기</span></div>
+        <table class="tbl radix-calculation"><caption>16로 나누기 · 위에서 아래로 계산 ↓</caption>
+          <thead><tr><th scope="col">순서</th><th scope="col">나눗셈</th><th scope="col">몫</th><th scope="col">나머지</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">1</th><td>200 ÷ 16</td><td>12</td><td><b>8</b></td></tr>
+            <tr><th scope="row">2</th><td>12 ÷ 16</td><td>0 <small>(끝)</small></td><td><b>12 = C</b></td></tr>
+          </tbody>
+        </table>
+        <p class="radix-table-guide">몫을 다음 줄에서 다시 나눕니다. 몫이 0이면 계산을 끝냅니다.</p>
+        <div class="radix-read"><span aria-hidden="true">↑</span> 나머지를 아래에서 위로</div>
+        <div class="radix-result"><small>결과</small><b class="mono">C8<sub>(16)</sub></b></div>
+      </figure>
+    </div>
+
+    <div class="note" style="border-left-color:#117a68">
+      <b>2진수는 자릿값으로 더 빠르게 바꿀 수도 있습니다.</b><br>
+      <span class="mono">200 = 128 + 64 + 8 → 11001000<sub>(2)</sub></span><br>
+      자릿값 <span class="mono">128 · 64 · 32 · 16 · 8 · 4 · 2 · 1</span>에서 사용한 자리는 1, 사용하지 않은 자리는 0으로 적습니다.
+    </div>
+
+    <div class="sub-title" style="color:#2c6da4">② 2·8·16진수에서 10진수로 변환</div>
+    <div class="highlight">
+      각 숫자에 오른쪽부터 <b>밑수의 0제곱, 1제곱, 2제곱…</b>을 곱한 뒤 모두 더합니다.<br>
+      즉, <b>각 자리 숫자 × (밑수)<sup>자리 번호</sup></b>의 합이 10진수 값입니다.
+    </div>
+
     <div class="two-col">
       <div class="mini-card">
-        <h4 style="color:#267c41">10진수 ↔ 2진수</h4>
-        <p><b>10진 → 2진</b>: 큰 자릿값부터 뺄 수 있으면 1, 없으면 0</p>
-        <p><b>2진 → 10진</b>: 값이 1인 자리의 자릿값만 더하기</p>
+        <h4 style="color:#267c41">2진수 → 10진수</h4>
+        <p class="mono" style="line-height:2">11001000<sub>(2)</sub><br>= 1×2<sup>7</sup> + 1×2<sup>6</sup> + 1×2<sup>3</sup><br>= 128 + 64 + 8<br>= <b>200<sub>(10)</sub></b></p>
       </div>
       <div class="mini-card">
-        <h4 style="color:#6b59aa">2진수 ↔ 8·16진수</h4>
-        <p><b>8진수 한 자리 = 2진수 3비트</b></p>
-        <p><b>16진수 한 자리 = 2진수 4비트</b></p>
-        <p>소수점을 기준으로 정수부는 오른쪽부터, 소수부는 왼쪽부터 묶기</p>
+        <h4 style="color:#8a6012">8진수 → 10진수</h4>
+        <p class="mono" style="line-height:2">310<sub>(8)</sub><br>= 3×8<sup>2</sup> + 1×8<sup>1</sup> + 0×8<sup>0</sup><br>= 192 + 8<br>= <b>200<sub>(10)</sub></b></p>
+      </div>
+      <div class="mini-card">
+        <h4 style="color:#6b59aa">16진수 → 10진수</h4>
+        <p class="mono" style="line-height:2">C8<sub>(16)</sub><br>= 12×16<sup>1</sup> + 8×16<sup>0</sup><br>= 192 + 8<br>= <b>200<sub>(10)</sub></b></p>
+      </div>
+      <div class="mini-card">
+        <h4 style="color:#8a6012">기출형 예제: AB<sub>(16)</sub></h4>
+        <p class="mono" style="line-height:2">A = 10, B = 11<br>= 10×16<sup>1</sup> + 11×16<sup>0</sup><br>= 160 + 11<br>= <b>171<sub>(10)</sub></b></p>
       </div>
     </div>
 
-    <div class="sub-title" style="color:#2c6da4">🧠 자릿값으로 바로 계산</div>
-    <div class="flow">자릿값  128  64  32  16   8   4   2   1
-2진수      1   1   0   0   1   0   0   0
-
-128 + 64 + 8 = <b style="color:#267c41">200</b>
-→ 200<sub>(10)</sub> = 11001000<sub>(2)</sub></div>
-
-    <div class="sub-title" style="color:#6b59aa">🔗 3자리·4자리씩 묶기</div>
+    <div class="sub-title" style="color:#6b59aa">③ 2진수와 8·16진수 사이의 빠른 변환</div>
     <table class="tbl">
       <thead><tr><th>변환</th><th>묶는 방법</th><th>예</th></tr></thead>
       <tbody>
@@ -337,16 +409,9 @@
       </tbody>
     </table>
 
-    <div class="sub-title" style="color:#8a6012">✍️ 시험에 나온 형태</div>
-    <div class="two-col">
-      <div class="mini-card">
-        <h4 style="color:#8a6012">16진수 AB → 10진수</h4>
-        <p class="mono" style="line-height:2">A = 10, B = 11<br>10 × 16 + 11 = <b>171</b></p>
-      </div>
-      <div class="mini-card">
-        <h4 style="color:#8a6012">10진 소수 0.375 → 2진수</h4>
-        <p class="mono" style="line-height:2">0.375 = 1/4 + 1/8<br>= 0.011<sub>(2)</sub></p>
-      </div>
+    <div class="note" style="border-left-color:#8a6012">
+      <b>소수 변환 예:</b> 0.375<sub>(10)</sub> = 1/4 + 1/8 = <b>0.011<sub>(2)</sub></b><br>
+      소수점 아래 2진수 자릿값은 왼쪽부터 1/2, 1/4, 1/8… 순서입니다.
     </div>
 
     <div class="warn">
@@ -376,6 +441,6 @@
 </div><!-- /app-main -->
 </div><!-- /app -->
 
-<script src="/assets/app.js?v=5fd3f04b4462"></script>
+<script src="/assets/app.js?v=6fd838416905"></script>
 </body>
 </html>

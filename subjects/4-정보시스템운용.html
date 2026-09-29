@@ -605,10 +605,10 @@ MTTR = (4 + 3) / 2 = 3.5 h (완료된 수리 2회 기준)
     <div style="background:#faece2;border:2px solid #8a6012;border-radius:12px;padding:20px 24px;margin-top:10px;text-align:center;">
       <div style="font-size:13px;color:#8a6012;letter-spacing:1px;font-weight:600;margin-bottom:12px;">시험에 나오는 형태 — 이것만 외우면 된다</div>
       <div style="font-size:27px;font-weight:700;color:#1d252d;margin-bottom:6px;">
-        가동률 = <span class="fr"><span style="color:#2c6da4">MTBF</span><span><span style="color:#2c6da4">MTBF</span> + <span style="color:#ae3e30">MTTR</span></span></span>
+        가동률 = <span style="color:#2c6da4">MTBF</span> ÷ (<span style="color:#2c6da4">MTBF</span> + <span style="color:#ae3e30">MTTR</span>)
       </div>
       <div style="height:1px;background:#8a601230;margin:14px 0;"></div>
-      <div style="font-size:16.5px;font-weight:600;color:#117a68;">불가동률 = <span class="fr"><span>MTTR</span><span>MTBF + MTTR</span></span> = 1 − 가동률</div>
+      <div style="font-size:16.5px;font-weight:600;color:#117a68;">불가동률 = MTTR ÷ (MTBF + MTTR) = 1 − 가동률</div>
     </div>
 
     <div class="note" style="border-left-color:#6b59aa">
@@ -755,7 +755,7 @@ MTTR = (4 + 3) / 2 = 3.5 h (완료된 수리 2회 기준)
     <div class="highlight">
       <b>📝 시험 포인트</b><br>
       • <b>MTBF = 정상 가동 시간 합 ÷ 고장 횟수</b> — 수리 시간 제외<br>
-      • <b>가동률 = <span class="fr"><span>MTBF</span><span>MTBF + MTTR</span></span></b>, 불가동률 = 1 − 가동률<br>
+      • <b>가동률 = MTBF ÷ (MTBF + MTTR)</b>, 불가동률 = 1 − 가동률<br>
       • MTTF = 고장까지 걸린 시간, <b>MTTR = 수리에 걸린 시간</b>, MTBF = 고장 사이 평균 정상 가동 시간<br>
       • 독립인 장치의 신뢰도는 <b>직렬 = 곱, 병렬 = 1−(1−R)ⁿ</b> — 병렬 먼저 묶고 직렬로 곱한다<br>
       • Availability = 총 운용 시간 중 <b>정상 가동된 시간의 비율</b><br>
@@ -1482,4 +1482,3 @@ root
       </tbody>
     </table>
   </div>
-

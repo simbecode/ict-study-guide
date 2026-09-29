@@ -63,15 +63,15 @@ MTTR = <span class="fr"><span>4 + 3</span><span>2</span></span> = 3.5 h (완료�
     <div style="background:#faece2;border:2px solid #8a6012;border-radius:12px;padding:20px 24px;margin-top:10px;text-align:center;">
       <div style="font-size:13px;color:#8a6012;letter-spacing:1px;font-weight:600;margin-bottom:12px;">시험에 나오는 형태 — 이것만 외우면 된다</div>
       <div style="font-size:27px;font-weight:700;color:#1d252d;margin-bottom:6px;">
-        가동률 = <span class="fr"><span style="color:#2c6da4">MTBF</span><span><span style="color:#2c6da4">MTBF</span> + <span style="color:#ae3e30">MTTR</span></span></span>
+        가동률 = <span style="color:#2c6da4">MTBF</span> ÷ (<span style="color:#2c6da4">MTBF</span> + <span style="color:#ae3e30">MTTR</span>)
       </div>
       <div style="height:1px;background:#8a601230;margin:14px 0;"></div>
-      <div style="font-size:16.5px;font-weight:600;color:#117a68;">불가동률 = <span class="fr"><span>MTTR</span><span>MTBF + MTTR</span></span> = 1 − 가동률</div>
+      <div style="font-size:16.5px;font-weight:600;color:#117a68;">불가동률 = MTTR ÷ (MTBF + MTTR) = 1 − 가동률</div>
     </div>
 
     <div class="note" style="border-left-color:#6b59aa">
       <b>MTBF의 시간 기준을 확인하세요.</b> 이 자료와 계산기는 MTBF를 <b>수리 시간을 제외한 평균 정상 가동 시간</b>으로 사용합니다.
-      가동과 수리만 반복하는 시스템의 장기 가용도는 <span class="fr"><span>MTBF</span><span>MTBF + MTTR</span></span>입니다.
+      가동과 수리만 반복하는 시스템의 장기 가용도는 <b>MTBF ÷ (MTBF + MTTR)</b>입니다.
       수리 시간을 포함한 전체 주기를 고장 간격이라고 부르는 자료와 혼용하지 마세요.
       MTTF는 주로 비수리 부품의 평균 수명에 쓰며, 여기서 <b>MTBF − MTTR로 계산하지 않습니다.</b>
       <a href="https://www.itl.nist.gov/div898/handbook/apr/section4/apr451.htm" target="_blank" rel="noopener noreferrer">NIST · MTBF 계산 기준 ↗</a>
@@ -114,8 +114,8 @@ MTTR = <span class="fr"><span>4 + 3</span><span>2</span></span> = 3.5 h (완료�
       • <b>MTTF</b>: 고장 날 때까지의 평균 시간 — 주로 비수리 부품의 수명<br>
       • <b>MTBF</b>: <span class="fr"><span>정상 가동 시간 합</span><span>고장 횟수</span></span> — 수리 시간 제외<br>
       • <b>MTTR</b>: <span class="fr"><span>수리 시간 합</span><span>완료된 수리 횟수</span></span><br>
-      • <b>가동률 = <span class="fr"><span>MTBF</span><span>MTBF + MTTR</span></span></b><br>
-      • <b>불가동률 = <span class="fr"><span>MTTR</span><span>MTBF + MTTR</span></span> = 1 − 가동률</b><br>
+      • <b>가동률 = MTBF ÷ (MTBF + MTTR)</b><br>
+      • <b>불가동률 = MTTR ÷ (MTBF + MTTR) = 1 − 가동률</b><br>
       • MTBF는 길수록, MTTR은 짧을수록 가동률이 높다.<br>
       • 연간 정지 시간 = <b>8,760 × (1 − 가동률)</b> [시간] — 365일·24시간 운용 기준, 가동률은 소수로 대입
     </div>

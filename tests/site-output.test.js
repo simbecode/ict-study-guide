@@ -19,6 +19,10 @@ assert.doesNotMatch(read('sections/quiz.html'), /8개 이하 과락|12개 이상
 assert.doesNotMatch(read('sitemap.xml'), /cbt-2026-4|osi_study_guide\.html|<loc>https:\/\/ict\.kyufind\.com\/subnet\/<\/loc>/);
 assert.match(read('index.html'), /data-sec="radix-essential"[^>]*>진수 변환 한눈에<\/a>/);
 assert.match(read('radix/index.html'), /href="\/s1\/radix\/"[^>]*>.*1과목 진수 변환 전체 내용에서 공부하기/s);
+const radixPage = read('radix/index.html');
+assert.ok(radixPage.indexOf('① 10진수에서 2·8·16진수로 변환') < radixPage.indexOf('② 2·8·16진수에서 10진수로 변환'));
+assert.match(read('factory-utilization/index.html'), /가동률 = .*MTBF.*÷ \(.*MTBF.*\+.*MTTR.*\)/s);
+assert.match(read('assets/app.css'), /\.fr\{display:inline-flex;flex-direction:column/);
 
 const app = read('assets/app.js');
 for(const eventName of ['cbt_answer', 'cbt_complete', 'quiz_submit', 'card_flip']){

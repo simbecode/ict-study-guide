@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ict.kyufind.com/</loc><lastmod>2026-09-29</lastmod><priority>1.0</priority></url>
   <url><loc>https://ict.kyufind.com/s1/</loc><lastmod>2026-09-22</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ict.kyufind.com/s2/</loc><lastmod>2026-09-22</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ict.kyufind.com/s2/</loc><lastmod>2026-09-29</lastmod><priority>0.8</priority></url>
   <url><loc>https://ict.kyufind.com/s3/</loc><lastmod>2026-09-28</lastmod><priority>0.8</priority></url>
   <url><loc>https://ict.kyufind.com/s4/</loc><lastmod>2026-09-27</lastmod><priority>0.8</priority></url>
   <url><loc>https://ict.kyufind.com/s5/</loc><lastmod>2026-09-22</lastmod><priority>0.8</priority></url>
@@ -40,15 +40,15 @@
   <url><loc>https://ict.kyufind.com/s1/datacode/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
   <url><loc>https://ict.kyufind.com/s1/logic/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
   <url><loc>https://ict.kyufind.com/s1/adder/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ict.kyufind.com/s2/cable/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ict.kyufind.com/s2/osi/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ict.kyufind.com/s2/olt/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ict.kyufind.com/s2/handoff/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ict.kyufind.com/s2/cctv/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ict.kyufind.com/s2/catv/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ict.kyufind.com/s2/ieee/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ict.kyufind.com/s2/switch/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ict.kyufind.com/s2/mobile/</loc><lastmod>2026-09-22</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ict.kyufind.com/s2/cable/</loc><lastmod>2026-09-29</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ict.kyufind.com/s2/osi/</loc><lastmod>2026-09-29</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ict.kyufind.com/s2/olt/</loc><lastmod>2026-09-29</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ict.kyufind.com/s2/handoff/</loc><lastmod>2026-09-29</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ict.kyufind.com/s2/cctv/</loc><lastmod>2026-09-29</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ict.kyufind.com/s2/catv/</loc><lastmod>2026-09-29</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ict.kyufind.com/s2/ieee/</loc><lastmod>2026-09-29</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ict.kyufind.com/s2/switch/</loc><lastmod>2026-09-29</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ict.kyufind.com/s2/mobile/</loc><lastmod>2026-09-29</lastmod><priority>0.6</priority></url>
   <url><loc>https://ict.kyufind.com/s3/l7/</loc><lastmod>2026-09-28</lastmod><priority>0.6</priority></url>
   <url><loc>https://ict.kyufind.com/s3/l6/</loc><lastmod>2026-09-28</lastmod><priority>0.6</priority></url>
   <url><loc>https://ict.kyufind.com/s3/l5/</loc><lastmod>2026-09-28</lastmod><priority>0.6</priority></url>

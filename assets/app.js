@@ -3222,7 +3222,7 @@ const CARD_DATA = [
  {t:'코드 효율', d:'효율 = <span class=\"fr\"><span>데이터 비트</span><span>데이터 + 오버헤드</span></span> × 100　　예) <span class=\"fr\"><span>100</span><span>100+20</span></span> ≈ 83[%]', s:'3과목', y:'2022-1회', k:'calc'},
  {t:'유효 호스트 수', d:'2ⁿ − 2　　(n = 호스트 비트 = 32 − CIDR)　　−2는 네트워크·브로드캐스트 주소', s:'3과목', y:'2023-1회', k:'calc'},
  {t:'서브넷 수 · 블록 크기', d:'서브넷 수 = 2^(빌린 비트)　　블록 크기 = 256 − 마지막 마스크 옥텟　　둘의 곱 = 256', s:'3과목', y:'2023-2회', k:'calc'},
- {t:'가동률 (가용도)', d:'A = <span class=\"fr\"><span>MTBF</span><span>MTBF + MTTR</span></span>　　예) <span class=\"fr\"><span>22h</span><span>(22+2)h</span></span> ≈ 0.92', s:'4과목', y:'2022-1회', k:'calc'},
+ {t:'가동률 (가용도)', d:'A = MTBF ÷ (MTBF + MTTR)　　예) 22 ÷ (22 + 2) ≈ 0.92', s:'4과목', y:'2022-1회', k:'calc'},
  {t:'병렬(이중화) 신뢰도', d:'R = 1 − (1 − R₁)(1 − R₂)…　　직렬은 R₁ × R₂ × …　　병렬 먼저 묶고 직렬로 곱한다', s:'4과목', y:'2022-1회', k:'calc'},
  {t:'클럭 주기', d:'T = <span class=\"fr\"><span>1</span><span>f</span></span>　　예) 1[GHz] → 1[ns]', s:'5과목', y:'2022-3회', k:'calc'},
  {t:'기억장치 대역폭', d:'대역폭 = 버스 폭[byte] × 클럭 주파수　　예) 32bit(4byte) × 1,000MHz = 4,000[MB/s]', s:'5과목', y:'2023-1회', k:'calc'},
