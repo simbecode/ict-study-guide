@@ -1,0 +1,123 @@
+<div class="section" id="sec-factory-utilization">
+    <h2 class="section-title" style="color:#ae3e30">⏱️ 공장가동률 — MTTF · MTTR · MTBF</h2>
+
+    <div class="highlight">
+      공장 설비가 정상 가동과 고장 수리를 반복할 때의 <b>가동률(가용도)</b>을 정리합니다.<br>
+      시스템이 <b>얼마나 오래 잘 버티는가(MTTF)</b>, <b>고장 나면 얼마나 빨리 고치는가(MTTR)</b>,
+      수리 가능한 시스템이 <b>고장 사이에 정상 가동한 평균 시간(MTBF)</b>을 구분한다. 가동과 수리만 반복하는 시스템의 <b>가동률(가용도)</b>은 MTBF와 MTTR로 계산한다.
+    </div>
+
+    <!-- 세 용어 -->
+    <div class="sub-title" style="color:#ae3e30">📌 세 용어 구분</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px;">
+      <div style="background:#e8f4e9;border:2px solid #267c41;border-radius:12px;padding:16px;">
+        <div style="font-size:17.5px;font-weight:700;color:#267c41;">MTTF</div>
+        <div style="font-size:13px;color:var(--text3);margin:3px 0 10px;">Mean Time To Failure</div>
+        <div style="font-size:15.5px;color:#1d252d;font-weight:600;margin-bottom:6px;">평균 고장 시간</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.9;">
+          정상 동작을 시작해서 <b style="color:#1d252d">고장 날 때까지</b>의 평균 시간<br>
+          주로 수리하지 않고 교체하는 부품의 <b style="color:#267c41">평균 수명</b>에 사용
+        </div>
+      </div>
+      <div style="background:#feebe5;border:2px solid #ae3e30;border-radius:12px;padding:16px;">
+        <div style="font-size:17.5px;font-weight:700;color:#ae3e30;">MTTR</div>
+        <div style="font-size:13px;color:var(--text3);margin:3px 0 10px;">Mean Time To Repair</div>
+        <div style="font-size:15.5px;color:#1d252d;font-weight:600;margin-bottom:6px;">평균 수리 시간</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.9;">
+          고장 난 순간부터 <b style="color:#1d252d">복구 완료까지</b>의 평균 시간<br>
+          = <b style="color:#ae3e30">멈춰 있던 시간</b>
+        </div>
+      </div>
+      <div style="background:#e1ecfb;border:2px solid #2c6da4;border-radius:12px;padding:16px;">
+        <div style="font-size:17.5px;font-weight:700;color:#2c6da4;">MTBF</div>
+        <div style="font-size:13px;color:var(--text3);margin:3px 0 10px;">Mean Time Between Failures</div>
+        <div style="font-size:15.5px;color:#1d252d;font-weight:600;margin-bottom:6px;">평균 고장 간격</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.9;">
+          수리 가능한 시스템의 고장 사이 <b style="color:#1d252d">정상 가동 시간</b>의 평균<br>
+          = <span class="fr"><span>정상 가동 시간 합</span><span>고장 횟수</span></span> (수리 시간 제외)
+        </div>
+      </div>
+    </div>
+
+    <!-- 관계식 -->
+    <div class="sub-title" style="color:#117a68">🔗 핵심 관계식</div>
+    <div style="background:#e1f3ee;border:2px solid #117a68;border-radius:12px;padding:20px 24px;margin-top:10px;text-align:center;">
+      <div style="font-size:13px;color:#117a68;letter-spacing:1px;font-weight:600;margin-bottom:12px;">MTBF 계산 기준</div>
+      <div style="font-size:28.5px;font-weight:700;color:#1d252d;">
+        <span style="color:#2c6da4">MTBF</span> = <span class="fr"><span>정상 가동 시간 합</span><span>고장 횟수</span></span>
+      </div>
+      <div style="font-size:14px;color:var(--text2);margin-top:10px;">
+        가동 100 h + 90 h + 80 h, 고장 3회 → MTBF = 90 h
+      </div>
+    </div>
+
+    <div class="sub-title" style="color:#117a68">📈 시간축으로 보면</div>
+    <div class="flow">가동 100 h → 고장 → 수리 4 h → 가동 90 h → 고장 → 수리 3 h → 가동 80 h → 고장
+MTBF = <span class="fr"><span>100 + 90 + 80</span><span>3</span></span> = 90 h
+MTTR = <span class="fr"><span>4 + 3</span><span>2</span></span> = 3.5 h (완료된 수리 2회 기준)
+
+<span style="color:#8a6012">MTBF ↑ (고장이 드물다) · MTTR ↓ (빨리 고친다) → 가동률 ↑</span></div>
+
+    <!-- 가동률 -->
+    <div class="sub-title" style="color:#8a6012">🎯 가동률(가용도, Availability) 공식</div>
+    <div style="background:#faece2;border:2px solid #8a6012;border-radius:12px;padding:20px 24px;margin-top:10px;text-align:center;">
+      <div style="font-size:13px;color:#8a6012;letter-spacing:1px;font-weight:600;margin-bottom:12px;">시험에 나오는 형태 — 이것만 외우면 된다</div>
+      <div style="font-size:27px;font-weight:700;color:#1d252d;margin-bottom:6px;">
+        가동률 = <span class="fr"><span style="color:#2c6da4">MTBF</span><span><span style="color:#2c6da4">MTBF</span> + <span style="color:#ae3e30">MTTR</span></span></span>
+      </div>
+      <div style="height:1px;background:#8a601230;margin:14px 0;"></div>
+      <div style="font-size:16.5px;font-weight:600;color:#117a68;">불가동률 = <span class="fr"><span>MTTR</span><span>MTBF + MTTR</span></span> = 1 − 가동률</div>
+    </div>
+
+    <div class="note" style="border-left-color:#6b59aa">
+      <b>MTBF의 시간 기준을 확인하세요.</b> 이 자료와 계산기는 MTBF를 <b>수리 시간을 제외한 평균 정상 가동 시간</b>으로 사용합니다.
+      가동과 수리만 반복하는 시스템의 장기 가용도는 <span class="fr"><span>MTBF</span><span>MTBF + MTTR</span></span>입니다.
+      수리 시간을 포함한 전체 주기를 고장 간격이라고 부르는 자료와 혼용하지 마세요.
+      MTTF는 주로 비수리 부품의 평균 수명에 쓰며, 여기서 <b>MTBF − MTTR로 계산하지 않습니다.</b>
+      <a href="https://www.itl.nist.gov/div898/handbook/apr/section4/apr451.htm" target="_blank" rel="noopener noreferrer">NIST · MTBF 계산 기준 ↗</a>
+    </div>
+
+    <!-- 기출 예제 -->
+    <div class="sub-title" style="color:#2c6da4">📖 기출 계산 예제</div>
+    <div class="two-col">
+      <div class="mini-card">
+        <h4 style="color:#2c6da4">예제 1 <span style="font-size:12px;font-weight:400;color:var(--text3)">2022-1회</span></h4>
+        <p>Q: MTBF = <b>22시간</b>, MTTR = <b>2시간</b> 일 때 가동률은?</p>
+        <p class="mono" style="line-height:2;margin-top:6px;">
+          = <span class="fr"><span>22</span><span>22 + 2</span></span><br>
+          = <span class="fr"><span>22</span><span>24</span></span><br>
+          = 0.9166…<br>
+          → <b style="color:#1d252d">0.92</b>
+        </p>
+      </div>
+      <div class="mini-card">
+        <h4 style="color:#2c6da4">예제 2 <span style="font-size:12px;font-weight:400;color:var(--text3)">2023-2회</span></h4>
+        <p>Q: 평균고장간격 <b>23시간</b>, 평균복구시간 <b>1시간</b> 일 때 1일 가동률[%]은?</p>
+        <p class="mono" style="line-height:2;margin-top:6px;">
+          = <span class="fr"><span>23</span><span>23 + 1</span></span><br>
+          = <span class="fr"><span>23</span><span>24</span></span><br>
+          = 0.9583…<br>
+          → <b style="color:#1d252d">95.83 [%]</b>
+        </p>
+      </div>
+    </div>
+    <div class="highlight">💡 <b>분모는 MTBF + MTTR</b>입니다. 두 예제는 합이 24시간이지만, 분모가 항상 24인 것은 아닙니다. <b>같은 시간 단위</b>로 맞추고, 백분율을 구할 때는 <b>100을 곱합니다.</b></div>
+
+    <div class="sub-title" style="color:#117a68">🏭 공장 설비에 적용하기</div>
+    <div class="mini-card">
+      <h4 style="color:#2c6da4">연습 예제 — 정상 가동 180시간, 수리 20시간</h4>
+      <p>관측 기간에 고장과 수리가 각각 4회 완료되었고, 정상 가동과 수리만 반복했다고 가정합니다.</p>
+      <p class="mono" style="line-height:2;">MTBF = <span class="fr"><span>180</span><span>4</span></span> = <b>45시간</b><br>MTTR = <span class="fr"><span>20</span><span>4</span></span> = <b>5시간</b><br>가동률 = <span class="fr"><span>45</span><span>45 + 5</span></span> = 0.9 = <b>90%</b><br>불가동률 = 1 − 0.9 = <b>10%</b></p>
+    </div>
+    <div class="sub-title" style="color:#8a6012">📝 꼭 외울 시험 포인트</div>
+    <div class="highlight">
+      • <b>MTTF</b>: 고장 날 때까지의 평균 시간 — 주로 비수리 부품의 수명<br>
+      • <b>MTBF</b>: <span class="fr"><span>정상 가동 시간 합</span><span>고장 횟수</span></span> — 수리 시간 제외<br>
+      • <b>MTTR</b>: <span class="fr"><span>수리 시간 합</span><span>완료된 수리 횟수</span></span><br>
+      • <b>가동률 = <span class="fr"><span>MTBF</span><span>MTBF + MTTR</span></span></b><br>
+      • <b>불가동률 = <span class="fr"><span>MTTR</span><span>MTBF + MTTR</span></span> = 1 − 가동률</b><br>
+      • MTBF는 길수록, MTTR은 짧을수록 가동률이 높다.<br>
+      • 연간 정지 시간 = <b>8,760 × (1 − 가동률)</b> [시간] — 365일·24시간 운용 기준, 가동률은 소수로 대입
+    </div>
+    <div class="note">이 페이지는 <b>설비 신뢰성의 가동률(가용도)</b>을 다룹니다. 생산량 기준의 공장가동률(<span class="fr"><span>실제 생산량</span><span>생산능력</span></span>)과 구분하세요.<br><a href="/s4/mtbf/" onclick="return navGo(event,'mtbf',this)">4과목 MTTF·MTTR·MTBF 전체 내용과 가동률 계산기 →</a></div>
+  </div>

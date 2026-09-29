@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fafcfe">
+<title>공장가동률 한눈에 — MTTF·MTTR·MTBF | 정보통신기사 필기</title>
+
+<!-- ══════════ SEO ══════════ -->
+<meta name="description" content="MTTF·MTTR·MTBF의 뜻과 설비 가동률·불가동률 공식, 기출 계산 예제와 공장 설비 적용 방법을 한눈에 정리합니다.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ict.kyufind.com/factory-utilization/">
+<meta name="naver-site-verification" content="27c4a5524b4cf3355108f4c2ab72392bd95f62d8" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A1%3C/text%3E%3C/svg%3E">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="정보통신기사 필기 학습 가이드">
+<meta property="og:title" content="공장가동률 한눈에 — MTTF·MTTR·MTBF | 정보통신기사 필기">
+<meta property="og:description" content="MTTF·MTTR·MTBF의 뜻과 설비 가동률·불가동률 공식, 기출 계산 예제와 공장 설비 적용 방법을 한눈에 정리합니다.">
+<meta property="og:url" content="https://ict.kyufind.com/factory-utilization/">
+<meta property="og:image" content="https://ict.kyufind.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="공장가동률 한눈에 — MTTF·MTTR·MTBF | 정보통신기사 필기">
+<meta name="twitter:description" content="MTTF·MTTR·MTBF의 뜻과 설비 가동률·불가동률 공식, 기출 계산 예제와 공장 설비 적용 방법을 한눈에 정리합니다.">
+<meta name="twitter:image" content="https://ict.kyufind.com/og-image.png">
+
+<script type="application/ld+json">
+[
+ {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+   {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "홈",
+    "item": "https://ict.kyufind.com/"
+   },
+   {
+    "@type": "ListItem",
+    "position": 2,
+    "name": "공장가동률 — MTTF · MTTR · MTBF",
+    "item": "https://ict.kyufind.com/factory-utilization/"
+   }
+  ]
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "공장가동률 — MTTF · MTTR · MTBF",
+  "description": "MTTF·MTTR·MTBF의 뜻과 설비 가동률·불가동률 공식, 기출 계산 예제와 공장 설비 적용 방법을 한눈에 정리합니다.",
+  "url": "https://ict.kyufind.com/factory-utilization/",
+  "inLanguage": "ko",
+  "isAccessibleForFree": true,
+  "learningResourceType": "study guide",
+  "educationalLevel": "professional certification",
+  "about": {
+   "@type": "Thing",
+   "name": "정보통신기사"
+  },
+  "isPartOf": {
+   "@type": "WebSite",
+   "name": "정보통신기사 필기 학습 가이드",
+   "url": "https://ict.kyufind.com/"
+  }
+ }
+]
+</script>
+<!-- ══════════ /SEO ══════════ -->
+<script src="/assets/routes.js"></script>
+<script>window.__PAGE__ = {"sec": "factory-utilization"};</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/app.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N0XWRMVEX0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-N0XWRMVEX0');
+</script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">본문으로 건너뛰기</a>
+
+<div class="app">
+<aside class="sidebar" id="sidebar" aria-label="학습 메뉴">
+  <div class="brand" onclick="showSection('home',null)" role="button" tabindex="0">
+    <span class="brand-mark">정</span>
+    <span class="brand-text"><b>정보통신기사 필기</b><small>2022 개정 · 5과목</small></span>
+  </div>
+  <a class="sub-item nav-top" href="/" data-sec="home" onclick="return navGo(event,'home',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 10v9.5h12V10"/></svg>홈</a>
+  <div class="nav-label">꼭 외워야 할 것</div>
+  <a class="sub-item nav-top" href="/overview/">OSI 7계층 한눈에</a>
+  <a class="sub-item nav-top" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
+  <a class="sub-item nav-top active" aria-current="page" href="/factory-utilization/" data-sec="factory-utilization" onclick="return navGo(event,'factory-utilization',this)">공장가동률 한눈에</a>
+  <div class="nav-label">과목</div>
+  <nav id="sidebar-menu" aria-label="과목">
+  <div class="subj-group">
+    <div class="subj-head c-s1" data-sid="s1" onclick="toggleSubj('s1',this)" role="button" tabindex="0" aria-controls="s1"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">1. 정보전송일반</span><span class="nav-count">23</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
+    <div class="subj-items" id="s1">
+      <a class="hub-item" href="/s1/">1과목 전체 주제 한눈에 보기</a>
+      <div class="nav-group">신호 및 변조</div>
+      <a class="sub-item" href="/s1/csma/" data-sec="csma" onclick="return navGo(event,'csma',this)">CSMA/CD vs CA</a>
+      <a class="sub-item" href="/s1/ammod/" data-sec="ammod" onclick="return navGo(event,'ammod',this)">아날로그 변조 AM / FM / PM</a>
+      <a class="sub-item" href="/s1/digmod/" data-sec="digmod" onclick="return navGo(event,'digmod',this)">디지털 변조 ASK / FSK / PSK</a>
+      <a class="sub-item" href="/s1/qamofdm/" data-sec="qamofdm" onclick="return navGo(event,'qamofdm',this)">QAM / OFDM</a>
+      <a class="sub-item" href="/s1/pcm/" data-sec="pcm" onclick="return navGo(event,'pcm',this)">PCM · 표본화 · 양자화 잡음</a>
+      <div class="nav-group">전송 방식</div>
+      <a class="sub-item" href="/s1/flags/" data-sec="flags" onclick="return navGo(event,'flags',this)">TCP 제어비트 · 전송 제어 문자</a>
+      <div class="nav-group">오류 계산 / 전파</div>
+      <a class="sub-item" href="/s1/radix/" data-sec="radix" onclick="return navGo(event,'radix',this)">진수 변환 (2·8·10·16)</a>
+      <a class="sub-item" href="/s1/datacode/" data-sec="datacode" onclick="return navGo(event,'datacode',this)">자료 표현 · 코드 체계</a>
+      <a class="sub-item" href="/s1/logic/" data-sec="logic" onclick="return navGo(event,'logic',this)">논리회로 · 불대수</a>
+      <a class="sub-item" href="/s1/adder/" data-sec="adder" onclick="return navGo(event,'adder',this)">가산기 / 감산기</a>
+      <a class="sub-item" href="/s1/ber/" data-sec="ber" onclick="return navGo(event,'ber',this)">BER · 비트에러율 계산</a>
+      <a class="sub-item" href="/s1/band/" data-sec="band" onclick="return navGo(event,'band',this)">주파수 대역 · 마이크로파 밴드</a>
+      <div class="sub-item-child" data-sec="band" onclick="showAndScroll('band','anchor-fading',this)">대류권파 · 전리층파 페이딩</div>
+      <a class="sub-item" href="/s1/antenna/" data-sec="antenna" onclick="return navGo(event,'antenna',this)">등방성 안테나 · 전계강도</a>
+      <a class="sub-item" href="/s1/waveval/" data-sec="waveval" onclick="return navGo(event,'waveval',this)">실효값 · 평균값 · 파고율 · 파형률</a>
+      <a class="sub-item" href="/s1/calc/" data-sec="calc" onclick="return navGo(event,'calc',this)">전파 파장 · SNR · 데시벨 계산</a>
+      <a class="sub-item" href="/s1/bitrate/" data-sec="bitrate" onclick="return navGo(event,'bitrate',this)">비트전송률 bps · 변조속도 baud</a>
+      <a class="sub-item" href="/s1/mux/" data-sec="mux" onclick="return navGo(event,'mux',this)">다중화 FDM / TDM / CDM</a>
+      <a class="sub-item" href="/s1/optical/" data-sec="optical" onclick="return navGo(event,'optical',this)">광통신 이론 (광원·수광·증폭)</a>
+      <a class="sub-item" href="/s1/fiber/" data-sec="fiber" onclick="return navGo(event,'fiber',this)">광섬유 · 케이블</a>
+      <div class="sub-item-child" data-sec="fiber" onclick="showAndScroll('fiber','anchor-fiber-param',this)">광학 파라미터 (NA·수광각)</div>
+      <div class="sub-item-child" data-sec="fiber" onclick="showAndScroll('fiber','anchor-fiber-mode',this)">광섬유 모드 (SM·MM)</div>
+      <div class="sub-item-child" data-sec="fiber" onclick="showAndScroll('fiber','anchor-fiber-loss',this)">광손실 · 분산</div>
+      <a class="sub-item" href="/s1/errctrl/" data-sec="errctrl" onclick="return navGo(event,'errctrl',this)">오류 제어 / 흐름 제어</a>
+      <div class="nav-group">회로 / 발진</div>
+      <a class="sub-item" href="/s1/osc/" data-sec="osc" onclick="return navGo(event,'osc',this)">궤환 / 발진회로 · 바크하우젠</a>
+      <a class="sub-item" href="/s1/nyquist/" data-sec="nyquist" onclick="return navGo(event,'nyquist',this)">나이퀴스트 / 샤논 공식</a>
+      <a class="sub-item" href="/s1/fourier/" data-sec="fourier" onclick="return navGo(event,'fourier',this)">푸리에 급수 / 푸리에 변환</a>
+    </div>
+  </div>
+  <div class="subj-group">
+    <div class="subj-head c-s2" data-sid="s2" onclick="toggleSubj('s2',this)" role="button" tabindex="0" aria-controls="s2"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">2. 정보통신기기</span><span class="nav-count">10</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
+    <div class="subj-items" id="s2">
+      <a class="hub-item" href="/s2/">2과목 전체 주제 한눈에 보기</a>
+      <div class="nav-group">표준 / 장비</div>
+      <a class="sub-item" href="/s2/ieee/" data-sec="ieee" onclick="return navGo(event,'ieee',this)">IEEE 802 표준</a>
+      <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">계층별 NW 장비</a>
+      <a class="sub-item" href="/s2/cable/" data-sec="cable" onclick="return navGo(event,'cable',this)">UTP 케이블 Cat.3~Cat.7</a>
+      <a class="sub-item" href="/s2/switch/" data-sec="switch" onclick="return navGo(event,'switch',this)">교환기 · 전송장비 · VoIP</a>
+      <div class="nav-group">이동통신</div>
+      <a class="sub-item" href="/s1/band/" data-sec="band" onclick="return navGo(event,'band',this)">주파수 대역 · 마이크로파 밴드</a>
+      <a class="sub-item" href="/s2/handoff/" data-sec="handoff" onclick="return navGo(event,'handoff',this)">핸드오버 / 핸드오프 분류</a>
+      <a class="sub-item" href="/s2/mobile/" data-sec="mobile" onclick="return navGo(event,'mobile',this)">이동통신 1G~5G · 근거리 무선</a>
+      <a class="sub-item" href="/s2/olt/" data-sec="olt" onclick="return navGo(event,'olt',this)">OLT / ONT / ONU · 광통신 장치</a>
+      <div class="nav-group">영상 / 방송</div>
+      <a class="sub-item" href="/s2/cctv/" data-sec="cctv" onclick="return navGo(event,'cctv',this)">CCTV · 폐쇄회로 영상감시</a>
+      <div class="sub-item-child" data-sec="cctv" onclick="showAndScroll('cctv','anchor-ptz',this)">PTZ · 스윙 / 투어 / 패턴</div>
+      <div class="sub-item-child" data-sec="cctv" onclick="showAndScroll('cctv','anchor-codec',this)">H.264 / H.265 코덱</div>
+      <a class="sub-item" href="/s2/catv/" data-sec="catv" onclick="return navGo(event,'catv',this)">CATV · 케이블 TV / HFC</a>
+    </div>
+  </div>
+  <div class="subj-group">
+    <div class="subj-head c-s3" data-sid="s3" onclick="toggleSubj('s3',this)" role="button" tabindex="0" aria-controls="s3"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">3. 정보통신네트워크</span><span class="nav-count">18</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
+    <div class="subj-items" id="s3">
+      <a class="hub-item" href="/s3/">3과목 전체 주제 한눈에 보기</a>
+      <!-- OSI 개요 -->
+      <div class="nav-group">OSI 개요</div>
+      <a class="sub-item" href="/s2/osi/" data-sec="osi" onclick="return navGo(event,'osi',this)">OSI 7계층 전체 비교표</a>
+      <!-- 상위 계층 -->
+      <div class="nav-group">상위 계층 (5~7)</div>
+      <a class="sub-item" href="/s3/l7/" data-sec="l7" onclick="return navGo(event,'l7',this)"><span class="layer-menu-copy"><b>7계층 · 응용</b><small>웹·메일 등 통신 서비스 이용하기</small></span></a>
+      <a class="sub-item" href="/s3/l6/" data-sec="l6" onclick="return navGo(event,'l6',this)"><span class="layer-menu-copy"><b>6계층 · 표현</b><small>데이터 형식 바꾸기</small></span></a>
+      <a class="sub-item" href="/s3/l5/" data-sec="l5" onclick="return navGo(event,'l5',this)"><span class="layer-menu-copy"><b>5계층 · 세션</b><small>대화의 시작과 끝 관리하기</small></span></a>
+      <!-- 하위 계층 -->
+      <div class="nav-group">하위 계층 (1~4)</div>
+      <a class="sub-item" href="/s3/l4/" data-sec="l4" onclick="return navGo(event,'l4',this)"><span class="layer-menu-copy"><b>4계층 · 전송</b><small>받을 프로그램으로 전달하기</small></span></a>
+      <a class="sub-item" href="/s3/l3/" data-sec="l3" onclick="return navGo(event,'l3',this)"><span class="layer-menu-copy"><b>3계층 · 네트워크</b><small>목적지까지 경로 찾기</small></span></a>
+      <a class="sub-item" href="/s3/ipclass/" data-sec="ipclass" onclick="return navGo(event,'ipclass',this)">IP 클래스 · 서브넷마스크 · CIDR</a>
+      <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-ipv4',this)">IPv4 vs IPv6</div>
+      <div class="sub-item-child" data-sec="ipclass" onclick="showAndScroll('ipclass','anchor-classvsmask',this)">클래스 vs 마스크 비트 차이</div>
+      <div class="sub-item-child" data-sec="ipclass" onclick="showAndScroll('ipclass','anchor-special',this)">특수 주소 IPv4 ↔ IPv6</div>
+      <div class="sub-item-child" data-sec="ipclass" onclick="showAndScroll('ipclass','anchor-subnet',this)">서브넷팅 / CIDR 계산</div>
+      <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-arp',this)">ARP / RARP</div>
+      <div class="sub-item-child" data-sec="l3" onclick="showAndScroll('l3','anchor-icmp',this)">ICMP / IGMP</div>
+      <a class="sub-item" href="/s3/subnet/" data-sec="subnet" onclick="return navGo(event,'subnet',this)">서브넷 마스크 한눈에</a>
+      <a class="sub-item" href="/s3/l2/" data-sec="l2" onclick="return navGo(event,'l2',this)"><span class="layer-menu-copy"><b>2계층 · 데이터링크</b><small>연결된 구간에서 프레임 전달하기</small></span></a>
+      <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-hdlc',this)">HDLC</div>
+      <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-llc',this)">802.2 LLC</div>
+      <div class="sub-item-child" data-sec="l2" onclick="showAndScroll('l2','anchor-hdlc-llc',this)">HDLC vs LLC</div>
+      <a class="sub-item" href="/s3/l1/" data-sec="l1" onclick="return navGo(event,'l1',this)"><span class="layer-menu-copy"><b>1계층 · 물리</b><small>비트를 신호로 보내기</small></span></a>
+      <!-- 프로토콜 -->
+      <div class="nav-group">프로토콜 / 포트</div>
+      <a class="sub-item" href="/s3/tcp_udp/" data-sec="tcp_udp" onclick="return navGo(event,'tcp_udp',this)">TCP vs UDP</a>
+      <div class="sub-item-child" data-sec="flags" onclick="showAndScroll('flags','anchor-ctrlbits',this)">TCP 제어 비트 6종</div>
+      <a class="sub-item" href="/s3/ports/" data-sec="ports" onclick="return navGo(event,'ports',this)">포트번호 총정리</a>
+      <a class="sub-item" href="/s1/csma/" data-sec="csma" onclick="return navGo(event,'csma',this)">CSMA/CD vs CA</a>
+      <a class="sub-item" href="/s3/routing/" data-sec="routing" onclick="return navGo(event,'routing',this)">라우팅 RIP / OSPF / BGP</a>
+      <a class="sub-item" href="/s3/wan/" data-sec="wan" onclick="return navGo(event,'wan',this)">WAN · 교환방식 · X.25 / ATM</a>
+      <div class="sub-item-child" data-sec="wan" onclick="showAndScroll('wan','anchor-t1e1',this)">T1 / E1 전체 비교 · PDH / SDH</div>
+      <a class="sub-item" href="/s3/lan/" data-sec="lan" onclick="return navGo(event,'lan',this)">LAN — VLAN · 무선랜 · DHCP</a>
+      <div class="sub-item-child" data-sec="lan" onclick="showAndScroll('lan','anchor-vlan',this)">VLAN (802.1Q)</div>
+      <div class="sub-item-child" data-sec="lan" onclick="showAndScroll('lan','anchor-wlan',this)">무선랜 802.11</div>
+      <div class="sub-item-child" data-sec="lan" onclick="showAndScroll('lan','anchor-dhcp',this)">DHCP (DORA)</div>
+      <a class="sub-item" href="/s3/netdev/" data-sec="netdev" onclick="return navGo(event,'netdev',this)">네트워크 장비 총정리</a>
+      <a class="sub-item" href="/s3/topology/" data-sec="topology" onclick="return navGo(event,'topology',this)">통신망 토폴로지</a>
+    </div>
+  </div>
+  <div class="subj-group">
+    <div class="subj-head c-s4" data-sid="s4" onclick="toggleSubj('s4',this)" role="button" tabindex="0" aria-controls="s4"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">4. 정보시스템운용</span><span class="nav-count">10</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
+    <div class="subj-items" id="s4">
+      <a class="hub-item" href="/s4/">4과목 전체 주제 한눈에 보기</a>
+      <a class="sub-item" href="/s3/l6/" data-sec="l6" onclick="return navGo(event,'l6',this)">보안·암호화 (6계층)</a>
+      <a class="sub-item" href="/s3/l4/" data-sec="l4" onclick="return navGo(event,'l4',this)">TCP 연결·흐름제어</a>
+      <a class="sub-item" href="/s4/crypto/" data-sec="crypto" onclick="return navGo(event,'crypto',this)">암호화 · AES-256</a>
+      <a class="sub-item" href="/s4/netmgmt/" data-sec="netmgmt" onclick="return navGo(event,'netmgmt',this)">네트워크 관리 SNMP · MIB</a>
+      <a class="sub-item" href="/s4/sysops/" data-sec="sysops" onclick="return navGo(event,'sysops',this)">운용관리 · 장애대응 · 루프백</a>
+      <a class="sub-item" href="/s4/backup/" data-sec="backup" onclick="return navGo(event,'backup',this)">백업 · RAID · 재해복구</a>
+      <a class="sub-item" href="/s4/secthreat/" data-sec="secthreat" onclick="return navGo(event,'secthreat',this)">보안 위협 · 공격 기법</a>
+      <a class="sub-item" href="/s4/secdev/" data-sec="secdev" onclick="return navGo(event,'secdev',this)">보안장비 · 인증 · 접근통제</a>
+      <a class="sub-item" href="/s4/cloud/" data-sec="cloud" onclick="return navGo(event,'cloud',this)">클라우드 IaaS / PaaS / SaaS</a>
+      <a class="sub-item" href="/s4/mtbf/" data-sec="mtbf" onclick="return navGo(event,'mtbf',this)">MTTF · MTTR · MTBF · 가동률</a>
+    </div>
+  </div>
+  <div class="subj-group">
+    <div class="subj-head c-s5" data-sid="s5" onclick="toggleSubj('s5',this)" role="button" tabindex="0" aria-controls="s5"><span class="subj-dot" style="background:var(--sc)"></span><span class="subj-name">5. 컴퓨터일반 및 정보설비기준</span><span class="nav-count">13</span><span class="arrow"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span></div>
+    <div class="subj-items" id="s5">
+      <a class="hub-item" href="/s5/">5과목 전체 주제 한눈에 보기</a>
+      <div class="nav-group">컴퓨터일반</div>
+      <a class="sub-item" href="/s4/cloud/" data-sec="cloud" onclick="return navGo(event,'cloud',this)">클라우드 IaaS / PaaS / SaaS</a>
+      <a class="sub-item" href="/s1/radix/" data-sec="radix" onclick="return navGo(event,'radix',this)">진수 변환 (2·8·10·16)</a>
+      <a class="sub-item" href="/s1/datacode/" data-sec="datacode" onclick="return navGo(event,'datacode',this)">자료 표현 · 코드 체계</a>
+      <a class="sub-item" href="/s1/logic/" data-sec="logic" onclick="return navGo(event,'logic',this)">논리회로 · 불대수</a>
+      <a class="sub-item" href="/s1/adder/" data-sec="adder" onclick="return navGo(event,'adder',this)">가산기 / 감산기</a>
+      <a class="sub-item" href="/s5/cpu/" data-sec="cpu" onclick="return navGo(event,'cpu',this)">명령어 사이클 · CPU 구조</a>
+      <a class="sub-item" href="/s1/flags/" data-sec="flags" onclick="return navGo(event,'flags',this)">TCP 제어비트 · 전송 제어 문자</a>
+      <a class="sub-item" href="/s5/os/" data-sec="os" onclick="return navGo(event,'os',this)">운영체제 기초</a>
+      <a class="sub-item" href="/s5/ds/" data-sec="ds" onclick="return navGo(event,'ds',this)">자료구조 · 알고리즘</a>
+      <a class="sub-item" href="/s5/db/" data-sec="db" onclick="return navGo(event,'db',this)">데이터베이스</a>
+      <div class="nav-group">정보설비기준</div>
+      <a class="sub-item" href="/s5/law-tel/" data-sec="law-tel" onclick="return navGo(event,'law-tel',this)">전기통신사업법</a>
+      <a class="sub-item" href="/s5/law-const/" data-sec="law-const" onclick="return navGo(event,'law-const',this)">정보통신공사업법</a>
+      <a class="sub-item" href="/s5/facility/" data-sec="facility" onclick="return navGo(event,'facility',this)">정보통신설비 기술기준</a>
+      <div class="sub-item-child" data-sec="facility" onclick="showAndScroll('facility','anchor-mdf',this)">집중구내통신실 면적 기준</div>
+    </div>
+  </div>
+  </nav>
+  <div class="nav-label">문제 · 암기</div>
+  <a class="sub-item nav-top" href="/cram/" data-sec="cram" onclick="return navGo(event,'cram',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></svg>시험 직전 요약</a>
+  <a class="sub-item nav-top" href="/cbt-2026/" data-sec="cbt26" onclick="return navGo(event,'cbt26',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="2.6"/></svg>2026년 시험복원문제<span class="nav-count">69</span></a>
+  <a class="sub-item nav-top" href="/quiz/" data-sec="quiz" onclick="return navGo(event,'quiz',this)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12.5h8M8 16.5h5"/></svg>기출문제<span class="nav-count" id="nav-quiz-count">500</span></a>
+  <div class="sub-item nav-top" data-card="def" onclick="cdOpen('def',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6.5" width="13" height="14" rx="2"/><path d="M8 3.5h10.5a2 2 0 0 1 2 2v12"/></svg>용어 카드<span class="nav-count" id="nav-def-count">189</span></div>
+  <div class="sub-item nav-top" data-card="num" onclick="cdOpen('num',this)" role="button" tabindex="0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M9.5 9.5v10"/></svg>암기표<span class="nav-count" id="nav-num-count">82</span></div>
+</aside>
+<div class="scrim" onclick="closeNav()"></div>
+<div class="app-main">
+  <header class="topbar" id="topbar">
+    <button class="icon-btn" type="button" onclick="toggleNav()" aria-label="메뉴 열기"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <span class="topbar-title" onclick="showSection('home',null)" role="button" tabindex="0">정보통신기사 필기</span>
+    <div class="sidebar-search" id="top-search" role="search">
+      <div class="sidebar-search-box">
+        <span class="sidebar-search-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></span>
+        <input type="search" id="sidebar-search-input" placeholder="주제·용어·기출 검색" oninput="unifiedSearch(this.value)" onkeydown="searchKey(event)" autocomplete="off" aria-label="주제·용어·기출 검색">
+        <kbd class="search-kbd">Ctrl K</kbd>
+        <button class="sidebar-search-clear" id="sidebar-clear" type="button" onclick="clearSidebarSearch();document.getElementById('sidebar-search-input').focus()" aria-label="검색어 지우기">×</button>
+      </div>
+      <div id="sidebar-search-results" class="menu-search-results" style="display:none;"></div>
+    </div>
+    <button class="icon-btn" type="button" onclick="toggleSearch()" aria-label="검색 열기"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
+  </header>
+<main class="main" id="main-content"><div class="main-inner"><div class="content">
+  <div id="crumb" class="crumb" hidden></div>
+  <div id="search-hint" class="search-hint" style="display:none;"></div>
+
+  <!-- 홈 화면 -->
+  <div data-section-src="/sections/home.html"></div>
+  <div id="subject-content-root"><div style="padding:60px 20px;text-align:center;color:var(--text3);font-size:14px;">불러오는 중…</div></div>
+
+  
+  <div class="section visible" id="sec-factory-utilization">
+    <h1 class="section-title" style="color:#ae3e30">⏱️ 공장가동률 — MTTF · MTTR · MTBF</h1>
+
+    <div class="highlight">
+      공장 설비가 정상 가동과 고장 수리를 반복할 때의 <b>가동률(가용도)</b>을 정리합니다.<br>
+      시스템이 <b>얼마나 오래 잘 버티는가(MTTF)</b>, <b>고장 나면 얼마나 빨리 고치는가(MTTR)</b>,
+      수리 가능한 시스템이 <b>고장 사이에 정상 가동한 평균 시간(MTBF)</b>을 구분한다. 가동과 수리만 반복하는 시스템의 <b>가동률(가용도)</b>은 MTBF와 MTTR로 계산한다.
+    </div>
+
+    <!-- 세 용어 -->
+    <div class="sub-title" style="color:#ae3e30">📌 세 용어 구분</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px;">
+      <div style="background:#e8f4e9;border:2px solid #267c41;border-radius:12px;padding:16px;">
+        <div style="font-size:17.5px;font-weight:700;color:#267c41;">MTTF</div>
+        <div style="font-size:13px;color:var(--text3);margin:3px 0 10px;">Mean Time To Failure</div>
+        <div style="font-size:15.5px;color:#1d252d;font-weight:600;margin-bottom:6px;">평균 고장 시간</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.9;">
+          정상 동작을 시작해서 <b style="color:#1d252d">고장 날 때까지</b>의 평균 시간<br>
+          주로 수리하지 않고 교체하는 부품의 <b style="color:#267c41">평균 수명</b>에 사용
+        </div>
+      </div>
+      <div style="background:#feebe5;border:2px solid #ae3e30;border-radius:12px;padding:16px;">
+        <div style="font-size:17.5px;font-weight:700;color:#ae3e30;">MTTR</div>
+        <div style="font-size:13px;color:var(--text3);margin:3px 0 10px;">Mean Time To Repair</div>
+        <div style="font-size:15.5px;color:#1d252d;font-weight:600;margin-bottom:6px;">평균 수리 시간</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.9;">
+          고장 난 순간부터 <b style="color:#1d252d">복구 완료까지</b>의 평균 시간<br>
+          = <b style="color:#ae3e30">멈춰 있던 시간</b>
+        </div>
+      </div>
+      <div style="background:#e1ecfb;border:2px solid #2c6da4;border-radius:12px;padding:16px;">
+        <div style="font-size:17.5px;font-weight:700;color:#2c6da4;">MTBF</div>
+        <div style="font-size:13px;color:var(--text3);margin:3px 0 10px;">Mean Time Between Failures</div>
+        <div style="font-size:15.5px;color:#1d252d;font-weight:600;margin-bottom:6px;">평균 고장 간격</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.9;">
+          수리 가능한 시스템의 고장 사이 <b style="color:#1d252d">정상 가동 시간</b>의 평균<br>
+          = <span class="fr"><span>정상 가동 시간 합</span><span>고장 횟수</span></span> (수리 시간 제외)
+        </div>
+      </div>
+    </div>
+
+    <!-- 관계식 -->
+    <div class="sub-title" style="color:#117a68">🔗 핵심 관계식</div>
+    <div style="background:#e1f3ee;border:2px solid #117a68;border-radius:12px;padding:20px 24px;margin-top:10px;text-align:center;">
+      <div style="font-size:13px;color:#117a68;letter-spacing:1px;font-weight:600;margin-bottom:12px;">MTBF 계산 기준</div>
+      <div style="font-size:28.5px;font-weight:700;color:#1d252d;">
+        <span style="color:#2c6da4">MTBF</span> = <span class="fr"><span>정상 가동 시간 합</span><span>고장 횟수</span></span>
+      </div>
+      <div style="font-size:14px;color:var(--text2);margin-top:10px;">
+        가동 100 h + 90 h + 80 h, 고장 3회 → MTBF = 90 h
+      </div>
+    </div>
+
+    <div class="sub-title" style="color:#117a68">📈 시간축으로 보면</div>
+    <div class="flow">가동 100 h → 고장 → 수리 4 h → 가동 90 h → 고장 → 수리 3 h → 가동 80 h → 고장
+MTBF = <span class="fr"><span>100 + 90 + 80</span><span>3</span></span> = 90 h
+MTTR = <span class="fr"><span>4 + 3</span><span>2</span></span> = 3.5 h (완료된 수리 2회 기준)
+
+<span style="color:#8a6012">MTBF ↑ (고장이 드물다) · MTTR ↓ (빨리 고친다) → 가동률 ↑</span></div>
+
+    <!-- 가동률 -->
+    <div class="sub-title" style="color:#8a6012">🎯 가동률(가용도, Availability) 공식</div>
+    <div style="background:#faece2;border:2px solid #8a6012;border-radius:12px;padding:20px 24px;margin-top:10px;text-align:center;">
+      <div style="font-size:13px;color:#8a6012;letter-spacing:1px;font-weight:600;margin-bottom:12px;">시험에 나오는 형태 — 이것만 외우면 된다</div>
+      <div style="font-size:27px;font-weight:700;color:#1d252d;margin-bottom:6px;">
+        가동률 = <span class="fr"><span style="color:#2c6da4">MTBF</span><span><span style="color:#2c6da4">MTBF</span> + <span style="color:#ae3e30">MTTR</span></span></span>
+      </div>
+      <div style="height:1px;background:#8a601230;margin:14px 0;"></div>
+      <div style="font-size:16.5px;font-weight:600;color:#117a68;">불가동률 = <span class="fr"><span>MTTR</span><span>MTBF + MTTR</span></span> = 1 − 가동률</div>
+    </div>
+
+    <div class="note" style="border-left-color:#6b59aa">
+      <b>MTBF의 시간 기준을 확인하세요.</b> 이 자료와 계산기는 MTBF를 <b>수리 시간을 제외한 평균 정상 가동 시간</b>으로 사용합니다.
+      가동과 수리만 반복하는 시스템의 장기 가용도는 <span class="fr"><span>MTBF</span><span>MTBF + MTTR</span></span>입니다.
+      수리 시간을 포함한 전체 주기를 고장 간격이라고 부르는 자료와 혼용하지 마세요.
+      MTTF는 주로 비수리 부품의 평균 수명에 쓰며, 여기서 <b>MTBF − MTTR로 계산하지 않습니다.</b>
+      <a href="https://www.itl.nist.gov/div898/handbook/apr/section4/apr451.htm" target="_blank" rel="noopener noreferrer">NIST · MTBF 계산 기준 ↗</a>
+    </div>
+
+    <!-- 기출 예제 -->
+    <div class="sub-title" style="color:#2c6da4">📖 기출 계산 예제</div>
+    <div class="two-col">
+      <div class="mini-card">
+        <h4 style="color:#2c6da4">예제 1 <span style="font-size:12px;font-weight:400;color:var(--text3)">2022-1회</span></h4>
+        <p>Q: MTBF = <b>22시간</b>, MTTR = <b>2시간</b> 일 때 가동률은?</p>
+        <p class="mono" style="line-height:2;margin-top:6px;">
+          = <span class="fr"><span>22</span><span>22 + 2</span></span><br>
+          = <span class="fr"><span>22</span><span>24</span></span><br>
+          = 0.9166…<br>
+          → <b style="color:#1d252d">0.92</b>
+        </p>
+      </div>
+      <div class="mini-card">
+        <h4 style="color:#2c6da4">예제 2 <span style="font-size:12px;font-weight:400;color:var(--text3)">2023-2회</span></h4>
+        <p>Q: 평균고장간격 <b>23시간</b>, 평균복구시간 <b>1시간</b> 일 때 1일 가동률[%]은?</p>
+        <p class="mono" style="line-height:2;margin-top:6px;">
+          = <span class="fr"><span>23</span><span>23 + 1</span></span><br>
+          = <span class="fr"><span>23</span><span>24</span></span><br>
+          = 0.9583…<br>
+          → <b style="color:#1d252d">95.83 [%]</b>
+        </p>
+      </div>
+    </div>
+    <div class="highlight">💡 <b>분모는 MTBF + MTTR</b>입니다. 두 예제는 합이 24시간이지만, 분모가 항상 24인 것은 아닙니다. <b>같은 시간 단위</b>로 맞추고, 백분율을 구할 때는 <b>100을 곱합니다.</b></div>
+
+    <div class="sub-title" style="color:#117a68">🏭 공장 설비에 적용하기</div>
+    <div class="mini-card">
+      <h4 style="color:#2c6da4">연습 예제 — 정상 가동 180시간, 수리 20시간</h4>
+      <p>관측 기간에 고장과 수리가 각각 4회 완료되었고, 정상 가동과 수리만 반복했다고 가정합니다.</p>
+      <p class="mono" style="line-height:2;">MTBF = <span class="fr"><span>180</span><span>4</span></span> = <b>45시간</b><br>MTTR = <span class="fr"><span>20</span><span>4</span></span> = <b>5시간</b><br>가동률 = <span class="fr"><span>45</span><span>45 + 5</span></span> = 0.9 = <b>90%</b><br>불가동률 = 1 − 0.9 = <b>10%</b></p>
+    </div>
+    <div class="sub-title" style="color:#8a6012">📝 꼭 외울 시험 포인트</div>
+    <div class="highlight">
+      • <b>MTTF</b>: 고장 날 때까지의 평균 시간 — 주로 비수리 부품의 수명<br>
+      • <b>MTBF</b>: <span class="fr"><span>정상 가동 시간 합</span><span>고장 횟수</span></span> — 수리 시간 제외<br>
+      • <b>MTTR</b>: <span class="fr"><span>수리 시간 합</span><span>완료된 수리 횟수</span></span><br>
+      • <b>가동률 = <span class="fr"><span>MTBF</span><span>MTBF + MTTR</span></span></b><br>
+      • <b>불가동률 = <span class="fr"><span>MTTR</span><span>MTBF + MTTR</span></span> = 1 − 가동률</b><br>
+      • MTBF는 길수록, MTTR은 짧을수록 가동률이 높다.<br>
+      • 연간 정지 시간 = <b>8,760 × (1 − 가동률)</b> [시간] — 365일·24시간 운용 기준, 가동률은 소수로 대입
+    </div>
+    <div class="note">이 페이지는 <b>설비 신뢰성의 가동률(가용도)</b>을 다룹니다. 생산량 기준의 공장가동률(<span class="fr"><span>실제 생산량</span><span>생산능력</span></span>)과 구분하세요.<br><a href="/s4/mtbf/" onclick="return navGo(event,'mtbf',this)">4과목 MTTF·MTTR·MTBF 전체 내용과 가동률 계산기 →</a></div>
+  </div>
+
+  <div data-section-src="/sections/cram.html"></div>
+
+  
+  <div data-section-src="/sections/cbt26.html"></div>
+
+  <div data-section-src="/sections/cards.html"></div>
+
+  <div data-section-src="/sections/quiz.html"></div>
+
+</div><aside class="page-toc" id="page-toc" hidden aria-label="이 페이지에서"></aside></div></main>
+</div><!-- /app-main -->
+</div><!-- /app -->
+
+<script src="/assets/app.js?v=62c6e84027a3"></script>
+</body>
+</html>

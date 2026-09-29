@@ -46,6 +46,8 @@ DESC_MAX = 88
 
 # 과목 외 단독 페이지: 섹션 id → (주소, 검색 설명, 페이지 제목)
 EXTRA_PAGES = {
+    'factory-utilization': ('/factory-utilization/', 'MTTF·MTTR·MTBF의 뜻과 설비 가동률·불가동률 공식, 기출 계산 예제와 공장 설비 적용 방법을 한눈에 정리합니다.',
+                            '공장가동률 한눈에 — MTTF·MTTR·MTBF' + TITLE_SUFFIX),
     'cram': ('/cram/', '기출에 나온 나이퀴스트·섀넌·데시벨·BER·다중화 계산 공식과 설비기준·법규 숫자, 두 번 이상 나온 문제를 한 페이지에 모았습니다.',
              '시험 직전 요약 — 계산 공식·법규 숫자' + TITLE_SUFFIX),
     'cbt26': ('/cbt-2026/', '응시 후기로 모은 2026년 출제 주제를 바탕으로 만든 복원 문제 69개. 개념 정리와 확인 문제, 변형 문제, 오답 복습까지 이어집니다.',
@@ -316,7 +318,7 @@ def main():
     # 검색엔진이 "이 페이지가 무엇에 대한 페이지인지" 판단할 근거가 흐려진다.
     # 그래서 sections/*.html 로 빼고, 해당 내용이 주인공인 페이지에서만 본문에 넣는다.
     # 나머지 페이지는 슬롯만 두고 app.js 가 화면 표시 뒤에 불러온다.
-    SLOT_SECTIONS = ['home', 'cram', 'cbt26', 'cards', 'quiz']
+    SLOT_SECTIONS = ['factory-utilization', 'home', 'cram', 'cbt26', 'cards', 'quiz']
     slot_div = {}
     for name in SLOT_SECTIONS:
         m = re.search(r'<div class="section[^"]*" id="sec-%s"' % re.escape(name), tpl)

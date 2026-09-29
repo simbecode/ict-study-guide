@@ -276,6 +276,10 @@ window.__ROUTES__ = {
 "/s5/facility/",
 "정보통신설비 기술기준 | 정보통신기사 필기"
 ],
+"factory-utilization": [
+"/factory-utilization/",
+"공장가동률 한눈에 — MTTF·MTTR·MTBF | 정보통신기사 필기"
+],
 "cram": [
 "/cram/",
 "시험 직전 요약 — 계산 공식·법규 숫자 | 정보통신기사 필기"

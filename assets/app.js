@@ -722,6 +722,7 @@ function showFinalResult(){
 
 // 사이드바 검색 데이터
 const menuItems = [
+  {label:'공장가동률 MTTF MTTR MTBF 신뢰성 평균 고장 수리 시간 가용도 불가동률', action:"showSection('factory-utilization',this)", subj:'꼭 외워야 할 것'},
   {label:'2026년 시험복원문제 CBT 복원 예상 문제 후기 출제 주제', action:"showSection('cbt26',this)", subj:'2026년 시험복원문제'},
   {label:'시험 직전 요약 계산 공식 나이퀴스트 섀넌 샤논 데시벨 dB 오류율 BER 다중화 설비기준 법규 숫자 암기 반복 출제', action:"showSection('cram',this)", subj:'시험 직전 요약'},
   {label:'가산기 감산기 반가산기 전가산기 병렬가산기 리플캐리 캐리예측 CLA BCD가산기 2의보수 누산기 Accumulator', action:"showSection('adder',this)", subj:'5과목'},
